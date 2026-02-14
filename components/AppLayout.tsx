@@ -27,8 +27,17 @@ const NAV_ITEMS = [
     // { label: 'Settings', href: '/settings', icon: Settings },
 ];
 
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { injected } from 'wagmi/connectors';
+
 export function Sidebar() {
     const pathname = usePathname();
+    const { isConnected } = useAccount();
+
+    const filteredNavItems = NAV_ITEMS.filter(item => {
+        if (item.href === '/registry') return isConnected;
+        return true;
+    });
 
     return (
         <aside className="w-64 border-r border-white/5 bg-[#050505] flex flex-col h-screen sticky top-0">
@@ -49,7 +58,7 @@ export function Sidebar() {
             <nav className="flex-1 p-4 space-y-1">
                 <div className="text-xs font-semibold text-white/20 uppercase tracking-wider px-3 mb-3 mt-2">Platform</div>
 
-                {NAV_ITEMS.map((item) => {
+                {filteredNavItems.map((item) => {
                     const isActive = pathname === item.href;
                     const Icon = item.icon;
                     return (
@@ -92,6 +101,10 @@ export function Sidebar() {
 }
 
 export function Header() {
+    const { address, isConnected } = useAccount();
+    const { connect } = useConnect();
+    const { disconnect } = useDisconnect();
+
     return (
         <header className="h-16 border-b border-white/5 bg-[#050505]/50 backdrop-blur-xl sticky top-0 z-10 px-8 flex items-center justify-between">
             {/* Breadcrumbs / Title */}
@@ -102,17 +115,33 @@ export function Header() {
 
             {/* Actions */}
             <div className="flex items-center gap-4">
-                <button className="flex items-center gap-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white/40 hover:text-white transition-colors border border-transparent hover:border-white/10 rounded-full">
-                    <Zap size={14} />
-                    Quick Actions
-                </button>
+                {isConnected && (
+                    <button className="flex items-center gap-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white/40 hover:text-white transition-colors border border-transparent hover:border-white/10 rounded-full">
+                        <Zap size={14} />
+                        Quick Actions
+                    </button>
+                )}
 
                 <div className="h-6 w-px bg-white/10" />
 
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full">
-                    <Hexagon size={14} className="text-blue-400" />
-                    <span className="text-xs font-bold text-blue-400 font-mono">0x123...456</span>
-                </div>
+                {isConnected ? (
+                    <div
+                        onClick={() => disconnect()}
+                        className="flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full cursor-pointer hover:bg-blue-500/20 transition-all"
+                    >
+                        <Hexagon size={14} className="text-blue-400" />
+                        <span className="text-xs font-bold text-blue-400 font-mono">
+                            {address?.slice(0, 6)}...{address?.slice(-4)}
+                        </span>
+                    </div>
+                ) : (
+                    <button
+                        onClick={() => connect({ connector: injected() })}
+                        className="px-5 py-1.5 bg-yellow-500 hover:bg-yellow-400 text-black text-xs font-black uppercase tracking-widest rounded-full transition-all shadow-[0_0_20px_rgba(234,179,8,0.2)]"
+                    >
+                        Connect Wallet
+                    </button>
+                )}
             </div>
         </header>
     );
