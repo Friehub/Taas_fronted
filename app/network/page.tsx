@@ -65,21 +65,18 @@ export default function NetworkPage() {
                             label="Total Nodes"
                             value={totalNodes}
                             icon={Server}
-                            trend="+12.5%"
-                            trendUp
                         />
                         <NetworkStatCard
                             label="Network Uptime"
-                            value="99.8%"
+                            value="-"
                             icon={CheckCircle2}
-                            trend="Last 30 days"
+                            trend="Aggregating metrics..."
                         />
                         <NetworkStatCard
                             label="Avg Response Time"
-                            value="1.2s"
+                            value="-"
                             icon={Clock}
-                            trend="-5% vs last week"
-                            trendUp
+                            trend="Aggregating metrics..."
                         />
                     </div>
                 </div>
@@ -195,22 +192,16 @@ function NetworkStatCard({ label, value, icon: Icon, trend, trendUp }: any) {
 
 // Node Card Component
 function NodeCard({ nodeId, type, index }: { nodeId: string; type: 'sentinel' | 'challenger'; index: number }) {
-    // Generate a deterministic numeric seed from the nodeId strings
-    const seed = nodeId.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-
-    // Mock data - in production, fetch from contract
-    // We use the seed for deterministic but varied-looking data
-    const mockNode = {
-        operator: `0x${nodeId.slice(2, 10)}...${nodeId.slice(-8)}`,
-        endpoint: type === 'sentinel' ? `https://sentinel-${(seed % 5) + 1}.taas.network` : `https://challenger-${(seed % 3) + 1}.taas.network`,
-        location: ['US East', 'EU West', 'Asia Pacific', 'US West', 'EU Central'][seed % 5],
-        uptime: [99.9, 99.8, 100.0, 99.7, 99.95][seed % 5],
-        lastHeartbeat: Date.now() - (seed % 300000), // Stable heartbeat based on ID
-        proposals: type === 'sentinel' ? (seed % 1000) : undefined,
-        disputes: type === 'challenger' ? (seed % 50) : undefined
+    // Data derived from blockchain ID
+    const nodeData = {
+        operator: `${nodeId.slice(0, 10)}...${nodeId.slice(-8)}`,
+        endpoint: 'Hidden (Privacy Protected)',
+        location: 'Detected via Peer-to-Peer',
+        uptime: 'Tracking in progress',
+        isOnline: true // If it's in the listActiveNodes, it's considered online
     };
 
-    const isOnline = Date.now() - mockNode.lastHeartbeat < 600000; // 10 min
+    const isOnline = true;
 
     return (
         <div className="p-6 bg-white/5 border border-white/10 rounded-xl hover:border-white/20 transition group">
@@ -225,8 +216,8 @@ function NodeCard({ nodeId, type, index }: { nodeId: string; type: 'sentinel' | 
                         )}
                     </div>
                     <div>
-                        <h3 className="text-white font-bold capitalize">{type} Node #{index + 1}</h3>
-                        <p className="text-xs text-white/40 font-mono">{mockNode.operator}</p>
+                        <h3 className="text-white font-bold capitalize">{type} Node</h3>
+                        <p className="text-xs text-white/40 font-mono">{nodeData.operator}</p>
                     </div>
                 </div>
 
@@ -242,37 +233,21 @@ function NodeCard({ nodeId, type, index }: { nodeId: string; type: 'sentinel' | 
             <div className="space-y-3">
                 <div className="flex items-center justify-between text-sm">
                     <span className="text-white/60">Location</span>
-                    <span className="text-white font-medium">{mockNode.location}</span>
+                    <span className="text-white font-medium">{nodeData.location}</span>
                 </div>
 
                 <div className="flex items-center justify-between text-sm">
                     <span className="text-white/60">Uptime</span>
-                    <span className="text-white font-medium">{mockNode.uptime}%</span>
+                    <span className="text-white font-medium">{nodeData.uptime}</span>
                 </div>
 
-                {type === 'sentinel' && (
-                    <div className="flex items-center justify-between text-sm">
-                        <span className="text-white/60">Proposals</span>
-                        <span className="text-white font-medium">{mockNode.proposals?.toLocaleString()}</span>
-                    </div>
-                )}
-
-                {type === 'challenger' && (
-                    <div className="flex items-center justify-between text-sm">
-                        <span className="text-white/60">Disputes</span>
-                        <span className="text-white font-medium">{mockNode.disputes}</span>
-                    </div>
-                )}
-
                 <div className="pt-3 border-t border-white/5">
-                    <a
-                        href={mockNode.endpoint}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs text-blue-400 hover:text-blue-300 font-mono break-all transition"
-                    >
-                        {mockNode.endpoint}
-                    </a>
+                    <div className="text-[10px] text-white/20 uppercase font-bold tracking-widest mb-1 leading-none">
+                        On-Chain Identity (TXID)
+                    </div>
+                    <div className="text-xs text-white/40 font-mono break-all leading-tight">
+                        {nodeId}
+                    </div>
                 </div>
             </div>
         </div>

@@ -40,14 +40,14 @@ export async function fetchStats(): Promise<NetworkStats> {
         const res = await fetch(`${INDEXER_URL}/stats`);
         if (!res.ok) throw new Error('Indexer unreachable');
         const json = await res.json();
-        return json.data; // Indexer wraps in { success: true, data: ... }
+        return json.data;
     } catch (e) {
-        console.warn('Using mock stats due to error:', e);
+        console.error('Failed to fetch stats:', e);
         return {
-            totalRequests: 124500,
-            activeFeeds: 42,
-            totalStaked: 1000000,
-            avgLatency: 0.8
+            totalRequests: 0,
+            activeFeeds: 0,
+            totalStaked: 0,
+            avgLatency: 0
         };
     }
 }
@@ -58,17 +58,8 @@ export async function fetchActivity(): Promise<ActivityItem[]> {
         if (!res.ok) throw new Error('Backend unreachable');
         return res.json();
     } catch (e) {
-        console.warn('Using mock activity due to error:', e);
-        return [
-            {
-                id: '1',
-                recipeName: 'ETH/BTC Flippening',
-                timestamp: Date.now() - 3600000,
-                txHash: '0x123...456',
-                outcome: { type: 'BINARY', value: 'NO' },
-                status: 'finalized'
-            }
-        ];
+        console.error('Failed to fetch activity:', e);
+        return [];
     }
 }
 
@@ -111,9 +102,24 @@ export interface Recipe {
 }
 
 async function fetchRecipes(): Promise<Recipe[]> {
-    // TODO: Connect to actual API endpoint
-    // For now, return mock data
-    return [];
+    try {
+        const res = await fetch(`${INDEXER_URL}/sources`);
+        if (!res.ok) throw new Error('Indexer unreachable');
+        const json = await res.json();
+
+        return json.data.map((source: any) => ({
+            id: source.sourceId,
+            name: `Source ${source.sourceId.slice(0, 8)}`,
+            category: source.category || 'General',
+            description: source.endpoint,
+            creator: source.owner,
+            createdAt: new Date(source.registeredAt).getTime(),
+            usageCount: source.metrics?.totalFetches || 0
+        }));
+    } catch (e) {
+        console.error('Failed to fetch recipes:', e);
+        return [];
+    }
 }
 
 export function useRecipes() {

@@ -19,13 +19,13 @@ export default function DashboardPage() {
             label: 'Total Requests',
             value: stats ? formatNumber(stats.totalRequests || 0) : '-',
             icon: ActivityIcon,
-            trend: 12.5
+            trend: 0
         },
         {
             label: 'Active Feeds',
             value: stats ? stats.activeFeeds || 0 : '-',
             icon: Database,
-            trend: 2.1
+            trend: 0
         },
         {
             label: 'Total Staked',
@@ -37,8 +37,8 @@ export default function DashboardPage() {
             label: 'Avg Latency',
             value: stats ? `${stats.avgLatency || 0}s` : '-',
             icon: Clock,
-            trend: -5.2,
-            trendLabel: 'vs last week'
+            trend: 0,
+            trendLabel: 'Real-time'
         }
     ];
 

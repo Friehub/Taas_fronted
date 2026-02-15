@@ -6,7 +6,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
+import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt, useChainId, useSwitchChain } from 'wagmi';
+import { heliosChain } from '@/lib/wagmi';
 
 // ABI for TTruthToken faucet functions
 const FAUCET_ABI = [
@@ -46,7 +47,11 @@ interface FaucetProps {
 
 export function TestnetFaucet({ tokenAddress }: FaucetProps) {
     const { address, isConnected } = useAccount();
+    const chainId = useChainId();
+    const { switchChain } = useSwitchChain();
     const [timeRemaining, setTimeRemaining] = useState<number>(0);
+
+    const isCorrectChain = chainId === heliosChain.id;
 
     // Read faucet state
     const { data: canClaim, refetch: refetchCanClaim } = useReadContract({
@@ -135,6 +140,23 @@ export function TestnetFaucet({ tokenAddress }: FaucetProps) {
                 <div className="text-sm text-blue-700">
                     Get free $T tokens for testnet
                 </div>
+            </div>
+        );
+    }
+
+    if (!isCorrectChain) {
+        return (
+            <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-6 text-center">
+                <div className="text-yellow-500 font-bold mb-2">Wrong Network</div>
+                <p className="text-xs text-yellow-500/60 mb-4">
+                    Please switch to the Helios Testnet to claim tokens.
+                </p>
+                <button
+                    onClick={() => switchChain({ chainId: heliosChain.id })}
+                    className="px-4 py-2 bg-yellow-500 text-black font-bold text-xs rounded-lg hover:bg-yellow-400 transition-colors"
+                >
+                    Switch to Helios
+                </button>
             </div>
         );
     }
