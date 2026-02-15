@@ -20,7 +20,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 const NAV_ITEMS = [
-    { label: 'Dashboard', href: '/', icon: LayoutDashboard },
+    { label: 'Dashboard', href: '/overview', icon: LayoutDashboard },
     { label: 'Registry', href: '/registry', icon: Database },
     { label: 'Live Truths', href: '/activity', icon: Activity },
     { label: 'Documentation', href: '/docs', icon: FileText },
