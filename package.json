@@ -2,9 +2,9 @@
     "name": "friehub-frontend-ecosystem",
     "private": true,
     "scripts": {
-        "dev:app": "pnpm --filter @friehub/app dev",
-        "dev:admin": "pnpm --filter @friehub/admin dev",
-        "dev:web": "pnpm --filter @friehub/web dev",
+        "dev:user": "pnpm --filter @friehub/user-dashboard dev",
+        "dev:admin": "pnpm --filter @friehub/admin-dashboard dev",
+        "dev:landing": "pnpm --filter @friehub/landing-page dev",
         "build": "pnpm -r build"
     }
 }
