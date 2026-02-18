@@ -8,10 +8,10 @@ This repository is a monorepo managed by pnpm workspaces, containing the various
 
 The applications are localized within the `apps/` directory and act as independent, specialized services:
 
-- **`apps/app` (User Dashboard)**: The primary interface for node operators and protocol participants. Handles node registration, truth stream monitoring, and the protocol registry.
-- **`apps/admin` (Admin Control Center)**: Internal governance tools for managing data recipes, source reputation, and protocol-level parameters.
-- **`apps/web` (Corporate Portal)**: The high-performance landing page and documentation hub for external partners and the public.
-- **`apps/docs`**: Specialized developer documentation and integration guides.
+- **`apps/user-dashboard`**: The primary interface for node operators and protocol participants. Handles node registration, truth stream monitoring, and the protocol registry.
+- **`apps/admin-dashboard`**: Internal governance tools for managing data recipes, source reputation, and protocol-level parameters.
+- **`apps/landing-page`**: The high-performance landing page for external partners and the public.
+- **`apps/documentation`**: Specialized developer documentation and integration guides.
 
 ## Development
 
@@ -26,7 +26,7 @@ pnpm install
 pnpm run build
 
 # Run specific application in development
-pnpm --filter @friehub/app dev
+pnpm --filter @friehub/user-dashboard dev
 ```
 
 ### Standards
