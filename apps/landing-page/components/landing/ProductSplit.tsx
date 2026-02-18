@@ -1,91 +1,98 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { LineChart, Server, ArrowUpRight, Zap, Shield, Globe } from 'lucide-react';
+import { LineChart, Server, ArrowUpRight, Zap, Shield, Globe, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { getDashboardUrl, getDocsUrl } from '../../lib/shared/url-manager';
 
 export function ProductSplit() {
     return (
-        <section className="py-24 bg-background relative overflow-hidden border-b border-border">
+        <section className="py-32 bg-background relative overflow-hidden border-y border-white/[0.05]">
             <div className="container px-4 mx-auto">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">One Ecosystem. Unlimited Apps.</h2>
-                    <p className="text-muted-foreground max-w-2xl mx-auto">
-                        Friehub provides the high-integrity infrastructure and the modular tools to build
-                        the next generation of verifiable applications.
+                <div className="max-w-4xl mx-auto text-center mb-24">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="inline-block px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em] mb-6"
+                    >
+                        Dual-Engine Ecosystem
+                    </motion.div>
+                    <h2 className="text-4xl md:text-6xl font-display font-medium text-foreground mb-6">
+                        One Infrastructure. <br />
+                        <span className="text-muted-foreground/40 italic">Unlimited Possibilities.</span>
+                    </h2>
+                    <p className="text-lg text-muted-foreground/60 max-w-2xl mx-auto leading-relaxed">
+                        Whether you're building a sovereign prediction market or a high-frequency trading bot,
+                        Friehub provides the modular foundation for verifiable logic.
                     </p>
                 </div>
 
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className="grid lg:grid-cols-2 gap-12">
                     {/* The Infrastructure: TaaS */}
                     <motion.div
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="p-8 lg:p-12 rounded-3xl bg-card border border-border relative overflow-hidden group hover:border-primary/30 transition-all"
+                        className="p-12 rounded-[3rem] glass-ultra border border-white/5 relative overflow-hidden group cursor-default"
                     >
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-32 -mt-32 group-hover:bg-primary/10 transition-colors" />
-
-                        <div className="relative z-10">
-                            <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-8 text-primary border border-primary/20">
-                                <Server size={28} />
+                        <div className="relative z-10 h-full flex flex-col">
+                            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-10 text-primary border border-primary/20 transition-transform group-hover:scale-110">
+                                <Server size={32} />
                             </div>
 
-                            <h3 className="text-3xl font-bold text-foreground mb-4">TaaS Engine</h3>
-                            <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
+                            <h3 className="text-3xl font-display font-bold text-foreground mb-4">TaaS Engine</h3>
+                            <p className="text-muted-foreground/60 text-lg mb-10 leading-relaxed flex-1">
                                 The decentralized source-of-truth. Programmable recipes allow developers
-                                to fetch, verify, and settle any real-world outcome on-chain in seconds.
+                                to fetch, verify, and settle any real-world outcome on-chain with absolute finality.
                             </p>
 
-                            <div className="grid grid-cols-2 gap-4 mb-8">
+                            <div className="grid grid-cols-2 gap-6 mb-12">
                                 <FeatureItem icon={Zap} title="Sub-second Resolution" />
                                 <FeatureItem icon={Shield} title="Optimistic Multi-Sig" />
-                                <FeatureItem icon={Globe} title="Any REST API" />
-                                <FeatureItem icon={Shield} title="EIP-712 Certified" />
+                                <FeatureItem icon={Globe} title="Unified API Bridge" />
+                                <FeatureItem icon={Sparkles} title="ZK-Truth Proofs" />
                             </div>
 
                             <Link
                                 href={getDocsUrl('/taas')}
-                                className="inline-flex items-center gap-2 text-primary font-bold hover:gap-3 transition-all"
+                                className="inline-flex items-center gap-3 text-primary font-bold uppercase tracking-widest text-sm hover:gap-5 transition-all w-fit"
                             >
-                                Explorer Protocol <ArrowUpRight size={20} />
+                                Explore Protocol <ArrowUpRight size={18} />
                             </Link>
                         </div>
                     </motion.div>
 
                     {/* The Product: Prediction Market */}
                     <motion.div
-                        initial={{ opacity: 0, x: 20 }}
+                        initial={{ opacity: 0, x: 30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="p-8 lg:p-12 rounded-3xl bg-card border border-border relative overflow-hidden group hover:border-emerald-500/30 transition-all"
+                        className="p-12 rounded-[3rem] glass-ultra border border-white/5 relative overflow-hidden group cursor-default"
                     >
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -mr-32 -mt-32 group-hover:bg-emerald-500/10 transition-colors" />
-
-                        <div className="relative z-10">
-                            <div className="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-8 text-emerald-400 border border-emerald-500/20">
-                                <LineChart size={28} />
+                        <div className="relative z-10 h-full flex flex-col">
+                            <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-10 text-emerald-400 border border-emerald-500/20 transition-transform group-hover:scale-110">
+                                <LineChart size={32} />
                             </div>
 
-                            <h3 className="text-3xl font-bold text-foreground mb-4">Prediction Market</h3>
-                            <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
-                                The ultimate showcase of TaaS power. A high-liquidity,
-                                permissionless market for everything from sports to AI benchmarks.
+                            <h3 className="text-3xl font-display font-bold text-foreground mb-4">Core Application</h3>
+                            <p className="text-muted-foreground/60 text-lg mb-10 leading-relaxed flex-1">
+                                The ultimate showcase of institutional power. A high-liquidity,
+                                permissionless prediction platform for global participants.
                             </p>
 
-                            <div className="grid grid-cols-2 gap-4 mb-8">
+                            <div className="grid grid-cols-2 gap-6 mb-12 text-emerald-100/60">
                                 <FeatureItem icon={Zap} title="Chronos Autonomy" />
                                 <FeatureItem icon={Globe} title="Infinite Markets" />
                                 <FeatureItem icon={Shield} title="LMSR Pricing" />
-                                <FeatureItem icon={Zap} title="AI-Driven Discovery" />
+                                <FeatureItem icon={LineChart} title="Deep Liquidity" />
                             </div>
 
                             <Link
                                 href={getDashboardUrl('/overview')}
-                                className="inline-flex items-center gap-2 text-emerald-400 font-bold hover:gap-3 transition-all"
+                                className="inline-flex items-center gap-3 text-emerald-400 font-bold uppercase tracking-widest text-sm hover:gap-5 transition-all w-fit"
                             >
-                                Launch Product <ArrowUpRight size={20} />
+                                Launch Platform <ArrowUpRight size={18} />
                             </Link>
                         </div>
                     </motion.div>
@@ -97,8 +104,8 @@ export function ProductSplit() {
 
 function FeatureItem({ icon: Icon, title }: { icon: any, title: string }) {
     return (
-        <div className="flex items-center gap-2 text-sm text-foreground/70">
-            <Icon size={14} className="text-primary/60" />
+        <div className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-widest text-foreground/40 group/item">
+            <Icon size={14} className="text-primary group-hover/item:scale-110 transition-transform" />
             <span>{title}</span>
         </div>
     );

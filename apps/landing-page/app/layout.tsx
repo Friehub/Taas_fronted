@@ -1,6 +1,8 @@
 import './main.css';
 import { Providers } from '../components/shared/Providers';
 import { config } from '../lib/wagmi';
+import { CustomCursor } from '../components/shared/CustomCursor';
+import { SmoothScroll } from '../components/shared/SmoothScroll';
 
 export default function RootLayout({
     children,
@@ -10,6 +12,8 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className="antialiased bg-background text-foreground transition-colors duration-300">
+                <CustomCursor />
+                <SmoothScroll />
                 <Providers wagmiConfig={config} themeProps={{ attribute: "class", defaultTheme: "system", enableSystem: true }}>
                     <main className="flex-1 overflow-y-auto">
                         {children}
