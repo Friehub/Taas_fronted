@@ -18,54 +18,52 @@ export function Hero() {
 
     return (
         <section ref={containerRef} className="relative min-h-[110vh] flex items-center justify-center overflow-hidden bg-background">
-            {/* Mastery-Level Atmospheric Depth Background */}
+            {/* Mastery-Level Vibrant Infinite Horizon Background */}
             <div className="absolute inset-0 z-0 overflow-hidden">
-                {/* Base Layer */}
-                <div className="absolute inset-0 bg-[#060608]" />
+                {/* Base Layer - Deep Navy to Charcoal transition */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#0c0c14] via-[#060b0e] to-background" />
 
-                {/* Dynamic Vibrant Field */}
+                {/* Primary Ambient Glow - Emerald/Mint */}
                 <motion.div
                     animate={{
-                        scale: [1, 1.1, 1],
-                        opacity: [0.3, 0.4, 0.3]
+                        scale: [1, 1.2, 1],
+                        opacity: [0.4, 0.6, 0.4],
+                        rotate: [0, 5, 0]
                     }}
-                    transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.15),transparent_70%)]"
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    className="absolute top-[-20%] left-[-10%] w-[120%] h-[120%] bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.18),transparent_70%)] blur-[40px]"
+                />
+
+                {/* Secondary Accent Glow - Indigo/Purple Shift */}
+                <motion.div
+                    animate={{
+                        scale: [1.1, 1, 1.1],
+                        opacity: [0.1, 0.2, 0.1],
+                        rotate: [0, -5, 0]
+                    }}
+                    transition={{ duration: 15, repeat: Infinity, ease: "linear", delay: 2 }}
+                    className="absolute bottom-[-20%] right-[-10%] w-[100%] h-[100%] bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.15),transparent_70%)] blur-[60px]"
                 />
 
                 {/* Dotted Grid - Premium Institutional Look */}
-                <div className="absolute inset-0 bg-grid-white [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)] opacity-30" />
+                <div className="absolute inset-0 bg-grid-white [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)] opacity-20 mix-blend-overlay" />
 
-                {/* Orbiting Accents - Hardware Accelerated */}
-                <motion.div
-                    animate={{
-                        y: [0, -30, 0],
-                        x: [0, 20, 0],
-                        opacity: [0.08, 0.12, 0.08]
-                    }}
-                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute top-[-15%] left-[-10%] w-[70%] h-[70%] bg-[radial-gradient(circle_at_center,rgba(52,211,153,0.1),transparent_70%)] rounded-full translate-z-0"
-                />
-
-                {/* Secondary Pulse */}
-                <motion.div
-                    animate={{
-                        y: [0, 30, 0],
-                        x: [0, -20, 0],
-                        opacity: [0.05, 0.08, 0.05]
-                    }}
-                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                    className="absolute bottom-[-15%] right-[-10%] w-[70%] h-[70%] bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.08),transparent_70%)] rounded-full translate-z-0"
-                />
-
-                {/* Floating Micro-Ornaments */}
+                {/* Depth Ornaments */}
                 <div className="absolute inset-0 pointer-events-none opacity-40">
                     <motion.div
-                        animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }}
-                        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                        className="absolute top-[25%] left-[15%] w-px h-24 bg-gradient-to-b from-transparent via-primary/40 to-transparent"
+                        animate={{ y: [0, -40, 0], opacity: [0.2, 0.4, 0.2] }}
+                        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute top-[30%] left-[20%] w-px h-32 bg-gradient-to-b from-transparent via-primary/60 to-transparent"
+                    />
+                    <motion.div
+                        animate={{ y: [0, 40, 0], opacity: [0.1, 0.3, 0.1] }}
+                        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+                        className="absolute bottom-[20%] right-[25%] w-px h-48 bg-gradient-to-b from-transparent via-indigo-500/40 to-transparent"
                     />
                 </div>
+
+                {/* Global Grain Refinement */}
+                <div className="absolute inset-0 pointer-events-none bg-noise-overlay mix-blend-soft-light opacity-[0.03]" />
             </div>
 
             {/* Top Bar - Elevated Navigation */}
