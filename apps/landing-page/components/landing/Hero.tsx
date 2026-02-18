@@ -46,8 +46,8 @@ export function Hero() {
                     className="flex items-center gap-8"
                 >
                     <nav className="hidden lg:flex items-center gap-8 text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-                        <Link href="/registry" className="hover:text-primary transition-colors">Registry</Link>
-                        <Link href="/activity" className="hover:text-primary transition-colors">Truths</Link>
+                        <Link href="https://app.friehub.cloud/registry" className="hover:text-primary transition-colors">Registry</Link>
+                        <Link href="https://app.friehub.cloud/activity" className="hover:text-primary transition-colors">Truths</Link>
                         <Link href="https://docs.friehub.cloud" className="hover:text-primary transition-colors">Docs</Link>
                     </nav>
                     <div className="h-4 w-px bg-white/10 hidden lg:block" />
