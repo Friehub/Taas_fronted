@@ -19,9 +19,9 @@ export function Hero() {
     return (
         <section ref={containerRef} className="relative min-h-[110vh] flex items-center justify-center overflow-hidden bg-background">
             {/* Mastery-Level Architectural SVG Complexity */}
-            <div className="absolute inset-0 z-0 overflow-hidden">
-                {/* Base Layer - Deep Navy to Charcoal */}
-                <div className="absolute inset-0 bg-gradient-to-b from-[#0c0c14] via-[#060b0e] to-background" />
+            <div className="absolute inset-0 z-0 overflow-hidden [mask-image:linear-gradient(to_bottom,black_85%,transparent)]">
+                {/* Base Layer - Vibrant Deep Navy to Indigo */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#14142b] via-[#0c0c1a] to-background" />
 
                 {/* Dynamic Prismatic Shards (Pure SVG/CSS) */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -32,12 +32,12 @@ export function Hero() {
                             scale: [1, 1.05, 1]
                         }}
                         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-                        className="absolute top-[20%] right-[10%] w-[400px] h-[400px] opacity-20"
+                        className="absolute top-[20%] right-[10%] w-[400px] h-[400px] opacity-30"
                     >
                         <svg viewBox="0 0 200 200" className="w-full h-full filter blur-[1px]">
                             <defs>
                                 <linearGradient id="shard-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stopColor="rgba(16,185,129,0.4)" />
+                                    <stop offset="0%" stopColor="rgba(16,185,129,0.5)" />
                                     <stop offset="100%" stopColor="transparent" />
                                 </linearGradient>
                             </defs>
@@ -52,7 +52,7 @@ export function Hero() {
                             scale: [1, 1.1, 1]
                         }}
                         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                        className="absolute bottom-[10%] left-[5%] w-[500px] h-[500px] opacity-10"
+                        className="absolute bottom-[10%] left-[5%] w-[500px] h-[500px] opacity-20"
                     >
                         <svg viewBox="0 0 200 200" className="w-full h-full filter blur-[2px]">
                             <path d="M40 20 L160 40 L180 140 L60 180 L20 100 Z" fill="url(#shard-grad)" />
@@ -62,11 +62,11 @@ export function Hero() {
 
                 {/* Orbital Energy Loops */}
                 <div className="absolute inset-0 pointer-events-none">
-                    <svg className="w-full h-full opacity-30">
+                    <svg className="w-full h-full opacity-40">
                         <motion.ellipse
                             cx="50%" cy="40%" rx="35%" ry="25%"
                             fill="none"
-                            stroke="rgba(16,185,129,0.15)"
+                            stroke="rgba(16,185,129,0.2)"
                             strokeWidth="1"
                             strokeDasharray="1 10"
                             animate={{ rotate: 360 }}
@@ -75,7 +75,7 @@ export function Hero() {
                         <motion.ellipse
                             cx="50%" cy="45%" rx="45%" ry="35%"
                             fill="none"
-                            stroke="rgba(99,102,241,0.1)"
+                            stroke="rgba(99,102,241,0.15)"
                             strokeWidth="1"
                             strokeDasharray="2 20"
                             animate={{ rotate: -360 }}
@@ -88,17 +88,17 @@ export function Hero() {
                 <motion.div
                     animate={{
                         scale: [1, 1.2, 1],
-                        opacity: [0.4, 0.6, 0.4]
+                        opacity: [0.5, 0.7, 0.5]
                     }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="absolute top-[-20%] left-[-10%] w-[120%] h-[120%] bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.15),transparent_70%)] blur-[40px]"
+                    className="absolute top-[-20%] left-[-10%] w-[120%] h-[120%] bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.2),transparent_70%)] blur-[40px]"
                 />
 
                 {/* Dotted Grid */}
-                <div className="absolute inset-0 bg-grid-white [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)] opacity-20 mix-blend-overlay" />
+                <div className="absolute inset-0 bg-grid-white [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)] opacity-30 mix-blend-overlay" />
 
                 {/* Global Grain Refinement */}
-                <div className="absolute inset-0 pointer-events-none bg-noise-overlay mix-blend-soft-light opacity-[0.03]" />
+                <div className="absolute inset-0 pointer-events-none bg-noise-overlay mix-blend-soft-light opacity-[0.04]" />
             </div>
 
             {/* Top Bar - Elevated Navigation */}

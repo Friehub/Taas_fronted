@@ -15,7 +15,7 @@ const LOGOS = [
 
 export function TrustMarquee() {
     return (
-        <div className="py-12 bg-background/50 border-y border-white/[0.05] relative overflow-hidden group">
+        <div className="py-12 bg-transparent border-y border-white/[0.03] relative overflow-hidden group">
             <div className="container px-4 mx-auto mb-8">
                 <div className="text-[10px] text-center font-black uppercase tracking-[0.4em] text-white/20">
                     Trusted by Institutional Protocols & Builders

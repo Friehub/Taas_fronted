@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export function LandingCTA() {
     return (
-        <section className="py-48 bg-background relative overflow-hidden border-t border-white/5">
+        <section className="py-48 bg-transparent relative overflow-hidden border-t border-white/[0.03]">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(16,185,129,0.05)_0%,_transparent_70%)]"></div>
 
             <div className="container relative z-10 px-4 mx-auto text-center flex flex-col items-center">

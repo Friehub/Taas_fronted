@@ -7,7 +7,7 @@ import { getDashboardUrl, getDocsUrl } from '../../lib/shared/url-manager';
 
 export function ProductSplit() {
     return (
-        <section className="py-32 bg-background relative overflow-hidden border-y border-white/[0.05]">
+        <section className="py-32 bg-transparent relative overflow-hidden border-y border-white/[0.03]">
             <div className="container px-4 mx-auto">
                 <div className="max-w-4xl mx-auto text-center mb-24">
                     <motion.div
