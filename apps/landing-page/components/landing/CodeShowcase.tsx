@@ -156,6 +156,35 @@ export function CodeShowcase() {
                         )}
                     </AnimatePresence>
 
+                    {/* Mastery Attestation Verification Overlay */}
+                    <AnimatePresence>
+                        {currentStep === STEPS.length - 1 && !showPayload && (
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
+                            >
+                                <div className="glass-ultra px-8 py-6 rounded-3xl border border-primary/30 shadow-[0_0_50px_rgba(16,185,129,0.3)] flex flex-col items-center gap-4 text-center min-w-[280px]">
+                                    <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                                        <ShieldCheck size={32} />
+                                    </div>
+                                    <div>
+                                        <div className="text-white font-black uppercase tracking-widest text-sm mb-1">Attestation Verified</div>
+                                        <div className="text-primary/60 font-mono text-[10px]">Secure EIP-712 Finality</div>
+                                    </div>
+                                    <motion.div
+                                        animate={{ scale: [1, 1.1, 1] }}
+                                        transition={{ duration: 2, repeat: Infinity }}
+                                        className="text-[9px] text-white/40 uppercase tracking-[0.2em] font-bold"
+                                    >
+                                        Transaction Confirmed
+                                    </motion.div>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
                     {/* Meta Toggle */}
                     <button
                         onClick={() => setShowPayload(!showPayload)}

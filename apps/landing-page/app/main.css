@@ -15,8 +15,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
 
-    --primary: 142.1 76.2% 36.3%;
-    --primary-foreground: 355.7 100% 97.3%;
+    --primary: 160 84% 45%;
+    --primary-foreground: 160 80% 98%;
 
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -47,8 +47,8 @@
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 142.1 70.6% 45.3%;
-    --primary-foreground: 144.9 80.4% 10%;
+    --primary: 160 80% 50%;
+    --primary-foreground: 160 80% 10%;
 
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
@@ -71,8 +71,6 @@
 @layer base {
   * {
     border-color: hsl(var(--border));
-    cursor: none !important;
-    /* Managed by CustomCursor */
   }
 
   body {
@@ -126,9 +124,12 @@
   }
 
   .glass-ultra {
-    background-color: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.015);
+    backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.1),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.02);
   }
 
   .dark .glass-ultra {

@@ -1,6 +1,7 @@
 "use client";
 
 import { Hero } from "../components/landing/Hero";
+import { TrustMarquee } from "../components/landing/TrustMarquee";
 import { CodeShowcase } from "../components/landing/CodeShowcase";
 import { ProductSplit } from "../components/landing/ProductSplit";
 import { ProtocolFlow } from "../components/landing/ProtocolFlow";
@@ -13,6 +14,9 @@ export default function LandingPage() {
         <main className="min-h-screen bg-background text-foreground selection:bg-primary/30">
             {/* 1. Hero Section */}
             <Hero />
+
+            {/* Trust Marquee */}
+            <TrustMarquee />
 
             {/* 2. Protocol Flow Visualization */}
             <ProtocolFlow />

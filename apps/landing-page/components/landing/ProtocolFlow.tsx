@@ -84,13 +84,38 @@ export function ProtocolFlow() {
 
                 {/* Horizontal Flow (Desktop) */}
                 <div className="hidden lg:grid grid-cols-4 gap-12 relative">
-                    {/* Pulsing connection line */}
-                    <div className="absolute top-12 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent z-0 overflow-hidden">
-                        <motion.div
-                            animate={{ x: ['100%', '-100%'] }}
-                            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                            className="absolute inset-0 bg-gradient-to-r from-transparent via-primary to-transparent w-40"
-                        />
+                    {/* SVG Energy Flow - Mastery Path */}
+                    <div className="absolute top-12 left-8 right-8 h-20 z-0 pointer-events-none">
+                        <svg className="w-full h-full overflow-visible">
+                            {/* Static Track */}
+                            <path
+                                d="M 0 10 L 100% 10"
+                                className="stroke-white/[0.03]"
+                                strokeWidth="1"
+                                vectorEffect="non-scaling-stroke"
+                            />
+                            {/* Pulsing Base */}
+                            <motion.path
+                                d="M 0 10 L 100% 10"
+                                className="stroke-primary/10"
+                                strokeWidth="2"
+                                strokeDasharray="10 15"
+                                vectorEffect="non-scaling-stroke"
+                                animate={{ strokeDashoffset: [-100, 0] }}
+                                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                            />
+                            {/* High-Contrast Energy Pulse */}
+                            <motion.path
+                                d="M 0 10 L 100% 10"
+                                className="stroke-primary/40"
+                                strokeWidth="2"
+                                strokeDasharray="1 50"
+                                strokeLinecap="round"
+                                vectorEffect="non-scaling-stroke"
+                                animate={{ strokeDashoffset: [-500, 0] }}
+                                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                            />
+                        </svg>
                     </div>
 
                     {FLOW_STEPS.map((step, index) => (
