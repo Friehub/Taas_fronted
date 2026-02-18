@@ -26,6 +26,10 @@ export const metadata: Metadata = {
     },
 };
 
+import './main.css';
+import { Providers } from '../components/shared/Providers';
+import { SmoothScroll } from '../components/shared/SmoothScroll';
+
 export default function RootLayout({
     children,
 }: {

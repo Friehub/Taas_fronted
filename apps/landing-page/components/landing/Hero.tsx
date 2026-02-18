@@ -87,9 +87,9 @@ export function Hero() {
                     className="flex items-center gap-8"
                 >
                     <nav className="hidden lg:flex items-center gap-8 text-[11px] font-bold uppercase tracking-[0.4em] text-white/50">
-                        <Link href="https://app.friehub.cloud/registry" className="hover:text-primary hover:tracking-[0.5em] transition-all duration-300">Registry</Link>
-                        <Link href="https://app.friehub.cloud/activity" className="hover:text-primary hover:tracking-[0.5em] transition-all duration-300">Truths</Link>
-                        <Link href="https://docs.friehub.cloud" className="hover:text-primary hover:tracking-[0.5em] transition-all duration-300">Docs</Link>
+                        <Link href={process.env.NEXT_PUBLIC_MARKET_URL || "#"} className="hover:text-primary hover:tracking-[0.5em] transition-all duration-300">Markets</Link>
+                        <Link href={process.env.NEXT_PUBLIC_DASHBOARD_URL || "#"} className="hover:text-primary hover:tracking-[0.5em] transition-all duration-300">Dashboard</Link>
+                        <Link href={process.env.NEXT_PUBLIC_DOCS_URL || "#"} className="hover:text-primary hover:tracking-[0.5em] transition-all duration-300">Docs</Link>
                     </nav>
                     <div className="h-4 w-px bg-white/10 hidden lg:block" />
                     <ThemeToggle />
@@ -110,7 +110,7 @@ export function Hero() {
                         }}
                         className="text-7xl md:text-[8.5rem] font-display font-medium tracking-tighter text-white leading-[0.85] mb-12 select-none"
                     >
-                        {["Secure.", "Scaled.", "Sovereign."].map((word, i) => (
+                        {["Permissionless.", "Rich.", "Absolute."].map((word, i) => (
                             <motion.span
                                 key={i}
                                 variants={{
@@ -141,7 +141,7 @@ export function Hero() {
                         className="flex flex-col sm:flex-row items-center gap-8 w-full sm:w-auto"
                     >
                         <Link
-                            href="https://docs.friehub.cloud"
+                            href={process.env.NEXT_PUBLIC_DOCS_URL || "#"}
                             className="group relative w-full sm:w-auto px-12 py-6 bg-primary text-primary-foreground font-black rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(16,185,129,0.4)] hover:scale-[1.05] active:scale-95"
                         >
                             <span className="relative z-10 flex items-center justify-center gap-3 text-lg uppercase tracking-[0.2em]">
@@ -151,8 +151,8 @@ export function Hero() {
                         </Link>
 
                         <Link
-                            href="https://app.friehub.cloud"
-                            className="w-full sm:w-auto px-12 py-6 glass-ultra text-white font-black rounded-2xl hover:bg-white/[0.1] transition-all duration-500 text-lg uppercase tracking-[0.2em] border border-white/10 hover:border-white/20 flex items-center justify-center gap-3 group active:scale-95"
+                            href={process.env.NEXT_PUBLIC_DASHBOARD_URL || "#"}
+                            className="w-full sm:w-auto px-12 py-6 glass-ultra text-white font-black rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-500 text-lg uppercase tracking-[0.2em] border border-white/10 hover:border-white/20 flex items-center justify-center gap-3 group active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.05)]"
                         >
                             Explore Network
                             <Sparkles size={18} className="text-primary group-hover:rotate-12 transition-transform duration-500" />
