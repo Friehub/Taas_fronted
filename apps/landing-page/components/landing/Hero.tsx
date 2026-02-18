@@ -18,13 +18,19 @@ export function Hero() {
 
     return (
         <section ref={containerRef} className="relative min-h-[110vh] flex items-center justify-center overflow-hidden bg-background">
-            {/* Premium Mesh Gradient Background */}
-            <div className="absolute inset-0 z-0">
+            {/* High-Performance Aesthetic Background */}
+            <div className="absolute inset-0 z-0 overflow-hidden">
                 <div className="absolute inset-0 bg-[#09090b]" />
-                <MeshGradient />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
-                {/* Subtle Grid overlay */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
+
+                {/* Dotted Grid - Premium DX look */}
+                <div className="absolute inset-0 bg-grid-white [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)] opacity-40" />
+
+                {/* Optimized Soft Accents (No heavy blur filters) */}
+                <div className="absolute top-[-10%] left-[-5%] w-[60%] h-[60%] bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.08),transparent_70%)] rounded-full translate-z-0" />
+                <div className="absolute bottom-[-10%] right-[-5%] w-[60%] h-[60%] bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.05),transparent_70%)] rounded-full translate-z-0" />
+
+                {/* Subtle Linear Accents */}
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
             </div>
 
             {/* Top Bar - Elevated Navigation */}
@@ -136,35 +142,3 @@ export function Hero() {
     );
 }
 
-function MeshGradient() {
-    return (
-        <div className="absolute inset-0 opacity-40 mix-blend-screen">
-            <motion.div
-                animate={{
-                    scale: [1, 1.2, 1],
-                    x: [0, 100, 0],
-                    y: [0, -50, 0],
-                }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute top-[-20%] left-[-10%] w-[80%] h-[80%] bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.3),transparent_70%)] blur-[120px]"
-            />
-            <motion.div
-                animate={{
-                    scale: [1.2, 1, 1.2],
-                    x: [0, -100, 0],
-                    y: [0, 50, 0],
-                }}
-                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                className="absolute bottom-[-20%] right-[-10%] w-[80%] h-[80%] bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.2),transparent_70%)] blur-[120px]"
-            />
-            <motion.div
-                animate={{
-                    scale: [1, 1.5, 1],
-                    opacity: [0.1, 0.3, 0.1],
-                }}
-                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="absolute top-[20%] right-[10%] w-[60%] h-[60%] bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.15),transparent_70%)] blur-[120px]"
-            />
-        </div>
-    );
-}
