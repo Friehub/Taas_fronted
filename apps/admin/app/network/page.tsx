@@ -14,7 +14,7 @@ export default function NetworkPage() {
     // Read active sentinel nodes
     const { data: sentinelNodes, isLoading: sentinelsLoading } = useReadContract({
         address: NODE_REGISTRY_ADDRESS,
-        abi: NodeRegistryABI.abi,
+        abi: NodeRegistryABI as any,
         functionName: 'listActiveNodes',
         args: [0] // 0 = SENTINEL
     });
@@ -22,7 +22,7 @@ export default function NetworkPage() {
     // Read active challenger nodes
     const { data: challengerNodes, isLoading: challengersLoading } = useReadContract({
         address: NODE_REGISTRY_ADDRESS,
-        abi: NodeRegistryABI.abi,
+        abi: NodeRegistryABI as any,
         functionName: 'listActiveNodes',
         args: [1] // 1 = CHALLENGER
     });

@@ -24,21 +24,21 @@ export function TestnetFaucet({ tokenAddress }: FaucetProps) {
     // Read faucet state
     const { data: canClaim, refetch: refetchCanClaim } = useReadContract({
         address: tokenAddress,
-        abi: FAUCET_ABI,
+        abi: TokenABI as any,
         functionName: 'canClaimFaucet',
         args: address ? [address] : undefined,
     });
 
     const { data: timeUntilClaim, refetch: refetchTime } = useReadContract({
         address: tokenAddress,
-        abi: FAUCET_ABI,
+        abi: TokenABI as any,
         functionName: 'timeUntilNextClaim',
         args: address ? [address] : undefined,
     });
 
     const { data: faucetAmount } = useReadContract({
         address: tokenAddress,
-        abi: FAUCET_ABI,
+        abi: TokenABI as any,
         functionName: 'faucetAmount',
     });
 

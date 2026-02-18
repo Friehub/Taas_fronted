@@ -101,7 +101,7 @@ export function NodeRegistrationWizard() {
         try {
             await writeContractAsync({
                 address: NODE_REGISTRY_ADDRESS,
-                abi: NodeRegistryABI.abi,
+                abi: NodeRegistryABI as any,
                 functionName: 'registerNode',
                 args: [
                     nodeAddress as Hex,
