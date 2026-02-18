@@ -18,49 +18,84 @@ export function Hero() {
 
     return (
         <section ref={containerRef} className="relative min-h-[110vh] flex items-center justify-center overflow-hidden bg-background">
-            {/* Mastery-Level Vibrant Infinite Horizon Background */}
+            {/* Mastery-Level Architectural SVG Complexity */}
             <div className="absolute inset-0 z-0 overflow-hidden">
-                {/* Base Layer - Deep Navy to Charcoal transition */}
+                {/* Base Layer - Deep Navy to Charcoal */}
                 <div className="absolute inset-0 bg-gradient-to-b from-[#0c0c14] via-[#060b0e] to-background" />
 
-                {/* Primary Ambient Glow - Emerald/Mint */}
+                {/* Dynamic Prismatic Shards (Pure SVG/CSS) */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                    <motion.div
+                        animate={{
+                            y: [0, -30, 0],
+                            rotate: [0, 5, 0],
+                            scale: [1, 1.05, 1]
+                        }}
+                        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute top-[20%] right-[10%] w-[400px] h-[400px] opacity-20"
+                    >
+                        <svg viewBox="0 0 200 200" className="w-full h-full filter blur-[1px]">
+                            <defs>
+                                <linearGradient id="shard-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="rgba(16,185,129,0.4)" />
+                                    <stop offset="100%" stopColor="transparent" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M100 0 L180 60 L140 160 L40 140 L20 40 Z" fill="url(#shard-grad)" />
+                        </svg>
+                    </motion.div>
+
+                    <motion.div
+                        animate={{
+                            y: [0, 30, 0],
+                            rotate: [0, -8, 0],
+                            scale: [1, 1.1, 1]
+                        }}
+                        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                        className="absolute bottom-[10%] left-[5%] w-[500px] h-[500px] opacity-10"
+                    >
+                        <svg viewBox="0 0 200 200" className="w-full h-full filter blur-[2px]">
+                            <path d="M40 20 L160 40 L180 140 L60 180 L20 100 Z" fill="url(#shard-grad)" />
+                        </svg>
+                    </motion.div>
+                </div>
+
+                {/* Orbital Energy Loops */}
+                <div className="absolute inset-0 pointer-events-none">
+                    <svg className="w-full h-full opacity-30">
+                        <motion.ellipse
+                            cx="50%" cy="40%" rx="35%" ry="25%"
+                            fill="none"
+                            stroke="rgba(16,185,129,0.15)"
+                            strokeWidth="1"
+                            strokeDasharray="1 10"
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+                        />
+                        <motion.ellipse
+                            cx="50%" cy="45%" rx="45%" ry="35%"
+                            fill="none"
+                            stroke="rgba(99,102,241,0.1)"
+                            strokeWidth="1"
+                            strokeDasharray="2 20"
+                            animate={{ rotate: -360 }}
+                            transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
+                        />
+                    </svg>
+                </div>
+
+                {/* Primary Ambient Glow */}
                 <motion.div
                     animate={{
                         scale: [1, 1.2, 1],
-                        opacity: [0.4, 0.6, 0.4],
-                        rotate: [0, 5, 0]
+                        opacity: [0.4, 0.6, 0.4]
                     }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="absolute top-[-20%] left-[-10%] w-[120%] h-[120%] bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.18),transparent_70%)] blur-[40px]"
+                    className="absolute top-[-20%] left-[-10%] w-[120%] h-[120%] bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.15),transparent_70%)] blur-[40px]"
                 />
 
-                {/* Secondary Accent Glow - Indigo/Purple Shift */}
-                <motion.div
-                    animate={{
-                        scale: [1.1, 1, 1.1],
-                        opacity: [0.1, 0.2, 0.1],
-                        rotate: [0, -5, 0]
-                    }}
-                    transition={{ duration: 15, repeat: Infinity, ease: "linear", delay: 2 }}
-                    className="absolute bottom-[-20%] right-[-10%] w-[100%] h-[100%] bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.15),transparent_70%)] blur-[60px]"
-                />
-
-                {/* Dotted Grid - Premium Institutional Look */}
+                {/* Dotted Grid */}
                 <div className="absolute inset-0 bg-grid-white [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)] opacity-20 mix-blend-overlay" />
-
-                {/* Depth Ornaments */}
-                <div className="absolute inset-0 pointer-events-none opacity-40">
-                    <motion.div
-                        animate={{ y: [0, -40, 0], opacity: [0.2, 0.4, 0.2] }}
-                        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-                        className="absolute top-[30%] left-[20%] w-px h-32 bg-gradient-to-b from-transparent via-primary/60 to-transparent"
-                    />
-                    <motion.div
-                        animate={{ y: [0, 40, 0], opacity: [0.1, 0.3, 0.1] }}
-                        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-                        className="absolute bottom-[20%] right-[25%] w-px h-48 bg-gradient-to-b from-transparent via-indigo-500/40 to-transparent"
-                    />
-                </div>
 
                 {/* Global Grain Refinement */}
                 <div className="absolute inset-0 pointer-events-none bg-noise-overlay mix-blend-soft-light opacity-[0.03]" />
