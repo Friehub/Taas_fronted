@@ -10,7 +10,8 @@ import {
     FileText,
     Settings,
     Zap,
-    Hexagon
+    Hexagon,
+    ShieldCheck
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -19,6 +20,7 @@ import { ThemeToggle } from './shared/ThemeToggle';
 
 const NAV_ITEMS = [
     { label: 'Dashboard', href: '/', icon: LayoutDashboard },
+    { label: 'Infrastructure', href: '/infrastructure', icon: ShieldCheck },
     { label: 'Registry', href: '/registry', icon: Database },
     { label: 'Live Truths', href: '/activity', icon: Activity },
     { label: 'Documentation', href: '/docs', icon: FileText },

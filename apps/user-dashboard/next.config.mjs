@@ -36,7 +36,7 @@ const nextConfig = {
             },
         ]
     },
-    transpilePackages: ['@friehub/data-feeds', '@friehub/recipes', '@friehub/execution-engine'],
+    transpilePackages: ['@friehub/recipes'],
     images: {
         remotePatterns: [
             {
