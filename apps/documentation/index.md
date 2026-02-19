@@ -3,16 +3,19 @@
 layout: home
 
 hero:
-  name: "FrieHub TaaS"
-  text: "The Decentralized Fact Engine"
-  tagline: Programmable Truth for the Blockchain Era
+  name: "Friehub"
+  text: "The Fact Engine"
+  tagline: Programmable Truth for the Sovereign Internet
+  image:
+    src: /logo.svg
+    alt: Friehub Logo
   actions:
     - theme: brand
-      text: Read Whitepaper
-      link: /core/whitepaper
+      text: Get Started
+      link: /guides/getting-started
     - theme: alt
-      text: Start Building
-      link: /guides/development
+      text: View Source
+      link: https://github.com/Friehub/Taas
 
 features:
   - title: Rich Outcomes

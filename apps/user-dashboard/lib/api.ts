@@ -34,6 +34,18 @@ export interface Outcome {
 const INDEXER_URL = process.env.NEXT_PUBLIC_INDEXER_API_URL || 'https://taas.friehub.cloud';
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.friehub.cloud';
 
+// Authenticated Fetch Helper
+export async function authenticatedFetch(url: string, options: RequestInit = {}) {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('friehub_auth_token') : null;
+
+    const headers = new Headers(options.headers);
+    if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    return fetch(url, { ...options, headers });
+}
+
 // API Functions
 export async function fetchStats(): Promise<NetworkStats> {
     try {
@@ -54,7 +66,7 @@ export async function fetchStats(): Promise<NetworkStats> {
 
 export async function fetchActivity(): Promise<ActivityItem[]> {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/notifications?user=ALL`);
+        const res = await authenticatedFetch(`${BACKEND_URL}/api/notifications?user=ALL`);
         if (!res.ok) throw new Error('Backend unreachable');
         return res.json();
     } catch (e) {

@@ -134,6 +134,14 @@ export function Header({ setIsOpen }: { setIsOpen: (o: boolean) => void }) {
     const { address, isConnected } = useAccount();
     const { connect } = useConnect();
     const { disconnect } = useDisconnect();
+    const router = useRouter();
+
+    const handleDisconnect = () => {
+        disconnect();
+        localStorage.removeItem('friehub_auth_token');
+        localStorage.removeItem('friehub_user');
+        router.push('/login');
+    };
 
     return (
         <header className="h-16 border-b border-border bg-card sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between">
@@ -166,7 +174,7 @@ export function Header({ setIsOpen }: { setIsOpen: (o: boolean) => void }) {
 
                 {isConnected ? (
                     <div
-                        onClick={() => disconnect()}
+                        onClick={handleDisconnect}
                         className="flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/20 rounded-lg cursor-pointer hover:bg-primary/20 transition-all"
                     >
                         <Hexagon size={14} className="text-primary" />

@@ -7,48 +7,48 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 240 10% 4.5%;
+    --foreground: 240 10% 3.9%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 4.5%;
+    --card-foreground: 240 10% 3.9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 4.5%;
+    --popover-foreground: 240 10% 3.9%;
 
     --primary: 160 84% 45%;
-    --primary-foreground: 0 0% 100%;
+    --primary-foreground: 160 80% 98%;
 
     --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 10% 4.5%;
+    --secondary-foreground: 240 5.9% 10%;
 
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
 
-    --accent: 160 84% 45%;
-    --accent-foreground: 240 10% 4.5%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 160 84% 45%;
+    --ring: 142.1 76.2% 36.3%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
   }
 
   .dark {
     --background: 240 10% 4.5%;
     --foreground: 0 0% 98%;
 
-    --card: 240 10% 6%;
+    --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 240 10% 4.5%;
+    --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 160 84% 45%;
-    --primary-foreground: 240 10% 4.5%;
+    --primary: 160 80% 50%;
+    --primary-foreground: 160 80% 10%;
 
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
@@ -56,7 +56,7 @@
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
 
-    --accent: 160 84% 45%;
+    --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -64,7 +64,7 @@
 
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 160 84% 45%;
+    --ring: 142.1 70.6% 45.3%;
   }
 }
 
@@ -79,49 +79,73 @@
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   h1,
   h2,
   h3,
   h4,
+  h5,
+  h6,
   .font-display {
     font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+  }
+
+  code,
+  pre,
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace !important;
+  }
+
+  /* Optimized Grain Overlay - Low CPU Usage */
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: soft-light;
+    will-change: transform;
   }
 }
 
 @layer utilities {
-  .glass {
-    background-color: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+  .glass-ultra {
+    background-color: rgba(255, 255, 255, 0.015);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.1),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.02);
   }
 
-  .dark .glass {
-    background-color: rgba(0, 0, 0, 0.5);
+  .dark .glass-ultra {
+    background-color: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  .glass-premium {
-    background-image: linear-gradient(to bottom right, rgba(255, 255, 255, 0.1), transparent);
-    backdrop-filter: blur(40px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  }
-
-  .dark .glass-premium {
-    background-image: linear-gradient(to bottom right, rgba(234, 179, 8, 0.05), rgba(0, 0, 0, 0.2));
-    border: 1px solid rgba(234, 179, 8, 0.1);
+  .text-gradient-premium {
+    background: linear-gradient(135deg, hsl(var(--foreground)) 0%, rgba(255, 255, 255, 0.4) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .gradient-text {
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    background-image: linear-gradient(to bottom right, #eab308, #a16207);
+    background-image: linear-gradient(to bottom right, hsl(var(--primary)), hsl(var(--primary) / 0.5));
   }
 
   .dark .gradient-text {
-    background-image: linear-gradient(to bottom right, #facc15, #ca8a04);
+    background-image: linear-gradient(to bottom right, hsl(var(--primary)), hsl(var(--primary) / 0.6));
   }
 }

@@ -1,0 +1,60 @@
+/**
+ * Custom Friehub Documentation Theme (Emerald & Onyx)
+ */
+
+:root {
+    --vp-c-brand-1: #10b981;
+    /* Friehub Emerald */
+    --vp-c-brand-2: #059669;
+    --vp-c-brand-3: #047857;
+
+    --vp-c-brand-soft: rgba(16, 185, 129, 0.14);
+
+    --vp-home-hero-name-color: #ffffff;
+    --vp-home-hero-name-background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+
+    --vp-home-hero-image-filter: blur(40px);
+}
+
+.dark {
+    --vp-c-bg: #0b0b0e;
+    /* Onyx Core */
+    --vp-c-bg-soft: #141419;
+    --vp-c-bg-mute: #1b1b21;
+
+    --vp-c-text-1: rgba(255, 255, 255, 0.9);
+    --vp-c-text-2: rgba(255, 255, 255, 0.6);
+
+    --vp-c-border: rgba(255, 255, 255, 0.05);
+}
+
+/* Premium font-stack overrides */
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+.title {
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.02em;
+}
+
+/* Custom Grain Texture */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 100;
+    mix-blend-mode: soft-light;
+}
