@@ -11,29 +11,40 @@ import { usePathname } from 'next/navigation';
 
 import { useState } from 'react';
 
+import { AuthGuard } from '../components/AuthGuard';
+
 export default function RootLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
     const pathname = usePathname();
-    const isLanding = pathname === '/' || pathname === '/docs';
+    const isLoginPage = pathname === '/login';
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     return (
         <html lang="en" suppressHydrationWarning>
             <body className="antialiased bg-background text-foreground transition-colors duration-300">
                 <Providers wagmiConfig={config}>
-                    <Toaster richColors position="top-right" />
-                    <div className="flex min-h-screen bg-background relative">
-                        <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-                        <div className="flex-1 flex flex-col min-w-0">
-                            <Header setIsOpen={setIsSidebarOpen} />
-                            <main className="flex-1 overflow-y-auto p-4 md:p-8">
-                                {children}
-                            </main>
+                    <AuthGuard>
+                        <Toaster richColors position="top-right" />
+                        <div className="flex min-h-screen bg-background relative">
+                            {!isLoginPage && (
+                                <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+                            )}
+                            <div className="flex-1 flex flex-col min-w-0">
+                                {!isLoginPage && (
+                                    <Header setIsOpen={setIsSidebarOpen} />
+                                )}
+                                <main className={cn(
+                                    "flex-1 overflow-y-auto",
+                                    !isLoginPage ? "p-4 md:p-8" : "p-0"
+                                )}>
+                                    {children}
+                                </main>
+                            </div>
                         </div>
-                    </div>
+                    </AuthGuard>
                 </Providers>
             </body>
         </html>

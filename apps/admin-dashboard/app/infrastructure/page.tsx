@@ -25,7 +25,7 @@ export default function InfrastructurePage() {
 
     // 1. Fetch Node/Feed Health
     const { data: healthData, error: healthError, mutate: refreshHealth } = useSWR(`${API_URL}/health`, fetcher, { refreshInterval: 10000 });
-    const { data: feedsData, error: feedsError } = useSWR(`${API_URL}/proxy/feeds`, fetcher, { refreshInterval: 15000 });
+    const { data: feedsData, error: feedsError } = useSWR(`${API_URL}/gateway/feeds`, fetcher, { refreshInterval: 15000 });
 
     const [keyName, setKeyName] = useState('');
     const [keyValue, setKeyValue] = useState('');
@@ -40,7 +40,7 @@ export default function InfrastructurePage() {
         setRotationResult(null);
 
         try {
-            const resp = await axios.post(`${API_URL}/proxy/feeds/auth`, {
+            const resp = await axios.post(`${API_URL}/gateway/feeds/auth`, {
                 keys: { [keyName]: keyValue }
             });
             setRotationResult({ success: true, message: `Successfully updated ${keyName}` });
