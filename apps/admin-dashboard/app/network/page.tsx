@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useReadContract, useAccount } from 'wagmi';
+import { Server as LucideServer, CheckCircle2, Clock, MapPin, Activity, Shield } from 'lucide-react';
 import NodeRegistryABI from '../../lib/abi/NodeRegistry.json';
 
 // This will need to be updated with actual contract addresses
@@ -52,7 +53,7 @@ export default function NetworkPage() {
                         <NetworkStatCard
                             label="Total Nodes"
                             value={totalNodes}
-                            icon={Server}
+                            icon={LucideServer}
                         />
                         <NetworkStatCard
                             label="Network Uptime"
@@ -112,7 +113,7 @@ export default function NetworkPage() {
                     // Empty state
                     <div className="lg:col-span-2 p-12 text-center border border-border rounded-xl bg-card/50">
                         <div className="inline-flex p-4 rounded-full bg-muted mb-4">
-                            <Server size={32} className="text-muted-foreground/20" />
+                            <LucideServer size={32} className="text-muted-foreground/20" />
                         </div>
                         <h3 className="text-xl font-bold text-foreground mb-2">No Active Nodes</h3>
                         <p className="text-muted-foreground mb-6">Be the first to run a TaaS node!</p>
@@ -198,7 +199,7 @@ function NodeCard({ nodeId, type, index }: { nodeId: string; type: 'sentinel' | 
                     <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${type === 'sentinel' ? 'bg-primary/10' : 'bg-accent/10'
                         }`}>
                         {type === 'sentinel' ? (
-                            <Server size={24} className="text-primary" />
+                            <LucideServer size={24} className="text-primary" />
                         ) : (
                             <Activity size={24} className="text-accent" />
                         )}

@@ -29,6 +29,7 @@ import NodeRegistryABI from '../lib/abi/NodeRegistry.json';
 
 const NODE_REGISTRY_ADDRESS = process.env.NEXT_PUBLIC_NODE_REGISTRY_ADDRESS as Hex;
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.friehub.cloud';
+const INDEXER_API_URL = process.env.NEXT_PUBLIC_INDEXER_API_URL || 'https://taas.friehub.cloud';
 
 const STEPS = [
     { title: 'Role', description: 'Choose your role' },
