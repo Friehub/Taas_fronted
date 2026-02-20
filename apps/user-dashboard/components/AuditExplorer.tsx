@@ -29,35 +29,35 @@ export default function AuditExplorer() {
 
         setLoading(true);
         setError(null);
+        setCertificate(null);
 
         try {
-            await new Promise(r => setTimeout(r, 1200));
+            const apiBase = process.env.NEXT_PUBLIC_INDEXER_API_URL || 'http://localhost:3002';
+            const res = await fetch(`${apiBase}/gateway/truth/${searchQuery}`);
+            const data = await res.json();
 
-            if (searchQuery.length > 5) {
+            if (data.success && data.data) {
+                const result = data.data;
                 setCertificate({
-                    requestId: searchQuery,
+                    requestId: result.requestId,
                     version: '1.0.0',
-                    timestamp: Date.now() - 3600000,
-                    recipeId: 'btc-price-aggregator',
-                    outcome: '98,432.50',
-                    trace: [
-                        { id: 'fetch-1', type: 'fetch', status: 'SUCCESS', result: { price: 98432 }, params: { url: 'https://api.coingecko.com/v3/simple/price' }, duration: 420 },
-                        { id: 'fetch-2', type: 'fetch', status: 'SUCCESS', result: { price: 98433 }, params: { url: 'https://min-api.cryptocompare.com/data/price' }, duration: 380 },
-                        { id: 'reasoner-1', type: 'reasoner', status: 'SUCCESS', result: { explanation: 'Both high-volume sources agree on the price range. Slight variance within 0.01% threshold.' }, duration: 1500 },
-                    ],
-                    rationale: 'The winning outcome was determined by cross-referencing Tier-1 exchanges. AI analysis confirms no market manipulation was detected during the verification window.',
-                    sources: ['CoinGecko', 'CryptoCompare', 'Binance Websocket'],
+                    timestamp: new Date(result.timestamp).getTime(),
+                    recipeId: result.recipeId,
+                    outcome: result.outcome,
+                    trace: result.metadata?.trace || [],
+                    rationale: result.metadata?.rationale || 'Consensus achieved via decentralized verification.',
+                    sources: result.metadata?.sources || [],
                     consensus: {
-                        method: 'Weighted Median (Volume-adjusted)',
+                        method: result.metadata?.method || 'Weighted Median',
                         outliers: []
                     },
-                    signature: '0x71C7656EC7ab88b098defB751B7401B5f6d8976F'
+                    signature: result.txHash || 'Verified on Helios'
                 });
             } else {
-                setError('Certificate not found. Please verify the Request ID or Transaction Hash.');
+                setError(data.error || 'Audit certificate not found.');
             }
         } catch (err) {
-            setError('Failed to retrieve audit certificate.');
+            setError('Failed to connect to truth indexer.');
         } finally {
             setLoading(false);
         }

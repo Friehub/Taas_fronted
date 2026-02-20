@@ -44,7 +44,7 @@ const OUTCOME_TYPES = [
 
 export function RichOutcomes() {
     return (
-        <section className="py-24 bg-card border-b border-border">
+        <section className="py-24 bg-transparent border-y border-white/[0.03]">
             <div className="container px-4 mx-auto">
                 <div className="flex flex-col lg:flex-row items-center gap-16">
                     <div className="flex-1 space-y-6">

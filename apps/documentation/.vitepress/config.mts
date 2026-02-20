@@ -12,59 +12,66 @@ export default defineConfig({
       { text: 'Guides', link: '/guides/development' }
     ],
 
-    sidebar: {
-      '/': [
-        {
-          text: 'Core Concepts',
-          items: [
-            { text: 'Whitepaper', link: '/core/whitepaper' },
-            { text: 'Architecture Map', link: '/core/architecture' }
-          ]
-        },
-        {
-          text: 'Protocol',
-          collapsed: false,
-          items: [
-            { text: 'Smart Contracts', link: '/protocol/contracts' },
-            { text: 'Recipes', link: '/protocol/recipes' },
-            { text: 'Data Feeds', link: '/protocol/data-feeds' }
-          ]
-        },
-        {
-          text: 'Nodes',
-          collapsed: false,
-          items: [
-            { text: 'Truth Node (Sentinel)', link: '/nodes/truth-node' },
-            { text: 'Challenger Node', link: '/nodes/challenger-lite' }
-          ]
-        },
-        {
-          text: 'Developer Guides',
-          collapsed: true,
-          items: [
-            { text: 'Development Workflow', link: '/guides/development' },
-            { text: 'Workspace Setup', link: '/guides/workspace' },
-            { text: 'Repo Splitting', link: '/guides/repo-split' }
-          ]
-        },
-        {
-          text: 'Operations',
-          collapsed: true,
-          items: [
-            { text: 'VPS Setup', link: '/ops/vps-migration' },
-            { text: 'Production Workflow', link: '/ops/production' }
-          ]
-        }
-      ]
-    },
+    '/': [
+      {
+        text: 'Getting Started',
+        items: [
+          { text: 'Introduction', link: '/' },
+          { text: 'Quick Start Guide', link: '/guides/getting-started' }
+        ]
+      },
+      {
+        text: 'Core Concepts',
+        items: [
+          { text: 'Whitepaper', link: '/core/whitepaper' },
+          { text: 'Architecture Map', link: '/core/architecture' },
+          { text: 'Attestation Engine', link: '/protocol/attestation' }
+        ]
+      },
+      {
+        text: 'Protocol',
+        collapsed: false,
+        items: [
+          { text: 'Smart Contracts', link: '/protocol/contracts' },
+          { text: 'Recipes', link: '/protocol/recipes' },
+          { text: 'Data Feeds', link: '/protocol/data-feeds' }
+        ]
+      },
+      {
+        text: 'Nodes',
+        collapsed: false,
+        items: [
+          { text: 'Truth Node (Sentinel)', link: '/nodes/truth-node' },
+          { text: 'Challenger Node', link: '/nodes/challenger-lite' }
+        ]
+      },
+      {
+        text: 'Developer Guides',
+        collapsed: true,
+        items: [
+          { text: 'Development Workflow', link: '/guides/development' },
+          { text: 'Workspace Setup', link: '/guides/workspace' },
+          { text: 'Repo Splitting', link: '/guides/repo-split' }
+        ]
+      },
+      {
+        text: 'Operations',
+        collapsed: true,
+        items: [
+          { text: 'VPS Setup', link: '/ops/vps-migration' },
+          { text: 'Production Workflow', link: '/ops/production' }
+        ]
+      }
+    ]
+  },
 
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/Friehub/taas-core' }
-    ],
+  socialLinks: [
+    { icon: 'github', link: 'https://github.com/Friehub/taas-core' }
+  ],
 
-    footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2026 FrieHub'
-    }
+  footer: {
+    message: 'Released under the MIT License.',
+    copyright: 'Copyright © 2026 FrieHub'
   }
+}
 })

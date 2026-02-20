@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useReadContract, useAccount } from 'wagmi';
-import { Server, Activity, CheckCircle2, AlertTriangle, MapPin, Clock, Ban, Shield } from 'lucide-react';
+import { Server as LucideServer, Activity, CheckCircle2, AlertTriangle, MapPin, Clock, Ban, Shield } from 'lucide-react';
 import useSWR from 'swr';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -56,7 +56,7 @@ export default function NetworkPage() {
                         <NetworkStatCard
                             label="Nodes Registered"
                             value={totalNodes}
-                            icon={Server}
+                            icon={LucideServer}
                         />
                         <NetworkStatCard
                             label="Collective Rep"
@@ -118,7 +118,7 @@ export default function NetworkPage() {
                     // Empty state
                     <div className="lg:col-span-2 p-12 text-center border border-border rounded-xl bg-card/50">
                         <div className="inline-flex p-4 rounded-full bg-muted mb-4">
-                            <Server size={32} className="text-muted-foreground/20" />
+                            <LucideServer size={32} className="text-muted-foreground/20" />
                         </div>
                         <h3 className="text-xl font-bold text-foreground mb-2">No Active Nodes</h3>
                         <p className="text-muted-foreground mb-6">Be the first to run an FTS node!</p>
@@ -184,7 +184,7 @@ function NodeCard({ node }: { node: any }) {
                     <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${type === 'sentinel' ? 'bg-primary/10' : 'bg-accent/10'
                         }`}>
                         {type === 'sentinel' ? (
-                            <Server size={24} className="text-primary" />
+                            <LucideServer size={24} className="text-primary" />
                         ) : (
                             <Activity size={24} className="text-accent" />
                         )}

@@ -28,6 +28,7 @@ import { cn } from '@/lib/utils';
 import NodeRegistryABI from '../lib/abi/NodeRegistry.json';
 
 const NODE_REGISTRY_ADDRESS = process.env.NEXT_PUBLIC_NODE_REGISTRY_ADDRESS as Hex;
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.friehub.cloud';
 const INDEXER_API_URL = process.env.NEXT_PUBLIC_INDEXER_API_URL || 'https://taas.friehub.cloud';
 
 const STEPS = [
@@ -77,7 +78,7 @@ export function NodeRegistrationWizard() {
             const message = `Generate Provision Token for ${nodeType} as ${address}`;
             const signature = await signMessageAsync({ message });
 
-            const res = await fetch(`${INDEXER_API_URL}/provision/generate`, {
+            const res = await fetch(`${API_URL}/provision/generate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ address, nodeType, signature, message })

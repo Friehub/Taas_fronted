@@ -1,11 +1,11 @@
-# Friehub Frontend Monorepo
+# Friehub Frontend Ecosystem
 
-**Institutional Frontend Infrastructure for the FTS Protocol.**
+This repository contains the user-facing applications for the Friehub/TaaS ecosystem.
 
-This repository is a monorepo managed by pnpm workspaces, containing the various pillars of the Friehub Truth Service (TaaS) frontend ecosystem.
+## ABI Synchronization
+Contract ABIs are automatically synced from the private `taas-core` protocol repository into `apps/user-dashboard/lib/abi/`. Do not modify these files manually.
 
-## Workspace Structure
-
+## Applications
 The applications are localized within the `apps/` directory and act as independent, specialized services:
 
 - **`apps/user-dashboard`**: The primary interface for node operators and protocol participants. Handles node registration, truth stream monitoring, and the protocol registry.
@@ -16,7 +16,7 @@ The applications are localized within the `apps/` directory and act as independe
 ## Development
 
 ### Monorepo Orchestration
-The monorepo utilize `pnpm` for optimized dependency management and workspace orchestration.
+The monorepo utilizes `pnpm` for optimized dependency management and workspace orchestration.
 
 ```bash
 # Install dependencies across all workspaces

@@ -8,8 +8,10 @@ import {
     AlertTriangle,
     Clock,
     ExternalLink,
-    Filter
+    Filter,
+    Loader2
 } from 'lucide-react';
+import { fetchRecentTruths, formatTimeAgo } from '../lib/api';
 
 interface TruthEvent {
     id: string;
@@ -22,16 +24,26 @@ interface TruthEvent {
 }
 
 export default function TruthStream() {
-    const [events, setEvents] = useState<TruthEvent[]>([
-        { id: '1', type: 'REQUEST', text: 'New proposal for eth-merge-status', time: '2m ago', status: 'pending' },
-        { id: '2', type: 'FINALIZED', text: 'btc-price-daily resolved to 1', time: '5m ago', status: 'finalized', outcome: 1 },
-        { id: '3', type: 'CHALLENGE', text: 'ChallengerBot verified 0x31a...', time: '12m ago', status: 'verified' },
-    ]);
+    const [events, setEvents] = useState<TruthEvent[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const refreshStream = async () => {
+        const truths = await fetchRecentTruths(10);
+        const mappedEvents: TruthEvent[] = truths.map((t: any) => ({
+            id: t.requestId,
+            type: 'FINALIZED' as const,
+            text: `${t.recipeId} resolved to ${t.outcome}`,
+            time: formatTimeAgo(new Date(t.timestamp).getTime()),
+            status: 'finalized' as const,
+            outcome: t.outcome
+        }));
+        setEvents(mappedEvents);
+        setLoading(false);
+    };
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            // Mock updates
-        }, 10000);
+        refreshStream();
+        const interval = setInterval(refreshStream, 15000);
         return () => clearInterval(interval);
     }, []);
 

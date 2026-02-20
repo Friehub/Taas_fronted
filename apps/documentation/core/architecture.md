@@ -10,30 +10,29 @@ This diagram shows how data flows from a consumer (Prediction Market) through th
 sequenceDiagram
     participant App as "Prediction Market (User)"
     participant Contract as "TruthOracle (Chain)"
-    participant FrieHub as "FrieHub Provider (Super Node)"
+    participant Gateway as "Sovereign Gateway (Backend)"
     participant Network as "Light Client (User Node)"
-    participant API as "External API (SportMonks)"
+    participant Engine as "Execution Engine (Private)"
 
     Note over App,Contract: Creates a Market "Who won?"
     App->>Contract: 1. Request Truth (Recipe: NFL_Winner)
     
-    Note over FrieHub: Listens for Request
-    Contract->>FrieHub: Event: TruthRequested
+    Note over Network: Listens for Request
+    Contract->>Network: Event: TruthRequested
     
-    FrieHub->>API: 2. Fetch Data (uses Private Key)
-    API-->>FrieHub: Result: "Chiefs"
-    FrieHub->>FrieHub: 3. Sign Data (creates "Signed Packet")
+    Network->>Gateway: 2. Request Verification (/proxy/verify)
+    Note over Gateway: Centralized Truth Resolver
     
-    Note over FrieHub,Network: Publishes Packet to Network
-    FrieHub->>Network: 4. Broadcast Packet
+    Gateway->>Engine: 3. Execute Recipe (uses Private IP)
+    Engine-->>Gateway: Result: "Chiefs"
+    
+    Gateway-->>Network: 4. Signed Certificate
     
     Note over Network: User's Laptop / Extension
-    Network->>Network: 5. Verify Signature
-    Network->>Contract: 6. Submit Transaction (Earn Reward)
+    Network->>Contract: 5. Submit Transaction (Earn Reward)
     
     Note over Contract: Verifies & Finalizes
-    Contract-->>App: 7. Callback: "Chiefs"
-    App->>App: 8. Pay Out Winners
+    Contract-->>App: 6. Callback: "Chiefs"
 ```
 
 ---
@@ -47,86 +46,73 @@ graph TD
     subgraph "Application Layer (Consumers)"
         PM[Prediction Market App]
         DeFi[DeFi Protocol]
-        RWA[Real World Asset]
     end
 
-    subgraph "The TaaS Network (The Truth)"
+    subgraph "Sovereign Backend (Private)"
+        Gateway[Sovereign Gateway API]
+        Engine[@friehub/execution-engine]
+        Feeds[@friehub/data-feeds]
+        Gateway --> Engine
+        Engine --> Feeds
+    end
+
+    subgraph "The Public Network (Thin Clients)"
         Oracle[Smart Contract: TruthOracleV2]
-        
-        subgraph "Data Provider Layer"
-            Provider[FrieHub Super Node]
-            API_Keys[API Keys (SportMonks, etc)]
-            Provider --> API_Keys
-        end
-        
-        subgraph "Verification Layer (DePIN)"
-            Client1[Light Client (Chrome Ext)]
-            Client2[Light Client (CLI Node)]
-            Client3[Light Client (Desktop App)]
-        end
+        Node1[Truth Node]
+        Node2[Challenger Lite]
+        Ext[Chrome Extension]
     end
 
     PM -->|Reads| Oracle
-    Provider -->|Publishes Signed Data| Client1
-    Provider -->|Publishes Signed Data| Client2
-    Client1 -->|Submits TX| Oracle
-    Client2 -->|Submits TX| Oracle
+    Node1 -->|Verify Request| Gateway
+    Node2 -->|Audit Request| Gateway
+    Gateway -->|Signed Payload| Node1
+    Node1 -->|Submit TX| Oracle
 ```
 
 ---
 
-## 3. Inside the `truth-node` (The Engine)
+## 3. Inside the `truth-node` (The Thin Client)
 
-The `truth-node` (also called the Sentinel) is the software that drives the **Data Provider Layer**. It is the "brain" that knows how to fetch and process data.
+The `truth-node` is a lightweight process that manages the interaction between the blockchain and the Sovereign Gateway. It carries **no private logic and no secret API keys**.
 
 ### Internal Structure
-The codebase in `taas-core/nodes/truth-node` is organized into a robust pipeline:
 
-1.  **`TruthRelayer` (The Ear)**:
+1.  **`TruthRelayer` (The Listener)**:
     *   **Role**: Listens to the blockchain events (`TruthRequested`).
-    *   **Action**: When it hears a request, it creates a "Job" and pushes it to a Queue.
-    *   **Analogy**: The receptionist taking orders.
+    *   **Action**: Passes the request ID and recipe template to the worker.
 
-2.  **`TruthQueue` (The Buffer)**:
-    *   **Role**: Manages the workload. Ensuring we don't crash if 1000 requests come in at once.
-    *   **Tech**: Redis (BullMQ) or Memory Queue (Lite Mode).
-    *   **Analogy**: The ticket line in a kitchen.
+2.  **`TruthWorker` (The Coordinator)**:
+    *   **Role**: Coordinates the verification flow.
+    *   **Action**: Calls the **Sovereign Gateway**'s `/proxy/verify` endpoint.
 
-3.  **`WorkerEngine` (The Brain)**:
-    *   **Role**: Picks up a job and *executes* the Recipe.
-    *   **Action**: Calls `@friehub/execution-engine` logic -> Fetches Data -> Signs it.
-    *   **Analogy**: The chef cooking the meal.
+3.  **`GatewayClient` (The Connector)**:
+    *   **Role**: Standardized SDK component for backend communication.
+    *   **Action**: Handles circuit breaking and retries for gateway calls.
 
-4.  **`RecipeExecutor` (The Hands)**:
-    *   **Role**: The specific script runner.
-    *   **Action**: Knows how to talk to SportMonks, calculate averages, or parse JSON interactively.
-    *   **Internal Tool**: Uses `data-feeds` adapters.
-
-### Diagram: Inside the Node
+### Diagram: The Keyless Flow
 
 ```mermaid
 flowchart LR
     Blockchain(TruthOracle Contract)
     
-    subgraph "Truth Node (Sentinel)"
+    subgraph "Truth Node (Public)"
         Relayer[TruthRelayer Service]
-        Queue[Job Queue (Redis)]
-        Worker[Worker Engine]
-        Executor[Recipe Executor]
-        Signer[EIP-712 Signer]
+        Worker[TruthWorker]
     end
-    
-    APIs((External APIs))
+
+    subgraph "Sovereign Backend (Private)"
+        Gateway[Gateway API]
+        Engine[Execution Engine]
+    end
 
     Blockchain -- "Event: Requested" --> Relayer
-    Relayer -- "Add Job" --> Queue
-    Queue -- "Process Job" --> Worker
-    Worker -- "Run Logic" --> Executor
-    Executor -- "Fetch" --> APIs
-    APIs -- "Data" --> Executor
-    Executor -- "Result" --> Worker
-    Worker -- "Sign Payload" --> Signer
-    Signer -- "Signed Packet" --> Blockchain
+    Relayer -- "Start Verification" --> Worker
+    Worker -- "Delegated Execution" --> Gateway
+    Gateway -- "Run Private Logic" --> Engine
+    Engine -- "Result" --> Gateway
+    Gateway -- "Signed Certificate" --> Worker
+    Worker -- "Submit Result" --> Blockchain
 ```
 
 ## 4. Why this matters for us?
