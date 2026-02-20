@@ -75,6 +75,18 @@ export async function fetchActivity(): Promise<ActivityItem[]> {
     }
 }
 
+export async function fetchRecentTruths(limit: number = 10): Promise<any[]> {
+    try {
+        const res = await fetch(`${BACKEND_URL}/gateway/truth/recent?limit=${limit}`);
+        if (!res.ok) throw new Error('Gateway unreachable');
+        const json = await res.json();
+        return json.data || [];
+    } catch (e) {
+        console.error('Failed to fetch recent truths:', e);
+        return [];
+    }
+}
+
 // Hooks
 import useSWR from 'swr';
 
