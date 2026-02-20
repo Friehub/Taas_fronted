@@ -125,7 +125,7 @@ export default function NetworkPage() {
                     // Render nodes
                     <>
                         {(selectedNodeType === 'all' || selectedNodeType === 'sentinel') &&
-                            sentinelNodes?.map((nodeId, idx) => (
+                            (sentinelNodes as string[])?.map((nodeId, idx) => (
                                 <NodeCard
                                     key={nodeId as string}
                                     nodeId={nodeId as string}
@@ -135,7 +135,7 @@ export default function NetworkPage() {
                             ))}
 
                         {(selectedNodeType === 'all' || selectedNodeType === 'challenger') &&
-                            challengerNodes?.map((nodeId, idx) => (
+                            (challengerNodes as string[])?.map((nodeId, idx) => (
                                 <NodeCard
                                     key={nodeId as string}
                                     nodeId={nodeId as string}
