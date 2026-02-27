@@ -1,38 +1,200 @@
-# Global Truth Attestation Engine
+# Attestation Engine
 
-The Global Truth Attestation Engine is the core mechanism by which TaaS resolves real-world events into verifiable, on-chain truth. It leverages a decentralized network of Sentinel nodes, deterministic execution of recipes, and an Optimistic Oracle to achieve consensus.
+The Attestation Engine is TaaS's mechanism for converting raw fetched data into a final, on-chain-ready truth value. It is built into the TaaS protocol and runs inside every truth resolution cycle.
 
-## Process Overview
+As a developer, you do not interact with the Attestation Engine directly. You configure it through the `logic.attestation` block of your Recipe JSON — and the network handles the rest.
 
-1. **Request Initiation**: A smart contract or off-chain application requests the outcome of a specific event using a predefined `Recipe`.
-2. **Execution**: Sentinel nodes running the TaaS Execution Engine fetch the recipe, query the specified data providers (plugins like SportMonks or Binance), and compute the result deterministically.
-3. **Attestation Generation**: Each Sentinel generates an `Attestation`, which is a standardized JSON object representing the truth they observed, along with a cryptographic signature.
-4. **Submission**: Sentinels submit their attestations to the `AttestationEngine` smart contract.
-5. **Consensus & Optimistic Finalization**: The engine verifies the signatures and checks if a consensus threshold (e.g., 3-of-5 validators) is met for a particular outcome. If met, the outcome is optimistically recorded.
-6. **Dispute Window**: A dispute window opens, allowing Challenger nodes to contest the outcome if they possess conflicting data or proof of malicious behavior.
-7. **Finalization**: If no valid dispute is raised within the window, the attestation becomes the finalized "Global Truth" for that specific event.
+---
 
-## Key Components
+## What is an Attestation?
 
-### `Attestation` Object
+An **Attestation** is the final, signed truth output produced after a Recipe's data pipeline completes. It contains:
 
-An attestation is a structured representation of the resolved truth.
+- The **truth value** (numeric, boolean, array, etc.)
+- The **attestation status** (e.g., `ATTESTED`, `PENDING_TIME`, `INSUFFICIENT_DATA`)
+- A **Universal Truth Proof** — a portable, verifiable cryptographic record
 
-```typescript
-interface Attestation {
-  attestationId: string;
-  recipeId: string;
-  sourceId: string;
-  timestamp: string;
-  data: Record<string, any>; // The actual resolved data
-  signature: string;         // EIP-712 signature from the Sentinel
+Attestations are submitted to `TruthOracleV2` on Helios and go through an **optimistic dispute window** before becoming finalized on-chain.
+
+---
+
+## How You Configure Attestation (In Your Recipe)
+
+The `attestation` block is the last part of a Recipe definition. It tells the protocol how to evaluate the data your pipeline collected and what truth value to return.
+
+### Supported Attestation Types
+
+#### `comparison` — Binary Threshold Check
+
+Returns `1` (YES) or `0` (NO) based on a comparison between a data variable and a target.
+
+```json
+{
+  "type": "comparison",
+  "config": {
+    "valueVar": "btcPrice",
+    "operator": ">",
+    "targetValue": 100000
+  }
 }
 ```
 
-### The Role of Sentinel Nodes
+Supported operators: `>`, `<`, `>=`, `<=`, `==`, `!=`, `includes`
 
-Sentinel nodes are the backbone of the attestation process. They provide the computational resources to fetch, format, and sign data streams according to the immutable logic defined in the recipes.
+**Use case**: Did BTC close above $100,000? Did rainfall exceed 50mm? Did a team score more than 30 points?
 
-### The Challenger Network
+---
 
-Challenger nodes ensure the integrity of the system by actively monitoring submitted attestations and raising disputes against malicious or incorrect data, thereby earning slashing rewards.
+#### `scalar` — Numeric Return
+
+Returns the raw numeric value of a data variable, with optional decimal precision and range validation.
+
+```json
+{
+  "type": "scalar",
+  "config": {
+    "valueVar": "finalTemperature",
+    "decimals": 1,
+    "min": -100,
+    "max": 100
+  }
+}
+```
+
+**Use case**: What was the BTC price? What was the rainfall total in mm? What was the final score?
+
+---
+
+#### `categorical` — Named Option Mapping
+
+Maps a string value to a predefined index from a set of allowed options.
+
+```json
+{
+  "type": "categorical",
+  "config": {
+    "valueVar": "matchWinner",
+    "categoryMapping": {
+      "Chiefs": 0,
+      "Eagles": 1,
+      "Draw": 2
+    }
+  }
+}
+```
+
+**Use case**: Which team won? What is the current market sentiment? Which candidate won the election?
+
+---
+
+#### `range` — Value Bucketing
+
+Classifies a numeric value into one of several predefined buckets ("pools") and returns the pool index.
+
+```json
+{
+  "type": "range",
+  "config": {
+    "valueVar": "temperature",
+    "pools": [
+      { "min": null, "max": 0 },
+      { "min": 0, "max": 15 },
+      { "min": 15, "max": 30 },
+      { "min": 30, "max": null }
+    ]
+  }
+}
+```
+
+**Use case**: Was the temperature "freezing", "cold", "mild", or "hot"? Which price bracket did ETH land in?
+
+---
+
+#### `time-based` — Time-Gated Attestation
+
+Defers resolution until a specified timestamp. Returns `PENDING_TIME` before the deadline, then evaluates a nested attestation type.
+
+```json
+{
+  "type": "time-based",
+  "config": {
+    "resolveAt": "2025-12-31T23:59:00Z",
+    "condition": {
+      "type": "comparison",
+      "config": {
+        "valueVar": "finalPrice",
+        "operator": ">",
+        "targetValue": 50000
+      }
+    }
+  }
+}
+```
+
+**Use case**: Did the stock close above $500 by end of Q4? Did the metric exceed the threshold by the deadline?
+
+---
+
+#### `multi-select` — Multiple Selection Outcome
+
+Returns an array of selected option indices. Used for MULTI_SELECT market types.
+
+```json
+{
+  "type": "multi-select",
+  "config": {
+    "valueVar": "qualifiedTeams",
+    "resultMapping": ["TeamA", "TeamB", "TeamC", "TeamD"],
+    "minSelections": 1,
+    "maxSelections": 4
+  }
+}
+```
+
+**Use case**: Which teams qualified for the playoff? Which tokens are listed on the exchange?
+
+---
+
+## Attestation Status Reference
+
+When a truth request resolves, the attestation status indicates the quality of the result:
+
+| Status | Meaning |
+| :--- | :--- |
+| `ATTESTED` | Truth successfully computed — result is valid |
+| `VOID` | No matching logic path — result is null |
+| `INSUFFICIENT_DATA` | A required variable was missing or could not be parsed |
+| `OUT_OF_RANGE` | Scalar result fell outside the configured `min`/`max` bounds |
+| `PENDING_TIME` | Time-based attestation — the target timestamp has not been reached |
+| `AMBIGUOUS` | Multiple data sources disagreed beyond the consensus threshold |
+| `INVALID_DATA` | The data pipeline returned a structurally invalid value |
+
+---
+
+## The Universal Truth Proof
+
+Every attested result is packaged into a **Universal Truth Proof** — a portable, version-tagged cryptographic record that contains:
+
+- The **truth value** and **attestation timestamp**
+- A **SHA-256 hash of the Recipe** (ensures the recipe wasn't tampered with)
+- A **cryptographic signature** from the Sovereign Gateway (EIP-712 standard)
+- An **execution trace** (step-by-step audit of what data was fetched and transformed)
+
+The proof can be independently verified on-chain or off-chain by any party. It is the on-chain anchor for the entire truth lifecycle.
+
+```
+UniversalTruthProof {
+  version: "4.0.0",
+  standard: "EIP-712",
+  truth: <resolved value>,
+  attestedAt: <unix timestamp>,
+  recipeId: <recipe identifier>,
+  recipeHash: <sha256 of recipe>,
+  sources: [ <node-by-node audit> ],
+  attestation: {
+    oracleAddress: <TruthOracleV2 address>,
+    signature: <EIP-712 sig>,
+    domain: { name, version, chainId }
+  }
+}
+```
