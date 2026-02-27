@@ -31,6 +31,14 @@ const nextConfig = {
                 destination: '/overview',
             },
             {
+                source: '/docs',
+                destination: process.env.NEXT_PUBLIC_DOCS_URL || 'https://docs.friehub.cloud',
+            },
+            {
+                source: '/docs/:path*',
+                destination: `${process.env.NEXT_PUBLIC_DOCS_URL || 'https://docs.friehub.cloud'}/:path*`,
+            },
+            {
                 source: '/api/:path*',
                 destination: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/:path*`,
             },

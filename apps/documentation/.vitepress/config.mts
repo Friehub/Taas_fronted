@@ -8,66 +8,35 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Whitepaper', link: '/core/whitepaper' },
-      { text: 'Guides', link: '/guides/development' }
+      { text: 'Why TaaS?', link: '/guides/why-taas' },
+      { text: 'Use Cases', link: '/guides/use-cases' }
     ],
 
-    '/': [
+    sidebar: [
       {
-        text: 'Getting Started',
+        text: 'Introduction',
         items: [
-          { text: 'Introduction', link: '/' },
-          { text: 'Quick Start Guide', link: '/guides/getting-started' }
-        ]
-      },
-      {
-        text: 'Core Concepts',
-        items: [
-          { text: 'Whitepaper', link: '/core/whitepaper' },
-          { text: 'Architecture Map', link: '/core/architecture' },
-          { text: 'Attestation Engine', link: '/protocol/attestation' }
+          { text: 'Overview', link: '/' },
+          { text: 'The Mission', link: '/guides/mission' },
+          { text: 'Why TaaS?', link: '/guides/why-taas' },
+          { text: 'Core Use Cases', link: '/guides/use-cases' }
         ]
       },
       {
         text: 'Protocol',
         collapsed: false,
         items: [
-          { text: 'Smart Contracts', link: '/protocol/contracts' },
-          { text: 'Recipes', link: '/protocol/recipes' },
-          { text: 'Data Feeds', link: '/protocol/data-feeds' },
-          { text: 'Attestation Engine', link: '/protocol/attestation' }
+          { text: 'How it Works', link: '/protocol/attestation' },
+          { text: 'Truth Recipes', link: '/protocol/recipes' },
+          { text: 'Data Feeds', link: '/protocol/data-feeds' }
         ]
       },
       {
-        text: 'Nodes',
+        text: 'Development',
         collapsed: false,
         items: [
-          { text: 'Truth Node (Sentinel)', link: '/nodes/truth-node' },
-          { text: 'Challenger Node', link: '/nodes/challenger-lite' }
-        ]
-      },
-      {
-        text: 'SDK & Interfaces',
-        collapsed: false,
-        items: [
-          { text: 'Overview', link: '/sdk/overview' }
-        ]
-      },
-      {
-        text: 'Developer Guides',
-        collapsed: true,
-        items: [
-          { text: 'Development Workflow', link: '/guides/development' },
-          { text: 'Workspace Setup', link: '/guides/workspace' },
-          { text: 'Repo Splitting', link: '/guides/repo-split' }
-        ]
-      },
-      {
-        text: 'Operations',
-        collapsed: true,
-        items: [
-          { text: 'VPS Setup', link: '/ops/vps-migration' },
-          { text: 'Production Workflow', link: '/ops/production' }
+          { text: 'Quick Start', link: '/guides/getting-started' },
+          { text: 'Workflow', link: '/guides/development' }
         ]
       }
     ]

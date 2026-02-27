@@ -86,12 +86,15 @@ export function Hero() {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="flex items-center gap-3"
+                    className="flex flex-col gap-0"
                 >
-                    <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center font-bold text-primary-foreground shadow-[0_0_20px_rgba(16,185,129,0.4)] border border-primary/20">
-                        F
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center font-bold text-primary-foreground shadow-[0_0_20px_rgba(16,185,129,0.4)] border border-primary/20">
+                            F
+                        </div>
+                        <span className="font-display text-2xl font-bold tracking-tight text-white drop-shadow-sm">Friehub</span>
                     </div>
-                    <span className="font-display text-2xl font-bold tracking-tight text-white drop-shadow-sm">Friehub</span>
+                    <span className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-black mt-1 ml-13">Foundation</span>
                 </motion.div>
 
                 <motion.div
@@ -103,7 +106,7 @@ export function Hero() {
                     <nav className="hidden lg:flex items-center gap-8 text-[11px] font-bold uppercase tracking-[0.4em] text-white/50">
                         <Link href={process.env.NEXT_PUBLIC_MARKET_URL || "#"} className="hover:text-primary hover:tracking-[0.5em] transition-all duration-300">Markets</Link>
                         <Link href={process.env.NEXT_PUBLIC_DASHBOARD_URL || "#"} className="hover:text-primary hover:tracking-[0.5em] transition-all duration-300">Dashboard</Link>
-                        <Link href={process.env.NEXT_PUBLIC_DOCS_URL || "#"} className="hover:text-primary hover:tracking-[0.5em] transition-all duration-300">Docs</Link>
+                        <Link href="/docs" className="hover:text-primary hover:tracking-[0.5em] transition-all duration-300">Docs</Link>
                     </nav>
                     <div className="h-4 w-px bg-white/10 hidden lg:block" />
                     <ThemeToggle />
@@ -122,7 +125,7 @@ export function Hero() {
                             initial: { opacity: 0 },
                             animate: { opacity: 1, transition: { staggerChildren: 0.1 } }
                         }}
-                        className="text-7xl md:text-[8.5rem] font-display font-medium tracking-tighter text-white leading-[0.85] mb-12 select-none"
+                        className="text-5xl md:text-7xl lg:text-[8.5rem] font-display font-medium tracking-tighter text-white leading-[0.85] mb-12 select-none"
                     >
                         {["Permissionless.", "Rich.", "Absolute."].map((word, i) => (
                             <motion.span
@@ -139,13 +142,22 @@ export function Hero() {
                         ))}
                     </motion.h1>
 
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 1 }}
+                        className="mb-8 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] sm:text-xs font-black uppercase tracking-[0.2em]"
+                    >
+                        Powered by Friehub Protocol
+                    </motion.div>
+
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-lg md:text-2xl text-white/70 max-w-2xl leading-relaxed mb-16 font-light tracking-wide"
+                        className="text-base sm:text-lg md:text-2xl text-white/70 max-w-2xl leading-relaxed mb-16 font-light tracking-wide"
                     >
-                        The high-fidelity decentralized oracle network for builders requiring absolute integrity and sub-second resolution.
+                        TaaS (Truth-as-a-Service) is the high-fidelity decentralized oracle network for builders requiring absolute integrity and sub-second resolution.
                     </motion.p>
 
                     <motion.div
@@ -155,20 +167,20 @@ export function Hero() {
                         className="flex flex-col sm:flex-row items-center gap-8 w-full sm:w-auto"
                     >
                         <Link
-                            href={process.env.NEXT_PUBLIC_DOCS_URL || "#"}
+                            href="/docs"
                             className="group relative w-full sm:w-auto px-12 py-6 bg-primary text-primary-foreground font-black rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(16,185,129,0.4)] hover:scale-[1.05] active:scale-95"
                         >
                             <span className="relative z-10 flex items-center justify-center gap-3 text-lg uppercase tracking-[0.2em]">
-                                Build Truth <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform duration-300" />
+                                Get Started <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform duration-300" />
                             </span>
                             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
                         </Link>
 
                         <Link
-                            href={process.env.NEXT_PUBLIC_DASHBOARD_URL || "#"}
+                            href="#waitlist"
                             className="w-full sm:w-auto px-12 py-6 glass-ultra text-white font-black rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-500 text-lg uppercase tracking-[0.2em] border border-white/10 hover:border-white/20 flex items-center justify-center gap-3 group active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.05)]"
                         >
-                            Explore Network
+                            Join Waitlist
                             <Sparkles size={18} className="text-primary group-hover:rotate-12 transition-transform duration-500" />
                         </Link>
                     </motion.div>
