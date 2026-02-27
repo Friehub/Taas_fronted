@@ -1,122 +1,125 @@
-# TaaS Ecosystem Map
+# TaaS Architecture
 
-This document visually explains how the entire FrieHub TaaS ecosystem works, from the end-user application down to the individual node processes.
+This page explains how the TaaS protocol operates at a conceptual level — covering the flow of a truth request from consumer to on-chain finalization, and how each layer of the ecosystem contributes.
 
-## 1. The High-Level Flow (Life of a Request)
+## The Life of a Truth Request
 
-This diagram shows how data flows from a consumer (Prediction Market) through the TaaS network and back.
+Every truth request follows a structured pipeline:
 
 ```mermaid
 sequenceDiagram
-    participant App as "Prediction Market (User)"
-    participant Contract as "TruthOracle (Chain)"
-    participant Gateway as "Sovereign Gateway (Backend)"
-    participant Network as "Light Client (User Node)"
-    participant Engine as "Execution Engine (Private)"
+    participant Consumer as "DApp / Smart Contract"
+    participant Oracle as "TruthOracleV2 (Helios)"
+    participant Sentinel as "Sentinel Node (Public)"
+    participant Gateway as "Sovereign Gateway (FrieHub)"
+    participant APIs as "External Data Sources"
 
-    Note over App,Contract: Creates a Market "Who won?"
-    App->>Contract: 1. Request Truth (Recipe: NFL_Winner)
-    
-    Note over Network: Listens for Request
-    Contract->>Network: Event: TruthRequested
-    
-    Network->>Gateway: 2. Request Verification (/proxy/verify)
-    Note over Gateway: Centralized Truth Resolver
-    
-    Gateway->>Engine: 3. Execute Recipe (uses Private IP)
-    Engine-->>Gateway: Result: "Chiefs"
-    
-    Gateway-->>Network: 4. Signed Certificate
-    
-    Note over Network: User's Laptop / Extension
-    Network->>Contract: 5. Submit Transaction (Earn Reward)
-    
-    Note over Contract: Verifies & Finalizes
-    Contract-->>App: 6. Callback: "Chiefs"
+    Consumer->>Oracle: 1. requestTruth(recipeId, inputs)
+    Oracle-->>Sentinel: 2. Event: TruthRequested
+    Sentinel->>Gateway: 3. Request verified data packet
+    Gateway->>APIs: 4. Fetch from enterprise data sources
+    APIs-->>Gateway: Raw data
+    Gateway-->>Sentinel: 5. Signed TruthPoint (cryptographic certificate)
+    Sentinel->>Oracle: 6. proposeAttestation(requestId, attestation)
+    Note over Oracle: Dispute window opens
+    Oracle->>Oracle: 7. finalizeAttestation() via Chronos
+    Oracle-->>Consumer: 8. Callback: finalized truth
 ```
 
 ---
 
-## 2. The Physical Architecture (Component Map)
+## Layered Architecture
 
-How the code is structured across repositories and services.
+TaaS is composed of four distinct layers, each with a clear responsibility boundary:
+
+### Layer 1: Consumer Layer
+
+Any smart contract or DApp that needs a verifiable real-world fact. Consumers interact exclusively with the **TruthOracleV2** contract:
+- Call `requestTruth(recipeId, inputs)` to initiate a request.
+- Implement the `ITruthConsumer` interface to receive the finalized result via callback.
+
+### Layer 2: Protocol Layer (Helios Blockchain)
+
+The on-chain enforcement layer. Immutable contracts enforce the rules of truth:
+
+| Contract | Role |
+| :--- | :--- |
+| `TruthOracleV2` | Accepts requests, manages dispute windows, triggers finalization |
+| `NodeRegistry` | Tracks registered Sentinels and Challengers with their staked bonds |
+| `SourceRegistry` | Tracks registered data sources and their reputation scores |
+| `TAASToken` | Powers staking, fees, and node incentives |
+
+**Chronos integration**: Helios's native on-chain automation (`Chronos`) automatically finalizes truth requests after the dispute window expires — no manual intervention required.
+
+### Layer 3: Node Network (Public, Decentralized)
+
+**Sentinel Nodes** are lightweight public clients that any person can run. They:
+- Monitor the blockchain for `TruthRequested` events.
+- Request a cryptographically signed data certificate from the Sovereign Gateway.
+- Submit the `proposeAttestation` transaction on-chain.
+- Earn `$TAAS` rewards for validated truth.
+
+**Challenger Nodes** audit every proposal:
+- Re-verify the data against the gateway.
+- Raise a dispute and earn slashing rewards if a Sentinel submitted incorrect data.
+
+Neither node type ever directly touches enterprise API keys or internal execution logic.
+
+### Layer 4: Sovereign Gateway (FrieHub — Private)
+
+The Sovereign Gateway is FrieHub's proprietary backend. It is the source of **enterprise-grade data access and cryptographic signing**. Every data packet leaving the gateway is:
+- Fetched using curated, high-reliability external APIs.
+- Processed through FrieHub's proprietary data quality and consensus layer.
+- Signed with the gateway's identity key — enabling Sentinel nodes to verify authenticity without having access to any underlying API secrets.
+
+> [!NOTE]
+> The Gateway's internal logic is proprietary to FrieHub. Sentinel nodes interact with it only via a well-defined external interface — they receive signed certificates, not raw data or implementation access.
+
+---
+
+## Physical Package Overview
+
+The TaaS monorepo is organized into focused packages with clear public interfaces:
 
 ```mermaid
-graph TD
-    subgraph "Application Layer (Consumers)"
-        PM[Prediction Market App]
-        DeFi[DeFi Protocol]
-    end
+graph LR
+    SDK["@friehub/taas-sdk\n(Developer SDK)"]
+    Interfaces["@friehub/taas-interfaces\n(Shared Types)"]
+    Nodes["taas-nodes\n(Sentinel + Challenger)"]
+    Backend["taas-backend\n(Sovereign Gateway — Private)"]
+    Contracts["taas-core/contracts\n(Solidity)"]
+    Plugins["taas-plugins\n(Data Adapters)"]
 
-    subgraph "Sovereign Backend (Private)"
-        Gateway[Sovereign Gateway API]
-        Engine[@friehub/execution-engine]
-        Feeds[@friehub/data-feeds]
-        Gateway --> Engine
-        Engine --> Feeds
-    end
-
-    subgraph "The Public Network (Thin Clients)"
-        Oracle[Smart Contract: TruthOracleV2]
-        Node1[Truth Node]
-        Node2[Challenger Lite]
-        Ext[Chrome Extension]
-    end
-
-    PM -->|Reads| Oracle
-    Node1 -->|Verify Request| Gateway
-    Node2 -->|Audit Request| Gateway
-    Gateway -->|Signed Payload| Node1
-    Node1 -->|Submit TX| Oracle
+    SDK --> Interfaces
+    Nodes --> Interfaces
+    Backend --> Interfaces
+    Plugins --> Interfaces
+    Nodes -->|"calls"| Backend
+    Backend --> Plugins
 ```
 
 ---
 
-## 3. Inside the `truth-node` (The Thin Client)
+## The Keyless Design
 
-The `truth-node` is a lightweight process that manages the interaction between the blockchain and the Sovereign Gateway. It carries **no private logic and no secret API keys**.
+A core security property of TaaS is that **Sentinel nodes never hold secrets**:
 
-### Internal Structure
+- No API keys from SportMonks, Binance, or any other provider.
+- No raw internet access to enterprise data.
+- No knowledge of the gateway's internal logic.
 
-1.  **`TruthRelayer` (The Listener)**:
-    *   **Role**: Listens to the blockchain events (`TruthRequested`).
-    *   **Action**: Passes the request ID and recipe template to the worker.
+Sentinels only know: "I received a signed certificate from a trusted gateway identity. I will relay it."
 
-2.  **`TruthWorker` (The Coordinator)**:
-    *   **Role**: Coordinates the verification flow.
-    *   **Action**: Calls the **Sovereign Gateway**'s `/proxy/verify` endpoint.
+This separation ensures that even if a Sentinel is compromised, it cannot leak proprietary data access or allow API abuse. The security boundary is the gateway's ECDSA identity — verifiable by anyone on-chain.
 
-3.  **`GatewayClient` (The Connector)**:
-    *   **Role**: Standardized SDK component for backend communication.
-    *   **Action**: Handles circuit breaking and retries for gateway calls.
+---
 
-### Diagram: The Keyless Flow
+## Why Helios?
 
-```mermaid
-flowchart LR
-    Blockchain(TruthOracle Contract)
-    
-    subgraph "Truth Node (Public)"
-        Relayer[TruthRelayer Service]
-        Worker[TruthWorker]
-    end
+TaaS is not simply deployed on Helios — it is architecturally native to it:
 
-    subgraph "Sovereign Backend (Private)"
-        Gateway[Gateway API]
-        Engine[Execution Engine]
-    end
-
-    Blockchain -- "Event: Requested" --> Relayer
-    Relayer -- "Start Verification" --> Worker
-    Worker -- "Delegated Execution" --> Gateway
-    Gateway -- "Run Private Logic" --> Engine
-    Engine -- "Result" --> Gateway
-    Gateway -- "Signed Certificate" --> Worker
-    Worker -- "Submit Result" --> Blockchain
-```
-
-## 4. Why this matters for us?
-
-*   **Modular**: If we want to add a new API (e.g., Weather), we only update `data-feeds` and the `Recipe`. The core Node logic (`Relayer` -> `Queue` -> `Worker`) stays exactly the same.
-*   **Scalable**: The Queue system means one node can handle thousands of requests per minute without dropping them.
-*   **Secure**: The `Signer` acts as the final gatekeeper. Even if the data fetch logic has a bug, the signature creates accountability.
+| Helios Feature | TaaS Integration |
+| :--- | :--- |
+| **Chronos** (native automation) | Truth requests self-finalize after the dispute window — no manual `finalize()` calls |
+| **Hyperion** (async oracle) | Recipes can verify L1 Ethereum or Bitcoin state as a data source |
+| **Low fees** | Makes micro-truth requests economically viable |

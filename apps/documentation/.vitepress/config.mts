@@ -34,7 +34,8 @@ export default defineConfig({
         items: [
           { text: 'Smart Contracts', link: '/protocol/contracts' },
           { text: 'Recipes', link: '/protocol/recipes' },
-          { text: 'Data Feeds', link: '/protocol/data-feeds' }
+          { text: 'Data Feeds', link: '/protocol/data-feeds' },
+          { text: 'Attestation Engine', link: '/protocol/attestation' }
         ]
       },
       {
@@ -43,6 +44,13 @@ export default defineConfig({
         items: [
           { text: 'Truth Node (Sentinel)', link: '/nodes/truth-node' },
           { text: 'Challenger Node', link: '/nodes/challenger-lite' }
+        ]
+      },
+      {
+        text: 'SDK & Interfaces',
+        collapsed: false,
+        items: [
+          { text: 'Overview', link: '/sdk/overview' }
         ]
       },
       {
