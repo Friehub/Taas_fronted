@@ -13,13 +13,14 @@ export function LandingFooter() {
                     </div>
 
                     <div className="flex gap-8 text-[10px] uppercase tracking-widest font-black text-white/30">
-                        <Link href="#" className="hover:text-primary transition-colors">Twitter</Link>
-                        <Link href="#" className="hover:text-primary transition-colors">Github</Link>
-                        <Link href={process.env.NEXT_PUBLIC_DOCS_URL || "#"} className="hover:text-primary transition-colors">Documentation</Link>
+                        <Link href="/about" className="hover:text-primary transition-colors">About</Link>
+                        <Link href="https://x.com/friehub" target="_blank" className="hover:text-primary transition-colors">X</Link>
+                        <Link href="https://github.com/Friehub" target="_blank" className="hover:text-primary transition-colors">Github</Link>
+                        <Link href={process.env.NEXT_PUBLIC_DOCS_URL || "/docs"} className="hover:text-primary transition-colors">Documentation</Link>
                     </div>
 
                     <p className="text-[10px] uppercase tracking-widest font-black text-white/20">
-                        &copy; 2026 Friehub Cloud Inc.
+                        &copy; 2026 Friehub Protocol. All rights reserved.
                     </p>
                 </div>
             </div>

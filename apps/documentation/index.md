@@ -3,38 +3,29 @@
 layout: home
 
 hero:
-  name: "FrieHub TaaS"
-  text: "Truth-as-a-Service"
-  tagline: The first decentralized fact engine — verify any real-world event on-chain with structured, cryptographic proof.
+  name: "TaaS Protocol"
+  text: "Verifiable Truth for the Real World."
+  tagline: TaaS (Truth-as-a-Service) is the high-fidelity oracle layer for apps that require absolute integrity.
   image:
     src: /logo.svg
     alt: Friehub Logo
   actions:
     - theme: brand
-      text: Get Started
-      link: /guides/getting-started
+      text: Why TaaS?
+      link: /guides/why-taas
     - theme: alt
-      text: Read the Whitepaper
-      link: /core/whitepaper
+      text: Explore Use Cases
+      link: /guides/use-cases
 
 features:
-  - icon: "📦"
-    title: Rich, Structured Truth
-    details: Traditional oracles return a single number. TaaS returns structured JSON — verify who won a match, whether a shipment arrived, or if a news headline is factual.
-  - icon: "🌐"
-    title: DePIN Node Network
-    details: A global network of lightweight Sentinel nodes runs on everyday hardware (laptops, VPS, browser extensions). Nodes earn $TAAS tokens for relaying verified truth.
-  - icon: "🔗"
-    title: Helios Native
-    details: Built for the Helios blockchain — uses Chronos for automatic market settlement and Hyperion for trustless cross-chain data reads, without needing bridges.
-  - icon: "📜"
-    title: Programmable Recipes
-    details: Developers write TypeScript "Recipes" to define how truth is discovered. Any API, any data source, any logic — compiled to an immutable, reproducible format.
-  - icon: "⚖️"
-    title: Optimistic Attestation
-    details: Results are submitted optimistically and finalized after a dispute window. Challenger nodes earn rewards for catching fraud, keeping the network honest.
-  - icon: "🛠️"
-    title: Developer-First SDK
-    details: Write, test, and publish Recipes locally using the @friehub/taas-sdk. Mock feeds, sandbox execution, and iterate fast before deploying to the live network.
+  - icon: "Introduction"
+    title: Why TaaS?
+    details: Traditional oracles provide raw data; TaaS provides verified truth. We bridge the gap between complex real-world events and on-chain settlement.
+  - icon: "Integrity"
+    title: Solves Data Integrity
+    details: By using a decentralized network of Sentinel nodes, TaaS ensures that data is fetched, verified, and signed with absolute cryptographic certainty.
+  - icon: "Ecosystem"
+    title: Friehub Ecosystem
+    details: TaaS is powered by Friehub, providing a sovereign foundation for next-generation prediction markets, insurance protocols, and AI verification.
 ---
 

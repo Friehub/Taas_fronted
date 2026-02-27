@@ -46,7 +46,7 @@ export function LandingCTA() {
                     transition={{ delay: 0.2 }}
                 >
                     <Link
-                        href={process.env.NEXT_PUBLIC_DOCS_URL || "#"}
+                        href="/docs"
                         className="group relative inline-flex h-16 items-center justify-center rounded-2xl bg-primary px-12 text-sm font-black uppercase tracking-[0.2em] text-primary-foreground shadow-2xl shadow-primary/40 hover:scale-105 transition-all overflow-hidden"
                     >
                         <span className="relative z-10">Get Started</span>

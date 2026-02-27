@@ -1,13 +1,13 @@
 "use client";
 
 import { Hero } from "../components/landing/Hero";
-import { TrustMarquee } from "../components/landing/TrustMarquee";
 import { CodeShowcase } from "../components/landing/CodeShowcase";
 import { ProductSplit } from "../components/landing/ProductSplit";
 import { ProtocolFlow } from "../components/landing/ProtocolFlow";
 import { RichOutcomes } from "../components/landing/RichOutcomes";
 import { LandingCTA } from "../components/landing/LandingCTA";
 import { LandingFooter } from "../components/landing/LandingFooter";
+import { InstitutionalContext } from "../components/landing/InstitutionalContext";
 
 export default function LandingPage() {
     return (
@@ -15,8 +15,8 @@ export default function LandingPage() {
             {/* 1. Hero Section */}
             <Hero />
 
-            {/* Trust Marquee */}
-            <TrustMarquee />
+            {/* Friehub Branding & Context */}
+            <InstitutionalContext />
 
             {/* 2. Protocol Flow Visualization */}
             <ProtocolFlow />

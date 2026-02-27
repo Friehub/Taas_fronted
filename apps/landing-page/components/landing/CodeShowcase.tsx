@@ -62,8 +62,8 @@ export function CodeShowcase() {
                         <div className="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/50" />
                         <div className="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/50" />
                     </div>
-                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">
-                        taas-cli — v2.4.0
+                    <div className="text-[8px] sm:text-[10px] uppercase tracking-widest text-muted-foreground font-mono">
+                        taas-cli — v1.0.0
                     </div>
                 </div>
 
@@ -93,8 +93,8 @@ export function CodeShowcase() {
                                         <div className="mt-1">
                                             <step.icon size={16} className={index <= currentStep ? step.color : 'text-muted-foreground/20'} />
                                         </div>
-                                        <div className="space-y-1 w-full">
-                                            <div className="flex items-center gap-2 text-foreground/80">
+                                        <div className="space-y-1 w-full overflow-hidden">
+                                            <div className="flex flex-wrap items-center gap-2 text-foreground/80 break-all sm:break-normal">
                                                 <span className="text-muted-foreground/60">$</span>
                                                 <span className={index === currentStep ? 'text-foreground' : ''}>{step.cmd}</span>
                                                 {index === currentStep && (
