@@ -1,6 +1,6 @@
 "use client";
 
-import { DocHero, DocSection, InfoBox } from "../../components/docs/DocComponents";
+import { DocHero, DocSection, InfoBox } from "../../../components/docs/DocComponents";
 import { GlobeIcon, ShadowIcon, MagicWandIcon } from "@radix-ui/react-icons";
 
 export default function MissionPage() {

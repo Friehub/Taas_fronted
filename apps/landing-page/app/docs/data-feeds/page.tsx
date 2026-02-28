@@ -1,6 +1,6 @@
 "use client";
 
-import { DocHero, DocSection, CodeBlock, InfoBox } from "../../components/docs/DocComponents";
+import { DocHero, DocSection, CodeBlock, InfoBox } from "../../../components/docs/DocComponents";
 import {
     MixIcon,
     BarChartIcon,
