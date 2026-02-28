@@ -1,3 +1,5 @@
+"use client";
+
 import { Header } from "../../components/shared/Header";
 import { Sidebar, MobileNav } from "../../components/docs/Sidebar";
 import { motion } from "framer-motion";
