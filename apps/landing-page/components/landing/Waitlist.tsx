@@ -8,11 +8,30 @@ export function Waitlist() {
     const [email, setEmail] = useState('');
     const [submitted, setSubmitted] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (email) {
-            setSubmitted(true);
-            setEmail('');
+
+        if (!email) return;
+
+        try {
+            const response = await fetch('/api/waitlist', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            });
+
+            if (response.ok) {
+                setSubmitted(true);
+                setEmail('');
+            } else {
+                const data = await response.json();
+                alert(data.error || 'Something went wrong. Please try again.');
+            }
+        } catch (error) {
+            console.error('Submission error:', error);
+            alert('Unable to join waitlist. Please check your connection.');
         }
     };
 
