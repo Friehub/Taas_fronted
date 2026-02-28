@@ -56,19 +56,24 @@ export function Blueprint() {
 
                 {/* Technical Abstract Diagram */}
                 <div className="mt-40 max-w-4xl mx-auto p-12 bg-muted/5 border border-border/50 rounded-3xl relative overflow-hidden group">
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-12 relative z-20">
                         <div className="text-center md:text-left">
                             <div className="font-mono text-[10px] text-primary/40 mb-2 uppercase tracking-widest">Input Layer</div>
                             <div className="text-2xl font-display font-bold text-foreground">Off-Chain Reality</div>
                         </div>
-                        <motion.div
-                            animate={{ x: [0, 20, 0] }}
-                            transition={{ duration: 3, repeat: Infinity }}
-                            className="text-primary"
-                        >
-                            <ArrowRightIcon width={40} height={40} />
-                        </motion.div>
-                        <div className="text-center">
+
+                        {/* Static Path for AnimationReference */}
+                        <div className="relative">
+                            <ArrowRightIcon width={40} height={40} className="text-primary/20" />
+                            {/* Data Packet 1 */}
+                            <motion.div
+                                animate={{ x: [0, 40], opacity: [0, 1, 0] }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                                className="absolute top-1/2 left-0 w-1.5 h-1.5 bg-primary rounded-full -translate-y-1/2"
+                            />
+                        </div>
+
+                        <div className="text-center relative z-20">
                             <div className="font-mono text-[10px] text-primary uppercase tracking-widest mb-2">TaaS Engine</div>
                             <div className="w-24 h-24 rounded-2xl border border-primary/20 flex items-center justify-center bg-primary/5 group-hover:scale-105 transition-transform duration-500">
                                 <motion.div
@@ -80,17 +85,37 @@ export function Blueprint() {
                                 </motion.div>
                             </div>
                         </div>
-                        <motion.div
-                            animate={{ x: [0, 20, 0] }}
-                            transition={{ duration: 3, repeat: Infinity, delay: 1 }}
-                            className="text-primary"
-                        >
-                            <ArrowRightIcon width={40} height={40} />
-                        </motion.div>
+
+                        <div className="relative">
+                            <ArrowRightIcon width={40} height={40} className="text-primary/20" />
+                            {/* Data Packet 2 */}
+                            <motion.div
+                                animate={{ x: [0, 40], opacity: [0, 1, 0] }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "linear", delay: 1 }}
+                                className="absolute top-1/2 left-0 w-1.5 h-1.5 bg-primary rounded-full -translate-y-1/2"
+                            />
+                        </div>
+
                         <div className="text-center md:text-right">
                             <div className="font-mono text-[10px] text-primary/40 mb-2 uppercase tracking-widest">Output Layer</div>
                             <div className="text-2xl font-display font-bold text-foreground">On-Chain Attestation</div>
                         </div>
+                    </div>
+
+                    {/* Background Detail: Moving Particles */}
+                    <div className="absolute inset-0 z-10 opacity-20 pointer-events-none">
+                        {[...Array(3)].map((_, i) => (
+                            <motion.div
+                                key={i}
+                                animate={{
+                                    x: [Math.random() * 800, Math.random() * 800],
+                                    y: [Math.random() * 300, Math.random() * 300],
+                                    opacity: [0, 0.5, 0]
+                                }}
+                                transition={{ duration: 10 + i * 2, repeat: Infinity, ease: "linear" }}
+                                className="absolute w-[1px] h-[40px] bg-primary/30 rotate-45"
+                            />
+                        ))}
                     </div>
                 </div>
             </div>
