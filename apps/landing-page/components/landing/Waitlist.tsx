@@ -43,7 +43,7 @@ export function Waitlist() {
                         className="text-4xl md:text-6xl font-display font-medium text-foreground mb-8"
                     >
                         Join the <span className="text-primary italic">Standard.</span>
-                    </h2>
+                    </motion.h2>
                     <p className="text-foreground/40 mb-16 leading-relaxed">
                         Secure your spot for early protocol access. No marketing spam.
                         Just core updates on the TaaS network.
