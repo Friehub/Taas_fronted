@@ -8,6 +8,7 @@ import { RichOutcomes } from "../components/landing/RichOutcomes";
 import { LandingCTA } from "../components/landing/LandingCTA";
 import { LandingFooter } from "../components/landing/LandingFooter";
 import { InstitutionalContext } from "../components/landing/InstitutionalContext";
+import { Waitlist } from "../components/landing/Waitlist";
 
 export default function LandingPage() {
     return (
@@ -27,10 +28,13 @@ export default function LandingPage() {
             {/* 4. Rich Outcomes Showcase */}
             <RichOutcomes />
 
-            {/* 5. Product Ecosystem (The Synergy) */}
+            {/* 6. Product Ecosystem (The Synergy) */}
             <ProductSplit />
 
-            {/* 6. Institutional Footer CTA */}
+            {/* 7. Waitlist Section */}
+            <Waitlist />
+
+            {/* 8. Institutional Footer CTA */}
             <LandingCTA />
 
             {/* Premium Minimized Footer */}

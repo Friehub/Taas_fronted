@@ -41,10 +41,10 @@ export function ProductSplit() {
                                 <Server size={32} />
                             </div>
 
-                            <h3 className="text-3xl font-display font-bold text-foreground mb-4">TaaS Engine</h3>
+                            <h3 className="text-3xl font-display font-bold text-foreground mb-4">Truth Infrastructure</h3>
                             <p className="text-muted-foreground/60 text-lg mb-10 leading-relaxed flex-1">
-                                The decentralized source-of-truth. Programmable recipes allow developers
-                                to fetch, verify, and settle any real-world outcome on-chain with absolute finality.
+                                The decentralized source-of-truth for the verifiable web. Programmable recipes allow institutions
+                                to fetch, verify, and settle complex real-world outcomes with cryptographic finality.
                             </p>
 
                             <div className="grid grid-cols-2 gap-6 mb-12">
@@ -75,10 +75,10 @@ export function ProductSplit() {
                                 <LineChart size={32} />
                             </div>
 
-                            <h3 className="text-3xl font-display font-bold text-foreground mb-4">Core Application</h3>
+                            <h3 className="text-3xl font-display font-bold text-foreground mb-4">Institutional Platform</h3>
                             <p className="text-muted-foreground/60 text-lg mb-10 leading-relaxed flex-1">
-                                The ultimate showcase of institutional power. A high-liquidity,
-                                permissionless prediction platform for global participants.
+                                High-performance access to decentralized prediction markets. A professional-grade
+                                environment for global participants to engage with verifiable intelligence.
                             </p>
 
                             <div className="grid grid-cols-2 gap-6 mb-12 text-emerald-100/60">
