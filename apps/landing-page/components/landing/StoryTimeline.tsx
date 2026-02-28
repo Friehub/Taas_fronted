@@ -42,11 +42,11 @@ export function StoryTimeline() {
     const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
     return (
-        <section id="story" ref={containerRef} className="py-60 bg-[#020202] relative overflow-hidden">
+        <section id="story" ref={containerRef} className="py-60 bg-background relative overflow-hidden">
             {/* Background Narrative Markers */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-[0.02]">
-                <div className="text-[400px] font-display font-black absolute top-0 -left-20">AUTH</div>
-                <div className="text-[400px] font-display font-black absolute bottom-0 -right-20">TRUTH</div>
+            <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-[0.03] dark:opacity-[0.02]">
+                <div className="text-[400px] font-display font-black absolute top-0 -left-20 text-foreground">AUTH</div>
+                <div className="text-[400px] font-display font-black absolute bottom-0 -right-20 text-foreground">TRUTH</div>
             </div>
 
             <div className="container mx-auto px-6 relative z-10">
@@ -57,17 +57,17 @@ export function StoryTimeline() {
                         viewport={{ once: true }}
                         className="mb-40"
                     >
-                        <h2 className="text-5xl md:text-8xl font-display font-medium mb-10 text-white tracking-tighter leading-none">
+                        <h2 className="text-5xl md:text-8xl font-display font-medium mb-10 text-foreground tracking-tighter leading-none">
                             Our <span className="text-primary italic underline decoration-primary/20">Evolution.</span>
                         </h2>
-                        <p className="text-xl md:text-3xl text-white/30 leading-tight max-w-2xl font-light">
+                        <p className="text-xl md:text-3xl text-foreground/30 leading-tight max-w-2xl font-light">
                             How we moved from a simple application to the foundation for autonomous truth.
                         </p>
                     </motion.div>
 
                     <div className="relative">
                         {/* Animated Vertical Line */}
-                        <div className="absolute left-8 top-0 bottom-0 w-px bg-white/5" />
+                        <div className="absolute left-8 top-0 bottom-0 w-px bg-border" />
                         <motion.div
                             style={{ height: lineHeight }}
                             className="absolute left-8 top-0 w-px bg-primary shadow-[0_0_15px_rgba(170,255,184,0.5)]"
@@ -85,11 +85,11 @@ export function StoryTimeline() {
                                 >
                                     {/* The Node */}
                                     <div className="relative shrink-0 mt-4">
-                                        <div className="w-16 h-16 rounded-full bg-background border border-primary/20 flex items-center justify-center text-primary group-hover:border-primary transition-all duration-500 z-10 relative">
+                                        <div className="w-16 h-16 rounded-full bg-background border border-primary/20 flex items-center justify-center text-primary group-hover:border-primary transition-all duration-500 z-10 relative shadow-sm">
                                             {step.icon}
                                         </div>
                                         {/* Large Background Number */}
-                                        <div className="absolute -top-12 -left-12 text-8xl font-display font-black text-white/[0.03] select-none group-hover:text-primary/[0.05] transition-colors duration-700">
+                                        <div className="absolute -top-12 -left-12 text-8xl font-display font-black text-foreground/[0.04] select-none group-hover:text-primary/[0.08] transition-colors duration-700">
                                             {step.num}
                                         </div>
                                     </div>
@@ -98,11 +98,11 @@ export function StoryTimeline() {
                                         <div className="text-[10px] font-black uppercase tracking-[0.5em] text-primary mb-4 opacity-60">
                                             {step.subtitle}
                                         </div>
-                                        <h3 className="text-4xl md:text-6xl font-display font-medium text-white mb-8 tracking-tighter">
+                                        <h3 className="text-4xl md:text-6xl font-display font-medium text-foreground mb-8 tracking-tighter">
                                             {step.title}
                                         </h3>
-                                        <div className="max-w-2xl glass-mint p-10 rounded-xl relative group-hover:border-primary/30 transition-all duration-500">
-                                            <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light">
+                                        <div className="max-w-2xl glass-mint p-10 rounded-xl relative group-hover:border-primary/30 transition-all duration-500 bg-background/50 border border-border">
+                                            <p className="text-lg md:text-xl text-foreground/40 leading-relaxed font-light">
                                                 {step.description}
                                             </p>
                                         </div>

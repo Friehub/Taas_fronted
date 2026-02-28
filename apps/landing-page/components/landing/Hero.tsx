@@ -16,9 +16,9 @@ export function Hero() {
     const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
     return (
-        <section ref={containerRef} className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden bg-[#020202]">
+        <section ref={containerRef} className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden bg-background">
             {/* Background Elements */}
-            <div className="absolute inset-0 bg-dot-white opacity-[0.4] pointer-events-none" />
+            <div className="absolute inset-0 bg-dot-white opacity-40 dark:opacity-40 pointer-events-none" />
 
             {/* The Data-Flow Centerpiece */}
             <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 w-[800px] h-[800px] pointer-events-none select-none hidden lg:block">
@@ -26,11 +26,11 @@ export function Hero() {
                     {/* Concentric Circles */}
                     <motion.circle
                         cx="400" cy="400" r="350"
-                        stroke="#AAFFB8" strokeOpacity="0.05" strokeWidth="1"
+                        stroke="currentColor" className="text-primary/10" strokeWidth="1"
                     />
                     <motion.circle
                         cx="400" cy="400" r="250"
-                        stroke="#AAFFB8" strokeOpacity="0.1" strokeWidth="1" strokeDasharray="10 20"
+                        stroke="currentColor" className="text-primary/20" strokeWidth="1" strokeDasharray="10 20"
                         animate={{ rotate: 360 }}
                         transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
                     />
@@ -38,8 +38,7 @@ export function Hero() {
                     {/* Central Processor Prism */}
                     <motion.rect
                         x="340" y="340" width="120" height="120" rx="4"
-                        stroke="#AAFFB8" strokeWidth="2"
-                        className="text-glow-mint"
+                        stroke="currentColor" className="text-primary" strokeWidth="2"
                         initial={{ opacity: 0.5 }}
                         animate={{ opacity: [0.5, 1, 0.5], scale: [1, 1.02, 1] }}
                         transition={{ duration: 4, repeat: Infinity }}
@@ -50,9 +49,9 @@ export function Hero() {
                         <motion.path
                             key={i}
                             d={`M ${400 + Math.cos(i * 60) * 400} ${400 + Math.sin(i * 60) * 400} L 400 400`}
-                            stroke="#AAFFB8"
+                            stroke="currentColor"
+                            className="text-primary/30"
                             strokeWidth="1"
-                            strokeOpacity="0.2"
                             initial={{ pathLength: 0 }}
                             animate={{ pathLength: [0, 1, 0] }}
                             transition={{
@@ -70,8 +69,8 @@ export function Hero() {
                         transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
                         style={{ originX: "400px", originY: "400px" }}
                     >
-                        <circle cx="650" cy="400" r="8" fill="#AAFFB8" className="text-glow-mint" />
-                        <circle cx="150" cy="400" r="8" fill="#AAFFB8" className="text-glow-mint" />
+                        <circle cx="650" cy="400" r="8" className="fill-primary" />
+                        <circle cx="150" cy="400" r="8" className="fill-primary" />
                     </motion.g>
                 </svg>
             </div>
@@ -82,7 +81,7 @@ export function Hero() {
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-7xl md:text-[140px] font-display font-medium leading-[0.85] tracking-tighter text-white mb-12"
+                        className="text-7xl md:text-[140px] font-display font-medium leading-[0.85] tracking-tighter text-foreground mb-12"
                     >
                         Standardizing <br />
                         <span className="text-primary italic">Autonomous Truth.</span>
@@ -92,7 +91,7 @@ export function Hero() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.6 }}
-                        className="text-xl md:text-3xl text-white/40 max-w-2xl leading-tight mb-16 font-light"
+                        className="text-xl md:text-3xl text-foreground/40 max-w-2xl leading-tight mb-16 font-light"
                     >
                         Friehub bridges the Gap between off-chain signals and on-chain action.
                         Pure logic. Zero infrastructure. Programmable certainty.
@@ -106,13 +105,13 @@ export function Hero() {
                     >
                         <Link
                             href="#story"
-                            className="h-16 px-10 bg-primary text-black font-black uppercase tracking-widest text-[12px] rounded-sm flex items-center gap-4 hover:bg-white transition-all shadow-[0_0_30px_rgba(170,255,184,0.1)]"
+                            className="h-16 px-10 bg-primary text-primary-foreground font-black uppercase tracking-widest text-[12px] rounded-sm flex items-center gap-4 hover:opacity-90 transition-all shadow-[0_10px_30px_rgba(170,255,184,0.2)]"
                         >
                             The Origin <ArrowBottomRightIcon width={20} height={20} />
                         </Link>
                         <Link
                             href="/docs"
-                            className="h-16 px-10 border border-white/10 text-white font-black uppercase tracking-widest text-[12px] rounded-sm flex items-center gap-4 hover:border-primary/50 transition-all"
+                            className="h-16 px-10 border border-border text-foreground font-black uppercase tracking-widest text-[12px] rounded-sm flex items-center gap-4 hover:border-primary/50 transition-all bg-background/50 backdrop-blur-sm"
                         >
                             Developer SDK <DotFilledIcon className="text-primary" />
                         </Link>
@@ -124,7 +123,7 @@ export function Hero() {
             <motion.div
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="absolute bottom-10 left-6 text-white/20 text-[10px] uppercase tracking-[0.4em] [writing-mode:vertical-lr] font-black"
+                className="absolute bottom-10 left-6 text-foreground/20 text-[10px] uppercase tracking-[0.4em] [writing-mode:vertical-lr] font-black"
             >
                 Scroll to Explore
             </motion.div>
