@@ -11,19 +11,19 @@ export function LandingFooter() {
                     <div className="font-display font-black text-xs uppercase tracking-widest text-foreground">
                         Friehub Protocol
                     </div>
-                    <div className="text-[10px] text-white/20 uppercase tracking-widest">
+                    <div className="text-[10px] text-foreground/20 uppercase tracking-widest">
                         © 2026. All rights reserved.
                     </div>
                 </div>
 
                 <div className="flex items-center gap-8">
-                    <Link href="/docs" className="text-[10px] font-black uppercase tracking-[0.2em] text-white/20 hover:text-primary transition-colors flex items-center gap-2">
+                    <Link href="/docs" className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/30 hover:text-primary transition-colors flex items-center gap-2">
                         <FileTextIcon /> Docs
                     </Link>
-                    <a href="https://x.com/friehub" className="text-white/20 hover:text-primary transition-all">
+                    <a href="https://x.com/friehub" className="text-foreground/30 hover:text-primary transition-all">
                         <TwitterLogoIcon />
                     </a>
-                    <a href="https://github.com/friehub" className="text-white/20 hover:text-primary transition-all">
+                    <a href="https://github.com/friehub" className="text-foreground/30 hover:text-primary transition-all">
                         <GitHubLogoIcon />
                     </a>
                 </div>

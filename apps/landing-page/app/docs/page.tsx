@@ -56,14 +56,53 @@ export default function GettingStartedPage() {
                 </InfoBox>
             </DocSection>
 
-            <DocSection title="Clone & Install">
-                <p>Access our public developer resources and shared interfaces:</p>
-                <CodeBlock
-                    language="bash"
-                    code={`git clone https://github.com/Friehub/Taas.git\ncd Taas\npnpm install`}
-                />
+            <DocSection title="Public Repositories">
+                <p>Access the TaaS ecosystem through our public developer resources and modular packages:</p>
+                <div className="space-y-4 my-8">
+                    <RepoItem
+                        title="taas-sdk"
+                        url="https://github.com/Friehub/taas-sdk"
+                        desc="The primary SDK for building, testing, and simulating Sovereign Logic Truth Recipes locally."
+                    />
+                    <RepoItem
+                        title="taas-interfaces"
+                        url="https://github.com/Friehub/taas-interfaces"
+                        desc="Shared TypeScript types, EIP-712 definitions, and Sovereign Logic protocol interfaces."
+                    />
+                    <RepoItem
+                        title="taas-nodes"
+                        url="https://github.com/Friehub/taas-nodes"
+                        desc="The open-source Sentinel (Truth Node) and Challenger software suite for the TaaS network."
+                    />
+                </div>
+
+                <InfoBox type="info">
+                    <strong>NPM Access:</strong> Our core interfaces and SDK are also available via the <code>@friehub</code> scope on the GitHub Packages registry.
+                </InfoBox>
             </DocSection>
         </article>
+    );
+}
+
+function RepoItem({ title, url, desc }: { title: string, url: string, desc: string }) {
+    return (
+        <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col md:flex-row gap-6 p-6 rounded-2xl border border-border bg-muted/10 hover:border-primary/30 transition-all group"
+        >
+            <div className="shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                <CubeIcon />
+            </div>
+            <div>
+                <div className="flex items-center gap-3 mb-1">
+                    <h4 className="text-sm font-bold text-foreground uppercase tracking-widest">{title}</h4>
+                    <ArrowRightIcon className="w-3 h-3 text-primary opacity-0 group-hover:opacity-100 transition-all" />
+                </div>
+                <p className="text-xs text-foreground/40 leading-relaxed font-light">{desc}</p>
+            </div>
+        </a>
     );
 }
 

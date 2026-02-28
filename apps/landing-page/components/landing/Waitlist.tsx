@@ -33,7 +33,7 @@ export function Waitlist() {
     };
 
     return (
-        <section id="waitlist" className="py-48 border-t border-white/5">
+        <section id="waitlist" className="py-48 border-t border-border bg-background">
             <div className="container mx-auto px-6 text-center">
                 <div className="max-w-xl mx-auto">
                     <motion.h2
@@ -52,7 +52,7 @@ export function Waitlist() {
                     {!submitted ? (
                         <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4">
                             <div className="relative flex-1">
-                                <div className="absolute inset-y-0 left-4 flex items-center text-white/20">
+                                <div className="absolute inset-y-0 left-4 flex items-center text-foreground/20">
                                     <EnvelopeClosedIcon />
                                 </div>
                                 <input
@@ -61,7 +61,7 @@ export function Waitlist() {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="your@email.com"
-                                    className="w-full bg-black/40 border border-white/10 rounded px-12 py-4 text-sm text-foreground focus:outline-none focus:border-primary/40 transition-all placeholder:text-white/10"
+                                    className="w-full bg-muted/30 border border-border rounded px-12 py-4 text-sm text-foreground focus:outline-none focus:border-primary/40 transition-all placeholder:text-foreground/20"
                                 />
                             </div>
                             <button
