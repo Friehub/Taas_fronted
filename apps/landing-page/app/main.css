@@ -38,23 +38,25 @@
   }
 
   .dark {
-    --background: 145 15% 4%;
+    --background: 145 15% 2%;
+    /* Immersion Black */
     --foreground: 0 0% 100%;
 
-    --card: 145 15% 6%;
+    --card: 145 15% 4%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 145 15% 4%;
+    --popover: 145 15% 2%;
     --popover-foreground: 0 0% 100%;
 
     --primary: 142 76% 56%;
     --primary-foreground: 142 20% 5%;
 
-    --secondary: 145 15% 10%;
+    --secondary: 145 15% 6%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 145 15% 10%;
-    --muted-foreground: 145 10% 60%;
+    --muted: 145 15% 8%;
+    --muted-foreground: 145 10% 70%;
+    /* Better muted contrast */
 
     --accent: 142 76% 56%;
     --accent-foreground: 0 0% 100%;
@@ -62,8 +64,8 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 145 15% 12%;
-    --input: 145 15% 12%;
+    --border: 145 15% 10%;
+    --input: 145 15% 10%;
     --ring: 142 76% 56%;
   }
 }
@@ -145,5 +147,23 @@
 
   .mask-radial-fade {
     mask-image: radial-gradient(circle at center, black, transparent 80%);
+  }
+
+  .glass-mint {
+    background-color: rgba(170, 255, 184, 0.02);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(170, 255, 184, 0.1);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      inset 0 0 0 1px rgba(170, 255, 184, 0.05);
+  }
+
+  .text-glow-mint {
+    text-shadow: 0 0 20px rgba(170, 255, 184, 0.3);
+  }
+
+  .bg-dot-white {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 24px 24px;
   }
 }

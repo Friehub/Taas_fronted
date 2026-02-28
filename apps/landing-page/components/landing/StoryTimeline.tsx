@@ -1,28 +1,30 @@
 "use client";
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import {
-    ClockIcon,
     MixIcon,
-    LightningBoltIcon,
-    ArrowRightIcon,
-    CodeIcon
+    LinkBreak1Icon,
+    LightningBoltIcon
 } from '@radix-ui/react-icons';
+import { useRef } from 'react';
 
 const STORY_STEPS = [
     {
+        num: "01",
         icon: <MixIcon width={24} height={24} />,
         title: "The Friction",
         subtitle: "2025: Building Friehub Markets",
         description: "We started by building a prediction market. Liquidity was easy, but resolution was broken. Validating off-chain results autonomously was impossible without massive overhead."
     },
     {
-        icon: <ClockIcon width={24} height={24} />,
+        num: "02",
+        icon: <LinkBreak1Icon width={24} height={24} />,
         title: "The Truth Gap",
         subtitle: "The Oracle Problem",
         description: "Existing solutions required spinning up nodes (Chainlink) or complex optimistic resolution layers (UMA). We needed a standard way to bridge real-world data without the friction."
     },
     {
+        num: "03",
         icon: <LightningBoltIcon width={24} height={24} />,
         title: "The Solution",
         subtitle: "Birth of TaaS",
@@ -31,55 +33,83 @@ const STORY_STEPS = [
 ];
 
 export function StoryTimeline() {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    });
+
+    const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
     return (
-        <section id="story" className="py-32 bg-transparent relative">
-            <div className="container mx-auto px-6">
-                <div className="max-w-4xl mx-auto">
-                    <div className="mb-24">
-                        <h2 className="text-4xl md:text-6xl font-display font-medium mb-6 text-foreground">
-                            Behind the <span className="text-primary italic">Architecture.</span>
+        <section id="story" ref={containerRef} className="py-60 bg-[#020202] relative overflow-hidden">
+            {/* Background Narrative Markers */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-[0.02]">
+                <div className="text-[400px] font-display font-black absolute top-0 -left-20">AUTH</div>
+                <div className="text-[400px] font-display font-black absolute bottom-0 -right-20">TRUTH</div>
+            </div>
+
+            <div className="container mx-auto px-6 relative z-10">
+                <div className="max-w-5xl mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="mb-40"
+                    >
+                        <h2 className="text-5xl md:text-8xl font-display font-medium mb-10 text-white tracking-tighter leading-none">
+                            Our <span className="text-primary italic underline decoration-primary/20">Evolution.</span>
                         </h2>
-                        <p className="text-lg text-foreground/40 leading-relaxed max-w-xl">
-                            How we moved from a simple application to the infrastructure for autonomous truth.
+                        <p className="text-xl md:text-3xl text-white/30 leading-tight max-w-2xl font-light">
+                            How we moved from a simple application to the foundation for autonomous truth.
                         </p>
-                    </div>
+                    </motion.div>
 
-                    <div className="relative space-y-24">
-                        {/* Vertical Timeline Line */}
+                    <div className="relative">
+                        {/* Animated Vertical Line */}
                         <div className="absolute left-8 top-0 bottom-0 w-px bg-white/5" />
+                        <motion.div
+                            style={{ height: lineHeight }}
+                            className="absolute left-8 top-0 w-px bg-primary shadow-[0_0_15px_rgba(170,255,184,0.5)]"
+                        />
 
-                        {STORY_STEPS.map((step, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, x: -20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.1 }}
-                                className="relative flex gap-12 group"
-                            >
-                                <div className="relative z-10 w-16 h-16 rounded bg-black border border-white/5 flex items-center justify-center text-primary group-hover:border-primary/20 transition-all font-bold">
-                                    {step.icon}
-                                </div>
-
-                                <div className="flex-1 pt-2">
-                                    <div className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-2">
-                                        {step.subtitle}
+                        <div className="space-y-48">
+                            {STORY_STEPS.map((step, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, x: -30 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true, margin: "-100px" }}
+                                    transition={{ duration: 0.8, delay: i * 0.1 }}
+                                    className="relative flex gap-12 md:gap-20 items-start group"
+                                >
+                                    {/* The Node */}
+                                    <div className="relative shrink-0 mt-4">
+                                        <div className="w-16 h-16 rounded-full bg-background border border-primary/20 flex items-center justify-center text-primary group-hover:border-primary transition-all duration-500 z-10 relative">
+                                            {step.icon}
+                                        </div>
+                                        {/* Large Background Number */}
+                                        <div className="absolute -top-12 -left-12 text-8xl font-display font-black text-white/[0.03] select-none group-hover:text-primary/[0.05] transition-colors duration-700">
+                                            {step.num}
+                                        </div>
                                     </div>
-                                    <h3 className="text-2xl font-display font-bold text-foreground mb-4">
-                                        {step.title}
-                                    </h3>
-                                    <p className="text-foreground/40 leading-relaxed max-w-lg italic">
-                                        {step.description}
-                                    </p>
-                                </div>
 
-                                {i < STORY_STEPS.length - 1 && (
-                                    <div className="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 text-white/5">
-                                        <ArrowRightIcon width={120} height={120} />
+                                    <div className="flex-1">
+                                        <div className="text-[10px] font-black uppercase tracking-[0.5em] text-primary mb-4 opacity-60">
+                                            {step.subtitle}
+                                        </div>
+                                        <h3 className="text-4xl md:text-6xl font-display font-medium text-white mb-8 tracking-tighter">
+                                            {step.title}
+                                        </h3>
+                                        <div className="max-w-2xl glass-mint p-10 rounded-xl relative group-hover:border-primary/30 transition-all duration-500">
+                                            <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light">
+                                                {step.description}
+                                            </p>
+                                        </div>
                                     </div>
-                                )}
-                            </motion.div>
-                        ))}
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

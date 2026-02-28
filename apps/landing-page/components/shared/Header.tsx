@@ -24,10 +24,7 @@ export function Header() {
         <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-background/80 backdrop-blur-md">
             <div className="container mx-auto px-6 h-20 flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-3 group">
-                    <div className="w-8 h-8 bg-primary rounded shadow-[0_0_15px_rgba(170,255,184,0.3)] flex items-center justify-center font-bold text-black transition-transform group-hover:rotate-6">
-                        F
-                    </div>
-                    <span className="font-display text-xl font-bold tracking-tight text-foreground">Friehub</span>
+                    <span className="font-display text-xl font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">Friehub</span>
                 </Link>
 
                 <nav className="flex items-center gap-6 md:gap-10">

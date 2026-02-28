@@ -23,7 +23,7 @@ export function ProtocolFocus() {
                             Autonomous <br />
                             <span className="text-primary italic">Verification.</span>
                         </h2>
-                        <p className="text-lg text-foreground/50 leading-relaxed mb-12">
+                        <p className="text-lg text-foreground/50 leading-relaxed mb-12 max-w-xl">
                             TaaS serves as the standardized protocol for off-chain to on-chain automation.
                             We remove the need to manage infrastructure, providing builders with a clean,
                             programmable API for unverifiable data.
