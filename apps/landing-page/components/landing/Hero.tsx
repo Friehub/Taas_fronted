@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { Header } from '../shared/Header';
 import { useRef } from 'react';
+import Link from 'next/link';
 
 export function Hero() {
     const containerRef = useRef<HTMLElement>(null);
