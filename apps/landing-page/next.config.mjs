@@ -3,8 +3,6 @@ const require = createRequire(import.meta.url);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    // Force Webpack since we have custom aliases (Next.js 16 requirement)
-    turbopack: {},
     async headers() {
         return [
             {
@@ -24,27 +22,6 @@ const nextConfig = {
             },
         ];
     },
-    async rewrites() {
-        return [
-            {
-                source: '/',
-                destination: '/overview',
-            },
-            {
-                source: '/docs',
-                destination: process.env.NEXT_PUBLIC_DOCS_URL || 'https://docs.friehub.cloud',
-            },
-            {
-                source: '/docs/:path*',
-                destination: `${process.env.NEXT_PUBLIC_DOCS_URL || 'https://docs.friehub.cloud'}/:path*`,
-            },
-            {
-                source: '/api/:path*',
-                destination: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/:path*`,
-            },
-        ]
-    },
-    transpilePackages: ['@friehub/recipes'],
     images: {
         remotePatterns: [
             {
@@ -60,23 +37,6 @@ const nextConfig = {
                 hostname: 'api.twitter.com',
             }
         ]
-    },
-    webpack: (config, { isServer }) => {
-        const path = require('path');
-        // Force wagmi and react-query to resolve to the app's node_modules
-        config.resolve.alias['wagmi'] = path.resolve(process.cwd(), 'node_modules/wagmi');
-        config.resolve.alias['@tanstack/react-query'] = path.resolve(process.cwd(), 'node_modules/@tanstack/react-query');
-        config.resolve.alias['@react-native-async-storage/async-storage'] = false;
-
-        // Ignore react-native specific modules that Metamask SDK tries to import in the browser
-        if (!isServer) {
-            config.resolve.fallback = {
-                ...config.resolve.fallback,
-                '@react-native-async-storage/async-storage': false,
-            };
-        }
-
-        return config;
     }
 };
 

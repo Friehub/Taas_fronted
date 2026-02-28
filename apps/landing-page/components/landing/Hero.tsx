@@ -1,163 +1,180 @@
 "use client";
 
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import { Header } from '../shared/Header';
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
+import { ArrowBottomRightIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
+import { useRef, useEffect } from 'react';
+import { ProtocolHUD } from './ProtocolHUD';
 
 export function Hero() {
     const containerRef = useRef<HTMLElement>(null);
+    const buttonRef = useRef<HTMLAnchorElement>(null);
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end start"]
     });
 
-    const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-    const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+    // Parallax & 3D Tilt values
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const smoothX = useSpring(mouseX, { damping: 20, stiffness: 100 });
+    const smoothY = useSpring(mouseY, { damping: 20, stiffness: 100 });
+
+    const parallaxX = useTransform(smoothX, [-300, 300], [-15, 15]);
+    const parallaxY = useTransform(smoothY, [-300, 300], [-10, 10]);
+    const rotateX = useTransform(smoothY, [-300, 300], [5, -5]);
+    const rotateY = useTransform(smoothX, [-300, 300], [-5, 5]);
+
+    // Handle mouse move for parallax & magnetic physics
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            const { clientX, clientY } = e;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            mouseX.set(clientX - centerX);
+            mouseY.set(clientY - centerY);
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, [mouseX, mouseY]);
+
+    const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+    const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
     return (
-        <section ref={containerRef} className="relative min-h-[110vh] flex items-center justify-center overflow-hidden bg-background">
-            {/* Optimized Background Layer */}
-            <div className="absolute inset-0 z-0 overflow-hidden [mask-image:linear-gradient(to_bottom,black_85%,transparent)] translate-z-0">
-                {/* Base Layer */}
-                <div className="absolute inset-0 bg-gradient-to-b from-[#14142b] via-[#0c0c1a] to-background" />
+        <section ref={containerRef} className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden bg-background">
+            {/* High-Density Protocol HUD */}
+            <ProtocolHUD />
 
-                {/* Dynamic Prismatic Shards - Simplified for GPU */}
-                <div className="absolute inset-0 pointer-events-none overflow-hidden will-change-transform">
-                    <motion.div
-                        animate={{
-                            y: [0, -20, 0],
-                            rotate: [0, 3, 0],
-                        }}
-                        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                        className="absolute top-[20%] right-[10%] w-[400px] h-[400px] opacity-20 blur-[2px] will-change-transform"
-                    >
-                        <svg viewBox="0 0 200 200" className="w-full h-full">
-                            <defs>
-                                <linearGradient id="shard-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stopColor="rgba(16,185,129,0.4)" />
-                                    <stop offset="100%" stopColor="transparent" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M100 20 L180 80 L140 160 L40 140 Z" fill="url(#shard-grad)" />
-                        </svg>
-                    </motion.div>
+            {/* Background Texture */}
+            <div className="absolute inset-0 bg-dot-white opacity-40 dark:opacity-40 pointer-events-none" />
 
-                    <motion.div
-                        animate={{
-                            y: [0, 20, 0],
-                            rotate: [0, -5, 0],
-                        }}
-                        transition={{ duration: 18, repeat: Infinity, ease: "linear", delay: 2 }}
-                        className="absolute bottom-[10%] left-[5%] w-[500px] h-[500px] opacity-15 blur-[4px] will-change-transform"
-                    >
-                        <svg viewBox="0 0 200 200" className="w-full h-full">
-                            <path d="M40 20 L160 40 L180 140 L60 180 Z" fill="url(#shard-grad)" />
-                        </svg>
-                    </motion.div>
-                </div>
-
-                {/* Orbital Energy Loops - Simplified Stroke */}
-                <div className="absolute inset-0 pointer-events-none opacity-30">
-                    <svg className="w-full h-full">
-                        <motion.ellipse
-                            cx="50%" cy="45%" rx="40%" ry="30%"
-                            fill="none"
-                            stroke="rgba(16,185,129,0.15)"
-                            strokeWidth="1"
+            {/* The Data-Flow Centerpiece (3D Perspective) */}
+            <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 w-[800px] h-[800px] pointer-events-none select-none hidden lg:block [perspective:1000px]">
+                <motion.div
+                    style={{ x: parallaxX, y: parallaxY, rotateX, rotateY }}
+                    className="w-full h-full"
+                >
+                    <svg width="100%" height="100%" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        {/* Concentric Architecture */}
+                        <motion.circle
+                            cx="400" cy="400" r="350"
+                            stroke="currentColor" className="text-primary/10" strokeWidth="1"
+                        />
+                        <motion.circle
+                            cx="400" cy="400" r="250"
+                            stroke="currentColor" className="text-primary/20" strokeWidth="1" strokeDasharray="10 20"
                             animate={{ rotate: 360 }}
                             transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                            className="origin-center"
                         />
+
+                        {/* Central Processor */}
+                        <motion.rect
+                            x="340" y="340" width="120" height="120" rx="4"
+                            stroke="currentColor" className="text-primary" strokeWidth="2"
+                            initial={{ opacity: 0.8 }}
+                        />
+
+                        {/* Dynamic Attestation Lines */}
+                        {[...Array(6)].map((_, i) => (
+                            <motion.path
+                                key={i}
+                                d={`M ${400 + Math.cos(i * 60) * 400} ${400 + Math.sin(i * 60) * 400} L 400 400`}
+                                stroke="currentColor"
+                                className="text-primary/30"
+                                strokeWidth="1"
+                                initial={{ pathLength: 0 }}
+                                animate={{ pathLength: [0, 1, 0] }}
+                                transition={{
+                                    duration: 3 + i,
+                                    repeat: Infinity,
+                                    ease: "easeInOut",
+                                    delay: i * 0.5
+                                }}
+                            />
+                        ))}
+
+                        {/* Proof Nodes */}
+                        <motion.g
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                            style={{ originX: "400px", originY: "400px" }}
+                        >
+                            <circle cx="650" cy="400" r="8" className="fill-primary" />
+                            <circle cx="150" cy="400" r="8" className="fill-primary" />
+                        </motion.g>
                     </svg>
-                </div>
-
-                {/* Primary Ambient Glow - CSS Optimized */}
-                <div className="absolute top-[-20%] left-[-10%] w-[120%] h-[120%] bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.1),transparent_70%)] opacity-50" />
-
-                {/* Dotted Grid - Non-blended for CPU sanity */}
-                <div className="absolute inset-0 bg-grid-white [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)] opacity-20" />
+                </motion.div>
             </div>
 
-            {/* Top Bar - Elevated Navigation */}
-            <Header />
-
-            <motion.div
-                style={{ y, opacity }}
-                className="container relative z-10 px-4 mx-auto pt-32"
-            >
-                <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
+            <div className="container mx-auto px-6 relative z-10">
+                <motion.div style={{ y, opacity }} className="max-w-5xl">
                     <motion.h1
-                        initial="initial"
-                        animate="animate"
-                        variants={{
-                            initial: { opacity: 0 },
-                            animate: { opacity: 1, transition: { staggerChildren: 0.1 } }
-                        }}
-                        className="text-5xl md:text-7xl lg:text-[8.5rem] font-display font-medium tracking-tighter text-white leading-[0.85] mb-12 select-none"
-                    >
-                        {["Permissionless.", "Rich.", "Absolute."].map((word, i) => (
-                            <motion.span
-                                key={i}
-                                variants={{
-                                    initial: { opacity: 0, filter: 'blur(12px)', y: 40 },
-                                    animate: { opacity: 1, filter: 'blur(0px)', y: 0 }
-                                }}
-                                transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-                                className="block drop-shadow-2xl"
-                            >
-                                {word}
-                            </motion.span>
-                        ))}
-                    </motion.h1>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
+                        initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3, duration: 1 }}
-                        className="mb-8 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] sm:text-xs font-black uppercase tracking-[0.2em]"
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                        className="text-7xl md:text-[140px] font-display font-medium leading-[0.85] tracking-tighter text-foreground mb-12"
                     >
-                        Powered by Friehub Protocol
-                    </motion.div>
+                        Standardizing <br />
+                        <motion.span
+                            animate={{ letterSpacing: ["-0.05em", "-0.02em", "-0.05em"] }}
+                            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                            className="text-primary italic inline-block"
+                        >
+                            Autonomous Truth.
+                        </motion.span>
+                    </motion.h1>
 
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.5, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-base sm:text-lg md:text-2xl text-white/70 max-w-2xl leading-relaxed mb-16 font-light tracking-wide"
+                        transition={{ delay: 0.2, duration: 0.6 }}
+                        className="text-xl md:text-3xl text-foreground/40 max-w-2xl leading-tight mb-16 font-light"
                     >
-                        TaaS (Truth-as-a-Service) is the high-fidelity decentralized oracle network for builders requiring absolute integrity and sub-second resolution.
+                        Friehub bridges the Gap between off-chain signals and on-chain action.
+                        Pure logic. Zero infrastructure. Programmable certainty.
                     </motion.p>
 
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.7, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                        className="flex flex-col sm:flex-row items-center gap-8 w-full sm:w-auto"
+                        transition={{ delay: 0.4 }}
+                        className="flex flex-wrap gap-8"
                     >
                         <Link
-                            href="/docs"
-                            className="group relative w-full sm:w-auto px-12 py-6 bg-primary text-primary-foreground font-black rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(16,185,129,0.4)] hover:scale-[1.05] active:scale-95"
+                            href="#story"
+                            ref={buttonRef}
+                            className="h-16 px-10 bg-primary text-primary-foreground font-black uppercase tracking-widest text-[12px] rounded-sm flex items-center gap-4 hover:opacity-90 transition-all relative group overflow-hidden"
+                            onMouseMove={(e) => {
+                                const { clientX, clientY } = e;
+                                const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+                                const x = clientX - (left + width / 2);
+                                const y = clientY - (top + height / 2);
+                                e.currentTarget.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = `translate(0px, 0px)`;
+                            }}
                         >
-                            <span className="relative z-10 flex items-center justify-center gap-3 text-lg uppercase tracking-[0.2em]">
-                                Get Started <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform duration-300" />
+                            <span className="relative z-10 flex items-center gap-4">
+                                The Origin <ArrowBottomRightIcon width={20} height={20} />
                             </span>
-                            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
-                        </Link>
-
-                        <Link
-                            href="#waitlist"
-                            className="w-full sm:w-auto px-12 py-6 glass-ultra text-white font-black rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-500 text-lg uppercase tracking-[0.2em] border border-white/10 hover:border-white/20 flex items-center justify-center gap-3 group active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.05)]"
-                        >
-                            Join Waitlist
-                            <Sparkles size={18} className="text-primary group-hover:rotate-12 transition-transform duration-500" />
                         </Link>
                     </motion.div>
-                </div>
-            </motion.div>
+                </motion.div>
+            </div>
 
-            {/* Bottom Accent */}
-            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-20" />
+            {/* Aesthetic Scroll Indicator */}
+            <motion.div
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="absolute bottom-10 left-6 text-foreground/20 text-[10px] uppercase tracking-[0.4em] [writing-mode:vertical-lr] font-black"
+            >
+                Scroll to Explore
+            </motion.div>
         </section>
     );
 }
-

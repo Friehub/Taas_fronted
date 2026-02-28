@@ -26,6 +26,6 @@ features:
     details: By using a decentralized network of Sentinel nodes, TaaS ensures that data is fetched, verified, and signed with absolute cryptographic certainty.
   - icon: "Ecosystem"
     title: Friehub Ecosystem
-    details: TaaS is powered by Friehub, providing a sovereign foundation for next-generation prediction markets, insurance protocols, and AI verification.
+    details: TaaS is powered by Friehub, providing a sovereign core for next-generation prediction markets, insurance protocols, and AI verification.
 ---
 
