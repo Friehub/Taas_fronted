@@ -70,7 +70,7 @@ export function StoryTimeline() {
                         <div className="absolute left-8 top-0 bottom-0 w-px bg-border" />
                         <motion.div
                             style={{ height: lineHeight }}
-                            className="absolute left-8 top-0 w-px bg-primary dark:shadow-[0_0_15px_rgba(170,255,184,0.5)]"
+                            className="absolute left-8 top-0 w-px bg-primary"
                         />
 
                         <div className="space-y-48">
@@ -85,7 +85,7 @@ export function StoryTimeline() {
                                 >
                                     {/* The Node */}
                                     <div className="relative shrink-0 mt-4">
-                                        <div className="w-16 h-16 rounded-full bg-background border border-primary/20 flex items-center justify-center text-primary group-hover:border-primary transition-all duration-500 z-10 relative shadow-sm">
+                                        <div className="w-16 h-16 rounded-full bg-background border border-primary/20 flex items-center justify-center text-primary group-hover:border-primary transition-all duration-500 z-10 relative">
                                             {step.icon}
                                         </div>
                                         {/* Large Background Number */}
@@ -101,7 +101,7 @@ export function StoryTimeline() {
                                         <h3 className="text-4xl md:text-6xl font-display font-medium text-foreground mb-8 tracking-tighter">
                                             {step.title}
                                         </h3>
-                                        <div className="max-w-2xl glass-mint p-10 rounded-xl relative group-hover:border-primary/30 transition-all duration-500 bg-background/50 border border-border">
+                                        <div className="p-10 rounded-xl relative group-hover:border-primary/30 transition-all duration-500 bg-muted/5 border border-border/50">
                                             <p className="text-lg md:text-xl text-foreground/40 leading-relaxed font-light">
                                                 {step.description}
                                             </p>

@@ -17,9 +17,6 @@ export function LandingFooter() {
                 </div>
 
                 <div className="flex items-center gap-8">
-                    <Link href="/docs" className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/30 hover:text-primary transition-colors flex items-center gap-2">
-                        <FileTextIcon /> Docs
-                    </Link>
                     <a href="https://x.com/friehub" className="text-foreground/30 hover:text-primary transition-all">
                         <TwitterLogoIcon />
                     </a>

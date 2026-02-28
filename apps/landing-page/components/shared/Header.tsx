@@ -28,15 +28,6 @@ export function Header() {
                 </Link>
 
                 <nav className="flex items-center gap-6 md:gap-10">
-                    <Link
-                        href="/docs"
-                        className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 hover:text-primary transition-colors flex items-center gap-2"
-                    >
-                        <FileTextIcon /> Docs
-                    </Link>
-
-                    <div className="h-4 w-px bg-white/5 hidden md:block" />
-
                     <div className="flex items-center gap-5">
                         <a
                             href="https://x.com/friehub"

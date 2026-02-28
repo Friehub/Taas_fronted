@@ -8,12 +8,14 @@ export function Waitlist() {
     const [email, setEmail] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!email) return;
 
         setLoading(true);
+        setError(null);
         try {
             const response = await fetch('/api/waitlist', {
                 method: 'POST',
@@ -21,12 +23,17 @@ export function Waitlist() {
                 body: JSON.stringify({ email }),
             });
 
+            const result = await response.json();
+
             if (response.ok) {
                 setSubmitted(true);
                 setEmail('');
+            } else {
+                setError(result.error || 'Failed to join. Please try again.');
             }
         } catch (error) {
             console.error(error);
+            setError('Something went wrong. Please check your connection.');
         } finally {
             setLoading(false);
         }
@@ -63,22 +70,27 @@ export function Waitlist() {
                                     placeholder="your@email.com"
                                     className="w-full bg-muted/30 border border-border rounded px-12 py-4 text-sm text-foreground focus:outline-none focus:border-primary/40 transition-all placeholder:text-foreground/20"
                                 />
+                                {error && (
+                                    <div className="absolute -bottom-6 left-0 text-[10px] text-red-500 font-bold uppercase tracking-widest">
+                                        {error}
+                                    </div>
+                                )}
                             </div>
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="h-[52px] px-8 bg-primary text-black font-black uppercase tracking-widest text-[11px] rounded flex items-center justify-center gap-3 hover:scale-102 active:scale-98 transition-all disabled:opacity-50"
+                                className="h-[52px] px-10 bg-primary text-black font-black uppercase tracking-widest text-[11px] rounded-sm flex items-center justify-center gap-3 hover:opacity-90 transition-all disabled:opacity-50"
                             >
-                                {loading ? 'Joining...' : 'Secure Access'} <ArrowRightIcon />
+                                {loading ? 'Attesting...' : 'Secure Access'} <ArrowRightIcon />
                             </button>
                         </form>
                     ) : (
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="h-[52px] flex items-center justify-center gap-3 text-primary font-black uppercase tracking-widest text-[11px]"
+                            className="h-[52px] flex items-center justify-center gap-4 text-primary font-black uppercase tracking-widest text-[12px]"
                         >
-                            <CheckIcon width={20} height={20} /> You're on the list
+                            <CheckIcon width={24} height={24} /> Attested to Waitlist
                         </motion.div>
                     )}
                 </div>

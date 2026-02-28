@@ -39,9 +39,7 @@ export function Hero() {
                     <motion.rect
                         x="340" y="340" width="120" height="120" rx="4"
                         stroke="currentColor" className="text-primary" strokeWidth="2"
-                        initial={{ opacity: 0.5 }}
-                        animate={{ opacity: [0.5, 1, 0.5], scale: [1, 1.02, 1] }}
-                        transition={{ duration: 4, repeat: Infinity }}
+                        initial={{ opacity: 0.8 }}
                     />
 
                     {/* Dynamic Data Lines */}
@@ -105,15 +103,9 @@ export function Hero() {
                     >
                         <Link
                             href="#story"
-                            className="h-16 px-10 bg-primary text-primary-foreground font-black uppercase tracking-widest text-[12px] rounded-sm flex items-center gap-4 hover:opacity-90 transition-all shadow-[0_10px_30px_rgba(170,255,184,0.2)]"
+                            className="h-16 px-10 bg-primary text-primary-foreground font-black uppercase tracking-widest text-[12px] rounded-sm flex items-center gap-4 hover:opacity-90 transition-all"
                         >
                             The Origin <ArrowBottomRightIcon width={20} height={20} />
-                        </Link>
-                        <Link
-                            href="/docs"
-                            className="h-16 px-10 border border-border text-foreground font-black uppercase tracking-widest text-[12px] rounded-sm flex items-center gap-4 hover:border-primary/50 transition-all bg-background/50 backdrop-blur-sm"
-                        >
-                            Developer SDK
                         </Link>
                     </motion.div>
                 </motion.div>
