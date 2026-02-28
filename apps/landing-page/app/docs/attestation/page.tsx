@@ -1,5 +1,7 @@
 "use client";
 
+import { clsx } from "clsx";
+
 import { DocHero, DocSection, CodeBlock, InfoBox } from "../../../components/docs/DocComponents";
 import { motion } from "framer-motion";
 import { LayersIcon, LockClosedIcon, CheckCircledIcon, ArrowRightIcon } from "@radix-ui/react-icons";
