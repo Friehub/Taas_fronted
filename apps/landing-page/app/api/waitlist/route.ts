@@ -22,7 +22,20 @@ export async function POST(request: Request) {
 
         const resend = new Resend(process.env.RESEND_API_KEY);
 
-        // Resend Integration
+        // 1. Create/Update Contact in Resend for permanent storage
+        // Note: You can find your Audience ID in the Resend Dashboard
+        try {
+            await resend.contacts.create({
+                email: email,
+                unsubscribed: false,
+                audienceId: process.env.RESEND_AUDIENCE_ID || '', // Fallback to empty if not set
+            });
+        } catch (contactError) {
+            // We log but don't block the email if contact creation fails (e.g. missing audience ID)
+            console.warn('Resend Contact Creation Warning:', contactError);
+        }
+
+        // 2. Send welcome email
         const { data, error } = await resend.emails.send({
             from: 'Friehub <waitlist@friehub.com>', // User needs to verify domain on Resend
             to: [email],
