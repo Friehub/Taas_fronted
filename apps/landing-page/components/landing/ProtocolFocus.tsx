@@ -12,7 +12,7 @@ import Link from 'next/link';
 
 export function ProtocolFocus() {
     return (
-        <section className="py-32 border-y border-white/5 bg-black/20">
+        <section className="py-32 border-y border-border bg-muted/10">
             <div className="container mx-auto px-6">
                 <div className="grid lg:grid-cols-2 gap-24 items-center">
                     <div>
@@ -57,7 +57,7 @@ export function ProtocolFocus() {
 
                     <div className="relative">
                         {/* Simplistic Technical Illustration/SVG */}
-                        <div className="p-12 rounded-2xl bg-white/[0.02] border border-white/5 relative group">
+                        <div className="p-12 rounded-2xl bg-muted/5 border border-border relative group">
                             <div className="aspect-square flex items-center justify-center">
                                 <svg width="300" height="300" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect x="70" y="70" width="60" height="60" rx="4" stroke="#AAFFB8" strokeWidth="2" />

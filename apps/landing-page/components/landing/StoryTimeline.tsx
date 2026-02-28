@@ -70,7 +70,7 @@ export function StoryTimeline() {
                         <div className="absolute left-8 top-0 bottom-0 w-px bg-border" />
                         <motion.div
                             style={{ height: lineHeight }}
-                            className="absolute left-8 top-0 w-px bg-primary shadow-[0_0_15px_rgba(170,255,184,0.5)]"
+                            className="absolute left-8 top-0 w-px bg-primary dark:shadow-[0_0_15px_rgba(170,255,184,0.5)]"
                         />
 
                         <div className="space-y-48">
