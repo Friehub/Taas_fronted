@@ -1,5 +1,4 @@
-"use client";
-
+import { Header } from "../../components/shared/Header";
 import { Sidebar, MobileNav } from "../../components/docs/Sidebar";
 import { motion } from "framer-motion";
 
@@ -9,7 +8,8 @@ export default function DocsLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="min-h-screen bg-background text-foreground flex flex-col pt-20">
+        <div className="min-h-screen bg-background text-foreground flex flex-col">
+            <Header />
             {/* Mobile Navigation */}
             <MobileNav />
 
