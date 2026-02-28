@@ -113,7 +113,7 @@ export function Hero() {
                             href="/docs"
                             className="h-16 px-10 border border-border text-foreground font-black uppercase tracking-widest text-[12px] rounded-sm flex items-center gap-4 hover:border-primary/50 transition-all bg-background/50 backdrop-blur-sm"
                         >
-                            Developer SDK <DotFilledIcon className="text-primary" />
+                            Developer SDK
                         </Link>
                     </motion.div>
                 </motion.div>
