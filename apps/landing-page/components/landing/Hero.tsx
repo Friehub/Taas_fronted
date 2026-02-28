@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
-import { ArrowBottomRightIcon, DotFilledIcon } from '@radix-ui/react-icons';
+import { ArrowBottomRightIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { useRef, useEffect } from 'react';
 import { ProtocolHUD } from './ProtocolHUD';
@@ -15,7 +15,7 @@ export function Hero() {
         offset: ["start start", "end start"]
     });
 
-    // Parallax values
+    // Parallax & 3D Tilt values
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
 
@@ -27,7 +27,7 @@ export function Hero() {
     const rotateX = useTransform(smoothY, [-300, 300], [5, -5]);
     const rotateY = useTransform(smoothX, [-300, 300], [-5, 5]);
 
-    // Handle mouse move for parallax & magnetic
+    // Handle mouse move for parallax & magnetic physics
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             const { clientX, clientY } = e;
@@ -46,20 +46,20 @@ export function Hero() {
 
     return (
         <section ref={containerRef} className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden bg-background">
-            {/* Protocol HUD */}
+            {/* High-Density Protocol HUD */}
             <ProtocolHUD />
 
-            {/* Background Elements */}
+            {/* Background Texture */}
             <div className="absolute inset-0 bg-dot-white opacity-40 dark:opacity-40 pointer-events-none" />
 
-            {/* The Data-Flow Centerpiece */}
+            {/* The Data-Flow Centerpiece (3D Perspective) */}
             <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 w-[800px] h-[800px] pointer-events-none select-none hidden lg:block [perspective:1000px]">
                 <motion.div
                     style={{ x: parallaxX, y: parallaxY, rotateX, rotateY }}
                     className="w-full h-full"
                 >
                     <svg width="100%" height="100%" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        {/* Concentric Circles */}
+                        {/* Concentric Architecture */}
                         <motion.circle
                             cx="400" cy="400" r="350"
                             stroke="currentColor" className="text-primary/10" strokeWidth="1"
@@ -71,14 +71,14 @@ export function Hero() {
                             transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
                         />
 
-                        {/* Central Processor Prism */}
+                        {/* Central Processor */}
                         <motion.rect
                             x="340" y="340" width="120" height="120" rx="4"
                             stroke="currentColor" className="text-primary" strokeWidth="2"
                             initial={{ opacity: 0.8 }}
                         />
 
-                        {/* Dynamic Data Lines */}
+                        {/* Dynamic Attestation Lines */}
                         {[...Array(6)].map((_, i) => (
                             <motion.path
                                 key={i}
@@ -97,7 +97,7 @@ export function Hero() {
                             />
                         ))}
 
-                        {/* Orbiting Result Nodes */}
+                        {/* Proof Nodes */}
                         <motion.g
                             animate={{ rotate: 360 }}
                             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
@@ -167,7 +167,7 @@ export function Hero() {
                 </motion.div>
             </div>
 
-            {/* Scroll Indicator */}
+            {/* Aesthetic Scroll Indicator */}
             <motion.div
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
