@@ -20,7 +20,7 @@ export function Header() {
                         </div>
                         <span className="font-display text-2xl font-bold tracking-tight text-white drop-shadow-sm">Friehub</span>
                     </div>
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-black mt-1 ml-13">Foundation</span>
+                    <span className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-black mt-1 ml-13">Protocol</span>
                 </Link>
             </motion.div>
 

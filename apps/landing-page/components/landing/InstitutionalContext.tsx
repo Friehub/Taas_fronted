@@ -15,7 +15,7 @@ export function InstitutionalContext() {
                             viewport={{ once: true }}
                             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-[0.2em]"
                         >
-                            <Shield size={12} /> Institutional Grade
+                            <Shield size={12} /> Protocol Grade
                         </motion.div>
 
                         <motion.h2
@@ -26,7 +26,7 @@ export function InstitutionalContext() {
                             className="text-4xl md:text-6xl font-display font-medium text-white leading-tight"
                         >
                             Powered by the <br />
-                            <span className="text-primary italic">Friehub Ecosystem.</span>
+                            <span className="text-primary italic">Friehub Protocol.</span>
                         </motion.h2>
 
                         <motion.p
@@ -36,7 +36,7 @@ export function InstitutionalContext() {
                             transition={{ delay: 0.2 }}
                             className="text-lg text-white/60 leading-relaxed max-w-xl"
                         >
-                            TaaS (Truth-as-a-Service) is not just an oracle; it's the core verification layer of the Friehub Protocol. Friehub provides the sovereign infrastructure that ensures decentralized data is handled with absolute integrity and institutional-grade security.
+                            TaaS (Truth-as-a-Service) is not just an oracle; it's the core verification layer of Friehub. We provide the sovereign infrastructure that ensures decentralized data is handled with absolute integrity and protocol-grade security.
                         </motion.p>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8">
@@ -48,7 +48,7 @@ export function InstitutionalContext() {
                             <InfoCard
                                 icon={Award}
                                 title="Sovereign Tech"
-                                description="A completely independent stack owned and operated by the Friehub Foundation."
+                                description="A completely independent stack owned and operated by Friehub."
                             />
                         </div>
                     </div>
@@ -64,7 +64,7 @@ export function InstitutionalContext() {
                             <div className="relative glass-ultra rounded-[4rem] border border-white/10 p-12 h-full flex flex-col items-center justify-center text-center">
                                 <Sparkles size={64} className="text-primary mb-8" />
                                 <div className="text-4xl font-display font-bold text-white mb-4">Friehub</div>
-                                <div className="text-sm text-primary/60 font-black uppercase tracking-[0.3em]">The Foundation of Truth</div>
+                                <div className="text-sm text-primary/60 font-black uppercase tracking-[0.3em]">The Core of Truth</div>
                                 <div className="mt-8 pt-8 border-t border-white/5 w-full text-white/40 text-xs leading-relaxed">
                                     Managing the TaaS network protocols and safeguarding the integrity of the decentralized truth market.
                                 </div>

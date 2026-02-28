@@ -21,7 +21,7 @@ const TEAM = [
     {
         name: "Ecosystem Lead",
         role: "Strategic Growth",
-        bio: "Expanding the reach of verifiable truth across institutional markets.",
+        bio: "Expanding the reach of verifiable truth across global markets.",
         image: "E"
     }
 ];
@@ -48,7 +48,7 @@ export default function AboutPage() {
                         className="text-5xl md:text-8xl font-display font-medium tracking-tighter mb-8"
                     >
                         Building the <br />
-                        <span className="text-primary italic">Foundation of Truth.</span>
+                        <span className="text-primary italic">Verifiable Truth.</span>
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
@@ -56,7 +56,7 @@ export default function AboutPage() {
                         transition={{ delay: 0.2 }}
                         className="text-xl text-muted-foreground/60 max-w-3xl mx-auto leading-relaxed"
                     >
-                        The Friehub Foundation is a sovereign entity dedicated to solving the trust gap
+                        Friehub is a sovereign entity dedicated to solving the trust gap
                         in the digital era through decentralized, immutable verification.
                     </motion.p>
                 </div>
@@ -72,7 +72,7 @@ export default function AboutPage() {
                         <ValueCard
                             icon={Shield}
                             title="Sovereignty"
-                            description="We operate as an independent foundation, ensuring the protocol remains a neutral public good."
+                            description="We operate as an independent protocol, ensuring the network remains a neutral public good."
                         />
                         <ValueCard
                             icon={Target}
@@ -116,7 +116,7 @@ export default function AboutPage() {
                                 </div>
                                 <h3 className="text-2xl font-bold text-foreground mb-2">{member.name}</h3>
                                 <div className="text-primary text-[10px] font-black uppercase tracking-widest mb-6">{member.role}</div>
-                                <p className="text-muted-foreground/60 leading-relaxed italic">"{member.bio}"</p>
+                                <p className="text-muted-foreground/60 leading-relaxed italic">Expanding the reach of verifiable truth across global markets.</p>
                             </motion.div>
                         ))}
                     </div>

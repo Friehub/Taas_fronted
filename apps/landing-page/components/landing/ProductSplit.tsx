@@ -24,7 +24,7 @@ export function ProductSplit() {
                     </h2>
                     <p className="text-lg text-muted-foreground/60 max-w-2xl mx-auto leading-relaxed">
                         Whether you're building a sovereign prediction market or a high-frequency trading bot,
-                        Friehub provides the modular foundation for verifiable logic.
+                        Friehub provides the modular core for verifiable logic.
                     </p>
                 </div>
 
@@ -43,7 +43,7 @@ export function ProductSplit() {
 
                             <h3 className="text-3xl font-display font-bold text-foreground mb-4">Truth Infrastructure</h3>
                             <p className="text-muted-foreground/60 text-lg mb-10 leading-relaxed flex-1">
-                                The decentralized source-of-truth for the verifiable web. Programmable recipes allow institutions
+                                The decentralized source-of-truth for the verifiable web. Programmable recipes allow builders
                                 to fetch, verify, and settle complex real-world outcomes with cryptographic finality.
                             </p>
 
@@ -75,9 +75,9 @@ export function ProductSplit() {
                                 <LineChart size={32} />
                             </div>
 
-                            <h3 className="text-3xl font-display font-bold text-foreground mb-4">Institutional Platform</h3>
+                            <h3 className="text-3xl font-display font-bold text-foreground mb-4">Core Application</h3>
                             <p className="text-muted-foreground/60 text-lg mb-10 leading-relaxed flex-1">
-                                High-performance access to decentralized prediction markets. A professional-grade
+                                High-performance access to decentralized prediction markets. A powerful
                                 environment for global participants to engage with verifiable intelligence.
                             </p>
 

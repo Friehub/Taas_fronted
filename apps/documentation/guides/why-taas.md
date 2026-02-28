@@ -21,8 +21,12 @@ Instead of just fetching a number, developers write **Recipes**. These are sandb
 The Friehub network of Sentinel nodes executes these Recipes. They don't just report data; they provide a **consensus-based proof** that the result is correct based on the logic you defined.
 
 ### 3. Sub-Second Integrity
-By using an optimistic attestation model with high-performance nodes, TaaS achieves sub-second resolution for data that requires immediate finality, while maintaining institutional-grade security.
+By using an optimistic attestation model with high-performance nodes, TaaS achieves sub-second resolution for data that requires immediate finality, while maintaining protocol-grade security.
+
+## Is Friehub an Oracle?
+
+Yes, but TaaS is more than just a data bridge. While traditional oracles merely relay information, Friehub provides **Truth Infrastructure**. We combine data fetching with programmable verification logic, multi-node consensus, and cryptographic settlement to ensure that the data you receive is the absolute, verified truth.
 
 ## Powered by Friehub
 
-TaaS is a core component of the **Friehub Ecosystem**. Friehub owns and operates the underlying protocol infrastructure, ensuring that the network remains sovereign, permissionless, and dedicated to the mission of institutional-grade truth.
+TaaS is the core protocol of Friehub. We own and operate the underlying infrastructure, ensuring that the network remains sovereign, permissionless, and dedicated to the mission of absolute truth.

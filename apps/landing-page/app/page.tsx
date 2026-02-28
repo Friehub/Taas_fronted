@@ -34,7 +34,7 @@ export default function LandingPage() {
             {/* 7. Waitlist Section */}
             <Waitlist />
 
-            {/* 8. Institutional Footer CTA */}
+            {/* 8. Protocol Footer CTA */}
             <LandingCTA />
 
             {/* Premium Minimized Footer */}

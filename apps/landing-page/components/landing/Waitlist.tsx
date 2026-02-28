@@ -82,7 +82,7 @@ export function Waitlist() {
                                 </button>
                             </div>
                             <p className="mt-4 text-[10px] text-white/20 uppercase tracking-widest">
-                                No spam. Just institutional-grade updates.
+                                No spam. Just protocol-grade updates.
                             </p>
                         </form>
                     ) : (

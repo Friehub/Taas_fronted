@@ -121,6 +121,7 @@ export function Hero() {
                         Powered by Friehub Protocol
                     </motion.div>
 
+                    <span className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-black mt-1 ml-13">Protocol</span>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
