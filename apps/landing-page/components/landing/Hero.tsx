@@ -22,8 +22,10 @@ export function Hero() {
     const smoothX = useSpring(mouseX, { damping: 20, stiffness: 100 });
     const smoothY = useSpring(mouseY, { damping: 20, stiffness: 100 });
 
-    const parallaxX = useTransform(smoothX, [-300, 300], [-30, 30]);
-    const parallaxY = useTransform(smoothY, [-300, 300], [-30, 30]);
+    const parallaxX = useTransform(smoothX, [-300, 300], [-15, 15]);
+    const parallaxY = useTransform(smoothY, [-300, 300], [-10, 10]);
+    const rotateX = useTransform(smoothY, [-300, 300], [5, -5]);
+    const rotateY = useTransform(smoothX, [-300, 300], [-5, 5]);
 
     // Handle mouse move for parallax & magnetic
     useEffect(() => {
@@ -115,7 +117,13 @@ export function Hero() {
                         className="text-7xl md:text-[140px] font-display font-medium leading-[0.85] tracking-tighter text-foreground mb-12"
                     >
                         Standardizing <br />
-                        <span className="text-primary italic">Autonomous Truth.</span>
+                        <motion.span
+                            animate={{ letterSpacing: ["-0.05em", "-0.02em", "-0.05em"] }}
+                            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                            className="text-primary italic inline-block"
+                        >
+                            Autonomous Truth.
+                        </motion.span>
                     </motion.h1>
 
                     <motion.p
