@@ -37,6 +37,8 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: 'Quick Start', link: '/guides/getting-started' },
+          { text: 'TaaS Interfaces', link: '/guides/taas-interfaces' },
+          { text: 'Developer SDK', link: '/guides/taas-sdk' },
           { text: 'Workflow', link: '/guides/development' }
         ]
       },
