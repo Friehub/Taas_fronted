@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useAccount } from 'wagmi';
 import { useStats, useActivity, formatNumber, formatCurrency } from '@/lib/api';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 import { StatCard, StatusBadge } from '../components/shared/StatCard';
 import {
     ActivityLogIcon,
@@ -17,7 +18,10 @@ import {
     ClockIcon,
     ExclamationTriangleIcon,
     MagnifyingGlassIcon,
-    ExternalLinkIcon
+    ExternalLinkIcon,
+    DownloadIcon,
+    MixerVerticalIcon,
+    BarChartIcon
 } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { OutcomeDisplay } from '@/components/OutcomeDisplay';
@@ -40,6 +44,18 @@ export default function DashboardPage() {
     const userNodes = userNodesData?.data || [];
     const totalEarned = userNodes.reduce((acc: number, node: any) => acc + parseFloat(node.total_earned || 0), 0);
     const totalProceeds = userNodes.reduce((acc: number, node: any) => acc + parseInt(node.total_proceeds || 0), 0);
+
+    const handleExport = () => {
+        if (!activity || activity.length === 0) return;
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(activity, null, 2));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", `friehub_truth_logs_${new Date().toISOString()}.json`);
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+        toast.success('Activity logs exported successfully');
+    };
 
     const statCards = [
         {
@@ -93,9 +109,17 @@ export default function DashboardPage() {
                             </div>
                             <h2 className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.2em]">Truth Stream</h2>
                         </div>
-                        <Link href="/activity" className="group flex items-center gap-1.5 text-[10px] font-black text-foreground/30 hover:text-primary uppercase tracking-[0.2em] transition-all">
-                            Full Log <ExternalLinkIcon width={12} height={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                        </Link>
+                        <div className="flex items-center gap-4">
+                            <button
+                                onClick={handleExport}
+                                className="group flex items-center gap-1.5 text-[10px] font-black text-foreground/30 hover:text-primary uppercase tracking-[0.2em] transition-all"
+                            >
+                                <DownloadIcon width={12} height={12} /> Export
+                            </button>
+                            <Link href="/activity" className="group flex items-center gap-1.5 text-[10px] font-black text-foreground/30 hover:text-primary uppercase tracking-[0.2em] transition-all">
+                                Full Log <ExternalLinkIcon width={12} height={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                            </Link>
+                        </div>
                     </div>
 
                     <div className="space-y-2">
@@ -141,6 +165,42 @@ export default function DashboardPage() {
 
                 {/* Sidebar Widgets */}
                 <div className="space-y-6">
+                    <div className="p-6 bg-card/40 backdrop-blur-md border border-white/5 rounded-2xl relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                            <BarChartIcon width={80} height={80} />
+                        </div>
+                        <h3 className="text-[11px] font-black text-foreground/40 uppercase tracking-[0.2em] mb-6 flex items-center gap-3">
+                            <MixerVerticalIcon width={14} height={14} className="text-primary/60" />
+                            Network Pulse
+                        </h3>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                                <span className="text-[8px] font-black text-foreground/20 uppercase tracking-[0.2em]">Throughput</span>
+                                <div className="text-lg font-mono font-bold text-foreground/80 tracking-tighter">
+                                    42<span className="text-[10px] text-foreground/30 ml-1">req/s</span>
+                                </div>
+                            </div>
+                            <div className="space-y-1">
+                                <span className="text-[8px] font-black text-foreground/20 uppercase tracking-[0.2em]">Latency</span>
+                                <div className="text-lg font-mono font-bold text-emerald-500 tracking-tighter tabular-nums">
+                                    84<span className="text-[10px] text-foreground/20 ml-1 font-bold">ms</span>
+                                </div>
+                            </div>
+                            <div className="space-y-1">
+                                <span className="text-[8px] font-black text-foreground/20 uppercase tracking-[0.2em]">Bandwidth</span>
+                                <div className="text-lg font-mono font-bold text-foreground/80 tracking-tighter">
+                                    1.2<span className="text-[10px] text-foreground/30 ml-1">GB/h</span>
+                                </div>
+                            </div>
+                            <div className="space-y-1">
+                                <span className="text-[8px] font-black text-foreground/20 uppercase tracking-[0.2em]">Stability</span>
+                                <div className="text-lg font-mono font-bold text-primary tracking-tighter">
+                                    99.8<span className="text-[10px] text-foreground/30 ml-1">%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <ExtensionLink />
 
                     <div className="p-6 bg-card/40 backdrop-blur-md border border-white/5 rounded-2xl relative overflow-hidden group">

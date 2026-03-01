@@ -54,7 +54,7 @@ export function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (o:
                 {/* Logo Area */}
                 <div className="h-16 flex items-center px-6 border-b border-white/5">
                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-primary rounded shadow-lg shadow-primary/20 flex items-center justify-center text-primary-foreground font-black text-lg font-display tracking-tighter">
+                        <div className="w-8 h-8 rounded-lg border border-primary/40 bg-primary/5 flex items-center justify-center text-primary font-black text-lg font-display tracking-tighter shadow-[0_0_15px_rgba(16,185,129,0.05)]">
                             F
                         </div>
                         <div>
@@ -121,7 +121,7 @@ export function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (o:
                         <div className="space-y-2">
                             <div className="flex justify-between items-center text-[9px] font-black uppercase tracking-[0.1em]">
                                 <span className="text-foreground/30">Protocol</span>
-                                <span className="text-primary font-mono bg-primary/10 px-1.5 py-0.5 rounded leading-none text-xs">Mainnet-Beta</span>
+                                <span className="text-primary font-mono border border-primary/20 bg-primary/5 px-1.5 py-0.5 rounded-md leading-none text-[10px]">Mainnet-Beta</span>
                             </div>
                             <div className="flex justify-between items-center text-[9px] font-black uppercase tracking-[0.1em]">
                                 <span className="text-foreground/30">Epoch Height</span>
