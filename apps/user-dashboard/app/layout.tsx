@@ -37,8 +37,8 @@ export default function RootLayout({
                                     <Header setIsOpen={setIsSidebarOpen} />
                                 )}
                                 <main className={cn(
-                                    "flex-1 overflow-y-auto",
-                                    !isLoginPage ? "p-4 md:p-8" : "p-0"
+                                    "flex-1 overflow-y-auto min-h-0", // Added overflow-y-auto and min-h-0 for better scroll container
+                                    !isLoginPage ? "p-6 md:p-12 lg:p-16 xl:p-20" : "p-0"
                                 )}>
                                     {children}
                                 </main>

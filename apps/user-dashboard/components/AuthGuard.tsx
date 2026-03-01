@@ -33,12 +33,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     }, [pathname, router]);
 
     if (isAuthorized === null) {
-        return (
-            <div className="min-h-screen flex flex-col items-center justify-center bg-background gap-4">
-                <ReloadIcon className="w-10 h-10 text-primary animate-spin" />
-                <p className="text-sm font-bold uppercase tracking-widest text-muted-foreground animate-pulse">Initializing Security...</p>
-            </div>
-        );
+        return null;
     }
 
     return <>{children}</>;

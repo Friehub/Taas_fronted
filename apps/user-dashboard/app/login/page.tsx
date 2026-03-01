@@ -86,143 +86,92 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col md:flex-row bg-background selection:bg-primary selection:text-primary-foreground">
-            {/* Left Section: Branding (Professional Backdrop) */}
-            <div className="hidden md:flex md:w-[45%] lg:w-[50%] bg-zinc-950 relative overflow-hidden items-center justify-center p-12 border-r border-white/5">
-                {/* Visual Interest: Animated Background Elements */}
-                <div className="absolute inset-0 z-0">
-                    <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/20 rounded-full blur-[120px] animate-pulse" />
-                    <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-emerald-900/40 rounded-full blur-[120px]" />
-                    <div className="absolute inset-0 opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none" />
-                </div>
+        <div className="min-h-screen flex items-center justify-center bg-[#050505] selection:bg-primary selection:text-primary-foreground relative overflow-hidden">
+            {/* Premium Background Elements */}
+            <div className="absolute inset-0 z-0">
+                <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+                <div className="absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%] bg-emerald-900/20 rounded-full blur-[120px]" />
+                <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none" />
 
-                {/* Content */}
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="relative z-10 max-w-md text-center md:text-left"
-                >
-                    <div className="mb-12 inline-flex items-center gap-3 bg-white/5 p-3 pr-6 rounded-2xl border border-white/10 backdrop-blur-md">
-                        <div className="w-12 h-12 bg-primary flex items-center justify-center rounded-xl shadow-lg shadow-primary/20">
-                            <ComponentInstanceIcon width={24} height={24} className="text-black" />
-                        </div>
-                        <div>
-                            <span className="block text-[10px] font-black text-white/40 uppercase tracking-[0.3em] leading-none mb-1">Sentinel</span>
-                            <span className="block text-lg font-display font-black text-white tracking-tighter leading-none">Friehub TaaS</span>
-                        </div>
-                    </div>
-
-                    <h2 className="text-4xl lg:text-5xl font-display font-black text-white mb-6 tracking-tighter leading-[1.1]">
-                        The Standard for <span className="text-primary italic">Decentralized</span> Truth.
-                    </h2>
-
-                    <p className="text-zinc-400 text-sm font-medium leading-relaxed mb-10 max-w-sm">
-                        Access the high-fidelity oracle layer for real-time truth attestation and secure data resolution.
-                    </p>
-
-                    <div className="space-y-6">
-                        <div className="flex items-center gap-4 group">
-                            <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-primary/10 group-hover:border-primary/20 transition-all">
-                                <LockClosedIcon className="text-white/40 group-hover:text-primary" />
-                            </div>
-                            <span className="text-[11px] font-bold text-white/40 uppercase tracking-widest group-hover:text-white/60 transition-colors">EIP-712 Compliance</span>
-                        </div>
-                        <div className="flex items-center gap-4 group">
-                            <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-primary/10 group-hover:border-primary/20 transition-all">
-                                <LightningBoltIcon className="text-white/40 group-hover:text-primary" />
-                            </div>
-                            <span className="text-[11px] font-bold text-white/40 uppercase tracking-widest group-hover:text-white/60 transition-colors">Real-time Attestation</span>
-                        </div>
-                    </div>
-
-                    <div className="mt-24 text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">
-                        © 2026 Friehub Network • Protocol v1.4
-                    </div>
-                </motion.div>
+                {/* Subtle Grid Pattern */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
             </div>
 
-            {/* Right Section: Core Login */}
-            <div className="flex-1 flex items-center justify-center p-6 md:p-12 relative">
-                {/* Mobile Branding (only visible on small screens) */}
-                <div className="absolute top-8 left-8 flex items-center gap-3 md:hidden">
-                    <div className="w-8 h-8 bg-black flex items-center justify-center rounded-lg">
-                        <ComponentInstanceIcon width={16} height={16} className="text-primary" />
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="relative z-10 w-full max-w-[440px] p-8 md:p-12 mx-4"
+            >
+                {/* Glassmorphism Container */}
+                <div className="absolute inset-0 bg-white/[0.02] border border-white/5 backdrop-blur-3xl rounded-[2.5rem] shadow-2xl" />
+
+                <div className="relative z-20">
+                    {/* Simplified Header */}
+                    <div className="mb-12 text-center">
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ delay: 0.2 }}
+                            className="inline-block mb-6 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20"
+                        >
+                            <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Protocol Access</span>
+                        </motion.div>
+                        <h1 className="text-5xl font-display font-black tracking-tighter mb-4 bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent">
+                            ACCESS <span className="text-primary italic">TAAS</span>
+                        </h1>
+                        <p className="text-base text-white/40 font-medium tracking-tight px-4 leading-relaxed">
+                            Friehub TaaS: The decentralized standard for real-time truth attestation.
+                        </p>
                     </div>
-                    <span className="text-sm font-display font-black tracking-tighter">Friehub TaaS</span>
-                </div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="w-full max-w-[400px]"
-                >
-                    <div className="mb-10">
-                        <h1 className="text-3xl font-display font-black tracking-tighter mb-2">Initialize Session</h1>
-                        <p className="text-sm text-foreground/40 font-medium tracking-tight">Connect your secure operator identity to begin.</p>
-                    </div>
-
-                    <div className="space-y-6">
-                        {/* Status/Info Callout */}
-                        <div className="p-5 rounded-2xl bg-muted/50 border border-border flex gap-4 transition-colors hover:bg-muted/80">
-                            <div className="w-10 h-10 rounded-xl bg-background border border-border flex items-center justify-center shrink-0">
-                                <InfoCircledIcon className="text-foreground/40" />
-                            </div>
-                            <div className="space-y-1">
-                                <span className="block text-[10px] font-black text-foreground/30 uppercase tracking-[0.2em] leading-none">Protocol Message</span>
-                                <p className="text-[11px] text-foreground/50 font-medium leading-relaxed">
-                                    Friehub utilizes <span className="text-foreground font-bold italic">SIWE</span> for non-custodial access. Your signature generates a local cryptographic session.
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Interactive Buttons */}
-                        <div className="space-y-3">
+                    <div className="space-y-8">
+                        {/* Action Area */}
+                        <div className="space-y-4">
                             {!isConnected ? (
                                 <button
                                     onClick={() => connect({ connector: injected() })}
-                                    className="w-full h-14 bg-zinc-950 dark:bg-zinc-100 dark:text-zinc-950 text-white font-black text-[11px] uppercase tracking-[0.25em] rounded-2xl transition-all duration-300 flex items-center justify-center gap-4 hover:shadow-2xl hover:shadow-black/10 active:scale-[0.98]"
+                                    className="w-full h-16 bg-white text-black font-black text-xs uppercase tracking-[0.3em] rounded-2xl transition-all duration-500 flex items-center justify-center gap-4 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] active:scale-[0.98]"
                                 >
-                                    <BackpackIcon width={20} height={20} className="text-primary" />
-                                    Initialize Identity
+                                    <BackpackIcon width={22} height={22} className="text-primary" />
+                                    CONNECT WALLET
                                 </button>
                             ) : (
-                                <div className="space-y-3">
-                                    <div className="p-4 rounded-2xl bg-card border border-border flex items-center justify-between shadow-sm">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                                <div className="space-y-4">
+                                    <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-between backdrop-blur-sm">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
+                                                <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                                             </div>
                                             <div>
-                                                <span className="block text-[9px] font-black text-foreground/30 uppercase tracking-widest leading-none mb-1">Active Wallet</span>
-                                                <span className="text-xs font-mono font-bold tracking-tight">
+                                                <span className="block text-[9px] font-black text-white/20 uppercase tracking-widest leading-none mb-1.5">Connected</span>
+                                                <span className="text-sm font-mono font-bold text-white/80 tracking-tight">
                                                     {address?.slice(0, 6)}...{address?.slice(-4)}
                                                 </span>
                                             </div>
                                         </div>
                                         <button
                                             onClick={() => disconnect()}
-                                            className="text-[9px] font-black uppercase tracking-widest text-foreground/20 hover:text-rose-500 transition-colors p-2"
+                                            className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-rose-500 transition-colors p-2"
                                         >
-                                            Disconnect
+                                            Change
                                         </button>
                                     </div>
 
                                     <button
                                         onClick={handleLogin}
                                         disabled={isLoading}
-                                        className="w-full h-14 bg-primary text-primary-foreground font-black text-[11px] uppercase tracking-[0.25em] rounded-2xl transition-all duration-300 hover:shadow-2xl hover:shadow-primary/30 flex items-center justify-center gap-3 active:scale-[0.98] disabled:opacity-50 group overflow-hidden relative"
+                                        className="w-full h-16 bg-primary text-primary-foreground font-black text-xs uppercase tracking-[0.3em] rounded-2xl transition-all duration-500 hover:shadow-[0_0_40px_rgba(16,185,129,0.3)] flex items-center justify-center gap-3 active:scale-[0.98] disabled:opacity-50 group overflow-hidden relative"
                                     >
                                         <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                                         <div className="relative z-10 flex items-center gap-3">
                                             {isLoading ? (
-                                                <ReloadIcon width={20} height={20} className="animate-spin" />
+                                                <ReloadIcon width={22} height={22} className="animate-spin" />
                                             ) : (
                                                 <>
-                                                    <EnterIcon width={20} height={20} />
-                                                    <span>{isVerifying ? 'Verifying...' : 'Authorize Session'}</span>
-                                                    <ArrowRightIcon width={18} height={18} className="group-hover:translate-x-1 transition-transform" />
+                                                    <EnterIcon width={22} height={22} />
+                                                    <span>{isVerifying ? 'Verifying...' : 'SIGN IN'}</span>
+                                                    <ArrowRightIcon width={20} height={20} className="group-hover:translate-x-1.5 transition-transform" />
                                                 </>
                                             )}
                                         </div>
@@ -232,15 +181,18 @@ export default function LoginPage() {
                         </div>
                     </div>
 
-                    <div className="mt-12 flex items-center justify-between text-[10px] font-bold text-foreground/20 uppercase tracking-[0.2em] border-t border-border pt-8">
-                        <div className="flex gap-4">
+                    {/* Footer */}
+                    <div className="mt-16 text-center">
+                        <p className="text-[10px] font-black text-white/10 uppercase tracking-[0.4em] mb-8">
+                            © 2026 Friehub Network • Protocol v1.4
+                        </p>
+                        <div className="flex items-center justify-center gap-8 text-[11px] font-bold text-white/20 uppercase tracking-[0.2em] border-t border-white/5 pt-8">
+                            <a href="#" className="hover:text-primary transition-colors">Documentation</a>
                             <a href="#" className="hover:text-primary transition-colors">Support</a>
-                            <a href="#" className="hover:text-primary transition-colors">Terms</a>
                         </div>
-                        <span>Status: Operational</span>
                     </div>
-                </motion.div>
-            </div>
+                </div>
+            </motion.div>
         </div>
     );
 }

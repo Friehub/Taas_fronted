@@ -53,13 +53,9 @@ export function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (o:
             )}>
                 {/* Logo Area */}
                 <div className="h-16 flex items-center px-6 border-b border-white/5">
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg border border-primary/40 bg-primary/5 flex items-center justify-center text-primary font-black text-lg font-display tracking-tighter shadow-[0_0_15px_rgba(16,185,129,0.05)]">
-                            F
-                        </div>
-                        <div>
-                            <div className="font-display font-black text-foreground tracking-tighter text-sm uppercase">Friehub</div>
-                            <div className="text-[9px] font-black text-primary uppercase tracking-[0.3em] opacity-60 leading-none">Sentinel v1.4</div>
+                    <div className="flex items-center gap-2">
+                        <div className="font-display font-black text-foreground tracking-tighter text-lg uppercase">
+                            Friehub <span className="text-primary">TaaS</span>
                         </div>
                     </div>
                 </div>
