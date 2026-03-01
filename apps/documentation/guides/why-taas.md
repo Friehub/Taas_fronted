@@ -1,32 +1,45 @@
 # Why TaaS?
 
-In the current blockchain landscape, data is abundant, but **trust** is expensive. We built TaaS (Truth-as-a-Service) to solve the fundamental "Truth Gap" between real-world events and on-chain intelligence.
+Existing oracle solutions solve narrow problems. TaaS was built to be **the general-purpose layer** for any smart contract that needs to act on real-world data.
 
-## The Problem: The High Cost of Unverifiable Data
+---
 
-Most modern applications rely on data from third-party APIs. However, when this data needs to trigger financial decisions (like a prediction market payout or an insurance claim), simple data isn't enough.
+## Comparison with Alternatives
 
-1. **The Trust Deficit**: APIs can be manipulated, go offline, or return incorrect data. Relying on a single source of truth is a single point of failure.
-2. **Ambiguity**: Real-world events are complex. "Who won the game?" seems simple, but if a match is abandoned at halftime, a standard oracle might break or return invalid data.
-3. **Operational Overhead**: Building custom decentralised adapters for every data point is slow, expensive, and difficult to maintain.
+| Feature | Chainlink | UMA | TaaS |
+|---|---|---|---|
+| Arbitrary data types | Requires custom feed | Limited | Any (via JSON Recipe) |
+| Dispute mechanism | None (push model) | Optimistic window | Real-time challenger bots |
+| Custom logic | Not supported | Not supported | Execution Engine (conditions, multi-source) |
+| Developer testing | Complex node setup | Complex | Gateway Proxy (no API keys needed) |
+| Data source plugins | Centralized operators | Centralized operators | Open `SovereignAdapter` standard |
+| Decentralized computation | Aggregation only | Assertion model | Full local recipe execution per node |
 
-## The Solution: TaaS Protocol
+---
 
-TaaS provides a **standardized, decentralized truth engine** that converts raw data into verifiable cryptographic attestations.
+## The Core Advantages
 
-### 1. Programmable Verification
-Instead of just fetching a number, developers write **Recipes**. These are sandboxed logic scripts that define exactly how data should be fetched, compared, and computed. 
+### 1. Infinite Data Support via Recipes
+With Chainlink, supporting a new data type requires creating an on-chain contract, finding operators willing to run a new job, and paying for it. With TaaS, you write a JSON Recipe that describes the data logic. The network can support it immediately, without any protocol upgrade or operator coordination.
 
-### 2. Multi-Node Attestation
-The Friehub network of Sentinel nodes executes these Recipes. They don't just report data; they provide a **consensus-based proof** that the result is correct based on the logic you defined.
+### 2. Verifiable, Local Execution
+Every Truth Node in the TaaS network runs the same Recipe logic locally before proposing an outcome on-chain. This means the result is independently reproducible by anyone — nodes, challengers, smart contracts, and end users alike.
 
-### 3. Sub-Second Integrity
-By using an optimistic attestation model with high-performance nodes, TaaS achieves sub-second resolution for data that requires immediate finality, while maintaining protocol-grade security.
+### 3. A Developer-First SDK
+The `@friehub/sovereign-logic` and `@friehub/execution-engine` SDKs let anyone build a new data integration or run a custom Recipe in minutes. The Gateway Proxy eliminates the need for costly API subscriptions just to test.
 
-## Is Friehub an Oracle?
+### 4. Open Plugin Architecture
+Any data provider can be integrated via the `SovereignAdapter` interface. The `CategoryMapper` in `@friehub/taas-plugins` organizes providers by domain (crypto, sports, finance, weather, social) and makes them available to all nodes at runtime.
 
-Yes, but TaaS is more than just a data bridge. While traditional oracles merely relay information, Friehub provides **Truth Infrastructure**. We combine data fetching with programmable verification logic, multi-node consensus, and cryptographic settlement to ensure that the data you receive is the absolute, verified truth.
+### 5. Economic Security via Bonds
+Truth Nodes must lock a token bond when proposing an outcome. If a Challenger Bot detects a discrepancy, it triggers an on-chain dispute. Incorrect proposers are slashed. This makes economic dishonesty significantly more costly than honest behavior.
 
-## Powered by Friehub
+---
 
-TaaS is the core protocol of Friehub. We own and operate the underlying infrastructure, ensuring that the network remains sovereign, permissionless, and dedicated to the mission of absolute truth.
+## Built to Evolve
+
+The TaaS architecture is modular by design:
+
+- **New data types** can be added by anyone contributing a `SovereignAdapter` plugin.
+- **New consensus strategies** (e.g., multi-node weighted voting) can be added to the execution engine without breaking existing recipes.
+- **Zero-knowledge proof integration** is a planned upgrade — execution traces from the engine can be post-processed into ZK proofs, making verification entirely trustless.

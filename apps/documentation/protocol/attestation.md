@@ -1,200 +1,107 @@
-# Attestation Engine
+# How Attestation Works
 
-The Attestation Engine is TaaS's mechanism for converting raw fetched data into a final, on-chain-ready truth value. It is built into the TaaS protocol and runs inside every truth resolution cycle.
-
-As a developer, you do not interact with the Attestation Engine directly. You configure it through the `logic.attestation` block of your Recipe JSON — and the network handles the rest.
+When a smart contract needs a real-world fact, it requests a **Truth Attestation** from the TaaS protocol. This document describes the end-to-end lifecycle of that request.
 
 ---
 
-## What is an Attestation?
-
-An **Attestation** is the final, signed truth output produced after a Recipe's data pipeline completes. It contains:
-
-- The **truth value** (numeric, boolean, array, etc.)
-- The **attestation status** (e.g., `ATTESTED`, `PENDING_TIME`, `INSUFFICIENT_DATA`)
-- A **Universal Truth Proof** — a portable, verifiable cryptographic record
-
-Attestations are submitted to `TruthOracleV2` on Helios and go through an **optimistic dispute window** before becoming finalized on-chain.
-
----
-
-## How You Configure Attestation (In Your Recipe)
-
-The `attestation` block is the last part of a Recipe definition. It tells the protocol how to evaluate the data your pipeline collected and what truth value to return.
-
-### Supported Attestation Types
-
-#### `comparison` — Binary Threshold Check
-
-Returns `1` (YES) or `0` (NO) based on a comparison between a data variable and a target.
-
-```json
-{
-  "type": "comparison",
-  "config": {
-    "valueVar": "btcPrice",
-    "operator": ">",
-    "targetValue": 100000
-  }
-}
-```
-
-Supported operators: `>`, `<`, `>=`, `<=`, `==`, `!=`, `includes`
-
-**Use case**: Did BTC close above $100,000? Did rainfall exceed 50mm? Did a team score more than 30 points?
-
----
-
-#### `scalar` — Numeric Return
-
-Returns the raw numeric value of a data variable, with optional decimal precision and range validation.
-
-```json
-{
-  "type": "scalar",
-  "config": {
-    "valueVar": "finalTemperature",
-    "decimals": 1,
-    "min": -100,
-    "max": 100
-  }
-}
-```
-
-**Use case**: What was the BTC price? What was the rainfall total in mm? What was the final score?
-
----
-
-#### `categorical` — Named Option Mapping
-
-Maps a string value to a predefined index from a set of allowed options.
-
-```json
-{
-  "type": "categorical",
-  "config": {
-    "valueVar": "matchWinner",
-    "categoryMapping": {
-      "Chiefs": 0,
-      "Eagles": 1,
-      "Draw": 2
-    }
-  }
-}
-```
-
-**Use case**: Which team won? What is the current market sentiment? Which candidate won the election?
-
----
-
-#### `range` — Value Bucketing
-
-Classifies a numeric value into one of several predefined buckets ("pools") and returns the pool index.
-
-```json
-{
-  "type": "range",
-  "config": {
-    "valueVar": "temperature",
-    "pools": [
-      { "min": null, "max": 0 },
-      { "min": 0, "max": 15 },
-      { "min": 15, "max": 30 },
-      { "min": 30, "max": null }
-    ]
-  }
-}
-```
-
-**Use case**: Was the temperature "freezing", "cold", "mild", or "hot"? Which price bracket did ETH land in?
-
----
-
-#### `time-based` — Time-Gated Attestation
-
-Defers resolution until a specified timestamp. Returns `PENDING_TIME` before the deadline, then evaluates a nested attestation type.
-
-```json
-{
-  "type": "time-based",
-  "config": {
-    "resolveAt": "2025-12-31T23:59:00Z",
-    "condition": {
-      "type": "comparison",
-      "config": {
-        "valueVar": "finalPrice",
-        "operator": ">",
-        "targetValue": 50000
-      }
-    }
-  }
-}
-```
-
-**Use case**: Did the stock close above $500 by end of Q4? Did the metric exceed the threshold by the deadline?
-
----
-
-#### `multi-select` — Multiple Selection Outcome
-
-Returns an array of selected option indices. Used for MULTI_SELECT market types.
-
-```json
-{
-  "type": "multi-select",
-  "config": {
-    "valueVar": "qualifiedTeams",
-    "resultMapping": ["TeamA", "TeamB", "TeamC", "TeamD"],
-    "minSelections": 1,
-    "maxSelections": 4
-  }
-}
-```
-
-**Use case**: Which teams qualified for the playoff? Which tokens are listed on the exchange?
-
----
-
-## Attestation Status Reference
-
-When a truth request resolves, the attestation status indicates the quality of the result:
-
-| Status | Meaning |
-| :--- | :--- |
-| `ATTESTED` | Truth successfully computed — result is valid |
-| `VOID` | No matching logic path — result is null |
-| `INSUFFICIENT_DATA` | A required variable was missing or could not be parsed |
-| `OUT_OF_RANGE` | Scalar result fell outside the configured `min`/`max` bounds |
-| `PENDING_TIME` | Time-based attestation — the target timestamp has not been reached |
-| `AMBIGUOUS` | Multiple data sources disagreed beyond the consensus threshold |
-| `INVALID_DATA` | The data pipeline returned a structurally invalid value |
-
----
-
-## The Universal Truth Proof
-
-Every attested result is packaged into a **Universal Truth Proof** — a portable, version-tagged cryptographic record that contains:
-
-- The **truth value** and **attestation timestamp**
-- A **SHA-256 hash of the Recipe** (ensures the recipe wasn't tampered with)
-- A **cryptographic signature** from the Sovereign Gateway (EIP-712 standard)
-- An **execution trace** (step-by-step audit of what data was fetched and transformed)
-
-The proof can be independently verified on-chain or off-chain by any party. It is the on-chain anchor for the entire truth lifecycle.
+## Overview
 
 ```
-UniversalTruthProof {
-  version: "4.0.0",
-  standard: "EIP-712",
-  truth: <resolved value>,
-  attestedAt: <unix timestamp>,
-  recipeId: <recipe identifier>,
-  recipeHash: <sha256 of recipe>,
-  sources: [ <node-by-node audit> ],
-  attestation: {
-    oracleAddress: <TruthOracleV2 address>,
-    signature: <EIP-712 sig>,
-    domain: { name, version, chainId }
-  }
-}
+Smart Contract (requestTruth)
+         |
+         v
+  TruthOracleV2 Contract  ←→  Token Bond (required from requestor)
+         |
+         v
+  Truth Nodes monitor events
+         |
+         v
+  Recipe Execution (off-chain)
+    ├── StandardFeedPlugin fetches data from providers
+    ├── Logic evaluation (conditions, aggregation)
+    └── Result normalization (BINARY/SCALAR/CATEGORICAL)
+         |
+         v
+  Node proposes outcome + bond on-chain
+         |
+         v
+  Challenge Window (Challenger Bots re-verify)
+         |
+   ┌─────┴─────┐
+   |           |
+No dispute   Dispute filed
+   |              |
+   v              v
+Result         Arbitration
+finalized      Slashing / Reward
 ```
+
+---
+
+## Step 1: Requesting Truth
+
+A consumer smart contract calls `requestTruth` on the `TruthOracleV2` contract:
+
+```solidity
+oracle.requestTruth{value: bond}(
+    recipeId,       // The ID of the registered JSON Recipe
+    extraData,      // ABI-encoded JSON inputs (e.g. symbol, timestamp)
+    deadline        // Unix timestamp by which the truth must be submitted
+);
+```
+
+The contract locks a bond and emits a `TruthRequested` event that all active Truth Nodes receive.
+
+---
+
+## Step 2: Node Picks Up the Request
+
+Active Truth Nodes (running `@friehub/truth-node`) continuously monitor the mempool and contract events. When a `TruthRequested` event is detected, the node:
+
+1. Loads the referenced Recipe from the `RecipeRegistry`.
+2. Decodes the ABI-encoded `extraData` back into JSON inputs.
+3. Passes the Recipe and inputs to the `RecipeExecutor`.
+
+---
+
+## Step 3: Local Execution
+
+The `RecipeExecutor` inside the node runs the recipe logic entirely **off-chain**:
+
+- The `StandardFeedPlugin` routes data requests via the local plugin registry or the Gateway Proxy.
+- Multi-source aggregation, conditional checks, and outcome normalization are computed locally.
+- A cryptographic execution trace (proof) is produced.
+
+---
+
+## Step 4: Proposing On-Chain
+
+The node calls `proposeTruth` on the oracle contract with:
+- The `requestId`
+- The computed `outcome` value
+- A token bond (proving economic commitment)
+- The `ipfsHash` of the truth certificate (execution trace stored on IPFS)
+
+---
+
+## Step 5: Challenger Window
+
+After submission, a configurable **challenge window** is open. Any Challenger Bot (running the `ChallengerBot` module) can independently re-execute the same recipe and compare the result. If it disagrees, it calls `disputeTruth` on-chain and posts its own bond.
+
+Disputes that result in the original proposer being wrong cause that node to lose its bond (slashing). The correct challenger earns a reward.
+
+---
+
+## Step 6: Finalization
+
+Once the challenge window closes without a successful dispute, the oracle marks the result as `FINALIZED`. The consumer smart contract's callback function is invoked:
+
+```solidity
+function onTruthAttestation(
+    bytes32 requestId,
+    uint256 truth,
+    bytes32 proofHash
+) external;
+```
+
+The consumer can now act on the verified, immutable truth value.

@@ -1,200 +1,113 @@
-# TaaS Node
+# Truth Node
 
-**The official execution and verification client for the TaaS (Truth as a Service) Protocol.**
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-
-The TaaS Node is a critical component of the localized truth consensus network. It is designed to operate in two distinct modes—**Sentinel** and **Challenger**—ensuring the integrity, availability, and accuracy of data feeds powered by the TaaS Protocol.
+The **Truth Node** is the core participant in the TaaS network. It listens for on-chain truth requests, executes recipe logic locally, and proposes verified outcomes to the `TruthOracleV2` smart contract.
 
 ---
 
-## Table of Contents
+## Modes of Operation
 
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-  - [Sentinel Mode](#sentinel-mode)
-  - [Challenger Mode](#challenger-mode)
-- [Observability](#observability)
-- [API Reference](#api-reference)
-- [Troubleshooting](#troubleshooting)
-- [License](#license)
+The Truth Node supports three runtime modes controlled by the `NODE_MODE` environment variable:
+
+| Mode | Description |
+|---|---|
+| `sentinel` | Actively monitors and processes incoming truth requests. |
+| `challenger` | Monitors proposals from other nodes and disputes incorrect outcomes. |
+| `both` | Runs both sentinel and challenger simultaneously. |
 
 ---
 
-## Overview
+## Running with Docker (Recommended)
 
-The TaaS Node acts as the bridge between off-chain data and the on-chain Truth Oracle. It is responsible for fetching real-world data, generating cryptographic proofs, and securing the network against malicious actors.
+The official Truth Node Docker image is published to GitHub Container Registry:
 
-### Core Capabilities
+```bash
+docker pull ghcr.io/friehub/truth-node:latest
+```
 
-- **Resilient Data Fetching**: Utilizes the `@friehub/data-feeds` package to aggregate data from 50+ sources with automatic failover.
-- **Cryptographic Attestation**: Signs data payloads using EIP-712 standard for on-chain verification.
-- **Deterministic Execution**: Runs "Recipes" (standardized data fetching scripts) in a sandboxed environment.
-- **Economic Security**: Stakes TAAS tokens to back the truthfulness of proposed outcomes.
+Create a `.env` file:
+
+```ini
+# Blockchain
+RPC_URL=https://your-rpc-endpoint
+ORACLE_ADDRESS=0x...
+TOKEN_ADDRESS=0x...
+
+# Node Identity
+PRIVATE_KEY=0x...
+NODE_MODE=sentinel
+
+# Gateway (Proxy Mode — no local API keys required)
+TAAS_USE_PROXY=true
+INDEXER_API_URL=https://api.friehub.com
+
+# Optional: Direct API keys (override proxy for specific providers)
+COINGECKO_API_KEY=your_key
+OPENWEATHER_KEY=your_key
+```
+
+Run:
+```bash
+docker run -d --name taas-truth-node --env-file .env ghcr.io/friehub/truth-node:latest
+```
+
+---
+
+## Running from Source
+
+```bash
+git clone https://github.com/Friehub/taas-nodes.git
+cd taas-nodes/truth-node
+
+pnpm install
+cp .env.example .env
+# Fill in your .env values
+
+pnpm dev
+```
 
 ---
 
 ## Architecture
 
-The node executes logic based on its configured `NODE_MODE`.
-
-### 1. Sentinel Mode (Proposer)
-*   **Role**: Service Provider.
-*   **Function**: Listens for `RecipeRequested` events from the Truth Oracle, executes the corresponding recipe, and submits the result (Outcome) to the blockchain.
-*   **Incentive**: Earns a fee (in HLS) for every finalized proposal.
-
-### 2. Challenger Mode (Verifier)
-*   **Role**: Network Guardian.
-*   **Function**: Monitors all incoming proposals from other nodes. It re-executes the recipe locally to verify the result. If a discrepancy is found, it issues a **Dispute**.
-*   **Incentive**: Earns the slashed bond of the malicious Sentinel.
-
----
-
-## Prerequisites
-
-Before running the node, ensure your environment meets the following requirements:
-
-*   **Node.js**: v18.0.0 or higher
-*   **Redis**: v6.0+ (Required for job queue management)
-*   **Helios RPC Endpoint**: A reliable connection to the Helios Testnet (WebSocket recommended for Challengers).
-*   **Wallet**: An EVM-compatible wallet funded with HLS tokens.
-
----
-
-## Installation
-
-Clone the repository and install dependencies:
-
-```bash
-git clone https://github.com/friehub/taas-core.git
-cd taas-core/nodes/truth-node
-npm install
 ```
-
-Build the project:
-
-```bash
-npm run build
+TruthOracleV2 (on-chain)
+      |
+   Events
+      |
+      v
+  Sentinel (Event Listener)
+      |
+  queues job
+      |
+      v
+  TruthWorker (BullMQ Job Processor)
+      ├── Load Recipe from RecipeRegistry
+      ├── Execute via RecipeExecutor
+      │     └── StandardFeedPlugin (Gateway Proxy / Local Plugin)
+      ├── Generate Truth Certificate
+      ├── Upload to IPFS
+      └── proposeTruth() on-chain
 ```
 
 ---
 
-## Configuration
+## Health and Monitoring
 
-The node is configured via environment variables. Copy the example file to get started:
+The Truth Node exposes a REST API for monitoring:
 
-```bash
-cp .env.example .env
 ```
-
-### Required Configuration
-
-| Variable | Description | Example |
-| :--- | :--- | :--- |
-| `NODE_ENV` | Operational environment | `production` |
-| `NODE_MODE` | Operational mode of the node | `sentinel`, `challenger`, or `both` |
-| `PRIVATE_KEY` | EVM Wallet Private Key (Hex) | `0xabc...` |
-| `RPC_URL` | Helios Blockchain RPC Endpoint | `https://testnet1.helioschainlabs.org` |
-| `ORACLE_ADDRESS`| Address of TruthOracleV2 Contract | `0x383E...` |
-| `ORACLE_ADDRESS`| Address of TAASToken Contract | `0x7e6a...` |
-
-### Optional Configuration
-
-| Variable | Description | Default |
-| :--- | :--- | :--- |
-| `NODE_ID` | Human-readable identifier for logs | `truth-node` |
-| `REDIS_URL` | Connection string for Redis | `redis://localhost:6379` |
-| `LOG_LEVEL` | Logging verbosity | `info` |
-| `PORT` | HTTP Server Port | `3001` |
-| `MINIMUM_BOND` | Min. stake required to propose (Wei) | `10 ETH` |
-
----
-
-## Usage
-
-### Sentinel Mode
-
-Run the node to actively propose outcomes:
-
-```bash
-NODE_MODE=sentinel npm start
-```
-
-### Challenger Mode
-
-Run the node to purely verify the network:
-
-```bash
-NODE_MODE=challenger npm start
-```
-
-### Development
-
-For local development with hot-reloading:
-
-```bash
-npm run dev
+GET  /health         # Node health status
+GET  /metrics        # Prometheus metrics
+GET  /feeds          # Registered local data plugins
+POST /execute        # Manually trigger a Recipe execution (for testing)
 ```
 
 ---
 
-## Observability
+## Economic Requirements
 
-### Logging
+To participate as a Truth Node, you must:
 
-The node uses `pino` for structured JSON logging. Logs are output to `stdout` and can be piped to any log aggregator (Datadog, CloudWatch, etc.).
-
-```json
-{"level":30,"time":167823,"msg":"[TruthNode] Information Sentinel running","port":3001}
-```
-
-### Metrics (Prometheus)
-
-Prometheus-compatible metrics are exposed at `http://localhost:3001/metrics`.
-
-*   `truth_requests_total`: Total data requests received.
-*   `truth_proposals_total`: Outcomes proposed to the chain.
-*   `truth_disputes_total`: Disputes initiated (Challenger mode).
-*   `truth_bond_locked`: Current asset value locked in bonds.
-
----
-
-## API Reference
-
-The node exposes a lightweight REST API for health checks and local management.
-
-#### `GET /health`
-Returns the operational status of the node.
-```json
-{ "status": "ok", "mode": "sentinel", "uptime": 120 }
-```
-
-#### `GET /api/admin/stats`
-Returns current performance statistics (used by the TaaS Dashboard).
-
----
-
-## Troubleshooting
-
-**Issue: Node fails to start with "Invalid Private Key"**
-> Ensure your `PRIVATE_KEY` in `.env` starts with `0x` and is exactly 64 hex characters.
-
-**Issue: "Insufficient Funds" error**
-> The wallet must hold enough HLS to pay for transaction fees and the required proposal bond (default 10 HLS).
-
-**Issue: Redis Connection Refused**
-> Ensure a local Redis instance is running (`redis-server`) or update `REDIS_URL` to point to your managed Redis instance.
-
----
-
-## License
-
-This project is licensed under the MIT License.
-
----
-
-**Copyright (c) 2026 FrieHub Protocol.**
+1. Hold enough **T tokens** to cover the `minimumBond` set by the oracle contract.
+2. Be registered as a **Certified Node** via the `NodeRegistry` contract (or operate in uncertified mode with higher bond requirements).
+3. Maintain uptime to avoid being marked as inactive and slashed via the anti-jail heartbeat system (`NodeHealthService`).
