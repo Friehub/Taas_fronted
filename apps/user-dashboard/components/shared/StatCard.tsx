@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils';
-import { ArrowUpRight, ArrowDownRight, Activity } from 'lucide-react';
+import { ArrowTopRightIcon, ArrowBottomRightIcon } from '@radix-ui/react-icons';
 import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 export interface StatProps {
     label: string;
@@ -22,31 +22,35 @@ export function StatCard({ label, value, trend, trendLabel, icon: Icon, loading 
     }
 
     return (
-        <div className="group relative p-6 bg-card border border-border rounded-xl transition-all duration-300 hover:border-primary/20">
-            <div className="relative flex justify-between items-start mb-4">
-                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{label}</div>
-                {Icon && <Icon size={14} className="text-slate-600 group-hover:text-primary transition-colors" />}
+        <div className="group relative p-6 bg-card/40 backdrop-blur-md border border-white/5 rounded-2xl transition-all duration-300 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5">
+            <div className="relative flex justify-between items-start mb-6">
+                <div className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.2em]">{label}</div>
+                {Icon && (
+                    <div className="p-2 bg-white/5 rounded-lg border border-white/5 group-hover:text-primary group-hover:border-primary/20 transition-all duration-500">
+                        <Icon width={14} height={14} />
+                    </div>
+                )}
             </div>
 
-            <div className="relative mb-2">
-                <div className="text-2xl font-bold text-foreground font-mono tracking-tight">{value}</div>
+            <div className="relative mb-3">
+                <div className="text-3xl font-display font-bold text-foreground tracking-tighter leading-none">{value}</div>
             </div>
 
             {(trend !== undefined || trendLabel) && (
                 <div className="relative flex items-center gap-2">
                     {trend !== undefined && (
                         <div className={cn(
-                            "flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded",
+                            "flex items-center gap-1 text-[10px] font-black px-2 py-0.5 rounded-full border shadow-sm",
                             trend >= 0
-                                ? "bg-emerald-500/10 text-emerald-500"
-                                : "bg-rose-500/10 text-rose-500"
+                                ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                                : "bg-rose-500/10 text-rose-500 border-rose-500/20"
                         )}>
-                            {trend >= 0 ? <ArrowUpRight size={10} /> : <ArrowDownRight size={10} />}
+                            {trend >= 0 ? <ArrowTopRightIcon width={10} height={10} /> : <ArrowBottomRightIcon width={10} height={10} />}
                             {Math.abs(trend)}%
                         </div>
                     )}
                     {trendLabel && (
-                        <span className="text-[10px] text-slate-500 font-medium">{trendLabel}</span>
+                        <span className="text-[9px] text-foreground/40 font-bold uppercase tracking-widest">{trendLabel}</span>
                     )}
                 </div>
             )}

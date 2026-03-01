@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { cn } from '@/lib/utils';
 
 export type OutcomeType = 'BINARY' | 'SCALAR' | 'CATEGORICAL' | 'PROBABILISTIC' | 'INVALID';
 
@@ -70,16 +71,18 @@ const BinaryOutcome: React.FC<{ outcome: Outcome; showDetails: boolean }> = ({ o
 
     return (
         <div className="flex items-center gap-2">
-            <div className={`
-                px-4 py-2 rounded-lg font-semibold text-sm
-                ${isYes ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}
-            `}>
+            <div className={cn(
+                "px-4 py-2 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] transition-all",
+                isYes
+                    ? "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.2)]"
+                    : "bg-rose-500/10 text-rose-500 border border-rose-500/20 shadow-[0_0_10px_rgba(244,63,94,0.2)]"
+            )}>
                 {isYes ? 'YES' : 'NO'}
             </div>
 
             {showDetails && outcome.confidence && (
-                <span className="text-sm text-gray-600">
-                    ({(outcome.confidence * 100).toFixed(0)}% confident)
+                <span className="text-[10px] text-foreground/30 font-black uppercase tracking-widest">
+                    {(outcome.confidence * 100).toFixed(0)}% Conf
                 </span>
             )}
         </div>
@@ -97,18 +100,18 @@ const ScalarOutcome: React.FC<{ outcome: Outcome; showDetails: boolean }> = ({ o
     return (
         <div className="flex flex-col gap-1">
             <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-bold text-blue-600">
+                <span className="text-2xl font-display font-bold text-primary tracking-tighter tabular-nums">
                     {formatted}
                 </span>
                 {outcome.unit && (
-                    <span className="text-lg text-gray-600">
+                    <span className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.2em]">
                         {outcome.unit}
                     </span>
                 )}
             </div>
 
             {showDetails && outcome.confidence && (
-                <div className="text-sm text-gray-500">
+                <div className="text-[10px] text-foreground/30 font-black uppercase tracking-widest">
                     Confidence: {(outcome.confidence * 100).toFixed(0)}%
                 </div>
             )}
@@ -120,24 +123,23 @@ const ScalarOutcome: React.FC<{ outcome: Outcome; showDetails: boolean }> = ({ o
 const CategoricalOutcome: React.FC<{ outcome: Outcome; showDetails: boolean }> = ({ outcome, showDetails }) => {
     return (
         <div className="flex flex-col gap-2">
-            <div className="px-4 py-2 bg-purple-100 text-purple-800 rounded-lg inline-block font-semibold">
+            <div className="px-4 py-2 bg-primary/10 text-primary border border-primary/20 rounded-xl inline-block font-black text-[10px] uppercase tracking-[0.2em] shadow-[0_0_10px_rgba(234,179,8,0.1)]">
                 {outcome.value}
             </div>
 
             {showDetails && outcome.options && outcome.options.length > 0 && (
-                <div className="text-sm text-gray-600">
-                    <div className="font-medium mb-1">Available options:</div>
-                    <div className="flex flex-wrap gap-1">
+                <div className="space-y-2 mt-2">
+                    <div className="text-[9px] font-black text-foreground/30 uppercase tracking-[0.2em]">Available options</div>
+                    <div className="flex flex-wrap gap-1.5">
                         {outcome.options.map((option, idx) => (
                             <span
                                 key={idx}
-                                className={`
-                                    px-2 py-1 rounded text-xs
-                                    ${option === outcome.value
-                                        ? 'bg-purple-200 text-purple-900 font-semibold'
-                                        : 'bg-gray-100 text-gray-600'
-                                    }
-                                `}
+                                className={cn(
+                                    "px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest transition-all",
+                                    option === outcome.value
+                                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
+                                        : "bg-white/5 text-foreground/30 border border-white/5"
+                                )}
                             >
                                 {option}
                             </span>
@@ -155,26 +157,26 @@ const ProbabilisticOutcome: React.FC<{ outcome: Outcome; showDetails: boolean }>
     const percentage = (probability * 100).toFixed(1);
 
     return (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
-                <div className="text-3xl font-bold text-indigo-600">
+                <div className="text-3xl font-display font-bold text-primary tracking-tighter tabular-nums">
                     {percentage}%
                 </div>
-                <div className="text-sm text-gray-600">probability</div>
+                <div className="text-[10px] font-black text-foreground/30 uppercase tracking-[0.2em]">Probability</div>
             </div>
 
             {/* Probability Bar */}
-            <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+            <div className="w-full bg-white/5 rounded-full h-1.5 overflow-hidden border border-white/5">
                 <div
-                    className="h-full bg-gradient-to-r from-indigo-400 to-indigo-600 transition-all duration-300"
+                    className="h-full bg-primary shadow-[0_0_10px_rgba(234,179,8,0.3)] transition-all duration-500"
                     style={{ width: `${percentage}%` }}
                 />
             </div>
 
             {showDetails && outcome.reasoning && (
-                <div className="mt-2 p-3 bg-indigo-50 rounded-lg border border-indigo-100">
-                    <div className="text-xs font-semibold text-indigo-900 mb-1">Reasoning:</div>
-                    <div className="text-sm text-indigo-800">
+                <div className="mt-2 p-4 bg-white/5 rounded-2xl border border-white/5 backdrop-blur-sm">
+                    <div className="text-[9px] font-black text-primary uppercase tracking-[0.2em] mb-2">Sentinel Reasoning</div>
+                    <div className="text-[11px] text-foreground/60 font-medium leading-relaxed">
                         {outcome.reasoning}
                     </div>
                 </div>
@@ -187,8 +189,8 @@ const ProbabilisticOutcome: React.FC<{ outcome: Outcome; showDetails: boolean }>
 const InvalidOutcome: React.FC<{ outcome: Outcome; showDetails: boolean }> = ({ outcome, showDetails }) => {
     return (
         <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 px-4 py-2 bg-amber-100 border-l-4 border-amber-500 rounded">
-                <span className="text-amber-800 font-semibold">INVALID QUESTION</span>
+            <div className="flex items-center gap-2 px-4 py-3 bg-rose-500/10 border-l-4 border-rose-500 rounded-xl shadow-[0_0_10px_rgba(244,63,94,0.1)]">
+                <span className="text-rose-500 font-black text-[10px] uppercase tracking-[0.2em]">Invalid Question</span>
             </div>
 
             {showDetails && outcome.reasoning && (
@@ -218,39 +220,41 @@ export const OutcomeCompact: React.FC<{ outcome: Outcome }> = ({ outcome }) => {
     switch (outcome.type) {
         case 'BINARY':
             return (
-                <span className={`
-                    px-2 py-1 rounded text-xs font-semibold
-                    ${outcome.value === 1 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}
-                `}>
+                <span className={cn(
+                    "px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest border transition-all",
+                    outcome.value === 1
+                        ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20 shadow-[0_0_5px_rgba(16,185,129,0.2)]"
+                        : "bg-rose-500/10 text-rose-500 border-rose-500/20 shadow-[0_0_5px_rgba(244,63,94,0.2)]"
+                )}>
                     {outcome.value === 1 ? 'YES' : 'NO'}
                 </span>
             );
 
         case 'SCALAR':
             return (
-                <span className="text-sm font-medium text-blue-700">
+                <span className="text-[11px] font-bold text-primary font-mono tabular-nums tracking-tighter">
                     {typeof outcome.value === 'number' ? outcome.value.toLocaleString() : outcome.value}
-                    {outcome.unit && ` ${outcome.unit}`}
+                    {outcome.unit && <span className="ml-1 opacity-40 uppercase tracking-widest text-[8px]">{outcome.unit}</span>}
                 </span>
             );
 
         case 'CATEGORICAL':
             return (
-                <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs font-semibold">
+                <span className="px-2 py-0.5 bg-primary/10 text-primary border border-primary/20 rounded-full text-[9px] font-black uppercase tracking-widest">
                     {outcome.value}
                 </span>
             );
 
         case 'PROBABILISTIC':
             return (
-                <span className="text-sm font-semibold text-indigo-600">
+                <span className="text-[11px] font-bold text-primary font-mono tabular-nums tracking-tighter">
                     {((outcome.probability || 0) * 100).toFixed(1)}%
                 </span>
             );
 
         case 'INVALID':
             return (
-                <span className="px-2 py-1 bg-amber-100 text-amber-800 rounded text-xs font-semibold">
+                <span className="px-2 py-0.5 bg-rose-500/10 text-rose-500 border border-rose-500/20 rounded-full text-[9px] font-black uppercase tracking-widest">
                     INVALID
                 </span>
             );

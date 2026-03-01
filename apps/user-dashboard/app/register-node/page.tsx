@@ -1,25 +1,31 @@
 'use client';
 
 import { NodeRegistrationWizard } from '@/components/NodeRegistrationWizard';
-import { ArrowLeft, Shield, Key, Lock } from 'lucide-react';
+import {
+    DoubleArrowLeftIcon,
+    ComponentInstanceIcon,
+    LockClosedIcon,
+    BoxIcon
+} from '@radix-ui/react-icons';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 export default function RegisterNodePage() {
     return (
-        <div className="min-h-screen bg-background p-8 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className="max-w-4xl mx-auto">
-                <Link href="/" className="inline-flex items-center gap-2 text-xs font-bold text-muted-foreground hover:text-foreground uppercase tracking-widest transition-colors mb-8">
-                    <ArrowLeft size={14} /> Back to Dashboard
+        <div className="min-h-screen bg-background p-4 md:p-12 space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+            <div className="max-w-6xl mx-auto">
+                <Link href="/" className="inline-flex items-center gap-2 text-[10px] font-black text-foreground/30 hover:text-primary uppercase tracking-[0.2em] transition-all mb-12 group">
+                    <DoubleArrowLeftIcon className="group-hover:-translate-x-1 transition-transform" /> Dashboard Overview
                 </Link>
 
-                <div className="mb-12 text-center md:text-left">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest mb-4">
-                        <Shield size={12} /> Secure Onboarding
+                <div className="mb-16 text-center md:text-left relative">
+                    <div className="absolute -left-4 top-0 w-1 h-20 bg-primary/20 rounded-full hidden md:block" />
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[9px] font-black uppercase tracking-[0.3em] mb-6">
+                        <ComponentInstanceIcon width={12} height={12} /> Protocol Integration
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-black text-foreground mb-4 tracking-tight">Activate Node</h1>
-                    <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
-                        Register your node to secure the truth layer.
-                        Choose your role, stake your bond, and join the decentralized consensus network.
+                    <h1 className="text-5xl md:text-7xl font-black text-foreground mb-6 tracking-tighter leading-none">Activate Node</h1>
+                    <p className="text-xl text-foreground/40 font-medium leading-relaxed max-w-2xl">
+                        Initialize your local operator identity and stake your bond to secure the decentralized truth layer.
                     </p>
                 </div>
 
@@ -28,46 +34,49 @@ export default function RegisterNodePage() {
                         <NodeRegistrationWizard />
                     </div>
 
-                    <div className="space-y-6 order-1 lg:order-2">
-                        <div className="p-6 bg-card border border-border rounded-2xl glass-premium">
-                            <h3 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
-                                <Key size={16} className="text-primary" />
-                                How it works
+                    <div className="space-y-8 order-1 lg:order-2">
+                        <div className="p-8 bg-card/40 backdrop-blur-md border border-white/5 rounded-3xl relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <LockClosedIcon width={80} height={80} />
+                            </div>
+                            <h3 className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.3em] mb-8 flex items-center gap-3">
+                                <LockClosedIcon width={16} height={16} className="text-primary" />
+                                Onboarding Flow
                             </h3>
                             <div className="space-y-4">
-                                <div className="flex gap-3">
-                                    <div className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-[10px] font-bold shrink-0">1</div>
-                                    <p className="text-[11px] text-muted-foreground leading-relaxed">Select between Sentinel (proposer) or Challenger (auditor) roles based on your compute.</p>
+                                <div className="flex gap-4">
+                                    <div className="w-6 h-6 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-[10px] font-black shrink-0 border border-primary/20">1</div>
+                                    <p className="text-[11px] text-foreground/40 leading-relaxed font-medium">Select between <span className="text-foreground">Sentinel</span> or <span className="text-foreground">Challenger</span> roles.</p>
                                 </div>
-                                <div className="flex gap-3">
-                                    <div className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-[10px] font-bold shrink-0">2</div>
-                                    <p className="text-[11px] text-muted-foreground leading-relaxed">Generate a local operator identity. This key securely signs your truth proposals.</p>
+                                <div className="flex gap-4">
+                                    <div className="w-6 h-6 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-[10px] font-black shrink-0 border border-primary/20">2</div>
+                                    <p className="text-[11px] text-foreground/40 leading-relaxed font-medium">Generate a <span className="text-foreground">Local Session ID</span> for secure truth proposals.</p>
                                 </div>
-                                <div className="flex gap-3">
-                                    <div className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-[10px] font-bold shrink-0">3</div>
-                                    <p className="text-[11px] text-muted-foreground leading-relaxed">Stake 1,000 $T tokens as a security bond. These tokens ensure network honesty.</p>
+                                <div className="flex gap-4">
+                                    <div className="w-6 h-6 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-[10px] font-black shrink-0 border border-primary/20">3</div>
+                                    <p className="text-[11px] text-foreground/40 leading-relaxed font-medium">Stake <span className="text-foreground font-mono">1,000 $T</span> bond as network insurance.</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="p-6 bg-muted/30 border border-border rounded-2xl">
-                            <h3 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
-                                <Lock size={16} className="text-slate-500" />
+                        <div className="p-8 bg-black/40 backdrop-blur-md border border-white/5 rounded-3xl">
+                            <h3 className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.3em] mb-8 flex items-center gap-3">
+                                <LockClosedIcon width={16} height={16} className="text-primary/40" />
                                 Safety Standards
                             </h3>
-                            <ul className="space-y-4">
-                                <li className="flex gap-3 items-start">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
+                            <ul className="space-y-6">
+                                <li className="flex gap-4 items-start">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0 shadow-[0_0_5px_rgba(234,179,8,0.5)]" />
                                     <div className="text-[11px] leading-relaxed">
-                                        <span className="font-bold text-foreground block mb-0.5">Non-Custodial</span>
-                                        <span className="text-muted-foreground">Operation keys are generated locally and never leave your session.</span>
+                                        <span className="font-black text-foreground uppercase tracking-widest block mb-1">Non-Custodial</span>
+                                        <span className="text-foreground/40 font-medium">Operation keys are generated locally and never leave your secure session.</span>
                                     </div>
                                 </li>
-                                <li className="flex gap-3 items-start">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
+                                <li className="flex gap-4 items-start">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-rose-500 mt-1.5 shrink-0 shadow-[0_0_5px_rgba(244,63,94,0.5)]" />
                                     <div className="text-[11px] leading-relaxed">
-                                        <span className="font-bold text-foreground block mb-0.5">Slashing Risk</span>
-                                        <span className="text-muted-foreground">Intentional false reporting may result in bond forfeiture.</span>
+                                        <span className="font-black text-foreground uppercase tracking-widest block mb-1">Slashing Risk</span>
+                                        <span className="text-foreground/40 font-medium">Intentional misinformation results in immediate bond forfeiture.</span>
                                     </div>
                                 </li>
                             </ul>

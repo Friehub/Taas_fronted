@@ -45,6 +45,15 @@ export function Header() {
                         >
                             <GitHubLogoIcon width={18} height={18} />
                         </a>
+                        <a
+                            href="https://docs.friehub.cloud"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-foreground/40 hover:text-primary transition-all hover:scale-110 flex items-center gap-2"
+                        >
+                            <FileTextIcon width={18} height={18} />
+                            <span className="text-xs font-medium hidden md:inline">Docs</span>
+                        </a>
                         <button
                             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                             className="w-8 h-8 rounded border border-white/5 flex items-center justify-center text-foreground/40 hover:text-primary hover:border-primary/20 transition-all"

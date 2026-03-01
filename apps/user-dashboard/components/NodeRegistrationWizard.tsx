@@ -5,19 +5,19 @@ import { useAccount, useWriteContract, useWaitForTransactionReceipt, useSignMess
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts';
 import { parseEther, type Hex } from 'viem';
 import {
-    Server,
-    Shield,
-    Key,
-    Download,
-    CheckCircle,
-    ArrowRight,
-    Copy,
-    Check,
-    Info,
-    ChevronRight,
-    Lock,
-    Database
-} from 'lucide-react';
+    ShadowIcon,
+    LockClosedIcon,
+    DownloadIcon,
+    CheckCircledIcon,
+    ArrowRightIcon,
+    CopyIcon,
+    CheckIcon,
+    InfoCircledIcon,
+    ChevronRightIcon,
+    ComponentInstanceIcon,
+    GitHubLogoIcon,
+    ExternalLinkIcon
+} from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
@@ -143,24 +143,27 @@ export function NodeRegistrationWizard() {
                 {STEPS.map((s, i) => (
                     <div key={i} className="relative z-10 flex flex-col items-center group">
                         <div className={cn(
-                            "w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300",
-                            step > i + 1 ? "bg-primary border-primary text-primary-foreground shadow-[0_0_15px_rgba(234,179,8,0.3)]" :
-                                step === i + 1 ? "bg-background border-primary text-primary shadow-[0_0_10px_rgba(234,179,8,0.2)]" :
-                                    "bg-background border-border text-muted-foreground"
+                            "w-10 h-10 rounded-xl flex items-center justify-center border transition-all duration-500",
+                            step > i + 1 ? "bg-primary border-primary text-primary-foreground shadow-[0_0_20px_rgba(234,179,8,0.4)]" :
+                                step === i + 1 ? "bg-white/5 border-primary/50 text-primary shadow-[0_0_15px_rgba(234,179,8,0.2)] scale-110" :
+                                    "bg-white/5 border-white/5 text-foreground/20"
                         )}>
-                            {step > i + 1 ? <CheckCircle size={18} /> : <span className="text-xs font-bold">{i + 1}</span>}
+                            {step > i + 1 ? <CheckIcon width={20} height={20} /> : <span className="text-xs font-black">{i + 1}</span>}
                         </div>
                         <div className="absolute top-12 whitespace-nowrap text-center">
                             <div className={cn(
-                                "text-[10px] font-bold uppercase tracking-widest transition-colors",
-                                step >= i + 1 ? "text-primary" : "text-muted-foreground"
+                                "text-[9px] font-black uppercase tracking-[0.2em] transition-colors",
+                                step >= i + 1 ? "text-primary" : "text-foreground/20"
                             )}>{s.title}</div>
                         </div>
                     </div>
                 ))}
             </div>
 
-            <Card className="p-8 bg-card/50 backdrop-blur-xl border-border/50 shadow-2xl relative overflow-hidden glass-premium">
+            <Card className="p-10 bg-card/40 backdrop-blur-2xl border-white/5 shadow-2xl relative overflow-hidden glass-premium rounded-3xl">
+                <div className="absolute top-0 right-0 p-8 opacity-5">
+                    <GitHubLogoIcon width={120} height={120} />
+                </div>
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={step}
@@ -187,19 +190,19 @@ export function NodeRegistrationWizard() {
                                                 : "border-border hover:border-primary/30 hover:bg-accent/50"
                                         )}
                                     >
-                                        <div className="flex justify-between items-start mb-4">
+                                        <div className="flex justify-between items-start mb-6">
                                             <div className={cn(
-                                                "p-3 rounded-xl transition-colors",
-                                                nodeType === 'SENTINEL' ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground group-hover:bg-primary/20 group-hover:text-primary"
+                                                "p-4 rounded-2xl transition-all duration-500",
+                                                nodeType === 'SENTINEL' ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" : "bg-white/5 text-foreground/40 group-hover:bg-primary/10 group-hover:text-primary"
                                             )}>
-                                                <Shield size={24} />
+                                                <ShadowIcon width={24} height={24} />
                                             </div>
                                             {nodeType === 'SENTINEL' && (
-                                                <span className="text-[10px] font-bold bg-primary text-primary-foreground px-2 py-0.5 rounded uppercase">Recommended</span>
+                                                <span className="text-[9px] font-black bg-primary text-primary-foreground px-2.5 py-1 rounded-full uppercase tracking-widest shadow-lg shadow-primary/20">Recommended</span>
                                             )}
                                         </div>
-                                        <div className="font-bold text-lg text-foreground mb-1">Sentinel</div>
-                                        <p className="text-xs text-muted-foreground leading-relaxed">
+                                        <div className="font-display font-bold text-xl text-foreground mb-2 tracking-tight">Sentinel</div>
+                                        <p className="text-[11px] text-foreground/40 leading-relaxed font-medium">
                                             The backbone of Friehub. Collect and propose truth data to earn protocol fees.
                                         </p>
                                     </button>
@@ -218,7 +221,7 @@ export function NodeRegistrationWizard() {
                                                 "p-3 rounded-xl transition-colors",
                                                 nodeType === 'CHALLENGER' ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground group-hover:bg-primary/20 group-hover:text-primary"
                                             )}>
-                                                <Server size={24} />
+                                                <ComponentInstanceIcon width={24} height={24} />
                                             </div>
                                         </div>
                                         <div className="font-bold text-lg text-foreground mb-1">Challenger</div>
@@ -228,10 +231,10 @@ export function NodeRegistrationWizard() {
                                     </button>
                                 </div>
 
-                                <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 flex gap-4 items-start">
-                                    <Info className="text-primary mt-1 shrink-0" size={16} />
-                                    <p className="text-[11px] text-muted-foreground leading-relaxed">
-                                        Changing roles later requires un-staking and a 7-day cooldown period. Choose the role that best matches your network proximity.
+                                <div className="bg-primary/5 border border-primary/20 rounded-2xl p-5 flex gap-4 items-start">
+                                    <InfoCircledIcon className="text-primary mt-0.5 shrink-0" width={18} height={18} />
+                                    <p className="text-[11px] text-foreground/60 leading-relaxed font-medium">
+                                        Changing roles later requires un-staking and a cooldown period. Active nodes are deployed via the <a href="https://github.com/friehub/truth-node" target="_blank" className="text-primary hover:underline font-bold inline-flex items-center gap-1">Truth Node Repo <ExternalLinkIcon /></a>.
                                     </p>
                                 </div>
 
@@ -240,7 +243,7 @@ export function NodeRegistrationWizard() {
                                     onClick={handleGenerateProvision}
                                     disabled={!isConnected}
                                 >
-                                    Initialize Identity <ChevronRight size={16} className="ml-2" />
+                                    Initialize Identity <ChevronRightIcon width={16} height={16} className="ml-2" />
                                 </Button>
                             </div>
                         )}
@@ -257,7 +260,7 @@ export function NodeRegistrationWizard() {
                                         <div className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-2 flex items-center justify-between">
                                             Registration Token
                                             <button onClick={() => handleCopy(provisionToken || '', 'token')} className="hover:text-foreground transition-colors">
-                                                {copiedToken ? <Check size={14} /> : <Copy size={14} />}
+                                                {copiedToken ? <CheckIcon width={14} height={14} /> : <CopyIcon width={14} height={14} />}
                                             </button>
                                         </div>
                                         <div className="text-3xl font-mono font-bold tracking-[0.1em] text-primary truncate">
@@ -267,7 +270,7 @@ export function NodeRegistrationWizard() {
 
                                     <div className="p-6 bg-zinc-900 border border-white/10 rounded-2xl relative group">
                                         <div className="flex items-center gap-2 mb-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                            <Lock size={12} className="text-primary" />
+                                            <LockClosedIcon width={12} height={12} className="text-primary" />
                                             Operator Wallet (Generated)
                                         </div>
                                         <div className="flex items-center justify-between">
@@ -275,7 +278,7 @@ export function NodeRegistrationWizard() {
                                                 {nodeAddress}
                                             </div>
                                             <button onClick={() => handleCopy(nodeAddress || '', 'address')} className="text-slate-500 hover:text-white transition-colors">
-                                                {copiedAddress ? <Check size={14} /> : <Copy size={14} />}
+                                                {copiedAddress ? <CheckIcon width={14} height={14} /> : <CopyIcon width={14} height={14} />}
                                             </button>
                                         </div>
                                         <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg">
@@ -290,7 +293,7 @@ export function NodeRegistrationWizard() {
                                     className="w-full h-12 text-sm font-bold uppercase tracking-widest"
                                     onClick={() => setStep(3)}
                                 >
-                                    Proceed to Staking <ChevronRight size={16} className="ml-2" />
+                                    Proceed to Staking <ChevronRightIcon width={16} height={16} className="ml-2" />
                                 </Button>
                             </div>
                         )}
@@ -304,7 +307,7 @@ export function NodeRegistrationWizard() {
 
                                 <div className="p-8 bg-card rounded-2xl border-2 border-primary/20 flex flex-col items-center justify-center text-center space-y-4">
                                     <div className="w-16 h-16 bg-primary/20 text-primary rounded-full flex items-center justify-center">
-                                        <Database size={32} />
+                                        <ComponentInstanceIcon width={32} height={32} />
                                     </div>
                                     <div>
                                         <div className="text-4xl font-black text-foreground">1,000 $T</div>
@@ -313,7 +316,7 @@ export function NodeRegistrationWizard() {
                                 </div>
 
                                 <div className="flex gap-4 p-4 bg-muted/50 rounded-xl border border-border">
-                                    <Shield className="text-amber-500 shrink-0" size={18} />
+                                    <ShadowIcon className="text-amber-500 shrink-0" width={18} height={18} />
                                     <div className="text-[11px] text-muted-foreground leading-relaxed">
                                         Your bond is stored in the <strong>NodeRegistry</strong>. It is subject to protocol rules and can be slashed if your node acts maliciously.
                                     </div>
@@ -336,7 +339,7 @@ export function NodeRegistrationWizard() {
                         {step === 4 && (
                             <div className="space-y-8 text-center">
                                 <div className="w-20 h-20 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(16,185,129,0.4)] animate-float">
-                                    <CheckCircle size={40} />
+                                    <CheckCircledIcon width={40} height={40} />
                                 </div>
                                 <div>
                                     <h2 className="text-3xl font-black text-foreground mb-2 uppercase tracking-tight">Node Activated!</h2>
@@ -358,17 +361,24 @@ export function NodeRegistrationWizard() {
                                 </div>
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <Button variant="outline" className="h-14 font-bold uppercase tracking-widest border-2" onClick={downloadConfig}>
-                                        <Download size={18} className="mr-2" /> Download Bundle
+                                    <Button variant="outline" className="h-14 font-black uppercase tracking-[0.2em] border-white/10 hover:bg-white/5 rounded-2xl transition-all" onClick={downloadConfig}>
+                                        <DownloadIcon className="mr-3" width={18} height={18} /> Download Code
                                     </Button>
-                                    <Button className="h-14 font-bold uppercase tracking-widest" onClick={() => window.location.href = '/'}>
-                                        Done <ChevronRight size={18} className="ml-2" />
+                                    <Button className="h-14 font-black uppercase tracking-[0.2em] rounded-2xl shadow-lg shadow-primary/20" onClick={() => window.location.href = '/'}>
+                                        Dashboard <ChevronRightIcon className="ml-3" width={18} height={18} />
                                     </Button>
                                 </div>
 
-                                <p className="text-[10px] text-muted-foreground px-12 leading-relaxed italic">
-                                    Put the downloaded <code>.env</code> file in your truth-node directory and run <code>docker-compose up</code> to start your node.
-                                </p>
+                                <div className="p-6 bg-white/5 border border-white/10 rounded-2xl text-left space-y-4">
+                                    <div className="flex items-center gap-3 text-[10px] font-black text-primary uppercase tracking-[0.2em]">
+                                        <GitHubLogoIcon width={16} height={16} /> Deployment Instructions
+                                    </div>
+                                    <ol className="text-[11px] text-foreground/40 space-y-2 font-medium leading-relaxed list-decimal list-inside">
+                                        <li>Clone the <a href="https://github.com/friehub/truth-node" target="_blank" className="text-primary hover:underline font-bold">truth-node</a> repository to your server</li>
+                                        <li>Place the <code>.env</code> file in the project root</li>
+                                        <li>Run <code>docker-compose up -d</code> to initialize your node</li>
+                                    </ol>
+                                </div>
                             </div>
                         )}
                     </motion.div>
