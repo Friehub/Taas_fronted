@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useAccount } from 'wagmi';
 import { useStats, useActivity, formatNumber, formatCurrency } from '@/lib/api';
+import { cn } from '@/lib/utils';
 import { StatCard, StatusBadge } from '../components/shared/StatCard';
 import {
     ActivityLogIcon,

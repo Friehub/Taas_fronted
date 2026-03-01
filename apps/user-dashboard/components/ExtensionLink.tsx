@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts';
 import { BoxIcon, LinkBreak2Icon, CheckCircledIcon, UpdateIcon, ReloadIcon } from '@radix-ui/react-icons';
+import { cn } from '@/lib/utils';
 
 // Common development IDs and placeholders
 const KNOWN_EXTENSION_IDS = [
