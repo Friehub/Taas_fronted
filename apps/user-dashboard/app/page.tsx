@@ -246,8 +246,8 @@ export default function DashboardPage() {
                                     Register Node
                                 </button>
                             </Link>
-                        )}
                         </div>
+                    )}
                 </div>
             </div>
         </div>
