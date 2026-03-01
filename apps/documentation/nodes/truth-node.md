@@ -36,7 +36,7 @@ TOKEN_ADDRESS=0x...
 PRIVATE_KEY=0x...
 NODE_MODE=sentinel
 
-# Gateway (Proxy Mode — no local API keys required)
+# Gateway (Proxy Mode   no local API keys required)
 TAAS_USE_PROXY=true
 INDEXER_API_URL=https://api.friehub.com
 

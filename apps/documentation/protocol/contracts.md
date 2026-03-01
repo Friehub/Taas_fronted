@@ -2,21 +2,21 @@
 
 **On-chain components that enforce truth, staking, and node registration on the Helios blockchain.**
 
-The TaaS Protocol is secured by a suite of Solidity smart contracts deployed on the Helios network. These contracts form the trust layer of the system — the entry point for requesting truth, the judge for disputes, and the registry for node participation.
+The TaaS Protocol is secured by a suite of Solidity smart contracts deployed on the Helios network. These contracts form the trust layer of the system   the entry point for requesting truth, the judge for disputes, and the registry for node participation.
 
 ---
 
 ## Contract Overview
 
-### `TruthOracleV2.sol` — The Core
+### `TruthOracleV2.sol`   The Core
 
 This is the central contract consumers interact with. It manages the full lifecycle of a truth request:
 
-1. **Request** — A DApp or smart contract calls `requestTruth(recipeId, inputs)`.
-2. **Proposal** — Sentinel nodes submit their signed `Attestation` via `proposeAttestation(requestId, data, signature)`.
-3. **Dispute Window** — After a proposal, a configurable window opens (e.g., 2 hours). Anyone can raise a dispute.
-4. **Finalization** — If no valid dispute is raised, `finalizeAttestation(requestId)` is called (by Chronos automation or manually).
-5. **Callback** — The originally requesting contract receives the finalized truth result.
+1. **Request**   A DApp or smart contract calls `requestTruth(recipeId, inputs)`.
+2. **Proposal**   Sentinel nodes submit their signed `Attestation` via `proposeAttestation(requestId, data, signature)`.
+3. **Dispute Window**   After a proposal, a configurable window opens (e.g., 2 hours). Anyone can raise a dispute.
+4. **Finalization**   If no valid dispute is raised, `finalizeAttestation(requestId)` is called (by Chronos automation or manually).
+5. **Callback**   The originally requesting contract receives the finalized truth result.
 
 ```solidity
 // Simplified interface for TruthOracleV2
@@ -41,7 +41,7 @@ interface ITruthOracleV2 {
 }
 ```
 
-### `NodeRegistry.sol` — Node Enrollment
+### `NodeRegistry.sol`   Node Enrollment
 
 Sentinels and Challengers must register and stake $TAAS tokens before they can participate in the network.
 
@@ -59,16 +59,16 @@ interface INodeRegistry {
 }
 ```
 
-### `SourceRegistry.sol` — Data Source Reputation
+### `SourceRegistry.sol`   Data Source Reputation
 
 Tracks the reputation and availability of data sources (SportMonks, Binance, etc.) that Recipes can use. Sources with consistently validated data accumulate higher reputation scores.
 
-### `TAASToken.sol` — Protocol Token
+### `TAASToken.sol`   Protocol Token
 
 Standard ERC-20 token used throughout the protocol:
-- **Staking** — Required for Sentinel and Challenger nodes to participate.
-- **Payment** — Developers pay a fee (in $TAAS or $HLS) to request truth.
-- **Rewards** — Distributed to Sentinels for honest relaying and to Challengers for catching fraud.
+- **Staking**   Required for Sentinel and Challenger nodes to participate.
+- **Payment**   Developers pay a fee (in $TAAS or $HLS) to request truth.
+- **Rewards**   Distributed to Sentinels for honest relaying and to Challengers for catching fraud.
 
 ---
 
@@ -160,4 +160,4 @@ npx hardhat run deploy/05_deploy_proxies.ts --network helios
 
 ## License
 
-MIT — Copyright (c) 2026 FrieHub Protocol.
+MIT   Copyright (c) 2026 FrieHub Protocol.

@@ -23,7 +23,7 @@ Existing oracle solutions solve narrow problems. TaaS was built to be **the gene
 With Chainlink, supporting a new data type requires creating an on-chain contract, finding operators willing to run a new job, and paying for it. With TaaS, you write a JSON Recipe that describes the data logic. The network can support it immediately, without any protocol upgrade or operator coordination.
 
 ### 2. Verifiable, Local Execution
-Every Truth Node in the TaaS network runs the same Recipe logic locally before proposing an outcome on-chain. This means the result is independently reproducible by anyone — nodes, challengers, smart contracts, and end users alike.
+Every Truth Node in the TaaS network runs the same Recipe logic locally before proposing an outcome on-chain. This means the result is independently reproducible by anyone   nodes, challengers, smart contracts, and end users alike.
 
 ### 3. A Developer-First SDK
 The `@friehub/sovereign-logic` and `@friehub/execution-engine` SDKs let anyone build a new data integration or run a custom Recipe in minutes. The Gateway Proxy eliminates the need for costly API subscriptions just to test.
@@ -42,4 +42,4 @@ The TaaS architecture is modular by design:
 
 - **New data types** can be added by anyone contributing a `SovereignAdapter` plugin.
 - **New consensus strategies** (e.g., multi-node weighted voting) can be added to the execution engine without breaking existing recipes.
-- **Zero-knowledge proof integration** is a planned upgrade — execution traces from the engine can be post-processed into ZK proofs, making verification entirely trustless.
+- **Zero-knowledge proof integration** is a planned upgrade   execution traces from the engine can be post-processed into ZK proofs, making verification entirely trustless.

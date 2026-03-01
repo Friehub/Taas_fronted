@@ -1,6 +1,6 @@
 # Quick Start
 
-This guide walks through running a TaaS Recipe execution from scratch — no crypto wallet required to test.
+This guide walks through running a TaaS Recipe execution from scratch   no crypto wallet required to test.
 
 ## Prerequisites
 
@@ -71,7 +71,7 @@ import { RecipeExecutor } from '@friehub/execution-engine';
 import { RecipeInstance } from '@friehub/recipes';
 import blueprint from './btc-price.json';
 
-// Use the TaaS Gateway as a data proxy — no API keys needed
+// Use the TaaS Gateway as a data proxy   no API keys needed
 process.env.TAAS_USE_PROXY = 'true';
 process.env.TAAS_PROXY_URL = 'https://api.friehub.com';
 

@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "FrieHub TaaS"
   text: "Truth as a Service"
-  tagline: A programmable, decentralized protocol that bridges real-world data to on-chain smart contract actions — reliably, at scale, and without central trust.
+  tagline: A programmable, decentralized protocol that bridges real-world data to on-chain smart contract actions   reliably, at scale, and without central trust.
   actions:
     - theme: brand
       text: Get Started
@@ -26,7 +26,7 @@ features:
   - title: Dispute and Challenge Layer
     details: A Challenger-Bot monitors on-chain proposals and automatically disputes incorrect outcomes using independent local re-verification. Economic bonds enforce honesty.
   - title: Pluggable Data Source Registry
-    details: Any data provider — sports scores, financial data, weather, crypto prices — can be registered as a SovereignAdapter plugin in the CategoryMapper registry.
+    details: Any data provider   sports scores, financial data, weather, crypto prices   can be registered as a SovereignAdapter plugin in the CategoryMapper registry.
   - title: Built for Developers
     details: A typed SDK, a JSON Recipe format, a Gateway REST API, and a public Docker image make it easy to build new integrations, run a node, or query verified truth from any smart contract.
 ---
