@@ -130,7 +130,7 @@ export default function DashboardPage() {
                             ))
                         ) : (
                             <div className="p-12 text-center border border-dashed border-border rounded-xl bg-muted/50">
-                                <ActivityIcon size={20} className="mx-auto text-muted-foreground mb-2" />
+                                <ActivityLogIcon width={20} height={20} className="mx-auto text-muted-foreground mb-2" />
                                 <h3 className="text-foreground text-sm font-medium mb-1">System Idle</h3>
                                 <p className="text-muted-foreground text-xs">Waiting for verification events...</p>
                             </div>

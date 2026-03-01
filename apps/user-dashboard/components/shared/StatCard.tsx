@@ -1,5 +1,6 @@
-import { ArrowTopRightIcon, ArrowBottomRightIcon, ActivityLogIcon } from '@radix-ui/react-icons';
+import { ArrowTopRightIcon, ArrowBottomRightIcon } from '@radix-ui/react-icons';
 import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 export interface StatProps {
     label: string;

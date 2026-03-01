@@ -8,7 +8,7 @@
 import {
     LightningBoltIcon,
     UpdateIcon,
-    CheckFilledIcon,
+    CheckCircledIcon,
     ClockIcon,
     InfoCircledIcon,
     ReloadIcon
