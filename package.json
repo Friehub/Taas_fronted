@@ -5,6 +5,8 @@
         "dev:user": "pnpm --filter @friehub/user-dashboard dev",
         "dev:admin": "pnpm --filter @friehub/admin-dashboard dev",
         "dev:landing": "pnpm --filter @friehub/landing-page dev",
-        "build": "pnpm -r build"
+        "dev:docs": "pnpm --filter @friehub/documentation docs:dev",
+        "build": "pnpm -r build",
+        "build:docs": "pnpm --filter @friehub/documentation docs:build"
     }
 }
