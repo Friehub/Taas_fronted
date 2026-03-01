@@ -154,4 +154,4 @@ The truth network will automatically discover and execute it when requested on-c
 
 - Read the full [Recipe Protocol Reference](/protocol/recipes).
 - See all available [Data Feed Adapters](/protocol/data-feeds) and their source IDs.
-- Learn how to [write a custom plugin adapter](/guides/development) using `@friehub/taas-interfaces`.
+- Learn how to [write a custom plugin adapter](/guides/taas-interfaces) using `@friehub/taas-interfaces`.
