@@ -39,6 +39,13 @@ export default defineConfig({
           { text: 'Quick Start', link: '/guides/getting-started' },
           { text: 'Workflow', link: '/guides/development' }
         ]
+      },
+      {
+        text: 'Node Operation',
+        collapsed: false,
+        items: [
+          { text: 'Running a Truth Node', link: '/nodes/truth-node' }
+        ]
       }
     ]
   },
