@@ -48,7 +48,7 @@ jobs:
         run: pnpm run docs:build
 
       - name: Write CNAME for custom domain
-        run: echo 'docs.friehub.com' > apps/documentation/.vitepress/dist/CNAME
+        run: echo 'docs.friehub.cloud' > apps/documentation/.vitepress/dist/CNAME
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
