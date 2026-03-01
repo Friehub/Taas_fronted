@@ -7,7 +7,7 @@ import { StatCard, StatusBadge } from '../components/shared/StatCard';
 import {
     ActivityLogIcon,
     PersonIcon,
-    ServerIcon,
+    BoxIcon,
     GlobeIcon,
     ArrowTopRightIcon,
     ArrowBottomRightIcon,
@@ -50,7 +50,7 @@ export default function DashboardPage() {
         {
             label: 'Active Sentinels',
             value: stats ? formatNumber(stats.sentinelNodes || 0) : '-',
-            icon: ServerIcon,
+            icon: BoxIcon,
             trend: 2
         },
         {
@@ -147,7 +147,7 @@ export default function DashboardPage() {
                             <GlobeIcon width={80} height={80} />
                         </div>
                         <h3 className="text-[11px] font-black text-foreground/40 uppercase tracking-[0.2em] mb-6 flex items-center gap-3">
-                            <ServerIcon width={14} height={14} className="text-primary/60" />
+                            <BoxIcon width={14} height={14} className="text-primary/60" />
                             Consensus Health
                         </h3>
                         <div className="space-y-6">
@@ -177,7 +177,7 @@ export default function DashboardPage() {
                             <div className="p-6 bg-card/40 backdrop-blur-md border border-white/5 rounded-2xl relative overflow-hidden group">
                                 <div className="flex items-center justify-between mb-6">
                                     <h3 className="text-[11px] font-black text-foreground/40 uppercase tracking-[0.2em] flex items-center gap-3">
-                                        <ServerIcon width={14} height={14} className="text-primary/60" />
+                                        <BoxIcon width={14} height={14} className="text-primary/60" />
                                         Active Nodes
                                     </h3>
                                     <Link href="/network" className="text-[10px] font-black text-primary hover:text-primary/80 uppercase tracking-[0.2em] transition-colors">
