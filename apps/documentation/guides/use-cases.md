@@ -38,7 +38,7 @@ Each policy is a **BINARY Recipe** with a specific data source, parameters, and 
 
 ## Sports Betting and Fantasy Sports
 
-Real-money on-chain fantasy sports platforms need granular, player-level statistics. A player's final score for a night's performance, a pitcher's strikeout count, a skier's race time — all expressible as **SCALAR or CATEGORICAL Recipes** pulling from the Sportmonks or SportsDB adapters registered in the TaaS Plugin Registry.
+Real-money on-chain fantasy sports platforms need granular, player-level statistics. A player's final score for a night's performance, a pitcher's strikeout count, a skier's race time   all expressible as **SCALAR or CATEGORICAL Recipes** pulling from the Sportmonks or SportsDB adapters registered in the TaaS Plugin Registry.
 
 ---
 
@@ -50,10 +50,10 @@ A DAO that wants to execute a treasury transfer "if the protocol hits 1M in TVL"
 
 ## On-Chain Weather Derivatives
 
-Smart contracts can represent financial positions that pay out based on measurable physical phenomena. A farmer can hedge against drought risk with a contract that references OpenWeather data attested through the TaaS protocol — no intermediary, no insurer discretion.
+Smart contracts can represent financial positions that pay out based on measurable physical phenomena. A farmer can hedge against drought risk with a contract that references OpenWeather data attested through the TaaS protocol   no intermediary, no insurer discretion.
 
 ---
 
 ## Proof-of-Reality for AI Agents
 
-Autonomous AI agents operating on-chain need a reliable source of ground truth. TaaS provides a trustless mechanism for agents to verify real-world state before taking irreversible on-chain actions — a "facts oracle" that AI agents can query and trust.
+Autonomous AI agents operating on-chain need a reliable source of ground truth. TaaS provides a trustless mechanism for agents to verify real-world state before taking irreversible on-chain actions   a "facts oracle" that AI agents can query and trust.
