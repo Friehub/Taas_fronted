@@ -5,8 +5,14 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt, useChainId, useSwitchChain } from 'wagmi';
+import {
+    LightningBoltIcon,
+    UpdateIcon,
+    CheckFilledIcon,
+    ClockIcon,
+    InfoCircledIcon,
+    ReloadIcon
+} from '@radix-ui/react-icons';
 import { heliosChain } from '@/lib/wagmi';
 
 // ABI for TTruthToken faucet functions
@@ -135,10 +141,13 @@ export function TestnetFaucet({ tokenAddress }: FaucetProps) {
 
     if (!isConnected) {
         return (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
-                <div className="text-blue-900 font-semibold mb-2">Connect Wallet to Use Faucet</div>
-                <div className="text-sm text-blue-700">
-                    Get free $T tokens for testnet
+            <div className="bg-white/5 border border-white/5 backdrop-blur-md rounded-2xl p-8 text-center glass-premium transition-all">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
+                    <ReloadIcon width={24} height={24} className="animate-pulse" />
+                </div>
+                <div className="text-foreground font-black text-xs uppercase tracking-[0.2em] mb-2 uppercase">Identity Required</div>
+                <div className="text-[11px] text-foreground/40 font-medium leading-relaxed">
+                    Connect your wallet to claim testnet assets<br />and initialize your Sentinel node.
                 </div>
             </div>
         );
@@ -164,14 +173,17 @@ export function TestnetFaucet({ tokenAddress }: FaucetProps) {
     const tokenAmount = faucetAmount ? Number(faucetAmount) / 1e18 : 1000;
 
     return (
-        <div className="bg-gradient-to-br from-indigo-50 to-blue-50 border border-indigo-200 rounded-lg p-6">
-            <div className="flex items-center justify-between mb-4">
+        <div className="bg-card/40 backdrop-blur-md border border-white/5 rounded-2xl p-6 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                <LightningBoltIcon width={60} height={60} />
+            </div>
+            <div className="flex items-center justify-between mb-6 relative">
                 <div>
-                    <h3 className="text-lg font-bold text-indigo-900">Testnet Faucet</h3>
-                    <p className="text-sm text-indigo-700">Claim {tokenAmount.toLocaleString()} $T every 24 hours</p>
+                    <h3 className="text-[11px] font-black text-foreground/40 uppercase tracking-[0.2em] mb-1">Fuel Station</h3>
+                    <p className="text-[11px] text-primary font-black uppercase tracking-widest">{tokenAmount.toLocaleString()} $T / 24H</p>
                 </div>
-                <div className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs font-semibold">
-                    TESTNET ONLY
+                <div className="px-2.5 py-1 bg-white/5 border border-white/10 text-foreground/40 rounded-full text-[9px] font-black uppercase tracking-[0.2em]">
+                    Testing Only
                 </div>
             </div>
 
@@ -187,34 +199,35 @@ export function TestnetFaucet({ tokenAddress }: FaucetProps) {
                 <button
                     onClick={handleClaim}
                     disabled={isPending || isConfirming}
-                    className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-black text-[10px] uppercase tracking-[0.2em] rounded-xl transition-all shadow-lg shadow-primary/20 disabled:opacity-50 disabled:scale-100 active:scale-95"
                 >
                     {isPending || isConfirming ? (
                         <span className="flex items-center justify-center gap-2">
-                            <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                            </svg>
-                            {isPending ? 'Confirm in wallet...' : 'Processing...'}
+                            <UpdateIcon width={16} height={16} className="animate-spin" />
+                            {isPending ? 'Signing...' : 'Confirming...'}
                         </span>
                     ) : (
                         `Claim ${tokenAmount.toLocaleString()} $T`
                     )}
                 </button>
             ) : (
-                <div className="text-center py-3">
-                    <div className="text-sm text-indigo-700 mb-1">Next claim available in:</div>
-                    <div className="text-2xl font-bold text-indigo-900">
+                <div className="text-center py-4 bg-white/5 border border-white/5 rounded-xl">
+                    <div className="text-[9px] font-black text-foreground/30 mb-1 uppercase tracking-[0.2em]">Cooling Down</div>
+                    <div className="text-lg font-display font-bold text-foreground tracking-tighter tabular-nums flex items-center justify-center gap-2">
+                        <ClockIcon width={16} height={16} className="text-primary/40" />
                         {formatTime(timeRemaining)}
                     </div>
                 </div>
             )}
 
-            <div className="mt-4 pt-4 border-t border-indigo-200">
-                <div className="text-xs text-indigo-600 space-y-1">
-                    <div> Use $T for staking as Sentinel node</div>
-                    <div> Use $T for challenging incorrect proposals</div>
-                    <div> Faucet disabled on mainnet</div>
+            <div className="mt-6 pt-6 border-t border-white/5">
+                <div className="text-[9px] text-foreground/30 space-y-2 font-bold uppercase tracking-[0.1em]">
+                    <div className="flex items-center gap-2 px-2 py-1 bg-white/5 rounded hover:text-foreground/60 transition-colors">
+                        <CheckIcon width={10} height={10} className="text-primary" /> Sentinel Staking Bond
+                    </div>
+                    <div className="flex items-center gap-2 px-2 py-1 bg-white/5 rounded hover:text-foreground/60 transition-colors">
+                        <CheckIcon width={10} height={10} className="text-primary" /> Truth Dispute Fees
+                    </div>
                 </div>
             </div>
         </div>

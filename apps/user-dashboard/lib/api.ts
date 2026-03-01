@@ -49,8 +49,8 @@ export async function authenticatedFetch(url: string, options: RequestInit = {})
 // API Functions
 export async function fetchStats(): Promise<NetworkStats> {
     try {
-        const res = await fetch(`${INDEXER_URL}/stats`);
-        if (!res.ok) throw new Error('Indexer unreachable');
+        const res = await fetch(`${BACKEND_URL}/nodes/stats`);
+        if (!res.ok) throw new Error('Backend unreachable');
         const json = await res.json();
         return json.data;
     } catch (e) {
@@ -59,32 +59,55 @@ export async function fetchStats(): Promise<NetworkStats> {
             totalRequests: 0,
             activeFeeds: 0,
             totalStaked: 0,
-            avgLatency: 0
+            avgLatency: 0,
+            sentinelNodes: 0
         };
     }
 }
 
 export async function fetchActivity(): Promise<ActivityItem[]> {
     try {
-        const res = await authenticatedFetch(`${BACKEND_URL}/api/notifications?user=ALL`);
-        if (!res.ok) throw new Error('Backend unreachable');
-        return res.json();
+        const res = await fetch(`${BACKEND_URL}/gateway/truth/recent?limit=10`);
+        if (!res.ok) throw new Error('Gateway unreachable');
+        const json = await res.json();
+        return json.data || [];
     } catch (e) {
         console.error('Failed to fetch activity:', e);
         return [];
     }
 }
 
-export async function fetchRecentTruths(limit: number = 10): Promise<any[]> {
-    try {
-        const res = await fetch(`${BACKEND_URL}/gateway/truth/recent?limit=${limit}`);
-        if (!res.ok) throw new Error('Gateway unreachable');
-        const json = await res.json();
-        return json.data || [];
-    } catch (e) {
-        console.error('Failed to fetch recent truths:', e);
-        return [];
+// Auth Functions
+export async function getSiweNonce(address: string): Promise<string> {
+    const res = await fetch(`${BACKEND_URL}/auth/siwe/nonce/${address}`);
+    if (!res.ok) throw new Error('Failed to get nonce');
+    const json = await res.json();
+    return json.nonce;
+}
+
+export async function verifySiwe(message: string, signature: string): Promise<string> {
+    const res = await fetch(`${BACKEND_URL}/auth/siwe/verify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, signature })
+    });
+    if (!res.ok) throw new Error('Failed to verify SIWE');
+    const json = await res.json();
+    if (json.token) {
+        localStorage.setItem('friehub_auth_token', json.token);
     }
+    return json.token;
+}
+
+export async function nodeLogin(address: string, signature: string, message: any): Promise<string> {
+    const res = await fetch(`${BACKEND_URL}/auth/nodes/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address, signature, message })
+    });
+    if (!res.ok) throw new Error('Node login failed');
+    const json = await res.json();
+    return json.token;
 }
 
 // Hooks
