@@ -1,38 +1,59 @@
-# Core Use Cases
+# Use Cases
 
-TaaS (Truth-as-a-Service) is designed for any application where **data integrity** is non-negotiable. Its flexible "Recipe" system allows it to serve a vast array of markets.
+TaaS is a general-purpose truth layer. Any application that requires a smart contract to act on factual information about the real world is a candidate for TaaS integration.
 
-## 1. Prediction Markets & Sports Betting
-This is the most direct application of TaaS. Most prediction markets fail because of "Subjective Resolution"—where a human or a centralized bot decides the outcome.
+---
 
-*   **The Problem**: Dispute resolution is slow and can be biased.
-*   **The TaaS Solution**: A Recipe fetches data from multiple sports APIs (e.g., ESPN, SportMonks). The logic specifies that if 2 out of 3 sources agree on the final score, the truth is attested.
-*   **Benefit**: Instant, verifiable settlement with no human intervention.
+## Prediction Markets and Outcomes
 
-## 2. Parametric Insurance
-Insurance for events like flight delays, natural disasters, or crop failure often suffers from high administrative costs and slow payouts.
+The original domain that inspired TaaS. A prediction market needs to know if a proposition is true or false at a specific point in time.
 
-*   **The Problem**: Proving a "claimable event" happened requires manual investigation.
-*   **The TaaS Solution**: TaaS monitors weather stations or flight tracking APIs. When a specific threshold (e.g., wind speed > 100km/h or delay > 2 hours) is met, TaaS signs an attestation that triggers the insurance contract payout automatically.
-*   **Benefit**: Transparent, trustless payouts within seconds of the event.
+- Sporting event results (Who won the match? What was the final score?)
+- Political elections (Which candidate received more votes?)
+- Financial thresholds (Did BTC trade above $100,000 at the close of this day?)
 
-## 3. Dynamic NFT Metadata
-NFTs that change based on real-world events (e.g., an NFT athlete whose stats update after every game).
+With TaaS, each proposition is encoded as a **BINARY Recipe** and resolved by multiple independent Truth Nodes. The smart contract settles positions as soon as the TruthOracle receives a bonded, verified attestation.
 
-*   **The Problem**: Metadata updates are often centralized and can be arbitrary.
-*   **The TaaS Solution**: TaaS provides a verifiable feed of athlete performance data. The NFT smart contract only updates its metadata if it receives a valid TaaS attestation.
-*   **Benefit**: Authetnic, data-driven digital collectibles.
+---
 
-## 4. AI Content Verification
-In the era of deepfakes, proving a piece of content (news headline, image, or video) is authentic is becoming critical.
+## DeFi: Liquidation Triggers and Collateral Valuation
 
-*   **The Problem**: Information overload and misinformation.
-*   **The TaaS Solution**: TaaS can be used to aggregate fact-checking sources and cryptographic signatures from reputable journalists. It provides a "Truth Score" for a specific URI or content hash.
-*   **Benefit**: A decentralized layer of defense against misinformation.
+Decentralized lending protocols need accurate, real-time price feeds to liquidate undercollateralized positions before they go underwater.
 
-## 5. Supply Chain & IoT
-Verifying that a shipment arrived at a specific temperature or location.
+TaaS supports high-frequency **SCALAR Recipes** that aggregate price data from multiple sources (CoinGecko, Binance, on-chain DEX oracles) using configurable consensus strategies, making manipulation significantly harder than using a single price feed.
 
-*   **The Problem**: Logistics data is often siloed and difficult to verify on-chain.
-*   **The TaaS Solution**: IoT sensors report data to a TaaS Sentinel node. The node verifies the data package and signs an attestation for the logistics smart contract.
-*   **Benefit**: Real-time, verifiable logistics milestones.
+---
+
+## Insurance Protocols
+
+Parametric insurance smart contracts pay out automatically when a triggering event is formally attested.
+
+- Crop insurance triggered when rainfall data from OpenWeather falls below a threshold.
+- Travel insurance triggered when a flight delay exceeds N minutes.
+- Storm insurance triggered when a weather service reports hurricane-force winds in a specific area.
+
+Each policy is a **BINARY Recipe** with a specific data source, parameters, and an attestation timestamp window.
+
+---
+
+## Sports Betting and Fantasy Sports
+
+Real-money on-chain fantasy sports platforms need granular, player-level statistics. A player's final score for a night's performance, a pitcher's strikeout count, a skier's race time — all expressible as **SCALAR or CATEGORICAL Recipes** pulling from the Sportmonks or SportsDB adapters registered in the TaaS Plugin Registry.
+
+---
+
+## DAO Governance and Condition Execution
+
+A DAO that wants to execute a treasury transfer "if the protocol hits 1M in TVL" or "if CPI index rises above 4%" can use TaaS to act as a trustless condition verifier. The DAO submits a recipe describing the condition, and the TruthOracle smart contract triggers the execution when the condition is attested.
+
+---
+
+## On-Chain Weather Derivatives
+
+Smart contracts can represent financial positions that pay out based on measurable physical phenomena. A farmer can hedge against drought risk with a contract that references OpenWeather data attested through the TaaS protocol — no intermediary, no insurer discretion.
+
+---
+
+## Proof-of-Reality for AI Agents
+
+Autonomous AI agents operating on-chain need a reliable source of ground truth. TaaS provides a trustless mechanism for agents to verify real-world state before taking irreversible on-chain actions — a "facts oracle" that AI agents can query and trust.

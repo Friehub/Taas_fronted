@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: '/Taas_fronted/',
+  base: '/',
   title: "FrieHub TaaS",
   description: "The Decentralized Fact Engine",
   themeConfig: {
