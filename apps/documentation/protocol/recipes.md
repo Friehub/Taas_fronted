@@ -1,91 +1,188 @@
 # Truth Recipes
 
-A **Recipe** is a JSON-serializable, declarative execution blueprint. It tells the TaaS network exactly how to derive a verifiable fact from real-world data.
+A Recipe is the unit of work in the TaaS Protocol. It is a structured definition that tells the network how to derive a verifiable fact from real-world data.
 
 ---
 
-## Anatomy of a Recipe
+## Core Concepts
 
-```json
-{
-  "id": "btc-above-100k",
-  "version": "1.0.0",
-  "outcomeType": "BINARY",
-  "inputs": {
-    "symbol": { "type": "string", "required": true },
-    "threshold": { "type": "number", "required": true }
-  },
-  "logic": [
-    {
-      "id": "fetch-price",
-      "type": "standard-feed",
-      "config": {
-        "provider": "coingecko",
-        "params": { "symbol": "{{inputs.symbol}}" }
-      }
+### The Recipe Object
+
+A recipe has four required sections:
+
+```typescript
+import {
+    Recipe,
+    TruthType,
+    DataCategory
+} from '@friehub/taas-interfaces';
+
+const recipe: Recipe = {
+    id: 'btc-price',
+
+    metadata: {
+        id: 'btc-price',
+        name: 'Verified BTC Price',
+        description: 'Fetches the Bitcoin spot price from multiple sources.',
+        category: 'Finance',
+        version: '1.0.0',
+        tags: ['crypto', 'price']
     },
-    {
-      "id": "evaluate",
-      "type": "condition",
-      "config": {
-        "expression": "{{fetch-price.data.value}} > {{inputs.threshold}}"
-      }
+
+    ui: {
+        titleTemplate: 'What is the price of {{symbol}}?',
+        truthType: TruthType.SCALAR,
+        variables: [
+            {
+                name: 'symbol',
+                label: 'Asset Symbol',
+                type: 'string',
+                required: true,
+                defaultValue: 'BTC'
+            }
+        ]
+    },
+
+    logic: {
+        pathway: DataCategory.CRYPTO,
+        attestationStrategy: 'median',
+        attestationConfig: { minSources: 2, maxDeviation: 0.05 },
+        steps: [
+            {
+                id: 'fetch-price',
+                type: 'standard-feed',
+                params: {
+                    category: 'crypto',
+                    method: 'fetch',
+                    args: [JSON.stringify({ symbol: '{{symbol}}' })]
+                },
+                targetVar: 'price_raw'
+            }
+        ]
     }
-  ],
-  "attestation": {
-    "strategy": "consensus",
-    "threshold": 1
-  }
+};
+```
+
+---
+
+## Building with the Fluent API
+
+The recipe system also provides a `RecipeBuilder` for a more programmatic approach:
+
+```typescript
+import { RecipeBuilder, TruthType } from '@friehub/taas-interfaces';
+
+const recipe = RecipeBuilder.create('BTC Price Threshold')
+    .withDescription('Returns 1 if BTC is above a given price, 0 otherwise')
+    .withCategory('Finance')
+    .withPathway('crypto', { symbol: 'BTC' })
+    .withTitleTemplate('Is BTC above {{threshold}} USD?')
+    .withInput('threshold', 'number', 'Price Threshold ($)', true)
+    .withTruthType(TruthType.BINARY)
+    .withAttestation('comparison')
+    .build();
+```
+
+---
+
+## Truth Types
+
+Every recipe must declare a `truthType` in the `ui` block:
+
+| Enum | Description | Smart Contract Value |
+|---|---|---|
+| `TruthType.BINARY` | Yes (1) or No (0) | uint8(0) |
+| `TruthType.SCALAR` | Numeric value | uint8(1) |
+| `TruthType.CATEGORICAL` | One of N string options | uint8(2) |
+| `TruthType.PROBABILISTIC` | Confidence score (0-1) | uint8(3) |
+| `TruthType.INVALID` | Unanswerable / false premise | uint8(4) |
+
+---
+
+## Pipeline Steps
+
+The `logic.steps` array defines the execution pipeline. Each step is a `PipelineStep` object:
+
+```typescript
+interface PipelineStep {
+    id: string;
+    type: 'standard-feed' | 'fetch' | 'transform' | 'math' |
+          'consensus' | 'accumulator' | 'reasoner' | 'distiller' | 'search';
+    params: Record<string, any>;
+    targetVar: string;
+    dependencies?: string[];
 }
 ```
 
+### Step Type Reference
+
+| Type | Purpose | Key params |
+|---|---|---|
+| `standard-feed` | Fetch from a registered data adapter | `category`, `method`, `args` |
+| `fetch` | Generic HTTP request | `url`, `dataPath` |
+| `transform` | Apply a math or string expression | `expression`, `inputVar` |
+| `math` | Numeric expression evaluation | `expression` |
+| `consensus` | Aggregate multiple source values | `sources`, `agreementThreshold` |
+| `accumulator` | Track a running value over time (MAX/MIN/SUM) | `inputVar`, `operation` |
+| `reasoner` | AI-based reasoning for subjective questions | `question`, `contextVar` |
+| `distiller` | Summarize large text into facts | `inputVar`, `chunkSize` |
+| `search` | Web search for contextual data | `query`, `engine`, `count` |
+
 ---
 
-## Field Reference
+## Attestation Strategies
 
-### Top-Level
+The `logic.attestationStrategy` field controls how the execution engine produces a final result from the pipeline outputs:
 
-| Field | Type | Description |
-|---|---|---|
-| `id` | `string` | Unique identifier for the recipe. Used in on-chain requests. |
-| `version` | `string` | SemVer string. Allows versioned recipe upgrades. |
-| `outcomeType` | `enum` | One of `BINARY`, `SCALAR`, `CATEGORICAL`, `PROBABILISTIC`, `INVALID`. |
-| `inputs` | `object` | Schema definition for runtime parameters. |
-| `logic` | `array` | Ordered list of execution steps. |
-| `attestation` | `object` | Consensus configuration for how nodes should agree. |
-
-### Outcome Types
-
-| Type | Value Shape | Example |
-|---|---|---|
-| `BINARY` | `0` or `1` | "Did Team A win?" |
-| `SCALAR` | `number` | "What is the BTC price?" |
-| `CATEGORICAL` | `string` | "Who won the election?" |
-| `PROBABILISTIC` | `number (0–1)` | "How likely is this event?" |
-| `INVALID` | `string (reason)` | "Question has a false premise" |
-
-### Logic Step Types
-
-| Type | Description |
+| Strategy | Description |
 |---|---|
-| `standard-feed` | Fetches data from a registered SovereignAdapter plugin. |
-| `condition` | Evaluates a boolean expression from prior step outputs. |
-| `aggregate` | Combines multiple step outputs (median, weighted average, etc). |
-| `transform` | Applies math or string transformations to step outputs. |
+| `median` | Takes the statistical median of all source values |
+| `comparison` | Evaluates a conditional expression (useful for BINARY recipes) |
+| `scalar` | Returns the raw numeric output of the pipeline |
+| `external_oracle` | Delegates to an external oracle (UMA, Chainlink) |
 
 ---
 
-## Register a Recipe
+## Data Categories
 
-Recipes can be registered programmatically:
+The `logic.pathway` field maps to a `DataCategory`, which determines which adapters are available for `standard-feed` steps:
 
-```typescript
-import { RecipeRegistry } from '@friehub/recipes';
+| Category | Description |
+|---|---|
+| `DataCategory.CRYPTO` | Cryptocurrency prices and market data |
+| `DataCategory.SPORTS` | Match results, scores, statistics |
+| `DataCategory.WEATHER` | Temperature, precipitation, climate data |
+| `DataCategory.ECONOMICS` | Macro-economic indicators (inflation, GDP) |
+| `DataCategory.FINANCE` | Forex rates, stock prices, commodities |
+| `DataCategory.SOCIAL` | Social media signals |
+| `DataCategory.CUSTOM` | Custom multi-step pipelines with no single pathway |
 
-await RecipeRegistry.register(recipe);
-```
+---
 
-Or via the TaaS Backend REST API:
+## Builder Methods
+
+`RecipeBuilder` provides fluent helper methods for common configurations:
+
+| Method | Description |
+|---|---|
+| `.withInput(name, type, label, required)` | Adds a typed input variable |
+| `.withTruthType(type)` | Sets the outcome type |
+| `.withAttestation(strategy)` | Sets the attestation strategy |
+| `.withComparison(op, targetVar, value)` | Configures a binary comparison |
+| `.withStep(type, id, params, targetVar)` | Adds a custom pipeline step |
+| `.withGenericFeed(url, dataPath)` | Adds an HTTP data fetch |
+| `.withConsensusStep(symbol, targetVar)` | Adds multi-source consensus |
+| `.withAccumulator(inputVar, op)` | Adds a value tracker (MAX/MIN/SUM) |
+| `.withAIJudgment(question, contextVar)` | Adds an AI reasoning step |
+| `.withSearch(query, targetVar)` | Adds a web search step |
+| `.withDistiller(inputVar, targetVar)` | Adds a text distillation step |
+| `.withResultLabels(labels[])` | Sets labels for `CATEGORICAL` outcomes |
+
+---
+
+## Registering a Recipe
+
+Once your recipe is authored, register it via the TaaS Gateway API:
 
 ```bash
 curl -X POST https://api.friehub.com/recipes \
@@ -94,27 +191,4 @@ curl -X POST https://api.friehub.com/recipes \
   -d @my-recipe.json
 ```
 
----
-
-## Execute a Recipe Locally
-
-The execution engine is fully runnable in Node.js:
-
-```typescript
-import { RecipeExecutor } from '@friehub/execution-engine';
-import { RecipeInstance } from '@friehub/recipes';
-import blueprint from './recipe.json';
-
-const result = await RecipeExecutor.execute(
-    new RecipeInstance(blueprint).toRecipe(),
-    { symbol: 'BTC', threshold: 100000 }
-);
-
-console.log(result.truth); // 1 if BTC > 100000, 0 otherwise
-```
-
-To route data through the TaaS Gateway (no local API keys required):
-
-```bash
-TAAS_USE_PROXY=true TAAS_PROXY_URL=https://api.friehub.com pnpm tsx test.ts
-```
+All Truth Nodes in the network will automatically pick it up when requested on-chain.

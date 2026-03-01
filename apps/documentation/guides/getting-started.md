@@ -1,119 +1,157 @@
 # Quick Start
 
-This guide walks through running a TaaS Recipe execution from scratch   no crypto wallet required to test.
+This guide walks through authoring a TaaS Recipe from scratch. Recipes are the unit of work in the TaaS Protocol — a structured JSON object that defines how a real-world fact should be derived and attested on-chain.
 
-## Prerequisites
+## How the Authoring Flow Works
 
-- Node.js 20+
-- pnpm 9+
-- A GitHub account with access to the Friehub GitHub Packages registry
+As a developer, you work with two packages:
 
----
+| Package | Role | Access |
+|---|---|---|
+| `@friehub/taas-interfaces` | Core type definitions for `Recipe`, `TruthType`, `SovereignAdapter`, etc. | **Public** |
+| `@friehub/taas-plugins` | Pre-built data source adapters (Coingecko, Sportmonks, etc.) | **Private (request access)** |
 
-## 1. Configure Your Registry Access
-
-Create a `.npmrc` file in your project root:
-
-```ini
-@friehub:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=YOUR_GITHUB_PAT
-```
-
-You can generate a Personal Access Token (PAT) in GitHub under **Settings → Developer Settings → Personal Access Tokens** with the `read:packages` scope.
+You **cannot** directly import from `@friehub/execution-engine`, `@friehub/recipes`, or `@friehub/sovereign-logic`. Those are internal runtime packages used by Truth Nodes and the TaaS Backend.
 
 ---
 
-## 2. Install the Core SDKs
+## 1. Install the Interfaces Package
 
 ```bash
-pnpm add @friehub/execution-engine @friehub/recipes @friehub/sovereign-logic
+pnpm add @friehub/taas-interfaces
+```
+
+If you have been granted access to the plugins registry, also add:
+```bash
+# .npmrc required
+# @friehub:registry=https://npm.pkg.github.com
+# //npm.pkg.github.com/:_authToken=YOUR_GITHUB_PAT
+
+pnpm add @friehub/taas-plugins
 ```
 
 ---
 
-## 3. Write a Recipe
+## 2. Understand the Recipe Structure
 
-Create a file called `btc-price.json`:
-
-```json
-{
-  "id": "btc-price",
-  "version": "1.0.0",
-  "outcomeType": "SCALAR",
-  "inputs": {
-    "symbol": { "type": "string", "required": true }
-  },
-  "logic": [
-    {
-      "id": "fetch-price",
-      "type": "standard-feed",
-      "config": {
-        "provider": "coingecko",
-        "params": { "symbol": "{{inputs.symbol}}" }
-      }
-    }
-  ],
-  "attestation": {
-    "strategy": "median",
-    "threshold": 1
-  }
-}
-```
-
----
-
-## 4. Execute the Recipe
-
-Create a file called `test.ts`:
+A `Recipe` in TaaS has four top-level sections:
 
 ```typescript
-import { RecipeExecutor } from '@friehub/execution-engine';
-import { RecipeInstance } from '@friehub/recipes';
-import blueprint from './btc-price.json';
+import { Recipe, TruthType, DataCategory } from '@friehub/taas-interfaces';
 
-// Use the TaaS Gateway as a data proxy   no API keys needed
-process.env.TAAS_USE_PROXY = 'true';
-process.env.TAAS_PROXY_URL = 'https://api.friehub.com';
-
-async function main() {
-    const recipe = new RecipeInstance(blueprint).toRecipe();
-
-    const result = await RecipeExecutor.execute(recipe, {
-        symbol: 'BTC',
-        attestationTimestamp: Date.now()
-    });
-
-    console.log('Success:      ', result.success);
-    console.log('Truth Value:  ', result.truth);
-    console.log('Proof Hash:   ', result.proof);
-}
-
-main().catch(console.error);
-```
-
-Run it:
-
-```bash
-pnpm tsx test.ts
+const btcPriceRecipe: Recipe = {
+    id: 'btc-price-scalar',
+    metadata: {
+        id: 'btc-price-scalar',
+        name: 'Verified BTC Price',
+        description: 'Fetches the Bitcoin spot price from multiple sources.',
+        category: 'Finance',
+        version: '1.0.0',
+        tags: ['crypto', 'price', 'finance']
+    },
+    ui: {
+        titleTemplate: 'What is the price of {{symbol}}?',
+        truthType: TruthType.SCALAR,
+        variables: [
+            {
+                name: 'symbol',
+                label: 'Asset Symbol',
+                type: 'string',
+                required: true,
+                defaultValue: 'BTC'
+            }
+        ]
+    },
+    logic: {
+        pathway: DataCategory.CRYPTO,
+        attestationStrategy: 'median',
+        attestationConfig: {
+            minSources: 2,
+            maxDeviation: 0.05
+        },
+        steps: [
+            {
+                id: 'fetch-coingecko',
+                type: 'standard-feed',
+                params: {
+                    source: 'coingecko',
+                    symbol: '{{symbol}}'
+                },
+                targetVar: 'price_cg'
+            },
+            {
+                id: 'fetch-binance',
+                type: 'standard-feed',
+                params: {
+                    source: 'binance',
+                    symbol: '{{symbol}}'
+                },
+                targetVar: 'price_bn'
+            },
+            {
+                id: 'aggregate',
+                type: 'consensus',
+                params: {
+                    inputs: ['price_cg', 'price_bn'],
+                    strategy: 'median'
+                },
+                targetVar: 'final_price',
+                dependencies: ['fetch-coingecko', 'fetch-binance']
+            }
+        ]
+    }
+};
 ```
 
 ---
 
-## 5. Register a Recipe
+## 3. Truth Types
 
-To make your recipe available to all Truth Nodes in the network, register it via the TaaS Backend API:
+Every recipe must declare a `truthType` in its `ui` block:
+
+| Type | Description | Example |
+|---|---|---|
+| `TruthType.BINARY` | Yes/No (0 or 1) | Did BTC close above $100k? |
+| `TruthType.SCALAR` | Numeric value | What is the BTC price in USD? |
+| `TruthType.CATEGORICAL` | One of N options | Who won the Premier League? |
+| `TruthType.PROBABILISTIC` | Confidence score (0-1) | How likely is a rate cut? |
+| `TruthType.INVALID` | Unanswerable | Question has a false premise |
+
+---
+
+## 4. Pipeline Step Types
+
+The `logic.steps` array defines the execution pipeline. Available step types:
+
+| Type | Description |
+|---|---|
+| `standard-feed` | Fetches data from a registered plugin adapter (e.g., `coingecko`, `sportmonks`) |
+| `fetch` | Generic HTTP fetch |
+| `transform` | Applies a data transformation to a previous step's output |
+| `math` | Evaluates a numeric expression |
+| `consensus` | Aggregates multiple source outputs (median, weighted average, etc.) |
+| `distiller` | Runs heavy-logic normalization (used by the execution engine internally) |
+| `reasoner` | AI-assisted reasoning step (for `PROBABILISTIC` recipes) |
+
+---
+
+## 5. Register Your Recipe
+
+Once your recipe JSON is finalized, submit it to the TaaS Backend API:
 
 ```bash
 curl -X POST https://api.friehub.com/recipes \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer YOUR_JWT' \
-  -d @btc-price.json
+  -d @btc-price-recipe.json
 ```
+
+The truth network will automatically discover and execute it when requested on-chain.
 
 ---
 
 ## Next Steps
 
-- Read the [Truth Recipes](/protocol/recipes) reference to understand recipe fields.
-- Learn about the [Data Feed Registry](/protocol/data-feeds) to see all available providers.
-- Deploy a [Truth Node](/nodes/truth-node) to participate in the network.
+- Read the full [Recipe Protocol Reference](/protocol/recipes).
+- See all available [Data Feed Adapters](/protocol/data-feeds) and their source IDs.
+- Learn how to [write a custom plugin adapter](/guides/development) using `@friehub/taas-interfaces`.

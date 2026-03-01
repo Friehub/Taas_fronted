@@ -1,113 +1,147 @@
-# Truth Node
+# Running a Truth Node
 
-The **Truth Node** is the core participant in the TaaS network. It listens for on-chain truth requests, executes recipe logic locally, and proposes verified outcomes to the `TruthOracleV2` smart contract.
-
----
-
-## Modes of Operation
-
-The Truth Node supports three runtime modes controlled by the `NODE_MODE` environment variable:
-
-| Mode | Description |
-|---|---|
-| `sentinel` | Actively monitors and processes incoming truth requests. |
-| `challenger` | Monitors proposals from other nodes and disputes incorrect outcomes. |
-| `both` | Runs both sentinel and challenger simultaneously. |
+A Truth Node is the execution and verification client of the TaaS Protocol. It connects real-world data to on-chain smart contracts by running data recipes locally, signing the results, and submitting verified attestations to the TruthOracle contract.
 
 ---
 
-## Running with Docker (Recommended)
+## Operational Modes
 
-The official Truth Node Docker image is published to GitHub Container Registry:
+| Mode | Role | Earns |
+|---|---|---|
+| `sentinel` | Listens for on-chain requests, executes recipes, proposes outcomes | Protocol fees |
+| `challenger` | Monitors proposals from other nodes, re-executes recipes, disputes incorrect results | Dispute rewards + slashing proceeds |
+| `both` | Runs both sentinel and challenger simultaneously | Both |
+
+---
+
+## Prerequisites
+
+- Docker and Docker Compose installed on your server
+- An EVM-compatible wallet with a funded private key
+- A WebSocket-capable RPC endpoint for the Helios network
+- A Redis instance (v7.0+) for the job queue
+
+---
+
+## Setup (Zero-Build Install)
+
+Friehub strictly recommends the Docker path. Do **not** clone the repository or run `pnpm build` locally for production — use the pre-built image.
+
+**Step 1: Create a working directory and download the Compose file:**
 
 ```bash
-docker pull ghcr.io/friehub/truth-node:latest
+mkdir taas-sentinel && cd taas-sentinel
+wget https://raw.githubusercontent.com/Friehub/taas-nodes/main/truth-node/docker-compose.yml
 ```
 
-Create a `.env` file:
+**Step 2: Create your `.env` file in the same directory:**
+
+```bash
+touch .env
+```
+
+**Step 3: Configure the required variables:**
 
 ```ini
-# Blockchain
-RPC_URL=https://your-rpc-endpoint
-ORACLE_ADDRESS=0x...
-TOKEN_ADDRESS=0x...
+# Core settings
+NODE_ENV=production
+NODE_MODE=sentinel        # sentinel | challenger | both
+NODE_ID=my-truth-node-01
+PORT=3001
 
-# Node Identity
-PRIVATE_KEY=0x...
-NODE_MODE=sentinel
+# Blockchain (Helios Testnet)
+RPC_URL=https://testnet1.helioschainlabs.org
+CHAIN_ID=42000
 
-# Gateway (Proxy Mode   no local API keys required)
-TAAS_USE_PROXY=true
+# Smart Contracts
+ORACLE_ADDRESS=0x383E24c68A57eCf2D728CaE2B93637c2fb608bE1
+TOKEN_ADDRESS=0x7e6ad72CFCC7395956a99C7441EF6A2EED1E376F
+
+# Wallet
+PRIVATE_KEY=0xYOUR_PRIVATE_KEY_HERE
+
+# Infrastructure
+REDIS_HOST=localhost
+REDIS_PORT=6379
+
+# Truth Gateway (Keyless Mode — recommended)
 INDEXER_API_URL=https://api.friehub.com
-
-# Optional: Direct API keys (override proxy for specific providers)
-COINGECKO_API_KEY=your_key
-OPENWEATHER_KEY=your_key
 ```
 
-Run:
+::: tip Keyless Mode
+When `INDEXER_API_URL` is set, the node routes all data provider requests through the TaaS Gateway. You do **not** need any API keys for sports, weather, finance, or crypto data. The gateway handles all authenticated external requests on your behalf.
+:::
+
+**Step 4: Start the node:**
+
 ```bash
-docker run -d --name taas-truth-node --env-file .env ghcr.io/friehub/truth-node:latest
+docker compose up -d
+```
+
+**Step 5: View the logs:**
+
+```bash
+docker compose logs -f truth-node
 ```
 
 ---
 
-## Running from Source
+## Full Environment Variable Reference
+
+| Variable | Required | Description |
+|---|---|---|
+| `NODE_MODE` | Yes | `sentinel`, `challenger`, or `both` |
+| `PRIVATE_KEY` | Yes | EVM private key (starts with `0x`) |
+| `RPC_URL` | Yes | Helios RPC endpoint |
+| `ORACLE_ADDRESS` | Yes | TruthOracleV2 contract address |
+| `TOKEN_ADDRESS` | Yes | TAAS token contract address |
+| `INDEXER_API_URL` | Yes | TaaS Gateway URL (enables keyless mode) |
+| `REDIS_HOST` | Yes | Redis host |
+| `REDIS_PORT` | No | Redis port (default: `6379`) |
+| `NODE_ID` | No | Human-readable node identifier for logs |
+| `PORT` | No | HTTP port for the node API (default: `3001`) |
+| `LOG_LEVEL` | No | `debug`, `info`, `warn`, or `error` |
+
+---
+
+## Observability
+
+The node exposes a Prometheus-compatible metrics endpoint at `http://your-node:3001/metrics`.
+
+Key metrics:
+
+| Metric | Description |
+|---|---|
+| `truth_requests_total` | Number of truth requests received |
+| `truth_proposals_total` | Number of outcomes submitted on-chain |
+| `truth_disputes_total` | Number of successful challenge disputes filed |
+
+JSON-structured logs are emitted to `stdout` and can be forwarded to any log aggregator (Grafana Loki, Datadog, etc.).
+
+---
+
+## Troubleshooting
+
+**Connection refused on startup:**
+Verify that your Redis service is running and reachable via `REDIS_HOST`.
+
+**Insufficient funds error:**
+Your `PRIVATE_KEY` wallet must hold enough native token (HELI) to cover gas costs for proposals and dispute bonds.
+
+**Recipe not found:**
+The requested recipe ID must be registered on the TaaS Gateway before the node can execute it.
+
+---
+
+## Running from Source (Contributors Only)
+
+For protocol development only — not recommended for node operators:
 
 ```bash
 git clone https://github.com/Friehub/taas-nodes.git
 cd taas-nodes/truth-node
-
 pnpm install
 cp .env.example .env
-# Fill in your .env values
-
-pnpm dev
+# Edit .env with your values
+pnpm run dev
 ```
-
----
-
-## Architecture
-
-```
-TruthOracleV2 (on-chain)
-      |
-   Events
-      |
-      v
-  Sentinel (Event Listener)
-      |
-  queues job
-      |
-      v
-  TruthWorker (BullMQ Job Processor)
-      ├── Load Recipe from RecipeRegistry
-      ├── Execute via RecipeExecutor
-      │     └── StandardFeedPlugin (Gateway Proxy / Local Plugin)
-      ├── Generate Truth Certificate
-      ├── Upload to IPFS
-      └── proposeTruth() on-chain
-```
-
----
-
-## Health and Monitoring
-
-The Truth Node exposes a REST API for monitoring:
-
-```
-GET  /health         # Node health status
-GET  /metrics        # Prometheus metrics
-GET  /feeds          # Registered local data plugins
-POST /execute        # Manually trigger a Recipe execution (for testing)
-```
-
----
-
-## Economic Requirements
-
-To participate as a Truth Node, you must:
-
-1. Hold enough **T tokens** to cover the `minimumBond` set by the oracle contract.
-2. Be registered as a **Certified Node** via the `NodeRegistry` contract (or operate in uncertified mode with higher bond requirements).
-3. Maintain uptime to avoid being marked as inactive and slashed via the anti-jail heartbeat system (`NodeHealthService`).
