@@ -23,6 +23,9 @@ export function LandingFooter() {
                     <a href="https://github.com/friehub" className="text-foreground/30 hover:text-primary transition-all">
                         <GitHubLogoIcon />
                     </a>
+                    <a href="https://docs.friehub.cloud" target="_blank" rel="noopener noreferrer" className="text-foreground/30 hover:text-primary transition-all">
+                        <FileTextIcon />
+                    </a>
                 </div>
             </div>
         </footer>
