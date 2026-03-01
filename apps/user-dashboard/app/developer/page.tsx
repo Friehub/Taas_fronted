@@ -2,8 +2,19 @@
 
 import React, { useState } from 'react';
 import { useAccount } from 'wagmi';
-import { Key, Shield, Zap, Info, Plus, Copy, Trash2, CheckCircle2 } from 'lucide-react';
+import {
+    LockClosedIcon,
+    ComponentInstanceIcon,
+    LightningBoltIcon,
+    InfoCircledIcon,
+    PlusIcon,
+    CopyIcon,
+    TrashIcon,
+    CheckCircledIcon,
+    ReloadIcon
+} from '@radix-ui/react-icons';
 import useSWR from 'swr';
+import { cn } from '@/lib/utils';
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function DeveloperPage() {
@@ -47,25 +58,28 @@ export default function DeveloperPage() {
 
     if (!isConnected) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
-                <Key className="w-16 h-16 text-muted-foreground/20 mb-6" />
-                <h2 className="text-2xl font-bold mb-2">Developer Authentication Required</h2>
-                <p className="text-muted-foreground max-w-sm mb-8">
-                    Connect your wallet to manage Subscriptions and API keys for the Truth-as-a-Service protocol.
+            <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+                <div className="w-20 h-20 bg-primary/5 rounded-3xl flex items-center justify-center mb-8 border border-white/5 backdrop-blur-md">
+                    <LockClosedIcon width={32} height={32} className="text-primary/40" />
+                </div>
+                <h2 className="text-2xl font-display font-bold mb-3 tracking-tight">Developer Access Required</h2>
+                <p className="text-[11px] text-foreground/40 font-medium max-w-xs mb-8 uppercase tracking-[0.1em] leading-relaxed">
+                    Connect your identity to manage protocol subscriptions and secure API access.
                 </p>
-                <button className="px-8 py-3 bg-primary text-primary-foreground rounded-xl font-bold">
-                    Connect Wallet
+                <button className="h-11 px-8 bg-primary text-primary-foreground rounded-xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                    Initialize Identity
                 </button>
             </div>
         );
     }
 
     return (
-        <div className="max-w-5xl mx-auto space-y-10">
+        <div className="max-w-5xl mx-auto space-y-12 py-8">
             {/* Header */}
-            <div>
-                <h1 className="text-3xl font-bold tracking-tight mb-2">Developer Hub</h1>
-                <p className="text-muted-foreground">Manage your FTS subscriptions and secure API access.</p>
+            <div className="relative">
+                <div className="absolute -left-4 top-0 w-1 h-12 bg-primary/20 rounded-full hidden md:block" />
+                <h1 className="text-4xl font-display font-black tracking-tighter mb-2">Developer Hub</h1>
+                <p className="text-[11px] font-bold text-foreground/30 uppercase tracking-[0.2em]">Scale your truth infrastructure with high-fidelity APIs.</p>
             </div>
 
             {/* Subscription Tiers */}
@@ -92,81 +106,88 @@ export default function DeveloperPage() {
             </div>
 
             {/* Active Subscriptions & Keys */}
-            <div className="space-y-6">
-                <h2 className="text-xl font-bold flex items-center gap-2">
-                    <Shield className="w-5 h-5 text-primary" />
-                    My Subscriptions
+            <div className="space-y-8">
+                <h2 className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.3em] flex items-center gap-3">
+                    <ComponentInstanceIcon width={14} height={14} className="text-primary" />
+                    Protocol Subscriptions
                 </h2>
 
                 {subscriptions.length === 0 ? (
-                    <div className="p-12 border border-dashed border-border rounded-2xl bg-muted/30 text-center">
-                        <p className="text-muted-foreground mb-4">You don't have any active subscriptions yet.</p>
-                        <button className="px-6 py-2 bg-primary text-primary-foreground rounded-lg font-bold text-sm">
-                            Initialize Free Tier
+                    <div className="p-16 border border-dashed border-white/10 rounded-3xl bg-white/5 backdrop-blur-sm text-center">
+                        <p className="text-[11px] font-bold text-foreground/30 mb-6 uppercase tracking-[0.1em]">No active subscriptions found in this epoch.</p>
+                        <button className="h-10 px-6 bg-primary/10 text-primary border border-primary/20 rounded-xl font-black text-[9px] uppercase tracking-[0.2em] hover:bg-primary/20 transition-all">
+                            Provision Free Tier
                         </button>
                     </div>
                 ) : (
                     <div className="space-y-8">
                         {subscriptions.map((sub: any) => (
-                            <div key={sub.subscription_id} className="bg-card border border-border rounded-2xl overflow-hidden">
-                                <div className="p-6 border-b border-border bg-muted/20 flex justify-between items-center">
+                            <div key={sub.subscription_id} className="bg-card/40 backdrop-blur-md border border-white/5 rounded-3xl overflow-hidden group transition-all hover:border-primary/20">
+                                <div className="p-8 border-b border-white/5 bg-white/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                                     <div>
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <h3 className="font-bold text-lg">Subscription #{sub.subscription_id}</h3>
-                                            <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-500 text-[10px] font-bold uppercase rounded-full">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <h3 className="font-display font-black text-xl tracking-tight">Vault #{sub.subscription_id}</h3>
+                                            <span className="px-2.5 py-0.5 bg-emerald-500/10 text-emerald-500 text-[8px] font-black uppercase tracking-widest rounded-full border border-emerald-500/20">
                                                 {sub.status}
                                             </span>
                                         </div>
-                                        <p className="text-xs text-muted-foreground">
-                                            Usage: {sub.quota_used.toLocaleString()} / {sub.quota_limit.toLocaleString()} calls
-                                        </p>
+                                        <div className="flex items-center gap-4">
+                                            <div className="text-[10px] font-mono text-foreground/40 font-bold uppercase tracking-widest">
+                                                Quota: <span className="text-foreground">{sub.quota_used.toLocaleString()}</span> / {sub.quota_limit.toLocaleString()}
+                                            </div>
+                                            <div className="w-24 h-1 bg-white/5 rounded-full overflow-hidden">
+                                                <div
+                                                    className="h-full bg-primary"
+                                                    style={{ width: `${(sub.quota_used / sub.quota_limit) * 100}%` }}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                     <button
                                         onClick={() => handleCreateKey(sub.subscription_id)}
-                                        className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-xs font-bold hover:opacity-90 transition-opacity"
+                                        className="flex items-center gap-2 h-10 px-5 bg-primary text-primary-foreground rounded-xl text-[9px] font-black uppercase tracking-[0.2em] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-primary/10"
                                     >
-                                        <Plus className="w-3.5 h-3.5" />
-                                        Generate API Key
+                                        <PlusIcon width={12} height={12} />
+                                        Generate Key
                                     </button>
                                 </div>
 
-                                <div className="p-6">
-                                    <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-4">Active API Keys</h4>
+                                <div className="p-8">
+                                    <h4 className="text-[9px] font-black text-foreground/30 uppercase tracking-[0.3em] mb-6">Credential Management</h4>
 
                                     {revealedKey && (
-                                        <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-xl animate-in zoom-in-95">
-                                            <p className="text-[10px] font-bold text-primary uppercase mb-2">New Key Generated (Save this, it won't be shown again!)</p>
-                                            <div className="flex items-center gap-3 bg-background p-3 rounded-lg border border-border">
-                                                <code className="text-sm font-mono flex-1">{revealedKey}</code>
+                                        <div className="mb-8 p-6 bg-primary/5 border border-primary/20 rounded-2xl animate-in fade-in slide-in-from-top-4">
+                                            <p className="text-[9px] font-black text-primary uppercase tracking-[0.2em] mb-4">Temporary Key Disclosure — Action Required</p>
+                                            <div className="flex items-center gap-3 bg-black/40 p-4 rounded-xl border border-white/5 backdrop-blur-md">
+                                                <code className="text-xs font-mono flex-1 text-primary tracking-tight">{revealedKey}</code>
                                                 <button
                                                     onClick={() => {
                                                         navigator.clipboard.writeText(revealedKey);
                                                         setRevealedKey(null);
                                                     }}
-                                                    className="p-2 hover:bg-muted rounded-md transition-colors text-primary"
+                                                    className="p-2 hover:bg-white/5 rounded-lg transition-colors text-primary"
                                                 >
-                                                    <Copy className="w-4 h-4" />
+                                                    <CopyIcon width={16} height={16} />
                                                 </button>
                                             </div>
                                         </div>
                                     )}
 
                                     <div className="space-y-4">
-                                        {/* In a real app, you'd fetch keys separately, but for now we'll assume they are grouped or the sub data has them */}
-                                        <div className="flex items-center justify-between p-3 bg-muted/40 rounded-xl border border-border/50">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 bg-background rounded-lg flex items-center justify-center">
-                                                    <Key className="w-5 h-5 text-muted-foreground" />
+                                        <div className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5 group/key hover:border-white/10 transition-all">
+                                            <div className="flex items-center gap-5">
+                                                <div className="w-12 h-12 bg-black/40 rounded-xl flex items-center justify-center border border-white/5">
+                                                    <LockClosedIcon width={18} height={18} className="text-foreground/40 group-hover/key:text-primary transition-colors" />
                                                 </div>
                                                 <div>
-                                                    <div className="text-sm font-bold">Production Sentinel Key</div>
-                                                    <div className="text-[10px] font-mono text-muted-foreground">fr_live_******************</div>
+                                                    <div className="text-[11px] font-black uppercase tracking-widest">Main Production Key</div>
+                                                    <div className="text-[10px] font-mono text-foreground/30 font-bold">fr_live_******************</div>
                                                 </div>
                                             </div>
-                                            <div className="flex items-center gap-2">
-                                                <div className="text-[10px] text-muted-foreground mr-4">Used: 420 calls</div>
-                                                <button className="p-2 text-muted-foreground hover:text-destructive transition-colors">
-                                                    <Trash2 className="w-4 h-4" />
+                                            <div className="flex items-center gap-6">
+                                                <div className="text-[9px] font-black text-foreground/20 uppercase tracking-[0.1em] hidden md:block">420 Transactions</div>
+                                                <button className="p-2 text-foreground/20 hover:text-rose-500 transition-colors">
+                                                    <TrashIcon width={16} height={16} />
                                                 </button>
                                             </div>
                                         </div>
@@ -179,13 +200,18 @@ export default function DeveloperPage() {
             </div>
 
             {/* API Warning */}
-            <div className="p-6 bg-yellow-500/5 border border-yellow-500/10 rounded-2xl flex gap-4">
-                <Info className="w-6 h-6 text-yellow-500 flex-shrink-0" />
-                <div>
-                    <h4 className="text-sm font-bold text-yellow-500 mb-1">Centralized Security Protocol</h4>
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                        Nodes must use their internal `Friehub-Subscription-Key` to route requests through the Sovereign Backend.
-                        Requests using raw provider keys (FRED, SportMonks) will be rejected by the Guardian network to prevent quota exploitation.
+            <div className="p-8 bg-black/40 backdrop-blur-md border border-white/5 rounded-3xl flex gap-6 relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-4 opacity-5">
+                    <InfoCircledIcon width={80} height={80} />
+                </div>
+                <div className="w-12 h-12 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex items-center justify-center shrink-0">
+                    <InfoCircledIcon width={24} height={24} className="text-amber-500" />
+                </div>
+                <div className="relative">
+                    <h4 className="text-[11px] font-black text-amber-500 uppercase tracking-[0.2em] mb-2">Network Routing Protocol</h4>
+                    <p className="text-[11px] text-foreground/40 font-medium leading-relaxed max-w-2xl">
+                        Nodes must use their assigned <code className="text-primary font-mono bg-primary/5 px-1 pb-0.5 rounded">Friehub-Subscription-Key</code> to route requests through the Sovereign Backend.
+                        Direct calls using raw provider keys (FRED, SportMonks) are strictly prohibited by the Guardian nodes to preserve network integrity.
                     </p>
                 </div>
             </div>
@@ -195,23 +221,30 @@ export default function DeveloperPage() {
 
 function PricingCard({ name, price, calls, features, active }: any) {
     return (
-        <div className={`p-8 bg-card border rounded-2xl flex flex-col ${active ? 'border-primary ring-1 ring-primary/20' : 'border-border'}`}>
-            <h3 className="font-bold text-xl mb-1">{name}</h3>
-            <div className="text-3xl font-bold mb-1">{price}</div>
-            <div className="text-xs text-muted-foreground mb-6">{calls} API Requests</div>
+        <div className={cn(
+            "p-8 bg-card/40 backdrop-blur-md border rounded-3xl flex flex-col transition-all duration-500 hover:scale-[1.02]",
+            active ? "border-primary/40 shadow-2xl shadow-primary/5 scale-[1.05] z-10" : "border-white/5"
+        )}>
+            <div className="text-[9px] font-black text-foreground/30 uppercase tracking-[0.3em] mb-4">{name}</div>
+            <div className="text-3xl font-display font-black tracking-tighter mb-1">{price}</div>
+            <div className="text-[10px] font-black text-primary/60 uppercase tracking-[0.2em] mb-8">{calls} QUOTA</div>
 
-            <div className="space-y-3 mb-8 flex-1">
+            <div className="space-y-4 mb-10 flex-1">
                 {features.map((f: string, i: number) => (
-                    <div key={i} className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                        {f}
+                    <div key={i} className="flex items-start gap-3">
+                        <CheckCircledIcon width={14} height={14} className="text-primary mt-0.5 shrink-0" />
+                        <span className="text-[11px] text-foreground/60 font-medium leading-tight">{f}</span>
                     </div>
                 ))}
             </div>
 
-            <button className={`w-full py-2.5 rounded-xl font-bold text-xs uppercase tracking-wide transition-all ${active ? 'bg-primary text-primary-foreground hover:opacity-90' : 'bg-muted text-foreground hover:bg-muted/80'
-                }`}>
-                {active ? 'Manage Plan' : 'Choose Plan'}
+            <button className={cn(
+                "w-full h-11 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] transition-all",
+                active
+                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
+                    : "bg-white/5 text-foreground hover:bg-white/10"
+            )}>
+                {active ? 'Manage Plan' : 'Provision Tier'}
             </button>
         </div>
     );

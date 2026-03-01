@@ -21,8 +21,6 @@ import { ThemeToggle } from './shared/ThemeToggle';
 
 const NAV_ITEMS = [
     { label: 'Overview', href: '/', icon: DashboardIcon },
-    { label: 'Truth Protocol', href: '/registry', icon: ComponentInstanceIcon },
-    { label: 'Activity Hub', href: '/activity', icon: ActivityLogIcon },
     { label: 'Developers', href: '/developer', icon: LightningBoltIcon },
     { label: 'Documentation', href: 'https://docs.friehub.cloud', icon: FileTextIcon, external: true },
 ];
@@ -60,15 +58,15 @@ export function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (o:
                             F
                         </div>
                         <div>
-                            <div className="font-display font-bold text-foreground tracking-tight text-sm">Friehub Console</div>
-                            <div className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] opacity-80">TaaS Portal</div>
+                            <div className="font-display font-black text-foreground tracking-tighter text-sm uppercase">Friehub</div>
+                            <div className="text-[9px] font-black text-primary uppercase tracking-[0.3em] opacity-60 leading-none">Sentinel v1.4</div>
                         </div>
                     </div>
                 </div>
 
                 {/* Navigation */}
                 <nav className="flex-1 p-4 space-y-1">
-                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-3 mt-2">Platform</div>
+                    <div className="text-[9px] font-black text-foreground/20 uppercase tracking-[0.3em] px-3 mb-4 mt-2">Core Infrastructure</div>
 
                     {filteredNavItems.map((item) => {
                         const isActive = pathname === item.href;
@@ -121,13 +119,13 @@ export function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (o:
                             <span className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.2em]">Network Status</span>
                         </div>
                         <div className="space-y-2">
-                            <div className="flex justify-between items-center text-[10px] font-bold">
-                                <span className="text-muted-foreground/60 uppercase tracking-tighter">Environment</span>
-                                <span className="text-primary font-mono bg-primary/10 px-1.5 py-0.5 rounded leading-none text-xs">Testnet</span>
+                            <div className="flex justify-between items-center text-[9px] font-black uppercase tracking-[0.1em]">
+                                <span className="text-foreground/30">Protocol</span>
+                                <span className="text-primary font-mono bg-primary/10 px-1.5 py-0.5 rounded leading-none text-xs">Mainnet-Beta</span>
                             </div>
-                            <div className="flex justify-between items-center text-[10px] font-bold">
-                                <span className="text-muted-foreground/60 uppercase tracking-tighter">Chain Height</span>
-                                <span className="text-foreground font-mono tabular-nums">#9,154,320</span>
+                            <div className="flex justify-between items-center text-[9px] font-black uppercase tracking-[0.1em]">
+                                <span className="text-foreground/30">Epoch Height</span>
+                                <span className="text-foreground/60 font-mono tabular-nums tracking-tighter">#9,154,320</span>
                             </div>
                         </div>
                     </div>

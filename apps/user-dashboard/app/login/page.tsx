@@ -2,11 +2,25 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { LogIn, ShieldCheck, Wallet, ArrowRight, Loader2, Info } from 'lucide-react';
+import {
+    LockClosedIcon,
+    ComponentInstanceIcon,
+    LightningBoltIcon,
+    InfoCircledIcon,
+    PlusIcon,
+    CopyIcon,
+    TrashIcon,
+    CheckCircledIcon,
+    ReloadIcon,
+    EnterIcon,
+    BackpackIcon,
+    ArrowRightIcon
+} from '@radix-ui/react-icons';
 import { useAccount, useSignMessage, useConnect, useDisconnect } from 'wagmi';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { injected } from 'wagmi/connectors';
+import { cn } from '@/lib/utils';
 
 export default function LoginPage() {
     const { address, isConnected } = useAccount();
@@ -94,21 +108,21 @@ export default function LoginPage() {
 
                     <div className="relative z-10">
                         {/* Logo / Header */}
-                        <div className="flex flex-col items-center mb-8">
-                            <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-primary/20">
-                                <ShieldCheck className="text-primary-foreground w-10 h-10" />
+                        <div className="flex flex-col items-center mb-10">
+                            <div className="w-20 h-20 bg-primary/10 rounded-[2.5rem] flex items-center justify-center mb-6 border border-primary/20 shadow-2xl shadow-primary/5">
+                                <ComponentInstanceIcon width={40} height={40} className="text-primary" />
                             </div>
-                            <h1 className="text-3xl font-display font-bold tracking-tight text-foreground">Friehub TaaS</h1>
-                            <p className="text-muted-foreground mt-2 text-center text-sm">
-                                The high-fidelity truth attestation network.
+                            <h1 className="text-4xl font-display font-black tracking-tighter text-foreground mb-1">Friehub TaaS</h1>
+                            <p className="text-[11px] font-bold text-foreground/30 uppercase tracking-[0.3em] text-center">
+                                High-Fidelity Truth Network
                             </p>
                         </div>
 
                         {/* Info Callout */}
-                        <div className="bg-primary/5 border border-primary/20 rounded-2xl p-4 mb-8 flex gap-3">
-                            <Info className="text-primary w-5 h-5 shrink-0 mt-0.5" />
-                            <p className="text-xs text-primary/80 leading-relaxed">
-                                We use Sign-In with Ethereum (SIWE) for secure, non-custodial access. Your private keys never leave your wallet.
+                        <div className="bg-primary/5 border border-primary/20 rounded-2xl p-5 mb-10 flex gap-4">
+                            <InfoCircledIcon className="text-primary w-5 h-5 shrink-0 mt-0.5" />
+                            <p className="text-[11px] text-primary/60 font-medium leading-relaxed">
+                                Friehub utilizes <span className="text-primary font-bold">SIWE</span> (Sign-In with Ethereum) for non-custodial protocol access. Your identity remains private and secure.
                             </p>
                         </div>
 
@@ -117,42 +131,42 @@ export default function LoginPage() {
                             {!isConnected ? (
                                 <button
                                     onClick={() => connect({ connector: injected() })}
-                                    className="w-full py-4 bg-primary text-primary-foreground font-bold rounded-2xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 flex items-center justify-center gap-3 active:scale-[0.98]"
+                                    className="w-full h-14 bg-white/5 border border-white/5 hover:bg-white/10 text-foreground font-black text-[11px] uppercase tracking-[0.3em] rounded-2xl transition-all duration-300 flex items-center justify-center gap-4 backdrop-blur-md active:scale-[0.98]"
                                 >
-                                    <Wallet size={20} />
-                                    Connect Wallet
+                                    <BackpackIcon width={20} height={20} className="text-primary" />
+                                    Initialize Identity
                                 </button>
                             ) : (
                                 <div className="space-y-4">
-                                    <div className="p-4 bg-secondary/50 rounded-2xl border border-border flex items-center justify-between">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                                    <div className="p-5 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between backdrop-blur-md">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
                                                 <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                                             </div>
-                                            <span className="text-sm font-mono text-foreground/80">
+                                            <span className="text-xs font-mono font-bold text-foreground/60 tracking-tight">
                                                 {address?.slice(0, 6)}...{address?.slice(-4)}
                                             </span>
                                         </div>
                                         <button
                                             onClick={() => disconnect()}
-                                            className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-destructive transition-colors"
+                                            className="text-[9px] font-black uppercase tracking-[0.2em] text-foreground/20 hover:text-rose-500 transition-colors"
                                         >
-                                            Disconnect
+                                            Rotate
                                         </button>
                                     </div>
 
                                     <button
                                         onClick={handleLogin}
                                         disabled={isLoading}
-                                        className="w-full py-4 bg-foreground text-background font-bold rounded-2xl transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-3 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed group"
+                                        className="w-full h-14 bg-primary text-primary-foreground font-black text-[11px] uppercase tracking-[0.3em] rounded-2xl transition-all duration-300 hover:shadow-2xl hover:shadow-primary/30 flex items-center justify-center gap-3 active:scale-[0.98] disabled:opacity-50 group"
                                     >
                                         {isLoading ? (
-                                            <Loader2 size={20} className="animate-spin" />
+                                            <ReloadIcon width={20} height={20} className="animate-spin" />
                                         ) : (
                                             <>
-                                                <LogIn size={20} />
-                                                <span>{isVerifying ? 'Verifying...' : 'Sign in to Dashboard'}</span>
-                                                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                                                <EnterIcon width={20} height={20} />
+                                                <span>{isVerifying ? 'Authenticating...' : 'Enter Dashboard'}</span>
+                                                <ArrowRightIcon width={18} height={18} className="group-hover:translate-x-1 transition-transform" />
                                             </>
                                         )}
                                     </button>
@@ -160,11 +174,11 @@ export default function LoginPage() {
                             )}
                         </div>
 
-                        <div className="mt-8 pt-6 border-t border-border flex justify-between items-center text-xs text-muted-foreground">
-                            <span>Friehub v1.1.0</span>
-                            <div className="flex gap-4">
-                                <a href="#" className="hover:text-primary transition-colors">Privacy</a>
-                                <a href="#" className="hover:text-primary transition-colors">Security</a>
+                        <div className="mt-10 pt-8 border-t border-white/5 flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] text-foreground/20">
+                            <span>Protocol v1.4.0</span>
+                            <div className="flex gap-6">
+                                <a href="#" className="hover:text-primary transition-colors">Compliance</a>
+                                <a href="#" className="hover:text-primary transition-colors">Manifesto</a>
                             </div>
                         </div>
                     </div>

@@ -1,19 +1,16 @@
-/**
- * Testnet Faucet Component
- * Allows users to claim free $T tokens for testing
- */
-
-'use client';
-
+import { useState, useEffect } from 'react';
 import {
     LightningBoltIcon,
     UpdateIcon,
     CheckCircledIcon,
     ClockIcon,
     InfoCircledIcon,
-    ReloadIcon
+    ReloadIcon,
+    CheckIcon
 } from '@radix-ui/react-icons';
+import { useAccount, useChainId, useSwitchChain, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { heliosChain } from '@/lib/wagmi';
+import { cn } from '@/lib/utils';
 
 // ABI for TTruthToken faucet functions
 const FAUCET_ABI = [

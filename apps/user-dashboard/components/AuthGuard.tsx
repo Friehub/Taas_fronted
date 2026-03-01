@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Loader2 } from 'lucide-react';
+import { ReloadIcon } from '@radix-ui/react-icons';
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -35,7 +35,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     if (isAuthorized === null) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-background gap-4">
-                <Loader2 className="w-10 h-10 text-primary animate-spin" />
+                <ReloadIcon className="w-10 h-10 text-primary animate-spin" />
                 <p className="text-sm font-bold uppercase tracking-widest text-muted-foreground animate-pulse">Initializing Security...</p>
             </div>
         );
