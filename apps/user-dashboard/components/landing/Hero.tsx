@@ -1,7 +1,12 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { ArrowRight, Boxes, ShieldCheck, Cpu } from 'lucide-react';
+import {
+    ArrowRightIcon,
+    BoxIcon,
+    CheckIcon,
+    DashboardIcon
+} from '@radix-ui/react-icons';
 import Link from 'next/link';
 
 export function Hero() {
@@ -28,7 +33,7 @@ export function Hero() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="text-5xl md:text-7xl font-bold tracking-tight text-white"
+                        className="text-5xl md:text-7xl font-bold tracking-tight text-white font-display"
                     >
                         The Infrastructure of <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-indigo-600">
@@ -59,7 +64,7 @@ export function Hero() {
                             className="inline-flex h-12 items-center justify-center rounded-lg bg-indigo-600 px-8 text-sm font-medium text-white shadow-lg shadow-indigo-500/20 hover:bg-indigo-500 transition-colors"
                         >
                             Start Building
-                            <ArrowRight className="ml-2 h-4 w-4" />
+                            <ArrowRightIcon className="ml-2 h-4 w-4" />
                         </Link>
                         <Link
                             href="/overview"
@@ -78,17 +83,17 @@ export function Hero() {
                     className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20 border-t border-white/5 pt-10"
                 >
                     <Feature
-                        icon={ShieldCheck}
+                        icon={CheckIcon}
                         title="Cryptographic Proofs"
                         desc="Every data point is signed, verified, and immutable on-chain."
                     />
                     <Feature
-                        icon={Cpu}
+                        icon={DashboardIcon}
                         title="Sentinel Network"
                         desc="Decentralized node operators verifying truth in real-time."
                     />
                     <Feature
-                        icon={Boxes}
+                        icon={BoxIcon}
                         title="Modular Architecture"
                         desc="Plug-and-play SDKs for any data source or dApp integration."
                     />
@@ -102,7 +107,7 @@ function Feature({ icon: Icon, title, desc }: { icon: any, title: string, desc: 
     return (
         <div className="flex gap-4 items-start p-4 hover:bg-white/5 rounded-xl transition-colors">
             <div className="p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
-                <Icon size={20} />
+                <Icon width={20} height={20} />
             </div>
             <div>
                 <h3 className="text-white font-medium mb-1">{title}</h3>

@@ -2,7 +2,13 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Terminal, CheckCircle2, ShieldCheck, Database, ArrowRight } from 'lucide-react';
+import {
+    CodeIcon,
+    CheckCircledIcon,
+    LockClosedIcon,
+    StackIcon,
+    ArrowRightIcon
+} from '@radix-ui/react-icons';
 
 const STEPS = [
     {
@@ -10,28 +16,28 @@ const STEPS = [
         cmd: 'taas request --source "ETH/USD" --min-reputation 0.9',
         output: 'Request initialized: 0x8f...3a2b',
         color: 'text-indigo-400',
-        icon: Terminal
+        icon: CodeIcon
     },
     {
         id: 'validators',
         cmd: 'Searching for validators...',
         output: 'Selected: Sentinel_Alpha (Rep: 0.98), Sentinel_Beta (Rep: 0.95)',
         color: 'text-emerald-400',
-        icon: ShieldCheck
+        icon: LockClosedIcon
     },
     {
         id: 'consensus',
         cmd: 'Verifying data integrity...',
         output: 'Consensus Reached: $3,450.25 (Signature Verified)',
         color: 'text-blue-400',
-        icon: Database
+        icon: StackIcon
     },
     {
         id: 'callback',
         cmd: 'Executing on-chain callback...',
         output: 'Tx Confirmed: 0x1d...9e4f (Block #184203)',
         color: 'text-purple-400',
-        icon: CheckCircle2
+        icon: CheckCircledIcon
     }
 ];
 
@@ -77,7 +83,7 @@ export function CodeShowcase() {
                                 className={`flex gap-4 ${index === currentStep ? 'bg-white/5 -mx-4 px-4 py-2 rounded-lg border-l-2 border-indigo-500' : ''}`}
                             >
                                 <div className="mt-1">
-                                    <step.icon size={16} className={index <= currentStep ? step.color : 'text-slate-700'} />
+                                    <step.icon width={16} height={16} className={index <= currentStep ? step.color : 'text-slate-700'} />
                                 </div>
                                 <div className="space-y-1 w-full">
                                     <div className="flex items-center gap-2 text-slate-300">
