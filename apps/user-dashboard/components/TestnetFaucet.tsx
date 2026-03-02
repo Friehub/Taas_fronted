@@ -46,9 +46,12 @@ const FAUCET_ABI = [
 
 interface FaucetProps {
     tokenAddress: `0x${string}`;
+    symbol: string;
+    description: string;
+    isNative?: boolean;
 }
 
-export function TestnetFaucet({ tokenAddress }: FaucetProps) {
+export function TestnetFaucet({ tokenAddress, symbol, description, isNative }: FaucetProps) {
     const { address, isConnected } = useAccount();
     const chainId = useChainId();
     const { switchChain } = useSwitchChain();
@@ -56,7 +59,7 @@ export function TestnetFaucet({ tokenAddress }: FaucetProps) {
 
     const isCorrectChain = chainId === heliosChain.id;
 
-    // Read faucet state
+    // Read faucet state (only for tokens with faucet logic)
     const { data: canClaim, refetch: refetchCanClaim } = useReadContract({
         address: tokenAddress,
         abi: FAUCET_ABI,
@@ -127,12 +130,8 @@ export function TestnetFaucet({ tokenAddress }: FaucetProps) {
         const minutes = Math.floor((seconds % 3600) / 60);
         const secs = seconds % 60;
 
-        if (hours > 0) {
-            return `${hours}h ${minutes}m`;
-        }
-        if (minutes > 0) {
-            return `${minutes}m ${secs}s`;
-        }
+        if (hours > 0) return `${hours}h ${minutes}m`;
+        if (minutes > 0) return `${minutes}m ${secs}s`;
         return `${secs}s`;
     };
 
@@ -144,7 +143,7 @@ export function TestnetFaucet({ tokenAddress }: FaucetProps) {
                 </div>
                 <div className="text-foreground font-black text-xs uppercase tracking-[0.2em] mb-2 uppercase">Identity Required</div>
                 <div className="text-[11px] text-foreground/40 font-medium leading-relaxed">
-                    Connect your wallet to claim testnet assets<br />and initialize your Sentinel node.
+                    Connect your wallet to claim {symbol} assets<br />and initialize your Sentinel node.
                 </div>
             </div>
         );
@@ -155,7 +154,7 @@ export function TestnetFaucet({ tokenAddress }: FaucetProps) {
             <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-6 text-center">
                 <div className="text-yellow-500 font-bold mb-2">Wrong Network</div>
                 <p className="text-xs text-yellow-500/60 mb-4">
-                    Please switch to the Helios Testnet to claim tokens.
+                    Please switch to the Helios Testnet to claim {symbol}.
                 </p>
                 <button
                     onClick={() => switchChain({ chainId: heliosChain.id })}
@@ -176,8 +175,8 @@ export function TestnetFaucet({ tokenAddress }: FaucetProps) {
             </div>
             <div className="flex items-center justify-between mb-6 relative">
                 <div>
-                    <h3 className="text-[11px] font-black text-foreground/40 uppercase tracking-[0.2em] mb-1">Fuel Station</h3>
-                    <p className="text-[11px] text-primary font-black uppercase tracking-widest">{tokenAmount.toLocaleString()} $T / 24H</p>
+                    <h3 className="text-[11px] font-black text-foreground/40 uppercase tracking-[0.2em] mb-1">{description}</h3>
+                    <p className="text-[11px] text-primary font-black uppercase tracking-widest">{tokenAmount.toLocaleString()} ${symbol} / 24H</p>
                 </div>
                 <div className="px-2.5 py-1 bg-white/5 border border-white/10 text-foreground/40 rounded-full text-[9px] font-black uppercase tracking-[0.2em]">
                     Testing Only
@@ -185,9 +184,9 @@ export function TestnetFaucet({ tokenAddress }: FaucetProps) {
             </div>
 
             {isSuccess && (
-                <div className="mb-4 p-3 bg-green-100 border border-green-300 rounded-lg">
+                <div className="mb-4 p-3 bg-green-100 border border-green-300 rounded-lg animate-in zoom-in-95 duration-300">
                     <div className="text-sm font-semibold text-green-900">
-                        Successfully claimed {tokenAmount.toLocaleString()} $T!
+                        Successfully claimed {tokenAmount.toLocaleString()} ${symbol}!
                     </div>
                 </div>
             )}
@@ -204,7 +203,7 @@ export function TestnetFaucet({ tokenAddress }: FaucetProps) {
                             {isPending ? 'Signing...' : 'Confirming...'}
                         </span>
                     ) : (
-                        `Claim ${tokenAmount.toLocaleString()} $T`
+                        `Claim ${tokenAmount.toLocaleString()} ${symbol}`
                     )}
                 </button>
             ) : (

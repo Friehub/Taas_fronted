@@ -10,6 +10,17 @@ export interface NetworkStats {
     challengerNodes?: number;
 }
 
+export interface AppConfig {
+    contracts: {
+        SOURCE_REGISTRY: string;
+        NODE_REGISTRY: string;
+        TRUTH_ORACLE: string;
+        T_TOKEN: string;
+        HLS_FAUCET: string;
+    };
+    network: string;
+}
+
 export interface ActivityItem {
     id: string;
     recipeName: string;
@@ -28,6 +39,18 @@ export interface Outcome {
     reasoning?: string;
     confidence?: number;
     metadata?: Record<string, any>;
+}
+
+export interface PublicStatus {
+    status: string;
+    lastUpdate: string;
+    uptime: number;
+    blockHeight: number;
+    services: {
+        api: string;
+        indexer: string;
+        gateways: Record<string, string>;
+    };
 }
 
 // API Configuration
@@ -108,6 +131,32 @@ export async function nodeLogin(address: string, signature: string, message: any
     if (!res.ok) throw new Error('Node login failed');
     const json = await res.json();
     return json.token;
+}
+
+export async function fetchConfig(): Promise<AppConfig> {
+    const res = await fetch(`${BACKEND_URL}/gateway/config`);
+    if (!res.ok) throw new Error('Failed to fetch config');
+    const json = await res.json();
+    return json;
+}
+
+export function useConfig() {
+    const { data, error, isLoading } = useSWR<AppConfig>('/gateway/config', fetchConfig);
+    return { config: data, error, isLoading };
+}
+
+export async function fetchHealth(): Promise<PublicStatus> {
+    const res = await fetch(`${BACKEND_URL}/status/public`);
+    if (!res.ok) throw new Error('Failed to fetch health');
+    const json = await res.json();
+    return json;
+}
+
+export function useHealth() {
+    const { data, error, isLoading } = useSWR<PublicStatus>('/status/public', fetchHealth, {
+        refreshInterval: 5000 // Refresh every 5s
+    });
+    return { health: data, error, isLoading };
 }
 
 // Hooks
