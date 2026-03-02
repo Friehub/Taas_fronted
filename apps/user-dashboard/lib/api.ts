@@ -56,6 +56,7 @@ export interface PublicStatus {
 // API Configuration
 const INDEXER_URL = process.env.NEXT_PUBLIC_INDEXER_API_URL || 'https://taas.friehub.cloud';
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.friehub.cloud';
+const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || BACKEND_URL;
 
 // Authenticated Fetch Helper
 export async function authenticatedFetch(url: string, options: RequestInit = {}) {
@@ -90,7 +91,7 @@ export async function fetchStats(): Promise<NetworkStats> {
 
 export async function fetchActivity(): Promise<ActivityItem[]> {
     try {
-        const res = await fetch(`${BACKEND_URL}/gateway/truth/recent?limit=10`);
+        const res = await fetch(`${GATEWAY_URL}/gateway/truth/recent?limit=10`);
         if (!res.ok) throw new Error('Gateway unreachable');
         const json = await res.json();
         return json.data || [];

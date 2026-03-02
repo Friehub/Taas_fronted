@@ -18,7 +18,7 @@ const nextConfig = {
                     { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
                     {
                         key: 'Content-Security-Policy',
-                        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pbs.twimg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://pbs.twimg.com https://abs.twimg.com; font-src 'self'; connect-src 'self' https://taas.friehub.cloud https://api.friehub.cloud https://*.walletconnect.com https://*.walletconnect.org;",
+                        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pbs.twimg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://pbs.twimg.com https://abs.twimg.com https://grainy-gradients.vercel.app; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://taas.friehub.cloud https://api.friehub.cloud https://gateway.friehub.cloud https://*.walletconnect.com https://*.walletconnect.org;",
                     },
                 ],
             },
