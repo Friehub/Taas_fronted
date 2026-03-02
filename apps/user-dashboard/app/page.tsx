@@ -25,7 +25,6 @@ import {
 } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { OutcomeDisplay } from '@/components/OutcomeDisplay';
-import { ExtensionLink } from '@/components/ExtensionLink';
 import { formatDistanceToNow } from 'date-fns';
 import useSWR from 'swr';
 const fetcher = (url: string) => fetch(url).then(res => res.json());
@@ -169,45 +168,7 @@ export default function DashboardPage() {
 
                 {/* Sidebar Widgets */}
                 <div className="xl:col-span-4 space-y-8">
-                    <div className="p-8 bg-card/40 backdrop-blur-md border border-white/5 rounded-[2rem] relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 p-6 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity">
-                            <BarChartIcon width={120} height={120} />
-                        </div>
-                        <h3 className="text-[12px] font-black text-foreground/40 uppercase tracking-[0.3em] mb-8 flex items-center gap-3">
-                            <MixerVerticalIcon width={16} height={16} className="text-primary" />
-                            Network Pulse
-                        </h3>
-                        <div className="grid grid-cols-2 gap-8">
-                            <div className="space-y-2">
-                                <span className="text-[9px] font-black text-foreground/20 uppercase tracking-[0.2em]">Throughput</span>
-                                <div className="text-2xl font-mono font-bold text-foreground tracking-tighter">
-                                    42<span className="text-xs text-foreground/30 ml-1 font-bold">req/s</span>
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <span className="text-[9px] font-black text-foreground/20 uppercase tracking-[0.2em]">Latency</span>
-                                <div className="text-2xl font-mono font-bold text-primary tracking-tighter tabular-nums">
-                                    84<span className="text-xs text-foreground/30 ml-1 font-bold">ms</span>
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <span className="text-[9px] font-black text-foreground/20 uppercase tracking-[0.2em]">Bandwidth</span>
-                                <div className="text-2xl font-mono font-bold text-foreground tracking-tighter">
-                                    1.2<span className="text-xs text-foreground/30 ml-1 font-bold">GB/h</span>
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <span className="text-[9px] font-black text-foreground/20 uppercase tracking-[0.2em]">Uptime</span>
-                                <div className="text-2xl font-mono font-bold text-emerald-500 tracking-tighter">
-                                    99.9<span className="text-xs text-foreground/30 ml-1 font-bold">%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div className="transform hover:scale-[1.02] transition-transform duration-500">
-                        <ExtensionLink />
-                    </div>
 
                     {isConnected && (
                         <div className="p-8 bg-card/40 backdrop-blur-md border border-white/5 rounded-[2rem] relative overflow-hidden group">
@@ -251,20 +212,6 @@ export default function DashboardPage() {
                         </div>
                     )}
 
-                    <div className="p-8 bg-gradient-to-br from-primary/10 to-transparent backdrop-blur-md border border-primary/20 rounded-[2rem] relative group overflow-hidden">
-                        <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-700">
-                            <LightningBoltIcon width={120} height={120} className="text-primary" />
-                        </div>
-                        <h3 className="text-[12px] font-black text-primary uppercase tracking-[0.3em] mb-4">Protocol Hub</h3>
-                        <p className="text-[12px] text-foreground/40 mb-8 leading-relaxed font-bold uppercase tracking-wider">
-                            Access elite developer tooling and manage cross-chain attestation tokens.
-                        </p>
-                        <Link href="/developer">
-                            <button className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-black text-[11px] uppercase tracking-[0.3em] rounded-2xl transition-all shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:scale-[1.02] active:scale-[0.98]">
-                                Protocol Access
-                            </button>
-                        </Link>
-                    </div>
                 </div>
             </div>
         </div>

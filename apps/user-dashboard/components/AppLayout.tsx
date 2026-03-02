@@ -21,16 +21,18 @@ import { ThemeToggle } from './shared/ThemeToggle';
 
 const NAV_ITEMS = [
     { label: 'Overview', href: '/', icon: DashboardIcon },
-    { label: 'Developers', href: '/developer', icon: LightningBoltIcon },
+    { label: 'Faucet', href: '/faucet', icon: LightningBoltIcon },
     { label: 'Documentation', href: 'https://docs.friehub.cloud', icon: FileTextIcon, external: true },
 ];
 
-import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { useAccount, useConnect, useDisconnect, useChainId } from 'wagmi';
 import { injected } from 'wagmi/connectors';
+import { useHealth, formatNumber } from '@/lib/api';
 
 export function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (o: boolean) => void }) {
     const pathname = usePathname();
     const { isConnected } = useAccount();
+    const { health } = useHealth();
 
     const filteredNavItems = NAV_ITEMS.filter(item => {
         if (item.href === '/registry') return isConnected;
@@ -111,17 +113,22 @@ export function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (o:
                             <BoxIcon width={40} height={40} />
                         </div>
                         <div className="flex items-center gap-2 mb-3">
-                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                            <div className={cn(
+                                "w-1.5 h-1.5 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]",
+                                health?.status === 'HEALTHY' ? "bg-emerald-500" : "bg-red-500"
+                            )} />
                             <span className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.2em]">Network Status</span>
                         </div>
                         <div className="space-y-2">
                             <div className="flex justify-between items-center text-[9px] font-black uppercase tracking-[0.1em]">
                                 <span className="text-foreground/30">Protocol</span>
-                                <span className="text-primary font-mono border border-primary/20 bg-primary/5 px-1.5 py-0.5 rounded-md leading-none text-[10px]">Mainnet-Beta</span>
+                                <span className="text-primary font-mono border border-primary/20 bg-primary/5 px-1.5 py-0.5 rounded-md leading-none text-[10px]">Testnet</span>
                             </div>
                             <div className="flex justify-between items-center text-[9px] font-black uppercase tracking-[0.1em]">
-                                <span className="text-foreground/30">Epoch Height</span>
-                                <span className="text-foreground/60 font-mono tabular-nums tracking-tighter">#9,154,320</span>
+                                <span className="text-foreground/30">Block Height</span>
+                                <span className="text-foreground/60 font-mono tabular-nums tracking-tighter">
+                                    #{health?.blockHeight ? health.blockHeight.toLocaleString() : '9,154,320'}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -164,13 +171,6 @@ export function Header({ setIsOpen }: { setIsOpen: (o: boolean) => void }) {
             {/* Actions */}
             <div className="flex items-center gap-2 md:gap-4">
                 <ThemeToggle />
-
-                {isConnected && (
-                    <button className="hidden sm:flex items-center gap-2 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 hover:text-primary transition-all border border-white/5 hover:border-primary/20 rounded-lg bg-white/5">
-                        <LightningBoltIcon width={12} height={12} />
-                        Quick Actions
-                    </button>
-                )}
 
                 <div className="hidden sm:block h-4 w-px bg-white/10" />
 
