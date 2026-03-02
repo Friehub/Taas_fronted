@@ -59,6 +59,12 @@ const nextConfig = {
         config.resolve.alias['wagmi'] = path.resolve(process.cwd(), 'node_modules/wagmi');
         config.resolve.alias['@tanstack/react-query'] = path.resolve(process.cwd(), 'node_modules/@tanstack/react-query');
         config.resolve.alias['@react-native-async-storage/async-storage'] = false;
+        config.resolve.alias['porto/internal'] = false;
+        config.resolve.alias['porto'] = false;
+        config.resolve.alias['@walletconnect/ethereum-provider'] = false;
+        config.resolve.alias['@safe-global/safe-apps-provider'] = false;
+        config.resolve.alias['@safe-global/safe-apps-sdk'] = false;
+        config.resolve.alias['@coinbase/wallet-sdk'] = false;
 
         // Ignore react-native specific modules that Metamask SDK tries to import in the browser
         if (!isServer) {

@@ -15,12 +15,18 @@ export interface ProvidersProps {
 }
 
 export function Providers({ children, wagmiConfig, themeProps }: ProvidersProps) {
+    const [mounted, setMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
     return (
         <ErrorBoundary>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem {...themeProps}>
                 <WagmiProvider config={wagmiConfig}>
                     <QueryClientProvider client={queryClient}>
-                        {children}
+                        {mounted ? children : <div style={{ visibility: 'hidden' }}>{children}</div>}
                     </QueryClientProvider>
                 </WagmiProvider>
             </ThemeProvider>
