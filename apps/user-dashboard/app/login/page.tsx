@@ -107,66 +107,59 @@ export default function LoginPage() {
 
             {/* Right Section: Focused Google-Style Login (Themeable) */}
             <div className="flex-1 flex items-center justify-center p-8 relative bg-background text-foreground transition-colors duration-500">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:48px_48px]" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--foreground)/0.03)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--foreground)/0.03)_1px,transparent_1px)] bg-[size:48px_48px]" />
 
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.3 }}
-                    className="relative z-10 w-full max-w-[420px]"
+                    className="relative z-10 w-full max-w-[380px]"
                 >
-                    <div className="bg-card text-card-foreground p-10 lg:p-12 rounded-[2rem] border shadow-2xl relative overflow-hidden">
-                        <div className="text-center mb-10">
-                            <h2 className="text-3xl font-display font-black tracking-tighter mb-2">INITIALIZE SESSION</h2>
-                            <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest">Welcome to the Truth Protocol.</p>
-                        </div>
+                    <div className="text-center mb-10">
+                        <h2 className="text-3xl font-display font-medium tracking-tight mb-2">INITIALIZE SESSION</h2>
+                        <p className="text-sm text-muted-foreground">Welcome to the Truth Protocol.</p>
+                    </div>
 
-                        <div className="space-y-6">
-                            {!isConnected ? (
-                                <button
-                                    onClick={() => connect({ connector: injected() })}
-                                    className="group relative w-full h-16 bg-primary text-primary-foreground font-black text-xs uppercase tracking-[0.4em] rounded-2xl transition-all duration-500 flex items-center justify-center gap-4 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(16,185,129,0.2)] active:scale-[0.98]"
-                                >
-                                    <BackpackIcon width={20} height={20} className="transition-transform group-hover:scale-110" />
-                                    CONNECT WALLET
-                                </button>
-                            ) : (
-                                <div className="space-y-6">
-                                    <div className="flex flex-col items-center gap-4">
-                                        <div className="px-4 py-2 rounded-full bg-secondary border flex items-center gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                                            <span className="text-[11px] font-mono font-bold text-secondary-foreground tracking-tight">
-                                                {address?.slice(0, 6)}...{address?.slice(-4)}
-                                            </span>
-                                            <button
-                                                onClick={() => disconnect()}
-                                                className="ml-2 text-[9px] font-black uppercase tracking-widest text-muted-foreground hover:text-destructive transition-colors"
-                                            >
-                                                Change
-                                            </button>
-                                        </div>
-                                    </div>
-
+                    <div className="space-y-6">
+                        {!isConnected ? (
+                            <button
+                                onClick={() => connect({ connector: injected() })}
+                                className="inline-flex w-full h-12 items-center justify-center rounded-lg bg-primary px-8 text-sm font-medium text-primary-foreground shadow-lg hover:shadow-xl hover:bg-primary/90 transition-all gap-2"
+                            >
+                                <BackpackIcon width={18} height={18} />
+                                Connect Wallet
+                            </button>
+                        ) : (
+                            <div className="space-y-6 flex flex-col items-center">
+                                <div className="flex items-center gap-3 px-4 py-2 rounded-full border border-border bg-secondary/50">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                                    <span className="text-sm font-medium text-secondary-foreground">
+                                        {address?.slice(0, 6)}...{address?.slice(-4)}
+                                    </span>
                                     <button
-                                        onClick={handleLogin}
-                                        disabled={isLoading}
-                                        className="relative w-full h-16 bg-primary text-primary-foreground font-black text-xs uppercase tracking-[0.4em] rounded-[2rem] transition-all duration-500 hover:shadow-[0_20px_60px_rgba(16,185,129,0.2)] flex items-center justify-center gap-3 active:scale-[0.98] disabled:opacity-50 group overflow-hidden"
+                                        onClick={() => disconnect()}
+                                        className="ml-2 text-xs font-medium text-muted-foreground hover:text-destructive transition-colors"
                                     >
-                                        <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-                                        <div className="relative z-10 flex items-center gap-3">
-                                            {isLoading ? (
-                                                <ReloadIcon width={20} height={20} className="animate-spin" />
-                                            ) : (
-                                                <>
-                                                    <span>{isVerifying ? 'Verifying' : 'ENTER'}</span>
-                                                    <ArrowRightIcon width={18} height={18} className="group-hover:translate-x-1.5 transition-transform duration-300" />
-                                                </>
-                                            )}
-                                        </div>
+                                        Change
                                     </button>
                                 </div>
-                            )}
-                        </div>
+
+                                <button
+                                    onClick={handleLogin}
+                                    disabled={isLoading}
+                                    className="inline-flex w-full h-12 items-center justify-center rounded-lg bg-primary px-8 text-sm font-medium text-primary-foreground shadow-lg hover:shadow-xl hover:bg-primary/90 transition-all gap-2 disabled:opacity-50"
+                                >
+                                    {isLoading ? (
+                                        <ReloadIcon width={18} height={18} className="animate-spin" />
+                                    ) : (
+                                        <>
+                                            {isVerifying ? 'Verifying...' : 'Sign In'}
+                                            <ArrowRightIcon width={18} height={18} />
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </motion.div>
             </div>
