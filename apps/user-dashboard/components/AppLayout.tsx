@@ -11,6 +11,7 @@ import {
     GearIcon,
     LightningBoltIcon,
     BoxIcon,
+    GlobeIcon,
     HamburgerMenuIcon,
     Cross1Icon
 } from '@radix-ui/react-icons';
@@ -21,6 +22,8 @@ import { ThemeToggle } from './shared/ThemeToggle';
 
 const NAV_ITEMS = [
     { label: 'Overview', href: '/', icon: DashboardIcon },
+    { label: 'Network Monitor', href: '/network', icon: GlobeIcon },
+    { label: 'Register Node', href: '/register-node', icon: ComponentInstanceIcon },
     { label: 'Faucet', href: '/faucet', icon: LightningBoltIcon },
     { label: 'Documentation', href: 'https://docs.friehub.cloud', icon: FileTextIcon, external: true },
 ];
