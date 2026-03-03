@@ -25,8 +25,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 // Artifacts (ABIs)
-import NodeRegistryABI from '../lib/abi/NodeRegistry.json';
-import TAASTokenABI from '../lib/abi/TAASToken.json';
+import { ABIS } from '@friehub/taas-contracts';
+const NodeRegistryABI = ABIS.NodeRegistry;
+const TAASTokenABI = ABIS.TAASToken;
 
 const NODE_REGISTRY_ADDRESS = process.env.NEXT_PUBLIC_NODE_REGISTRY_ADDRESS as Hex;
 const T_TOKEN_ADDRESS = (process.env.NEXT_PUBLIC_T_TOKEN_ADDRESS || '0x7e6ad72CFCC7395956a99C7441EF6A2EED1E376F') as Hex;

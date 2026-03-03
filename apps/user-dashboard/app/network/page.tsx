@@ -18,8 +18,9 @@ import {
 } from '@radix-ui/react-icons';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
-import NodeRegistryABI from '@/lib/abi/NodeRegistry.json';
-import TAASTokenABI from '@/lib/abi/TAASToken.json';
+import { ABIS } from '@friehub/taas-contracts';
+const NodeRegistryABI = ABIS.NodeRegistry;
+const TAASTokenABI = ABIS.TAASToken;
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 const INDEXER_URL = process.env.NEXT_PUBLIC_INDEXER_API_URL || 'http://localhost:3002';
