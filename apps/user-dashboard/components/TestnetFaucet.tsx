@@ -177,6 +177,10 @@ export function TestnetFaucet({ tokenAddress, symbol, description, isNative, ove
 
     const isLoading = isLoadingCanClaim || isLoadingTime || (overrideAmount === undefined && isLoadingAmount);
 
+    // Final logic for showing the button vs cooldown
+    // If canClaim is true OR timeRemaining is essentially 0, we should show the button
+    const showClaimButton = canClaim || (mounted && timeRemaining <= 0);
+
     return (
         <div className="bg-card/40 backdrop-blur-md border border-white/5 rounded-3xl p-8 relative overflow-hidden group min-h-[160px] flex flex-col justify-between">
             <div className="flex items-center justify-between mb-8 relative">
@@ -205,7 +209,7 @@ export function TestnetFaucet({ tokenAddress, symbol, description, isNative, ove
 
             {isLoading ? (
                 <div className="h-12 w-full bg-white/5 rounded-2xl animate-pulse" />
-            ) : canClaim ? (
+            ) : showClaimButton ? (
                 <button
                     onClick={handleClaim}
                     disabled={isPending || isConfirming}
