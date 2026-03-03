@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useAccount, useWriteContract, useWaitForTransactionReceipt, usePublicClient } from 'wagmi';
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, usePublicClient, useReadContract } from 'wagmi';
 import { parseEther, formatEther, type Hex } from 'viem';
 import useSWR from 'swr';
 import { toast } from 'sonner';
@@ -19,16 +19,26 @@ import {
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
 import NodeRegistryABI from '@/lib/abi/NodeRegistry.json';
+import TAASTokenABI from '@/lib/abi/TAASToken.json';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 const INDEXER_URL = process.env.NEXT_PUBLIC_INDEXER_API_URL || 'http://localhost:3002';
 const NODE_REGISTRY_ADDRESS = (process.env.NEXT_PUBLIC_NODE_REGISTRY_ADDRESS || '0xbD3E6271db9f9F57A08B33bf5c57f042A1f777f4') as Hex;
+const T_TOKEN_ADDRESS = (process.env.NEXT_PUBLIC_T_TOKEN_ADDRESS || '0x7e6ad72CFCC7395956a99C7441EF6A2EED1E376F') as Hex;
 
 export default function NetworkPage() {
     const { address, isConnected } = useAccount();
     const publicClient = usePublicClient();
     const { writeContractAsync } = useWriteContract();
     const [isActionLoading, setIsActionLoading] = useState<string | null>(null);
+
+    // Read allowance
+    const { data: allowance, refetch: refetchAllowance } = useReadContract({
+        address: T_TOKEN_ADDRESS,
+        abi: TAASTokenABI as any,
+        functionName: 'allowance',
+        args: address ? [address, NODE_REGISTRY_ADDRESS] : undefined,
+    });
 
     const { data: nodesData, mutate: refreshNodes, isLoading } = useSWR(
         isConnected ? `${INDEXER_URL}/nodes?operator=${address}` : null,
@@ -40,15 +50,30 @@ export default function NetworkPage() {
     const nodes = nodesData?.data || [];
 
     const handleStake = async (nodeId: string) => {
-        if (!isConnected) return;
+        if (!isConnected || !publicClient) return;
         setIsActionLoading(`stake-${nodeId}`);
+        const increment = parseEther('100');
+
         try {
+            // 1. Check & Handle Allowance
+            if (!allowance || (allowance as bigint) < increment) {
+                toast.info('Approving $T tokens...');
+                const approveHash = await writeContractAsync({
+                    address: T_TOKEN_ADDRESS,
+                    abi: TAASTokenABI as any,
+                    functionName: 'approve',
+                    args: [NODE_REGISTRY_ADDRESS, increment],
+                });
+                await publicClient.waitForTransactionReceipt({ hash: approveHash });
+                await refetchAllowance();
+            }
+
+            // 2. Stake
             const hash = await writeContractAsync({
                 address: NODE_REGISTRY_ADDRESS,
                 abi: NodeRegistryABI as any,
                 functionName: 'stake',
-                args: [nodeId as Hex],
-                value: parseEther('100') // Default staking increment
+                args: [nodeId as Hex, increment]
             });
             toast.promise(publicClient.waitForTransactionReceipt({ hash }), {
                 loading: 'Staking $T...',

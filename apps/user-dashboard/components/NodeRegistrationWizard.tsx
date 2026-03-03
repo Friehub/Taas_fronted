@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useAccount, useWriteContract, useWaitForTransactionReceipt, useSignMessage } from 'wagmi';
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, useSignMessage, usePublicClient, useReadContract } from 'wagmi';
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts';
-import { parseEther, type Hex } from 'viem';
+import { parseEther, type Hex, formatEther } from 'viem';
 import {
     ShadowIcon,
     LockClosedIcon,
@@ -26,8 +26,10 @@ import { cn } from '@/lib/utils';
 
 // Artifacts (ABIs)
 import NodeRegistryABI from '../lib/abi/NodeRegistry.json';
+import TAASTokenABI from '../lib/abi/TAASToken.json';
 
 const NODE_REGISTRY_ADDRESS = process.env.NEXT_PUBLIC_NODE_REGISTRY_ADDRESS as Hex;
+const T_TOKEN_ADDRESS = (process.env.NEXT_PUBLIC_T_TOKEN_ADDRESS || '0x7e6ad72CFCC7395956a99C7441EF6A2EED1E376F') as Hex;
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.friehub.cloud';
 const INDEXER_API_URL = process.env.NEXT_PUBLIC_INDEXER_API_URL || 'https://taas.friehub.cloud';
 
@@ -48,9 +50,22 @@ export function NodeRegistrationWizard() {
     const [copiedAddress, setCopiedAddress] = useState(false);
 
     const { address, isConnected } = useAccount();
+    const publicClient = usePublicClient();
     const { signMessageAsync } = useSignMessage();
-    const { writeContractAsync, data: txHash, isPending: isTxSending } = useWriteContract();
-    const { isLoading: isWaiting } = useWaitForTransactionReceipt({ hash: txHash });
+    const { writeContractAsync } = useWriteContract();
+    const [lastTxHash, setLastTxHash] = useState<Hex | undefined>();
+    const { isLoading: isWaiting } = useWaitForTransactionReceipt({ hash: lastTxHash });
+
+    const [isApproveLoading, setIsApproveLoading] = useState(false);
+    const [isRegisterLoading, setIsRegisterLoading] = useState(false);
+
+    // Read allowance
+    const { data: allowance, refetch: refetchAllowance } = useReadContract({
+        address: T_TOKEN_ADDRESS,
+        abi: TAASTokenABI as any,
+        functionName: 'allowance',
+        args: address ? [address, NODE_REGISTRY_ADDRESS] : undefined,
+    });
 
     const handleCopy = (text: string, type: 'token' | 'address') => {
         navigator.clipboard.writeText(text);
@@ -98,9 +113,31 @@ export function NodeRegistrationWizard() {
     };
 
     const handleStakeAndRegister = async () => {
-        if (!nodeAddress || !provisionToken) return;
+        if (!nodeAddress || !provisionToken || !publicClient) return;
+        const stakeAmount = parseEther('1000');
+
         try {
-            await writeContractAsync({
+            // 1. Check & Handle Allowance
+            if (!allowance || (allowance as bigint) < stakeAmount) {
+                setIsApproveLoading(true);
+                toast.info('Approving $T tokens...');
+                const approveHash = await writeContractAsync({
+                    address: T_TOKEN_ADDRESS,
+                    abi: TAASTokenABI as any,
+                    functionName: 'approve',
+                    args: [NODE_REGISTRY_ADDRESS, stakeAmount],
+                });
+                setLastTxHash(approveHash);
+                await publicClient.waitForTransactionReceipt({ hash: approveHash });
+                await refetchAllowance();
+                setIsApproveLoading(false);
+                toast.success('Approval successful');
+            }
+
+            // 2. Register Node
+            setIsRegisterLoading(true);
+            toast.info('Registering node on-chain...');
+            const registerHash = await writeContractAsync({
                 address: NODE_REGISTRY_ADDRESS,
                 abi: NodeRegistryABI as any,
                 functionName: 'registerNode',
@@ -108,19 +145,26 @@ export function NodeRegistrationWizard() {
                     nodeAddress as Hex,
                     nodeType === 'SENTINEL' ? 0 : 1,
                     `http://pending-${provisionToken}.friehub.cloud`,
-                    JSON.stringify({ name: `My ${nodeType}`, provisionToken })
-                ],
-                value: parseEther('1000')
+                    JSON.stringify({ name: `My ${nodeType}`, provisionToken }),
+                    stakeAmount
+                ]
             });
+            setLastTxHash(registerHash);
+            await publicClient.waitForTransactionReceipt({ hash: registerHash });
+
             setStep(4);
             toast.success('Node successfully registered and staked!');
         } catch (e: any) {
             toast.error(`Registration failed: ${e.message}`);
+        } finally {
+            setIsApproveLoading(false);
+            setIsRegisterLoading(false);
         }
     };
 
     const downloadConfig = () => {
-        const config = `NODE_MODE=${nodeType.toLowerCase()}\nOPERATOR_PRIVATE_KEY=${privateKey}\nOWNER_ADDRESS=${address}\nREGISTRATION_TOKEN=${provisionToken}\nRPC_URL=https://testnet.helios.org\nINDEXER_URL=${INDEXER_API_URL}`;
+        const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL || 'https://testnet1.helioschainlabs.org';
+        const config = `NODE_MODE=${nodeType.toLowerCase()}\nOPERATOR_PRIVATE_KEY=${privateKey}\nOWNER_ADDRESS=${address}\nREGISTRATION_TOKEN=${provisionToken}\nRPC_URL=${rpcUrl}\nINDEXER_URL=${INDEXER_API_URL}`;
         const blob = new Blob([config], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -325,9 +369,9 @@ export function NodeRegistrationWizard() {
                                 <Button
                                     className="w-full h-12 text-sm font-bold uppercase tracking-widest"
                                     onClick={handleStakeAndRegister}
-                                    disabled={isTxSending || isWaiting}
+                                    disabled={isApproveLoading || isRegisterLoading || isWaiting}
                                 >
-                                    {isTxSending ? 'Confirming...' : isWaiting ? 'Staking...' : 'Stake & Activate Node'}
+                                    {isApproveLoading ? 'Approving $T...' : isRegisterLoading ? 'Activating...' : isWaiting ? 'Confirming...' : 'Stake & Activate Node'}
                                 </Button>
 
                                 <p className="text-[10px] text-center text-muted-foreground">
