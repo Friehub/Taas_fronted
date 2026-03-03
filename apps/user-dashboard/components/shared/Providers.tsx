@@ -22,14 +22,18 @@ export function Providers({ children, wagmiConfig, themeProps }: ProvidersProps)
     }, []);
 
     return (
-        <ErrorBoundary>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem {...themeProps}>
-                <WagmiProvider config={wagmiConfig}>
-                    <QueryClientProvider client={queryClient}>
-                        {mounted ? children : <div style={{ visibility: 'hidden' }}>{children}</div>}
-                    </QueryClientProvider>
-                </WagmiProvider>
-            </ThemeProvider>
-        </ErrorBoundary>
+        <WagmiProvider config={wagmiConfig}>
+            <QueryClientProvider client={queryClient}>
+                <ThemeProvider attribute="class" defaultTheme="system" enableSystem {...themeProps}>
+                    <ErrorBoundary>
+                        {mounted ? children : (
+                            <div suppressHydrationWarning style={{ visibility: 'hidden' }}>
+                                {children}
+                            </div>
+                        )}
+                    </ErrorBoundary>
+                </ThemeProvider>
+            </QueryClientProvider>
+        </WagmiProvider>
     );
 }

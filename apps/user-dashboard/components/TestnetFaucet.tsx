@@ -49,32 +49,36 @@ interface FaucetProps {
     symbol: string;
     description: string;
     isNative?: boolean;
+    overrideAmount?: number;
 }
 
-export function TestnetFaucet({ tokenAddress, symbol, description, isNative }: FaucetProps) {
+export function TestnetFaucet({ tokenAddress, symbol, description, isNative, overrideAmount }: FaucetProps) {
     const { address, isConnected } = useAccount();
     const chainId = useChainId();
     const { switchChain } = useSwitchChain();
     const [timeRemaining, setTimeRemaining] = useState<number>(0);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => setMounted(true), []);
 
     const isCorrectChain = chainId === heliosChain.id;
 
     // Read faucet state (only for tokens with faucet logic)
-    const { data: canClaim, refetch: refetchCanClaim } = useReadContract({
+    const { data: canClaim, isLoading: isLoadingCanClaim, refetch: refetchCanClaim } = useReadContract({
         address: tokenAddress,
         abi: FAUCET_ABI,
         functionName: 'canClaimFaucet',
         args: address ? [address] : undefined,
     });
 
-    const { data: timeUntilClaim, refetch: refetchTime } = useReadContract({
+    const { data: timeUntilClaim, isLoading: isLoadingTime, refetch: refetchTime } = useReadContract({
         address: tokenAddress,
         abi: FAUCET_ABI,
         functionName: 'timeUntilNextClaim',
         args: address ? [address] : undefined,
     });
 
-    const { data: faucetAmount } = useReadContract({
+    const { data: faucetAmount, isLoading: isLoadingAmount } = useReadContract({
         address: tokenAddress,
         abi: FAUCET_ABI,
         functionName: 'faucetAmount',
@@ -135,6 +139,9 @@ export function TestnetFaucet({ tokenAddress, symbol, description, isNative }: F
         return `${secs}s`;
     };
 
+    // Hydration safety
+    if (!mounted) return <div className="bg-card/40 backdrop-blur-md border border-white/5 rounded-3xl p-8 h-[160px] animate-pulse" />;
+
     if (!isConnected) {
         return (
             <div className="bg-white/5 border border-white/5 backdrop-blur-md rounded-2xl p-8 text-center glass-premium transition-all">
@@ -166,17 +173,25 @@ export function TestnetFaucet({ tokenAddress, symbol, description, isNative }: F
         );
     }
 
-    const tokenAmount = faucetAmount ? Number(faucetAmount) / 1e18 : 1000;
+    const tokenAmount = overrideAmount !== undefined ? overrideAmount : (faucetAmount ? Number(faucetAmount) / 1e18 : 1000);
+
+    const isLoading = isLoadingCanClaim || isLoadingTime || (overrideAmount === undefined && isLoadingAmount);
 
     return (
-        <div className="bg-card/40 backdrop-blur-md border border-white/5 rounded-3xl p-8 relative overflow-hidden group">
+        <div className="bg-card/40 backdrop-blur-md border border-white/5 rounded-3xl p-8 relative overflow-hidden group min-h-[160px] flex flex-col justify-between">
             <div className="flex items-center justify-between mb-8 relative">
                 <div>
                     <h3 className="text-[10px] font-black text-foreground/30 uppercase tracking-[0.3em] mb-1">{description}</h3>
-                    <p className="text-xl font-display font-bold text-foreground tracking-tight">{tokenAmount.toLocaleString()} ${symbol}</p>
+                    <p className="text-xl font-display font-bold text-foreground tracking-tight">
+                        {isLoading ? '...' : tokenAmount.toLocaleString()} ${symbol}
+                    </p>
                 </div>
                 <div className="w-10 h-10 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
-                    <LightningBoltIcon width={20} height={20} />
+                    {isLoading || isPending || isConfirming ? (
+                        <UpdateIcon width={20} height={20} className="animate-spin" />
+                    ) : (
+                        <LightningBoltIcon width={20} height={20} />
+                    )}
                 </div>
             </div>
 
@@ -188,17 +203,16 @@ export function TestnetFaucet({ tokenAddress, symbol, description, isNative }: F
                 </div>
             )}
 
-            {canClaim ? (
+            {isLoading ? (
+                <div className="h-12 w-full bg-white/5 rounded-2xl animate-pulse" />
+            ) : canClaim ? (
                 <button
                     onClick={handleClaim}
                     disabled={isPending || isConfirming}
                     className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all shadow-lg shadow-primary/20 disabled:opacity-50 active:scale-95"
                 >
                     {isPending || isConfirming ? (
-                        <span className="flex items-center justify-center gap-2">
-                            <UpdateIcon width={16} height={16} className="animate-spin" />
-                            Processing...
-                        </span>
+                        `Processing...`
                     ) : (
                         `Claim Tokens`
                     )}

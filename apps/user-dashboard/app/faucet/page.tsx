@@ -33,6 +33,7 @@ export default function FaucetPage() {
                         tokenAddress={config?.contracts.HLS_FAUCET as `0x${string}`}
                         symbol="HLS"
                         description="Native Gas"
+                        overrideAmount={0.1}
                     />
                 </div>
             )}
