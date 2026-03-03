@@ -23,14 +23,14 @@ export default function FaucetPage() {
                     <p className="text-red-500 font-bold uppercase tracking-wider text-xs">Failed to load protocol configuration</p>
                 </div>
             ) : (
-                <div className="grid md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <TestnetFaucet
-                        tokenAddress={config?.contracts.T_TOKEN as `0x${string}`}
+                        tokenAddress={config.contracts.T_TOKEN as `0x${string}`}
                         symbol="T"
-                        description="Fuel Station"
+                        description="Infrastructure Stake"
                     />
                     <TestnetFaucet
-                        tokenAddress={config?.contracts.HLS_FAUCET as `0x${string}`}
+                        tokenAddress={config.contracts.HLS_FAUCET as `0x${string}`}
                         symbol="HLS"
                         description="Native Gas"
                         overrideAmount={0.1}

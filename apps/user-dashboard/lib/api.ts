@@ -58,6 +58,10 @@ const INDEXER_URL = process.env.NEXT_PUBLIC_INDEXER_API_URL || 'https://taas.fri
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.friehub.cloud';
 const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || BACKEND_URL;
 
+// Decentralized Contract Addresses (Fallbacks)
+export const T_TOKEN_ADDRESS = (process.env.NEXT_PUBLIC_T_TOKEN_ADDRESS || '0x7e6ad72CFCC7395956a99C7441EF6A2EED1E376F') as `0x${string}`;
+export const HLS_FAUCET_ADDRESS = (process.env.NEXT_PUBLIC_HLS_FAUCET_ADDRESS || T_TOKEN_ADDRESS) as `0x${string}`;
+
 // Authenticated Fetch Helper
 export async function authenticatedFetch(url: string, options: RequestInit = {}) {
     const token = typeof window !== 'undefined' ? localStorage.getItem('friehub_auth_token') : null;
@@ -142,8 +146,24 @@ export async function fetchConfig(): Promise<AppConfig> {
 }
 
 export function useConfig() {
-    const { data, error, isLoading } = useSWR<AppConfig>('/gateway/config', fetchConfig);
-    return { config: data, error, isLoading };
+    const { data, error, isLoading } = useSWR<AppConfig>('/gateway/config', fetchConfig, {
+        revalidateOnFocus: false,
+        shouldRetryOnError: false
+    });
+
+    // Merge with decentralized defaults
+    const mergedConfig: AppConfig = {
+        contracts: {
+            SOURCE_REGISTRY: data?.contracts?.SOURCE_REGISTRY || '',
+            NODE_REGISTRY: data?.contracts?.NODE_REGISTRY || '',
+            TRUTH_ORACLE: data?.contracts?.TRUTH_ORACLE || '',
+            T_TOKEN: data?.contracts?.T_TOKEN || T_TOKEN_ADDRESS,
+            HLS_FAUCET: data?.contracts?.HLS_FAUCET || HLS_FAUCET_ADDRESS
+        },
+        network: data?.network || 'Helios Testnet'
+    };
+
+    return { config: mergedConfig, error, isLoading: isLoading && !data };
 }
 
 export async function fetchHealth(): Promise<PublicStatus> {
