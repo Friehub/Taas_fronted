@@ -164,8 +164,17 @@ export function NodeRegistrationWizard() {
 
     const downloadConfig = () => {
         const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL || 'https://testnet1.helioschainlabs.org';
-        const config = `NODE_MODE=${nodeType.toLowerCase()}\nOPERATOR_PRIVATE_KEY=${privateKey}\nOWNER_ADDRESS=${address}\nREGISTRATION_TOKEN=${provisionToken}\nRPC_URL=${rpcUrl}\nINDEXER_URL=${INDEXER_API_URL}`;
-        const blob = new Blob([config], { type: 'text/plain' });
+        const gatewayUrl = process.env.NEXT_PUBLIC_GATEWAY_URL || 'https://gateway.friehub.cloud';
+
+        const configText = `NODE_MODE=${nodeType.toLowerCase()}
+OPERATOR_PRIVATE_KEY=${privateKey}
+OWNER_ADDRESS=${address}
+REGISTRATION_TOKEN=${provisionToken}
+RPC_URL=${rpcUrl}
+INDEXER_API_URL=${INDEXER_API_URL}
+TAAS_GATEWAY_URLS=${gatewayUrl}`;
+
+        const blob = new Blob([configText], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -176,37 +185,41 @@ export function NodeRegistrationWizard() {
 
     return (
         <div className="max-w-3xl mx-auto">
-            {/* Horizontal Stepper */}
-            <div className="flex justify-between mb-12 relative px-4">
-                <div className="absolute top-1/2 left-0 w-full h-0.5 bg-border -translate-y-1/2 z-0" />
+            {/* Modern Stepper */}
+            <div className="flex justify-between items-center mb-16 relative px-8">
+                <div className="absolute top-1/2 left-8 right-8 h-[2px] bg-white/5 -translate-y-1/2 rounded-full z-0" />
                 <div
-                    className="absolute top-1/2 left-0 h-0.5 bg-primary -translate-y-1/2 z-0 transition-all duration-500"
-                    style={{ width: `${((step - 1) / (STEPS.length - 1)) * 100}%` }}
+                    className="absolute top-1/2 left-8 h-[2px] bg-gradient-to-r from-primary/50 to-primary -translate-y-1/2 rounded-full z-0 transition-all duration-700 ease-out"
+                    style={{ width: `calc(${((step - 1) / (STEPS.length - 1)) * 100}% - 4rem)` }}
                 />
 
-                {STEPS.map((s, i) => (
-                    <div key={i} className="relative z-10 flex flex-col items-center group">
-                        <div className={cn(
-                            "w-10 h-10 rounded-xl flex items-center justify-center border transition-all duration-500",
-                            step > i + 1 ? "bg-primary border-primary text-primary-foreground shadow-[0_0_20px_rgba(234,179,8,0.4)]" :
-                                step === i + 1 ? "bg-white/5 border-primary/50 text-primary shadow-[0_0_15px_rgba(234,179,8,0.2)] scale-110" :
-                                    "bg-white/5 border-white/5 text-foreground/20"
-                        )}>
-                            {step > i + 1 ? <CheckIcon width={20} height={20} /> : <span className="text-xs font-black">{i + 1}</span>}
-                        </div>
-                        <div className="absolute top-12 whitespace-nowrap text-center">
+                {STEPS.map((s, i) => {
+                    const isActive = step === i + 1;
+                    const isCompleted = step > i + 1;
+                    return (
+                        <div key={i} className="relative z-10 flex flex-col items-center group">
                             <div className={cn(
-                                "text-[9px] font-black uppercase tracking-[0.2em] transition-colors",
-                                step >= i + 1 ? "text-primary" : "text-foreground/20"
-                            )}>{s.title}</div>
+                                "w-12 h-12 rounded-full flex items-center justify-center transition-all duration-500 font-display font-bold text-sm",
+                                isCompleted ? "bg-primary text-primary-foreground shadow-[0_0_30px_rgba(16,185,129,0.3)] ring-4 ring-primary/20" :
+                                    isActive ? "bg-card border-2 border-primary text-primary shadow-[0_0_20px_rgba(16,185,129,0.2)] scale-110" :
+                                        "bg-card border-2 border-white/5 text-foreground/30"
+                            )}>
+                                {isCompleted ? <CheckIcon width={24} height={24} /> : <span>{i + 1}</span>}
+                            </div>
+                            <div className="absolute top-16 whitespace-nowrap text-center">
+                                <div className={cn(
+                                    "text-[10px] font-black uppercase tracking-[0.2em] transition-colors",
+                                    isActive || isCompleted ? "text-primary" : "text-foreground/30"
+                                )}>{s.title}</div>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
 
-            <Card className="p-10 bg-card/40 backdrop-blur-2xl border-white/5 shadow-2xl relative overflow-hidden glass-premium rounded-3xl">
-                <div className="absolute top-0 right-0 p-8 opacity-5">
-                    <GitHubLogoIcon width={120} height={120} />
+            <Card className="p-8 md:p-12 bg-card/40 backdrop-blur-3xl border-white/5 shadow-2xl relative overflow-hidden glass-ultra rounded-[2.5rem]">
+                <div className="absolute top-0 right-0 p-8 opacity-[0.03] transform translate-x-8 -translate-y-8">
+                    <GitHubLogoIcon width={200} height={200} />
                 </div>
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -220,8 +233,8 @@ export function NodeRegistrationWizard() {
                         {step === 1 && (
                             <div className="space-y-8">
                                 <div className="text-center">
-                                    <h2 className="text-2xl font-bold text-foreground mb-2">Select Your Role</h2>
-                                    <p className="text-sm text-muted-foreground">Sentinels propose data, Challengers audit the proposals.</p>
+                                    <h2 className="text-3xl font-display font-black text-foreground mb-3 tracking-tight">Select Node Role</h2>
+                                    <p className="text-sm text-foreground/60 max-w-sm mx-auto">Sentinels propose data, Challengers audit the proposals. Both require a stake.</p>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -295,40 +308,53 @@ export function NodeRegistrationWizard() {
                         {step === 2 && (
                             <div className="space-y-8">
                                 <div className="text-center">
-                                    <h2 className="text-2xl font-bold text-foreground mb-2">Generating Identity</h2>
-                                    <p className="text-sm text-muted-foreground">We've generated a unique operator identity for your node.</p>
+                                    <h2 className="text-3xl font-display font-black text-foreground mb-3 tracking-tight">Operator Identity</h2>
+                                    <p className="text-sm text-foreground/60 max-w-sm mx-auto">This unique wallet securely signs data on-chain on your node&apos;s behalf.</p>
                                 </div>
 
-                                <div className="space-y-4">
-                                    <div className="p-6 bg-primary/10 rounded-2xl border border-primary/20 relative group">
-                                        <div className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-2 flex items-center justify-between">
-                                            Registration Token
-                                            <button onClick={() => handleCopy(provisionToken || '', 'token')} className="hover:text-foreground transition-colors">
-                                                {copiedToken ? <CheckIcon width={14} height={14} /> : <CopyIcon width={14} height={14} />}
+                                <div className="space-y-6">
+                                    <div className="p-6 bg-primary/5 rounded-3xl border border-primary/20 relative group">
+                                        <div className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-3 flex items-center justify-between">
+                                            Handshake Token
+                                            <button onClick={() => handleCopy(provisionToken || '', 'token')} className="hover:text-foreground transition-colors p-2 -m-2">
+                                                {copiedToken ? <CheckIcon width={16} height={16} /> : <CopyIcon width={16} height={16} />}
                                             </button>
                                         </div>
-                                        <div className="text-3xl font-mono font-bold tracking-[0.1em] text-primary truncate">
+                                        <div className="text-4xl font-mono font-black tracking-widest text-primary truncate">
                                             {provisionToken}
                                         </div>
+                                        <p className="text-[10px] font-medium text-primary/60 mt-3 uppercase tracking-widest">Expires in 1 Hour</p>
                                     </div>
 
-                                    <div className="p-6 bg-zinc-900 border border-white/10 rounded-2xl relative group">
-                                        <div className="flex items-center gap-2 mb-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                            <LockClosedIcon width={12} height={12} className="text-primary" />
-                                            Operator Wallet (Generated)
+                                    <div className="p-8 bg-black/40 border border-white/10 rounded-3xl relative group shadow-inner">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <div className="flex items-center gap-2 text-[10px] font-black text-foreground/50 uppercase tracking-widest">
+                                                <LockClosedIcon width={14} height={14} className="text-primary" />
+                                                Operator Wallet
+                                            </div>
+                                            <div className="px-3 py-1 bg-rose-500/10 border border-rose-500/20 text-rose-500 text-[9px] font-black uppercase tracking-widest rounded-full animate-pulse">
+                                                Requires Gas
+                                            </div>
                                         </div>
-                                        <div className="flex items-center justify-between">
-                                            <div className="text-xs font-mono text-slate-300">
+                                        <div className="flex items-center justify-between bg-white/5 p-4 rounded-xl border border-white/5">
+                                            <div className="text-sm md:text-base font-mono text-foreground tracking-tight select-all">
                                                 {nodeAddress}
                                             </div>
-                                            <button onClick={() => handleCopy(nodeAddress || '', 'address')} className="text-slate-500 hover:text-white transition-colors">
-                                                {copiedAddress ? <CheckIcon width={14} height={14} /> : <CopyIcon width={14} height={14} />}
+                                            <button onClick={() => handleCopy(nodeAddress || '', 'address')} className="text-foreground/40 hover:text-white transition-colors p-2 shrink-0">
+                                                {copiedAddress ? <CheckIcon width={18} height={18} /> : <CopyIcon width={18} height={18} />}
                                             </button>
                                         </div>
-                                        <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg">
-                                            <p className="text-[10px] text-rose-500 font-bold uppercase tracking-tight leading-tight">
-                                                This key only exists in your browser. Download the bundle in the last step to save it.
-                                            </p>
+
+                                        <div className="mt-6 flex gap-4 p-5 bg-amber-500/5 border border-amber-500/20 rounded-2xl items-start">
+                                            <LockClosedIcon className="text-amber-500 shrink-0 mt-0.5" width={18} height={18} />
+                                            <div>
+                                                <p className="text-xs text-amber-500 font-bold uppercase tracking-tight leading-relaxed">
+                                                    CRITICAL: Please fund this address
+                                                </p>
+                                                <p className="text-[11px] text-amber-500/70 font-medium leading-relaxed mt-1">
+                                                    Send at least <strong>0.5 HLS</strong> to this new operator wallet so your node can pay gas for heartbeat transactions. The private key will be inside your downloaded environment file.
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -345,8 +371,8 @@ export function NodeRegistrationWizard() {
                         {step === 3 && (
                             <div className="space-y-8">
                                 <div className="text-center">
-                                    <h2 className="text-2xl font-bold text-foreground mb-2">Network Staking</h2>
-                                    <p className="text-sm text-muted-foreground">Stake 1,000 $T to secure your node and start earning.</p>
+                                    <h2 className="text-3xl font-display font-black text-foreground mb-3 tracking-tight">Deploy Security Bond</h2>
+                                    <p className="text-sm text-foreground/60 max-w-sm mx-auto">Stake exactly 1,000 $T to secure your reputation and start executing protocols.</p>
                                 </div>
 
                                 <div className="p-8 bg-card rounded-2xl border-2 border-primary/20 flex flex-col items-center justify-center text-center space-y-4">

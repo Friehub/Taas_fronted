@@ -12,9 +12,11 @@ import {
     ClockIcon,
     ExclamationTriangleIcon,
     ShadowIcon,
-    PlusIcon,
     MinusIcon,
-    ReloadIcon
+    ReloadIcon,
+    AvatarIcon,
+    LockClosedIcon,
+    PlusIcon
 } from '@radix-ui/react-icons';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
@@ -38,6 +40,14 @@ export default function NetworkPage() {
         abi: TAASTokenABI as any,
         functionName: 'allowance',
         args: address ? [address, NODE_REGISTRY_ADDRESS] : undefined,
+    });
+
+    // Read $T Balance
+    const { data: tBalance } = useReadContract({
+        address: T_TOKEN_ADDRESS,
+        abi: TAASTokenABI as any,
+        functionName: 'balanceOf',
+        args: address ? [address] : undefined,
     });
 
     const { data: nodesData, mutate: refreshNodes, isLoading } = useSWR(
@@ -158,19 +168,30 @@ export default function NetworkPage() {
         <div className="max-w-[1400px] mx-auto space-y-12">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
                 <div>
-                    <h1 className="text-4xl font-black text-foreground tracking-tighter uppercase">Network Infrastructure</h1>
+                    <h1 className="text-4xl font-display font-black text-foreground tracking-tighter uppercase shrink-0">Network Infrastructure</h1>
                     <p className="text-[11px] font-black text-foreground/40 uppercase tracking-[0.3em] mt-2 flex items-center gap-2">
                         <BoxIcon className="text-primary" width={14} height={14} />
                         Node Management & Reputational Staking
                     </p>
                 </div>
-                <button
-                    onClick={() => refreshNodes()}
-                    className="group flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest text-foreground/60 hover:text-primary hover:border-primary/30 transition-all active:scale-95"
-                >
-                    <ReloadIcon className={cn("transition-transform group-hover:rotate-180 duration-500", isLoading && "animate-spin")} />
-                    Refresh Status
-                </button>
+                <div className="flex items-center gap-6">
+                    {tBalance !== undefined && (
+                        <div className="flex items-center gap-3 px-5 py-2.5 bg-primary/10 border border-primary/20 rounded-2xl">
+                            <LockClosedIcon className="text-primary" width={16} height={16} />
+                            <div className="flex flex-col">
+                                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-primary/60">My $T Balance</span>
+                                <span className="text-sm font-mono font-black text-primary">{parseFloat(formatEther(tBalance as bigint)).toLocaleString()} $T</span>
+                            </div>
+                        </div>
+                    )}
+                    <button
+                        onClick={() => refreshNodes()}
+                        className="group flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest text-foreground/60 hover:text-primary hover:border-primary/30 transition-all active:scale-95"
+                    >
+                        <ReloadIcon className={cn("transition-transform group-hover:rotate-180 duration-500", isLoading && "animate-spin")} />
+                        Refresh
+                    </button>
+                </div>
             </div>
 
             <div className="grid grid-cols-1 gap-8">
@@ -197,8 +218,8 @@ export default function NetworkPage() {
                                             <ShadowIcon width={28} height={28} />
                                         </div>
                                         <div>
-                                            <div className="flex items-center gap-3">
-                                                <h3 className="text-xl font-black text-foreground tracking-tight uppercase">{node.node_type}</h3>
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <h3 className="text-xl font-display font-black text-foreground tracking-tight uppercase">{node.node_type}</h3>
                                                 <div className={cn(
                                                     "px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest",
                                                     node.status === 'ACTIVE' ? "bg-emerald-500/10 text-emerald-500" : "bg-rose-500/10 text-rose-500"
@@ -206,19 +227,38 @@ export default function NetworkPage() {
                                                     {node.status}
                                                 </div>
                                             </div>
-                                            <p className="text-xs font-mono text-foreground/40 mt-1 tabular-nums">{node.node_id}</p>
+
+                                            <div className="flex items-center gap-4 text-xs font-mono">
+                                                <div className="flex items-center gap-1.5 text-foreground/60">
+                                                    <AvatarIcon className="text-foreground/30" />
+                                                    <span className="text-[10px] uppercase font-sans font-bold tracking-widest text-foreground/30">Owner:</span>
+                                                    {node.owner_address.slice(0, 6)}...{node.owner_address.slice(-4)}
+                                                </div>
+                                                <div className="w-1 h-1 rounded-full bg-white/10" />
+                                                <div className="flex items-center gap-1.5 text-foreground/60">
+                                                    <LockClosedIcon className="text-foreground/30" />
+                                                    <span className="text-[10px] uppercase font-sans font-bold tracking-widest text-foreground/30">Operator: </span>
+                                                    {node.operator_address.slice(0, 6)}...{node.operator_address.slice(-4)}
+                                                </div>
+                                            </div>
+                                            <div className="mt-1 text-[10px] text-foreground/20 font-mono">Node ID: {node.node_id.slice(0, 16)}...</div>
                                         </div>
                                     </div>
 
-                                    <div className="flex flex-wrap gap-6 text-[10px] font-black uppercase tracking-widest text-foreground/30 font-mono">
+                                    <div className="flex flex-wrap gap-6 mt-4 p-4 bg-black/20 rounded-2xl border border-white/5 text-[10px] font-black uppercase tracking-widest text-foreground/40 font-mono">
                                         <div className="flex items-center gap-2">
-                                            <ClockIcon width={14} height={14} />
-                                            Last Pulse: {node.last_heartbeat ? formatDistanceToNow(new Date(node.last_heartbeat), { addSuffix: true }) : 'Never'}
+                                            <ClockIcon className="text-primary/70" width={14} height={14} />
+                                            Pulse: {node.last_heartbeat ? formatDistanceToNow(new Date(node.last_heartbeat), { addSuffix: true }) : 'Never'}
                                         </div>
                                         <div className="flex items-center gap-2">
-                                            <LightningBoltIcon width={14} height={14} />
-                                            Registered: {formatDistanceToNow(new Date(node.registered_at))} ago
+                                            <LightningBoltIcon className="text-amber-500/70" width={14} height={14} />
+                                            Uptime: {formatDistanceToNow(new Date(node.registered_at))}
                                         </div>
+                                        {node.last_heartbeat && (
+                                            <div className="flex items-center gap-2 bg-primary/10 text-primary px-3 py-1 rounded-full">
+                                                ★ {Math.max(1, Math.floor((new Date(node.last_heartbeat).getTime() - new Date(node.registered_at).getTime()) / (8 * 60 * 1000)) + 1)} Heartbeats
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
