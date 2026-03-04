@@ -93,7 +93,7 @@ export function NodeRegistrationWizard() {
             const message = `Generate Provision Token for ${nodeType} as ${address}`;
             const signature = await signMessageAsync({ message });
 
-            const res = await fetch(`${API_URL}/provision/generate`, {
+            const res = await fetch(`${API_URL}/auth/provision/generate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ address, nodeType, signature, message })
