@@ -19,7 +19,7 @@ The `TruthOracle` contract is the primary interface for network consumers. It ma
 ```solidity
 interface ITruthOracle {
     function requestTruth(
-        bytes32 recipeId,
+        bytes32 definitionId,
         bytes calldata inputs
     ) external payable returns (uint256 requestId);
 
@@ -128,4 +128,4 @@ All core protocol contracts utilize a secure upgradeability pattern. This archit
 
 ## License
 
-Copyright (c) 2026 FrieHub Protocol. Standard MIT Licensing applies.
+Copyright (c) 2026 TaaS Protocol. Standard MIT Licensing applies.

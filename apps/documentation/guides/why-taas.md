@@ -8,28 +8,28 @@ Existing oracle solutions solve narrow problems. TaaS was built to be the genera
 
 | Feature | Chainlink | UMA | TaaS |
 |---|---|---|---|
-| Arbitrary data types | Requires custom feed | Limited | Any via JSON Recipe |
+| Arbitrary data types | Requires custom feed | Limited | Any via Verifiable Logic |
 | Dispute mechanism | None (push model) | Optimistic window | Real-time challenger bots |
-| Custom logic | Not supported | Not supported | Integrated engine: conditions, multi-source |
+| Custom logic | Not supported | Not supported | Integrated engine: multi-source resolution |
 | Developer testing | Complex node setup | Complex | Gateway Proxy: no API keys needed |
 | Data source plugins | Centralized operators | Centralized operators | Open interface standard |
-| Decentralized computation | Aggregation only | Assertion model | Full local recipe execution per node |
+| Decentralized computation | Aggregation only | Assertion model | Full local logic execution per node |
 
 ---
 
 ## The Core Advantages
 
-### 1. Unified Data Support via Recipes
-With traditional oracles, supporting a new data type requires creating a new on-chain contract, finding operators willing to run a new job, and paying for it. With TaaS, you write a JSON Recipe that describes the data logic. The network supports it immediately without protocol upgrades or operator coordination.
+### 1. Universal Data Support
+With traditional oracles, supporting a new data type requires creating a new on-chain contract, finding operators willing to run a new job, and paying for it. With TaaS, you define the truth logic using the developer SDK. The network supports it immediately without protocol upgrades or operator coordination.
 
 ### 2. Verifiable Local Execution
-Every Truth Node in the TaaS network runs the same Recipe logic locally before proposing an outcome on-chain. This ensures the result is independently reproducible by all participants: nodes, challengers, smart contracts, and end users.
+Every Truth Node in the TaaS network executes the same truth definition locally before proposing an outcome on-chain. This ensures the result is independently reproducible by all participants: nodes, challengers, smart contracts, and end users.
 
 ### 3. Developer-First Framework
-The TaaS internal logic allows anyone to build a new data integration or run a custom Recipe in minutes. The Gateway Proxy eliminates the need for costly API subscriptions during testing.
+The TaaS developer framework allows anyone to build a new data integration or run a custom truth query in minutes. The Gateway Proxy eliminates the need for costly API subscriptions during testing.
 
 ### 4. Open Modular Architecture
-Any data provider can be integrated via a standardized interface. The TaaS internal registry organizes providers by domain: crypto, sports, finance, weather, social. This makes them available to all nodes at runtime.
+Any data provider can be integrated via a standardized interface. The TaaS registry organizes providers by domain: crypto, sports, finance, weather, social. This makes them available to all nodes at runtime.
 
 ### 5. Economic Security via Bonds
 Truth Nodes must lock a token bond when proposing an outcome. If a Challenger Bot detects a discrepancy, it triggers an on-chain dispute. Incorrect proposers are slashed. This makes economic dishonesty significantly more costly than honest behavior.

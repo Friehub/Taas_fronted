@@ -17,16 +17,16 @@ hero:
       link: /guides/mission
 
 features:
-  - title: Recipe-Based Architecture
-    details: Define any truth query using a declarative JSON recipe. No custom smart contract deployments are needed for new data types. The internal runtime interprets recipes dynamically.
+  - title: Verifiable Query Framework
+    details: Define any truth query using a declarative, high-level framework. No custom smart contract deployments are needed for new data types. The internal runtime interprets query logic dynamically.
   - title: Sovereign Computation
-    details: Truth Nodes execute logic locally using the TaaS developer framework before proposing outcomes on-chain. Multi-source consensus, outlier detection, and conditional logic are supported natively.
-  - title: Gateway Proxy Mode
-    details: Developers can test and execute recipes without their own API keys. The TaaS Gateway securely manages provider credentials and proxies requests.
-  - title: Dispute and Challenge Layer
-    details: Automated challenger bots monitor on-chain proposals and dispute incorrect outcomes using independent verification. Economic bonds enforce network honesty.
-  - title: Pluggable Data Source Registry
-    details: Any data provider, including sports scores, financial data, weather, and crypto prices, can be integrated as a standardized plugin in the TaaS registry.
-  - title: Built for Developers
-    details: A typed SDK, JSON Recipe format, Gateway REST API, and public images make it efficient to build integrations, run nodes, or query verified truth from any smart contract.
+    details: Truth Nodes execute logic locally using a professional developer framework before proposing outcomes on-chain. Multi-source consensus, outlier detection, and deterministic verification are supported natively.
+  - title: Protocol Gateway Proxy
+    details: Developers can test and execute logic without managing their own infrastructure. The TaaS Gateway securely handles provider routing and request proxying.
+  - title: Automated Challenge Layer
+    details: Independent verification bots monitor on-chain proposals and dispute incorrect outcomes. Economic incentives and slashing mechanisms enforce network integrity.
+  - title: Global Provider Registry
+    details: Any data source—including sports, finance, weather, and crypto—can be integrated as a standardized plugin in the TaaS ecosystem.
+  - title: Developer-First Experience
+    details: A strongly typed SDK, intuitive query format, and comprehensive documentation make it efficient to build integrations, run nodes, or query verified facts.
 ---

@@ -16,7 +16,7 @@ Consumer Smart Contract (requestTruth)
    Truth Nodes monitor network events
           |
           v
-   Off-Chain Recipe Execution
+   Off-Chain Logic Execution
      ├── Data retrieval from authorized providers
      ├── Logic evaluation and aggregation
      └── Result normalization (Binary, Scalar, or Categorical)
@@ -44,7 +44,7 @@ A consumer smart contract invokes the `requestTruth` method on the protocol orac
 
 ```solidity
 oracle.requestTruth{value: bond}(
-    recipeId,       // Identifier of the registered recipe
+    definitionId,   // Identifier of the registered truth definition
     extraData,      // Encoded parameters for the execution
     deadline        // Expiration timestamp for the request
 );
@@ -58,15 +58,15 @@ The protocol secures the request bond and emits a `TruthRequested` event, alerti
 
 Active Truth Nodes continuously monitor the blockchain for these events. Upon detecting a `TruthRequested` event, a node performs the following:
 
-1. Retrieves the referenced Recipe definition from the decentralized registry.
+1. Retrieves the referenced Truth Definition from the decentralized registry.
 2. Decodes the execution parameters provided in the `extraData` field.
-3. Forwards the recipe and its parameters to its internal execution environment.
+3. Forwards the definition and its parameters to its internal execution environment.
 
 ---
 
 ## 3. Off-Chain Execution
 
-The execution environment processes the recipe logic entirely outside the blockchain:
+The execution environment processes the truth logic entirely outside the blockchain:
 
 - Data retrieval is routed through authorized network adapters or the secure gateway.
 - Operations such as multi-source consensus, conditional logic, and outcome normalization are performed.
@@ -86,7 +86,7 @@ The node submits its findings to the oracle contract by invoking `proposeTruth`,
 
 ## 5. Secondary Verification Window
 
-Once a proposal is submitted, a predefined verification window begins. During this interval, other network participants (challengers) re-execute the same recipe to ensure consistency. If a discrepancy is found, a challenger submits a `disputeTruth` transaction along with a competing bond.
+Once a proposal is submitted, a predefined verification window begins. During this interval, other network participants (challengers) re-execute the same truth definition to ensure consistency. If a discrepancy is found, a challenger submits a `disputeTruth` transaction along with a competing bond.
 
 In the event of a successful challenge, the original proposer's bond is slashed to penalize inaccuracy, and the challenger is rewarded for maintaining the integrity of the protocol.
 

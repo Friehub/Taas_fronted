@@ -4,7 +4,7 @@ The `@friehub/taas-interfaces` library is the foundational type contract for the
 
 This guide is for developers who intend to:
 - Build and publish a custom TaaS data adapter
-- Author verifiable truth recipes using protocol types
+- Author verifiable truth logic using protocol types
 - Integrate TaaS data types into their own applications or smart contract clients
 
 ---
@@ -204,28 +204,7 @@ Outcomes.invalid('Description', { category: 'REASON' })
 
 ---
 
-## Building Recipes
-
-A recipe defines the exact logic the network should resolve. Developers can author recipes directly using the TaaS type system.
-
-```typescript
-import { RecipeInstance, DataCategory } from '@friehub/taas-interfaces';
-
-const recipe: RecipeInstance = {
-    id: 'btc-price-daily',
-    name: 'BTC Daily Close Price',
-    category: DataCategory.CRYPTO,
-    params: {
-        symbol: 'BTCUSDT',
-        resolution: '1d'
-    },
-    outcomeType: 'scalar',
-    schema: {
-        unit: 'USD',
-        precision: 2
-    }
-};
-```
+Once developed, adapters must be reviewed and registered within the network according to the official contribution guidelines.
 
 ---
 
@@ -237,6 +216,5 @@ The interfaces library contains no dependencies on internal network infrastructu
 
 ## Related Documentation
 
-- [TaaS SDK](/guides/taas-sdk): Client for interacting with the Gateway.
-- [Truth Recipes](/protocol/recipes): In-depth guide to authoring queries.
-- [Node Operations](/nodes/truth-node): Guide for network participants.
+- [SDK Documentation](/guides/taas-sdk): Reference for interacting with the Gateway.
+- [Network Operation](/nodes/truth-node): Guide for truth node participants.

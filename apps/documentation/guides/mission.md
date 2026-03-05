@@ -43,9 +43,9 @@ This evolution resulted in the creation of Truth as a Service (TaaS).
 
 **Truth as a Service (TaaS)** is a decentralized protocol designed to bring verifiable, off-chain facts on-chain through a robust framework:
 
-- **Declarative Recipes**: JSON-based blueprints that define exactly how truth is derived from various data sources.
-- **Sovereign Computation**: Truth Nodes execute recipe logic locally, producing verifiable execution traces and proposing outcomes on-chain.
+- **Declarative Truth Definitions**: High-level blueprints that define how truth is derived from various data sources via the TaaS SDK.
+- **Sovereign Computation**: Truth Nodes execute specialized logic locally, producing verifiable execution traces and proposing outcomes on-chain.
 - **Economic Incentives**: Nodes provide bonds when proposing results. Challenges are incentivized through the slashing of incorrect proposers.
-- **Open Plugin Framework**: Any data source, including sports, finance, weather, and on-chain events, can be integrated through a standardized adapter architecture.
+- **Open Plugin Framework**: Any data source—including sports, finance, weather, and on-chain events—can be integrated through a standardized adapter architecture.
 
 TaaS is a programmable, general-purpose truth attestation engine for the decentralized web.

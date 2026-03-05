@@ -95,7 +95,7 @@ Once developed, adapters must be reviewed and registered within the network acco
 The TaaS Gateway provides a secure endpoint for inspecting the real-time status and health of all registered data providers:
 
 ```bash
-GET https://api.friehub.com/gateway/feeds
+GET https://api.taas.network/gateway/feeds
 ```
 
 The response includes the status of the circuit breaker mechanism and the current health classification for each provider in the ecosystem.

@@ -28,26 +28,23 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: 'How it Works', link: '/protocol/attestation' },
-          { text: 'Truth Recipes', link: '/protocol/recipes' },
-          { text: 'Data Feeds', link: '/protocol/data-feeds' }
+          { text: 'Data Provider Registry', link: '/protocol/data-feeds' }
         ]
       },
       {
-        text: 'Developer SDK',
+        text: 'Developer Tools',
         collapsed: false,
         items: [
-          { text: 'Installation & Setup', link: '/guides/sdk/installation' },
-          { text: 'Writing Recipes', link: '/guides/sdk/authoring' },
-          { text: 'Compiling & Deploying', link: '/guides/sdk/deployment' },
+          { text: 'Framework Setup', link: '/guides/sdk/installation' },
           { text: 'On-Chain Integration', link: '/guides/sdk/integration' },
-          { text: 'API Reference', link: '/guides/taas-sdk' }
+          { text: 'SDK Documentation', link: '/guides/taas-sdk' }
         ]
       },
       {
-        text: 'Node Operation',
+        text: 'Network Operation',
         collapsed: false,
         items: [
-          { text: 'Running a Truth Node', link: '/nodes/truth-node' }
+          { text: 'Truth Node Setup', link: '/nodes/truth-node' }
         ]
       }
     ]

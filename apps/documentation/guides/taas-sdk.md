@@ -20,7 +20,7 @@ pnpm add @friehub/taas-sdk
 import { TruthGatewayClient } from '@friehub/taas-sdk';
 
 const gateway = new TruthGatewayClient({
-    baseUrl: 'https://api.friehub.com',
+    baseUrl: 'https://api.taas.network',
     jwtToken: 'YOUR_AUTHORIZATION_TOKEN'
 });
 
@@ -37,7 +37,7 @@ console.log(result.attestation);  // On-chain cryptographic proof
 
 Requests to the gateway require a valid JWT issued from the TaaS Dashboard.
 
-1. Log in to the [TaaS Dashboard](https://app.friehub.com).
+1. Log in to the [TaaS Dashboard](https://app.taas.network).
 2. Navigate to Settings and select API Keys.
 3. Generate and secure a new authorization token.
 
@@ -70,57 +70,6 @@ const historical = await client.priceAt('ETH', 1700000000000);
 const rate = await client.forex('USD', 'EUR');
 ```
 
-### Crypto
-
-```typescript
-const client = gateway.crypto();
-
-// Retrieve current token valuation
-const sol = await client.price('SOL');
-
-// Retrieve a 24-hour market summary
-const market = await client.marketSummary('BTC');
-```
-
-### Sports
-
-```typescript
-const client = gateway.sports();
-
-// Retrieve live scores for a specific league
-const liveScores = await client.livescore('EPL');
-
-// Retrieve match details by identifier
-const match = await client.matchDetails('12345678');
-
-// Perform a head-to-head historical query
-const h2h = await client.headToHead('Man City', 'Arsenal', { season: '2025-26' });
-```
-
-### Weather
-
-```typescript
-const client = gateway.weather();
-
-// Retrieve current conditions by coordinates
-const london = await client.current(51.5074, -0.1278);
-
-// Retrieve a multi-day forecast
-const forecast = await client.forecast(51.5074, -0.1278, { days: 5 });
-```
-
-### Economics
-
-```typescript
-const client = gateway.economics();
-
-// Retrieve macro-economic data series from the FRED registry
-const cpi = await client.series('CPIAUCSL');
-
-// Retrieve indicators from the World Bank registry
-const gdp = await client.worldbank('NY.GDP.MKTP.CD', 'US');
-```
-
 ---
 
 ## Domain Reference
@@ -129,30 +78,24 @@ const gdp = await client.worldbank('NY.GDP.MKTP.CD', 'US');
 |---|---|---|
 | `finance()` | `price(symbol)` | Spot price in USD. |
 | `finance()` | `priceAt(symbol, ts)` | Historical valuation. |
-| `finance()` | `forex(from, to)` | Fiat exchange rates. |
 | `crypto()` | `price(symbol)` | Digital asset valuation. |
-| `crypto()` | `marketSummary(symbol)` | 24h market metrics. |
 | `sports()` | `livescore(league)` | Active match results. |
-| `sports()` | `matchDetails(matchId)` | Detailed statistics. |
-| `sports()` | `headToHead(team1, team2)` | Historical performance data. |
 | `weather()` | `current(lat, lon)` | Real-time conditions. |
-| `weather()` | `forecast(lat, lon, opts)` | Forward-looking reports. |
 | `economics()` | `series(id)` | Economic trend indices. |
-| `economics()` | `worldbank(indicator, country)` | Global development metrics. |
 
 ---
 
-## Direct Recipe Execution
+## Query Execution
 
-Developers can invoke specific protocol recipes by their identifiers. Recipes serve as verifiable templates registered within the network.
+Developers can invoke specialized truth queries by their identifiers. Queries serve as verifiable truth definitions registered within the network.
 
 ```typescript
 import { TruthGatewayClient } from '@friehub/taas-sdk';
 
 const gateway = new TruthGatewayClient({ jwtToken: process.env.TAAS_API_KEY });
 
-// Execute a registered recipe
-const result = await gateway.executeRecipe('btc-price-daily', {
+// Execute a registered truth query
+const result = await gateway.executeQuery('btc-price-daily', {
     symbol: 'BTCUSDT'
 });
 
@@ -174,7 +117,7 @@ const result = await gateway.finance().price('BTC');
 // Perform on-chain verification
 const isValid = await verifyAttestation(result.attestation, {
     oracleAddress: '0x383E24c68A57eCf2D728CaE2B93637c2fb608bE1',
-    rpcUrl: 'https://rpc.helioschain.org'
+    rpcUrl: 'https://rpc.taas.network'
 });
 
 if (!isValid) {
@@ -190,7 +133,7 @@ if (!isValid) {
 import {
     TruthPoint,
     TruthAttestation,
-    RecipeExecutionResult,
+    QueryExecutionResult,
     OutcomeType
 } from '@friehub/taas-sdk';
 ```
@@ -199,7 +142,7 @@ import {
 |---|---|
 | `TruthPoint<T>` | A single attested data point with provenance metadata. |
 | `TruthAttestation` | The cryptographic evidence from the network. |
-| `RecipeExecutionResult` | The comprehensive output of a recipe execution. |
+| `QueryExecutionResult` | The comprehensive output of a truth query. |
 | `OutcomeType` | Classifies results as scalar, binary, categorical, or probabilistic. |
 
 ---
@@ -235,5 +178,4 @@ try {
 ## Related Documentation
 
 - [TaaS Interfaces](/guides/taas-interfaces): Framework for custom adapters.
-- [Truth Recipes](/protocol/recipes): Guide for authoring verifiable queries.
-- [Node Operations](/nodes/truth-node): Guide for network participation.
+- [Network Operation](/nodes/truth-node): Guide for truth node participants.
