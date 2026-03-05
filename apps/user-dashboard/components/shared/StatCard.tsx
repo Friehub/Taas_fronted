@@ -9,9 +9,10 @@ export interface StatProps {
     trendLabel?: string;
     icon?: React.ElementType;
     loading?: boolean;
+    className?: string;
 }
 
-export function StatCard({ label, value, trend, trendLabel, icon: Icon, loading }: StatProps) {
+export function StatCard({ label, value, trend, trendLabel, icon: Icon, loading, className }: StatProps) {
     if (loading) {
         return (
             <div className="p-6 bg-card border border-border rounded-xl animate-pulse">
@@ -22,7 +23,10 @@ export function StatCard({ label, value, trend, trendLabel, icon: Icon, loading 
     }
 
     return (
-        <div className="group relative p-6 bg-card/40 backdrop-blur-md border border-white/5 rounded-2xl transition-all duration-300 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5">
+        <div className={cn(
+            "group relative p-6 bg-card/40 backdrop-blur-md border border-white/5 rounded-[2rem] transition-all duration-500 bento-card glass-premium",
+            className
+        )}>
             <div className="relative flex justify-between items-start mb-6">
                 <div className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.2em]">{label}</div>
                 {Icon && (

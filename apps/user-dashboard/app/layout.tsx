@@ -35,19 +35,25 @@ export default function RootLayout({
             <body className="antialiased bg-background text-foreground transition-colors duration-300 font-sans">
                 <Providers wagmiConfig={config}>
                     <Toaster richColors position="top-right" />
-                    <div className="flex min-h-screen bg-background relative selection:bg-primary/20 selection:text-primary">
+                    <div className="flex min-h-screen bg-background relative selection:bg-primary/20 selection:text-primary overflow-hidden">
+                        <div className="absolute inset-0 bg-grid-white pointer-events-none" />
                         {!isLoginPage && (
                             <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
                         )}
-                        <div className="flex-1 flex flex-col min-w-0">
+                        <div className="flex-1 flex flex-col min-w-0 relative z-10">
                             {!isLoginPage && (
                                 <Header setIsOpen={setIsSidebarOpen} />
                             )}
                             <main className={cn(
                                 "flex-1 overflow-y-auto min-h-0",
-                                !isLoginPage ? "p-4 md:p-8 lg:p-10" : "p-0"
+                                !isLoginPage ? "p-6 md:p-12 lg:p-16" : "p-0"
                             )}>
-                                {children}
+                                <div className={cn(
+                                    "mx-auto",
+                                    !isLoginPage ? "max-w-[1600px]" : ""
+                                )}>
+                                    {children}
+                                </div>
                             </main>
                         </div>
                     </div>
