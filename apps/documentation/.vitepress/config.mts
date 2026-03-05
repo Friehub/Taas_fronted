@@ -33,12 +33,14 @@ export default defineConfig({
         ]
       },
       {
-        text: 'Development',
+        text: 'Developer SDK',
         collapsed: false,
         items: [
-          { text: 'Quick Start', link: '/guides/getting-started' },
-          { text: 'TaaS Interfaces', link: '/guides/taas-interfaces' },
-          { text: 'Developer SDK', link: '/guides/taas-sdk' }
+          { text: 'Installation & Setup', link: '/guides/sdk/installation' },
+          { text: 'Writing Recipes', link: '/guides/sdk/authoring' },
+          { text: 'Compiling & Deploying', link: '/guides/sdk/deployment' },
+          { text: 'On-Chain Integration', link: '/guides/sdk/integration' },
+          { text: 'API Reference', link: '/guides/taas-sdk' }
         ]
       },
       {
