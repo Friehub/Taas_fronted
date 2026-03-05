@@ -45,7 +45,7 @@ export default function RootLayout({
                             )}
                             <main className={cn(
                                 "flex-1 overflow-y-auto min-h-0",
-                                !isLoginPage ? "p-6 md:p-12 lg:p-16 xl:p-20" : "p-0"
+                                !isLoginPage ? "p-4 md:p-8 lg:p-10" : "p-0"
                             )}>
                                 {children}
                             </main>

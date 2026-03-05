@@ -29,7 +29,7 @@ export default function DashboardPage() {
     const { address, isConnected } = useAccount();
 
     const { data: userNodesData, isLoading: nodesLoading } = useSWR(
-        isConnected ? `${INDEXER_URL}/nodes?operator=${address}` : null,
+        isConnected ? `${INDEXER_URL}/nodes?owner=${address}` : null,
         fetcher
     );
 

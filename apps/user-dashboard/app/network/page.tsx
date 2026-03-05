@@ -51,7 +51,7 @@ export default function NetworkPage() {
     });
 
     const { data: nodesData, mutate: refreshNodes, isLoading } = useSWR(
-        isConnected ? `${INDEXER_URL}/nodes?operator=${address}` : null,
+        isConnected ? `${INDEXER_URL}/nodes?owner=${address}` : null,
         fetcher
     );
 
@@ -165,7 +165,7 @@ export default function NetworkPage() {
     }
 
     return (
-        <div className="max-w-[1400px] mx-auto space-y-12">
+        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 ease-out max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
                 <div>
                     <h1 className="text-4xl font-display font-black text-foreground tracking-tighter uppercase shrink-0">Network Infrastructure</h1>
