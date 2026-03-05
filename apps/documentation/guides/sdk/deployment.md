@@ -1,6 +1,6 @@
 # Compiling & Deploying
 
-Once your recipe is written, it needs to be registered with the TaaS Gateway so that nodes can discover and execute it.
+Once your recipe is authored, it must be registered with the TaaS Gateway so that nodes can discover and execute the logic.
 
 ## 1. Local Testing
 Before deploying, you can verify your recipe logic locally.
@@ -36,7 +36,7 @@ async function deploy() {
 }
 ```
 
-## 3. JIT Discovery
-TaaS uses **Just-In-Time (JIT) Discovery**. Once you've submitted your recipe to the gateway, any request on-chain will trigger nodes to automatically sync and run the logic — even if they've never seen that recipe before.
+## 3. Just-In-Time Discovery
+TaaS employs Just-In-Time (JIT) Discovery. Once you have submitted your recipe to the gateway, any request on-chain will trigger nodes to automatically synchronize and execute the logic, even if they have not previously encountered that recipe.
 
-> **Note**: In a production environment, recipe submission is typically restricted to authorized developers to ensure the quality of the truth repository.
+Note: In a production environment, recipe submission is typically restricted to authorized developers to ensure the integrity of the truth repository.

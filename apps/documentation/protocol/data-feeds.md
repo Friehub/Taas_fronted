@@ -1,87 +1,67 @@
-# Data Feed Registry
+# Data Provider Registry
 
-The TaaS Data Feed Registry is a runtime directory of all active data provider plugins registered in the network. It is managed by the `@friehub/sovereign-logic` package and populated by the `@friehub/taas-plugins` ecosystem.
+The TaaS Data Provider Registry is a decentralized directory of authorized data sources utilized by the network to resolve truth requests. This registry is continually updated as new adapters are verified and integrated through protocol governance.
 
 ---
 
-## How it Works
+## Operational Logic
 
-When the TaaS Backend or a Truth Node starts, it initializes the plugin registry by calling:
+Upon network initialization, the TaaS Protocol loads the authorized provider registry and configures the necessary access credentials as defined in the secure environmental parameters.
+
+Every provider plugin adheres to a standardized architecture, exposing a `fetch()` mechanism that returns a validated and verifiable data point to the decentralized execution engine.
+
+---
+
+## Authorized Providers
+
+### Cryptographic Assets
+
+| Provider | Purpose | Resolution |
+|---|---|---|
+| CoinGecko | Comprehensive price data for digital assets. | Standard. |
+| Birdeye | High-fidelity DeFi market data and token analytics. | Stakeholder API Key Required. |
+| CoinMarketCap | Institutional-grade multi-asset rankings and appraisals. | Stakeholder API Key Required. |
+
+### Global Finance and Economics
+
+| Provider | Purpose | Resolution |
+|---|---|---|
+| Alpha Vantage | Forex rates, equity prices, and commodities market data. | Stakeholder API Key Required. |
+| ExchangeRate | Real-time fiat currency exchange rates and valuation. | Stakeholder API Key Required. |
+| FRED | Macroeconomic indicators from the Federal Reserve. | Stakeholder API Key Required. |
+
+### Athletics and Entertainment
+
+| Provider | Purpose | Resolution |
+|---|---|---|
+| Sportmonks | Granular football metrics, results, and statistics. | Stakeholder API Key Required. |
+| The Odds | Betting market analytics across major global leagues. | Stakeholder API Key Required. |
+| SportsDB | Official event outcomes and historical data. | Stakeholder API Key Required. |
+
+### Environmental Data
+
+| Provider | Purpose | Resolution |
+|---|---|---|
+| OpenWeather | Real-time and forecasted atmospheric conditions. | Stakeholder API Key Required. |
+
+### Reasoning and Web Search
+
+| Provider | Purpose | Resolution |
+|---|---|---|
+| Groq | High-speed inference for logical truth validation. | Stakeholder API Key Required. |
+| Google Gemini | Advanced reasoning for complex or subjective queries. | Stakeholder API Key Required. |
+| Serper | Real-time web search for contextual fact-checking. | Stakeholder API Key Required. |
+
+---
+
+## Custom Adapter Implementation
+
+To integrate a new data source, developers should implement the `SovereignAdapter` class as provided in the protocol interfaces library.
 
 ```typescript
-import { bootstrapRegistry, globalLogicRegistry } from '@friehub/sovereign-logic';
-import { CategoryMapper } from '@friehub/taas-plugins';
+import { SovereignAdapter, DataCategory } from '@friehub/taas-interfaces';
 
-await bootstrapRegistry({});
-
-const plugins = CategoryMapper.getPlugins({
-    keys: {
-        coingecko: process.env.COINGECKO_API_KEY,
-        sportmonks: process.env.SPORTMONKS_KEY,
-        openweather: process.env.OPENWEATHER_KEY,
-        // ... other providers
-    }
-});
-
-for (const plugin of plugins) {
-    globalLogicRegistry.register(plugin);
-}
-```
-
-Each plugin is a `SovereignAdapter` instance with a standardized `fetch({ params })` method that returns a `TruthData` object.
-
----
-
-## Registered Providers
-
-### Crypto
-
-| Provider ID | Description | Required Key |
-|---|---|---|
-| `coingecko` | Cryptocurrency price data (BTC, ETH, all tokens) | Optional |
-| `birdeye` | Solana DeFi token prices and market data | `BIRDEYE_API_KEY` |
-| `cmc` | CoinMarketCap multi-asset price rankings | `CMC_API_KEY` |
-
-### Finance & Economics
-
-| Provider ID | Description | Required Key |
-|---|---|---|
-| `alphavantage` | Forex rates, stock prices, commodity data | `ALPHA_VANTAGE_KEY` |
-| `exchangerate` | Currency exchange rate data | `EXCHANGERATE_KEY` |
-| `fred` | US Federal Reserve Economic Data (macroeconomics) | `FRED_KEY` |
-
-### Sports
-
-| Provider ID | Description | Required Key |
-|---|---|---|
-| `sportmonks` | Football/soccer fixture results and statistics | `SPORTMONKS_KEY` |
-| `theoddsapi` | Sports betting odds across major leagues | `THE_ODDS_API_KEY` |
-| `sportsdb` | Multi-sport event outcomes | `SPORTS_DB_KEY` |
-
-### Weather
-
-| Provider ID | Description | Required Key |
-|---|---|---|
-| `openweather` | Current and forecasted weather by location | `OPENWEATHER_KEY` |
-
-### Social & AI
-
-| Provider ID | Description | Required Key |
-|---|---|---|
-| `groq` | Fast LLM inference for text-based truth queries | `GROQ_API_KEY` |
-| `gemini` | Google Gemini AI inference | `GEMINI_API_KEY` |
-| `serper` | Google Search API for web-based fact checking | `SERPER_API_KEY` |
-
----
-
-## Writing a Custom Adapter
-
-Implement the `SovereignAdapter` interface from `@friehub/taas-interfaces`:
-
-```typescript
-import { SovereignAdapter, TruthData, DataCategory } from '@friehub/sovereign-logic';
-
-export class MyCustomAdapter extends SovereignAdapter<TruthData> {
+export class MyCustomAdapter extends SovereignAdapter {
     constructor(apiKey: string) {
         super({
             name: 'my-custom-source',
@@ -89,55 +69,33 @@ export class MyCustomAdapter extends SovereignAdapter<TruthData> {
         });
     }
 
-    protected async fetchData(params: any): Promise<TruthData> {
-        const response = await fetch(`https://my-api.com/data?q=${params.query}`);
-        const json = await response.json();
+    protected async fetchData(params: any): Promise<any> {
+        const response = await fetch(`https://api.provider.com/data?q=${params.query}`);
+        const data = await response.json();
 
         return {
-            id: 'my-custom-source',
-            value: json.result,
-            category: DataCategory.FINANCE,
-            source: 'my-custom-source',
+            value: data.result,
             timestamp: Math.floor(Date.now() / 1000),
-            metadata: json
+            metadata: data
         };
     }
 
-    protected async getMockData(params: any): Promise<TruthData> {
-        return this.fetchData(params); // For testing
+    protected async getMockData(params: any): Promise<any> {
+        return this.fetchData(params);
     }
 }
 ```
 
-Register it:
-
-```typescript
-globalLogicRegistry.register(new MyCustomAdapter(process.env.MY_API_KEY!));
-```
+Once developed, adapters must be reviewed and registered within the network according to the official contribution guidelines.
 
 ---
 
-## Querying the Registry via the Gateway
+## Protocol Registry Access
 
-The TaaS Gateway exposes a REST endpoint to inspect all registered feed statuses:
+The TaaS Gateway provides a secure endpoint for inspecting the real-time status and health of all registered data providers:
 
 ```bash
 GET https://api.friehub.com/gateway/feeds
 ```
 
-Response:
-```json
-{
-  "success": true,
-  "total": 14,
-  "feeds": [
-    {
-      "id": "coingecko",
-      "name": "CoinGecko",
-      "category": "CRYPTO",
-      "status": "HEALTHY",
-      "circuitBreaker": { "state": "CLOSED" }
-    }
-  ]
-}
-```
+The response includes the status of the circuit breaker mechanism and the current health classification for each provider in the ecosystem.

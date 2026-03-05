@@ -1,147 +1,125 @@
 # Running a Truth Node
 
-A Truth Node is the execution and verification client of the TaaS Protocol. It connects real-world data to on-chain smart contracts by running data recipes locally, signing the results, and submitting verified attestations to the TruthOracle contract.
+A Truth Node is the execution and verification client of the TaaS Protocol. It facilitates the connection between real-world data and on-chain smart contracts by executing data recipes locally, signing the results, and submitting verified attestations to the protocol contracts.
 
 ---
 
 ## Operational Modes
 
-| Mode | Role | Earns |
+| Mode | Role | Incentive |
 |---|---|---|
-| `sentinel` | Listens for on-chain requests, executes recipes, proposes outcomes | Protocol fees |
-| `challenger` | Monitors proposals from other nodes, re-executes recipes, disputes incorrect results | Dispute rewards + slashing proceeds |
-| `both` | Runs both sentinel and challenger simultaneously | Both |
+| Sentinel | Monitors on-chain requests, executes recipes, and proposes outcomes. | Earns protocol fees. |
+| Challenger | Monitors proposals from other nodes, re-executes recipes, and disputes incorrect results. | Earns dispute rewards and a portion of slashed bonds. |
+| Unified | Operates both Sentinel and Challenger functions simultaneously. | Earns honors for both roles. |
 
 ---
 
 ## Prerequisites
 
-- Docker and Docker Compose installed on your server
-- An EVM-compatible wallet with a funded private key
-- A WebSocket-capable RPC endpoint for the Helios network
-- A Redis instance (v7.0+) for the job queue
+### Hardware Requirements
+- **CPU**: 4 cores recommended.
+- **RAM**: 8 GB minimum; 16 GB recommended for unified mode.
+- **Storage**: 50 GB SSD.
+- **Network**: Stable broadband with a public-facing IP or a configured reverse proxy.
+
+### Software Dependencies
+- Docker and Docker Compose (latest stable versions).
+- Access to an EVM-compatible wallet with a funded private key.
+- A reliable WebSocket-capable RPC endpoint for the Helios network.
+- A Redis instance (v7.0+) for internal queue management.
 
 ---
 
-## Setup (Zero-Build Install)
+## Setup Guide (Docker Deployment)
 
-Friehub strictly recommends the Docker path. Do **not** clone the repository or run `pnpm build` locally for production — use the pre-built image.
+The recommended production deployment path is via Docker. This ensures a consistent environment and simplifies the update process.
 
-**Step 1: Create a working directory and download the Compose file:**
+### 1. Initial Configuration
+
+Create a dedicated directory for your node and retrieve the configuration files:
 
 ```bash
-mkdir taas-sentinel && cd taas-sentinel
+mkdir taas-node && cd taas-node
 wget https://raw.githubusercontent.com/Friehub/taas-nodes/main/truth-node/docker-compose.yml
-```
-
-**Step 2: Create your `.env` file in the same directory:**
-
-```bash
 touch .env
 ```
 
-**Step 3: Configure the required variables:**
+### 2. Environment Configuration
+
+Edit the `.env` file with the following required parameters. Ensure that permissions are restricted (e.g., `chmod 600 .env`) because this file contains your private key.
 
 ```ini
-# Core settings
+# Core Configuration
 NODE_ENV=production
-NODE_MODE=sentinel        # sentinel | challenger | both
+NODE_MODE=sentinel        # sentinel, challenger, or unified
 NODE_ID=my-truth-node-01
 PORT=3001
 
-# Blockchain (Helios Testnet)
-RPC_URL=https://testnet1.helioschainlabs.org
+# Blockchain Infrastructure (Helios Network)
+RPC_URL=https://rpc.helioschain.org
 CHAIN_ID=42000
 
-# Smart Contracts
+# Protocol Contract Addresses
 ORACLE_ADDRESS=0x383E24c68A57eCf2D728CaE2B93637c2fb608bE1
 TOKEN_ADDRESS=0x7e6ad72CFCC7395956a99C7441EF6A2EED1E376F
 
-# Wallet
+# Wallet and Security
 PRIVATE_KEY=0xYOUR_PRIVATE_KEY_HERE
 
-# Infrastructure
-REDIS_HOST=localhost
+# Internal Infrastructure
+REDIS_HOST=redis
 REDIS_PORT=6379
 
-# Truth Gateway (Keyless Mode — recommended)
+# Network Connectivity
 INDEXER_API_URL=https://api.friehub.com
 ```
 
-::: tip Keyless Mode
-When `INDEXER_API_URL` is set, the node routes all data provider requests through the TaaS Gateway. You do **not** need any API keys for sports, weather, finance, or crypto data. The gateway handles all authenticated external requests on your behalf.
-:::
+### 3. Keyless Operation
+When `INDEXER_API_URL` is configured, the node operates in keyless mode. This routes all data provider requests through the TaaS Gateway. In this mode, individual API keys for sports, weather, or financial data are not required, as the gateway manages these authenticated external requests.
 
-**Step 4: Start the node:**
+---
+
+## Deployment and Monitoring
+
+### Start the Service
 
 ```bash
 docker compose up -d
 ```
 
-**Step 5: View the logs:**
+### Monitor Operational Logs
 
 ```bash
 docker compose logs -f truth-node
 ```
 
----
+### Metrics and Observability
 
-## Full Environment Variable Reference
-
-| Variable | Required | Description |
-|---|---|---|
-| `NODE_MODE` | Yes | `sentinel`, `challenger`, or `both` |
-| `PRIVATE_KEY` | Yes | EVM private key (starts with `0x`) |
-| `RPC_URL` | Yes | Helios RPC endpoint |
-| `ORACLE_ADDRESS` | Yes | TruthOracleV2 contract address |
-| `TOKEN_ADDRESS` | Yes | TAAS token contract address |
-| `INDEXER_API_URL` | Yes | TaaS Gateway URL (enables keyless mode) |
-| `REDIS_HOST` | Yes | Redis host |
-| `REDIS_PORT` | No | Redis port (default: `6379`) |
-| `NODE_ID` | No | Human-readable node identifier for logs |
-| `PORT` | No | HTTP port for the node API (default: `3001`) |
-| `LOG_LEVEL` | No | `debug`, `info`, `warn`, or `error` |
-
----
-
-## Observability
-
-The node exposes a Prometheus-compatible metrics endpoint at `http://your-node:3001/metrics`.
-
-Key metrics:
+The node provides a Prometheus-compatible metrics endpoint at `http://your-node-ip:3001/metrics`. Monitoring these metrics is essential for maintaining node health and uptime.
 
 | Metric | Description |
 |---|---|
-| `truth_requests_total` | Number of truth requests received |
-| `truth_proposals_total` | Number of outcomes submitted on-chain |
-| `truth_disputes_total` | Number of successful challenge disputes filed |
+| `truth_requests_total` | Cumulative number of truth requests received from the network. |
+| `truth_proposals_total` | Count of successfully submitted on-chain outcomes. |
+| `truth_disputes_total` | Number of successful challenges initiated by this node. |
 
-JSON-structured logs are emitted to `stdout` and can be forwarded to any log aggregator (Grafana Loki, Datadog, etc.).
+---
+
+## Security Best Practices
+
+1. **Private Key Isolation**: Use a dedicated operator wallet with only sufficient funds for gas and bonds. Never use a primary treasury wallet.
+2. **RPC Redundancy**: If possible, configure multiple RPC endpoints to ensure the node remains online during provider outages.
+3. **Firewall Configuration**: Only expose necessary ports. The metrics endpoint should be restricted to your internal monitoring IP.
 
 ---
 
 ## Troubleshooting
 
-**Connection refused on startup:**
-Verify that your Redis service is running and reachable via `REDIS_HOST`.
+### Persistence Connection Failure
+If the node fails to start, verify that the Redis container is healthy and reachable at the specified `REDIS_HOST`.
 
-**Insufficient funds error:**
-Your `PRIVATE_KEY` wallet must hold enough native token (HELI) to cover gas costs for proposals and dispute bonds.
+### Insufficient Funds
+The operator wallet must maintain a balance of the native network token (HELI) to cover transaction fees and the resolution bonds required by the protocol.
 
-**Recipe not found:**
-The requested recipe ID must be registered on the TaaS Gateway before the node can execute it.
-
----
-
-## Running from Source (Contributors Only)
-
-For protocol development only — not recommended for node operators:
-
-```bash
-git clone https://github.com/Friehub/taas-nodes.git
-cd taas-nodes/truth-node
-pnpm install
-cp .env.example .env
-# Edit .env with your values
-pnpm run dev
-```
+### Discovery Latency
+If recipes are not being resolved, ensure the `INDEXER_API_URL` is reachable from your node's network environment.

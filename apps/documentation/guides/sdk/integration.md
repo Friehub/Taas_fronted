@@ -33,5 +33,5 @@ function finalize(bytes32 requestId) external {
 ```
 
 ## 3. Best Practices
-- **Minimum Bond**: Ensure your contract sends enough $T or $ETH to cover the node's resolution bond.
+- **Minimum Bond**: Ensure your contract sends enough $T or $ETH to cover the node resolution bond.
 - **Verification**: In high-value scenarios, always check the `attestationCount` to ensure multiple nodes reached a consensus.

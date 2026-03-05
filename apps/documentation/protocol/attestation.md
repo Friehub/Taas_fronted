@@ -1,100 +1,100 @@
-# How Attestation Works
+# Protocol Attestation Lifecycle
 
-When a smart contract needs a real-world fact, it requests a **Truth Attestation** from the TaaS protocol. This document describes the end-to-end lifecycle of that request.
+When a smart contract requires a real-world fact, it initiates a Truth Attestation request through the TaaS protocol. This document details the comprehensive lifecycle of such a request, from initiation to on-chain finalization.
 
 ---
 
-## Overview
+## Architectural Overview
 
 ```
-Smart Contract (requestTruth)
-         |
-         v
-  TruthOracleV2 Contract  ←→  Token Bond (required from requestor)
-         |
-         v
-  Truth Nodes monitor events
-         |
-         v
-  Recipe Execution (off-chain)
-    ├── StandardFeedPlugin fetches data from providers
-    ├── Logic evaluation (conditions, aggregation)
-    └── Result normalization (BINARY/SCALAR/CATEGORICAL)
-         |
-         v
-  Node proposes outcome + bond on-chain
-         |
-         v
-  Challenge Window (Challenger Bots re-verify)
-         |
-   ┌─────┴─────┐
-   |           |
-No dispute   Dispute filed
-   |              |
-   v              v
+Consumer Smart Contract (requestTruth)
+          |
+          v
+   TruthOracle Contract (Requires execution bond)
+          |
+          v
+   Truth Nodes monitor network events
+          |
+          v
+   Off-Chain Recipe Execution
+     ├── Data retrieval from authorized providers
+     ├── Logic evaluation and aggregation
+     └── Result normalization (Binary, Scalar, or Categorical)
+          |
+          v
+   Node proposes outcome and provides bond on-chain
+          |
+          v
+   Verification Window (Independent verification by network)
+          |
+    ┌─────┴─────┐
+    |           |
+No dispute   Dispute initiated
+    |              |
+    v              v
 Result         Arbitration
-finalized      Slashing / Reward
+finalized      Slashing or Reward
 ```
 
 ---
 
-## Step 1: Requesting Truth
+## 1. Request Initiation
 
-A consumer smart contract calls `requestTruth` on the `TruthOracleV2` contract:
+A consumer smart contract invokes the `requestTruth` method on the protocol oracle contract:
 
 ```solidity
 oracle.requestTruth{value: bond}(
-    recipeId,       // The ID of the registered JSON Recipe
-    extraData,      // ABI-encoded JSON inputs (e.g. symbol, timestamp)
-    deadline        // Unix timestamp by which the truth must be submitted
+    recipeId,       // Identifier of the registered recipe
+    extraData,      // Encoded parameters for the execution
+    deadline        // Expiration timestamp for the request
 );
 ```
 
-The contract locks a bond and emits a `TruthRequested` event that all active Truth Nodes receive.
+The protocol secures the request bond and emits a `TruthRequested` event, alerting the node network to the active requirement.
 
 ---
 
-## Step 2: Node Picks Up the Request
+## 2. Request Detection
 
-Active Truth Nodes (running `@friehub/truth-node`) continuously monitor the mempool and contract events. When a `TruthRequested` event is detected, the node:
+Active Truth Nodes continuously monitor the blockchain for these events. Upon detecting a `TruthRequested` event, a node performs the following:
 
-1. Loads the referenced Recipe from the `RecipeRegistry`.
-2. Decodes the ABI-encoded `extraData` back into JSON inputs.
-3. Passes the Recipe and inputs to the `RecipeExecutor`.
-
----
-
-## Step 3: Local Execution
-
-The `RecipeExecutor` inside the node runs the recipe logic entirely **off-chain**:
-
-- The `StandardFeedPlugin` routes data requests via the local plugin registry or the Gateway Proxy.
-- Multi-source aggregation, conditional checks, and outcome normalization are computed locally.
-- A cryptographic execution trace (proof) is produced.
+1. Retrieves the referenced Recipe definition from the decentralized registry.
+2. Decodes the execution parameters provided in the `extraData` field.
+3. Forwards the recipe and its parameters to its internal execution environment.
 
 ---
 
-## Step 4: Proposing On-Chain
+## 3. Off-Chain Execution
 
-The node calls `proposeTruth` on the oracle contract with:
-- The `requestId`
-- The computed `outcome` value
-- A token bond (proving economic commitment)
-- The `ipfsHash` of the truth certificate (execution trace stored on IPFS)
+The execution environment processes the recipe logic entirely outside the blockchain:
 
----
-
-## Step 5: Challenger Window
-
-After submission, a configurable **challenge window** is open. Any Challenger Bot (running the `ChallengerBot` module) can independently re-execute the same recipe and compare the result. If it disagrees, it calls `disputeTruth` on-chain and posts its own bond.
-
-Disputes that result in the original proposer being wrong cause that node to lose its bond (slashing). The correct challenger earns a reward.
+- Data retrieval is routed through authorized network adapters or the secure gateway.
+- Operations such as multi-source consensus, conditional logic, and outcome normalization are performed.
+- A cryptographic execution certificate is generated as evidence of the procedure.
 
 ---
 
-## Step 6: Finalization
+## 4. On-Chain Proposal
 
-Once the challenge window closes without a successful dispute, the oracle marks the result as `FINALIZED`. The consumer smart contract's callback function is invoked:
+The node submits its findings to the oracle contract by invoking `proposeTruth`, providing:
+- The unique `requestId`.
+- The calculated outcome value.
+- An economic bond as a commitment to accuracy.
+- A reference (hash) to the execution certificate.
+
+---
+
+## 5. Secondary Verification Window
+
+Once a proposal is submitted, a predefined verification window begins. During this interval, other network participants (challengers) re-execute the same recipe to ensure consistency. If a discrepancy is found, a challenger submits a `disputeTruth` transaction along with a competing bond.
+
+In the event of a successful challenge, the original proposer's bond is slashed to penalize inaccuracy, and the challenger is rewarded for maintaining the integrity of the protocol.
+
+---
+
+## 6. Finalization
+
+If the verification window closes without a successful challenge, the oracle marks the result as finalized. The protocol then invokes the callback function on the consumer smart contract:
 
 ```solidity
 function onTruthAttestation(
@@ -104,4 +104,4 @@ function onTruthAttestation(
 ) external;
 ```
 
-The consumer can now act on the verified, immutable truth value.
+The consumer contract can now utilize the verified and immutable truth value to execute its internal logic.

@@ -1,16 +1,14 @@
 # TaaS Developer SDK
 
-`@friehub/taas-sdk` is the developer-facing HTTP client for querying the TaaS Truth Gateway. It provides typed methods for accessing attested real-world data across crypto, sports, weather, economics, and finance — all backed by the TaaS node network.
+The `@friehub/taas-sdk` library is the primary HTTP client for interacting with the TaaS Truth Gateway. It provides typed methods for accessing attested real-world data across crypto, sports, weather, economics, and finance, all backed by the decentralized TaaS node network.
 
-No node infrastructure, private keys, or API subscriptions are required.
+This client eliminates the need for maintaining node infrastructure, managing private keys, or managing individual data provider subscriptions.
 
 ---
 
 ## Installation
 
 ```bash
-npm install @friehub/taas-sdk
-# or
 pnpm add @friehub/taas-sdk
 ```
 
@@ -23,26 +21,27 @@ import { TruthGatewayClient } from '@friehub/taas-sdk';
 
 const gateway = new TruthGatewayClient({
     baseUrl: 'https://api.friehub.com',
-    jwtToken: 'YOUR_DASHBOARD_JWT'    // From app.friehub.com → Settings → API Keys
+    jwtToken: 'YOUR_AUTHORIZATION_TOKEN'
 });
 
-// Query current BTC price — attested by the node network
+// Query the current BTC price as attested by the network
 const result = await gateway.finance().price('BTC');
-console.log(result.value);        // 47250.5
-console.log(result.attestation);  // On-chain signature proof
+
+console.log(result.value);        // Example: 47250.5
+console.log(result.attestation);  // On-chain cryptographic proof
 ```
 
 ---
 
 ## Authentication
 
-Requests to the gateway must include a valid JWT issued from the TaaS Dashboard.
+Requests to the gateway require a valid JWT issued from the TaaS Dashboard.
 
-1. Log in at [app.friehub.com](https://app.friehub.com).
-2. Navigate to **Settings** → **API Keys**.
-3. Generate a new key and copy it.
+1. Log in to the [TaaS Dashboard](https://app.friehub.com).
+2. Navigate to Settings and select API Keys.
+3. Generate and secure a new authorization token.
 
-Pass the token to the client constructor:
+Initialize the client with the retrieved token:
 
 ```typescript
 const gateway = new TruthGatewayClient({
@@ -50,7 +49,7 @@ const gateway = new TruthGatewayClient({
 });
 ```
 
-> API keys are scoped to a specific wallet address. Each request is signed by the gateway and can be verified against the `TruthOracleV2` contract.
+API keys are scoped to a specific wallet address. Every request is signed by the gateway and remains verifiable against the protocol contracts.
 
 ---
 
@@ -61,14 +60,13 @@ const gateway = new TruthGatewayClient({
 ```typescript
 const client = gateway.finance();
 
-// Current spot price
+// Retrieve current spot price
 const btc = await client.price('BTC');
-console.log(btc.value);       // 47250.5 (USD)
 
-// Historical price at a specific Unix timestamp
+// Retrieve historical price at a specific Unix timestamp
 const historical = await client.priceAt('ETH', 1700000000000);
 
-// Forex rate between two currencies
+// Retrieve the exchange rate between fiat currencies
 const rate = await client.forex('USD', 'EUR');
 ```
 
@@ -77,12 +75,11 @@ const rate = await client.forex('USD', 'EUR');
 ```typescript
 const client = gateway.crypto();
 
-// Current token price
+// Retrieve current token valuation
 const sol = await client.price('SOL');
 
-// 24h market summary
+// Retrieve a 24-hour market summary
 const market = await client.marketSummary('BTC');
-console.log(market.volume24h, market.changePercent24h);
 ```
 
 ### Sports
@@ -90,14 +87,13 @@ console.log(market.volume24h, market.changePercent24h);
 ```typescript
 const client = gateway.sports();
 
-// Live scores for a league
+// Retrieve live scores for a specific league
 const liveScores = await client.livescore('EPL');
 
-// Full match result by match ID
+// Retrieve match details by identifier
 const match = await client.matchDetails('12345678');
-console.log(match.homeScore, match.awayScore, match.status);
 
-// Head-to-head result query
+// Perform a head-to-head historical query
 const h2h = await client.headToHead('Man City', 'Arsenal', { season: '2025-26' });
 ```
 
@@ -106,11 +102,10 @@ const h2h = await client.headToHead('Man City', 'Arsenal', { season: '2025-26' }
 ```typescript
 const client = gateway.weather();
 
-// Current conditions by coordinates
+// Retrieve current conditions by coordinates
 const london = await client.current(51.5074, -0.1278);
-console.log(london.temp_c, london.condition, london.humidity);
 
-// Forecast for next N days
+// Retrieve a multi-day forecast
 const forecast = await client.forecast(51.5074, -0.1278, { days: 5 });
 ```
 
@@ -119,82 +114,77 @@ const forecast = await client.forecast(51.5074, -0.1278, { days: 5 });
 ```typescript
 const client = gateway.economics();
 
-// FRED macro-economic data series
+// Retrieve macro-economic data series from the FRED registry
 const cpi = await client.series('CPIAUCSL');
-console.log(cpi.value);  // Latest CPI index
 
-// World Bank indicator
+// Retrieve indicators from the World Bank registry
 const gdp = await client.worldbank('NY.GDP.MKTP.CD', 'US');
 ```
 
 ---
 
-## Domain Reference Table
+## Domain Reference
 
-| Domain | Method | Description |
+| Domain | Method | Resolution |
 |---|---|---|
-| `finance()` | `price(symbol)` | Current asset spot price in USD |
-| `finance()` | `priceAt(symbol, ts)` | Historical price at a Unix timestamp |
-| `finance()` | `forex(from, to)` | Exchange rate between two fiat currencies |
-| `crypto()` | `price(symbol)` | Current crypto token price |
-| `crypto()` | `marketSummary(symbol)` | 24h volume, change, market cap |
-| `sports()` | `livescore(league)` | Live match scores for a league |
-| `sports()` | `matchDetails(matchId)` | Full result and statistics |
-| `sports()` | `headToHead(team1, team2)` | Historical H2H result lookup |
-| `weather()` | `current(lat, lon)` | Real-time weather conditions |
-| `weather()` | `forecast(lat, lon, opts)` | Multi-day forecasts |
-| `economics()` | `series(id)` | FRED macro-economic series |
-| `economics()` | `worldbank(indicator, country)` | World Bank data indicator |
+| `finance()` | `price(symbol)` | Spot price in USD. |
+| `finance()` | `priceAt(symbol, ts)` | Historical valuation. |
+| `finance()` | `forex(from, to)` | Fiat exchange rates. |
+| `crypto()` | `price(symbol)` | Digital asset valuation. |
+| `crypto()` | `marketSummary(symbol)` | 24h market metrics. |
+| `sports()` | `livescore(league)` | Active match results. |
+| `sports()` | `matchDetails(matchId)` | Detailed statistics. |
+| `sports()` | `headToHead(team1, team2)` | Historical performance data. |
+| `weather()` | `current(lat, lon)` | Real-time conditions. |
+| `weather()` | `forecast(lat, lon, opts)` | Forward-looking reports. |
+| `economics()` | `series(id)` | Economic trend indices. |
+| `economics()` | `worldbank(indicator, country)` | Global development metrics. |
 
 ---
 
-## Executing a Recipe Directly
+## Direct Recipe Execution
 
-Beyond domain methods, you can invoke any protocol recipe by ID. Recipes are composable truth templates registered on the gateway.
+Developers can invoke specific protocol recipes by their identifiers. Recipes serve as verifiable templates registered within the network.
 
 ```typescript
 import { TruthGatewayClient } from '@friehub/taas-sdk';
 
 const gateway = new TruthGatewayClient({ jwtToken: process.env.TAAS_API_KEY });
 
-// Execute a pre-registered recipe by ID
+// Execute a registered recipe
 const result = await gateway.executeRecipe('btc-price-daily', {
     symbol: 'BTCUSDT'
 });
 
-console.log(result.value);        // 47250.5
-console.log(result.recipeId);     // 'btc-price-daily'
-console.log(result.attestation);  // On-chain proof
-console.log(result.executors);    // Which nodes attested this result
+console.log(result.value);        // The resolved truth value
+console.log(result.attestation);  // The cryptographic proof
 ```
 
 ---
 
 ## Verifying Attestations
 
-Every gateway response includes a `TruthAttestation` that can be verified against the on-chain `TruthOracleV2` contract.
+Every response includes an attestation that should be verified against the on-chain oracle contracts for high-assurance applications.
 
 ```typescript
 import { verifyAttestation } from '@friehub/taas-sdk';
 
 const result = await gateway.finance().price('BTC');
 
-// Verify the attestation on-chain
+// Perform on-chain verification
 const isValid = await verifyAttestation(result.attestation, {
     oracleAddress: '0x383E24c68A57eCf2D728CaE2B93637c2fb608bE1',
-    rpcUrl: 'https://testnet1.helioschainlabs.org'
+    rpcUrl: 'https://rpc.helioschain.org'
 });
 
 if (!isValid) {
-    throw new Error('Attestation is invalid — do not use this data');
+    throw new Error('Verification failed: attestations are invalid.');
 }
 ```
 
-> **Always verify** before using gateway data in a financial or on-chain context.
-
 ---
 
-## Shared TypeScript Types
+## Developer Types
 
 ```typescript
 import {
@@ -207,50 +197,43 @@ import {
 
 | Type | Description |
 |---|---|
-| `TruthPoint<T>` | Single attested data point with full provenance metadata |
-| `TruthAttestation` | On-chain signature proof from the node network |
-| `RecipeExecutionResult` | Complete output from a named recipe execution |
-| `OutcomeType` | Enum: `scalar`, `binary`, `categorical`, `probabilistic`, `invalid` |
+| `TruthPoint<T>` | A single attested data point with provenance metadata. |
+| `TruthAttestation` | The cryptographic evidence from the network. |
+| `RecipeExecutionResult` | The comprehensive output of a recipe execution. |
+| `OutcomeType` | Classifies results as scalar, binary, categorical, or probabilistic. |
 
 ---
 
-## Rate Limits & Quotas
+## Rate Limits and Quotas
 
-| Plan | Requests / Minute | Historical Lookback |
+| Tier | Requests per Minute | Historical Access |
 |---|---|---|
-| Free Tier | 60 | 30 days |
+| Standard | 60 | 30 days |
 | Developer | 600 | 1 year |
-| Protocol | Unlimited | Full history |
-
-Rate limit headers are included in every response:
-```
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 44
-X-RateLimit-Reset: 1709600120
-```
+| Enterprise | Custom | Full history |
 
 ---
 
-## Error Handling
+## Error Management
 
 ```typescript
 import { TaasApiError, TaasAttestationError } from '@friehub/taas-sdk';
 
 try {
-    const result = await gateway.sports().matchDetails('invalid-id');
+    const result = await gateway.sports().matchDetails('match-hash');
 } catch (err) {
     if (err instanceof TaasApiError) {
-        console.error('Gateway error:', err.status, err.message);
+        console.error('Network error:', err.message);
     } else if (err instanceof TaasAttestationError) {
-        console.error('Attestation invalid — data rejected');
+        console.error('Integrity error: attestation rejected.');
     }
 }
 ```
 
 ---
 
-## Related
+## Related Documentation
 
-- [TaaS Interfaces](/guides/taas-interfaces) — Build custom data adapters.
-- [Truth Recipes](/protocol/recipes) — Author verifiable truth queries.
-- [Running a Truth Node](/nodes/truth-node) — Operate a network participant.
+- [TaaS Interfaces](/guides/taas-interfaces): Framework for custom adapters.
+- [Truth Recipes](/protocol/recipes): Guide for authoring verifiable queries.
+- [Node Operations](/nodes/truth-node): Guide for network participation.

@@ -1,6 +1,6 @@
 # Installation & Setup
 
-Launch your journey into autonomous truth with the TaaS SDK.
+Launch your project with the TaaS SDK to begin authoring and integrating autonomous truth.
 
 ## 1. Prerequisites
 - **Node.js**: v18 or higher.
@@ -18,7 +18,7 @@ All requests to the TaaS Gateway require an authenticated session.
 
 1.  Visit the [TaaS Dashboard](https://app.friehub.cloud).
 2.  Connect your developer wallet.
-3.  Go to **Settings** -> **API Keys**.
+3.  Navigate to Settings and select API Keys.
 4.  Generate a new key and save it securely.
 
 ## 4. Initialize the Client

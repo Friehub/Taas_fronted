@@ -1,53 +1,44 @@
-# TaaS Developer SDK
+# TaaS Developer Interfaces
 
-`@friehub/taas-interfaces` is the foundational type contract for the TaaS Protocol. It contains the abstract base classes, TypeScript interfaces, Zod validation schemas, and adapter utilities required to plug any real-world data source into the TaaS truth network.
+The `@friehub/taas-interfaces` library is the foundational type contract for the TaaS Protocol. It contains the abstract base classes, TypeScript interfaces, Zod validation schemas, and adapter utilities required to integrate real-world data sources into the TaaS truth network.
 
-This guide is for developers who want to:
+This guide is for developers who intend to:
 - Build and publish a custom TaaS data adapter
-- Author verifiable truth recipes using raw protocol types
-- Integrate TaaS data types into their own DApps or smart contract clients
+- Author verifiable truth recipes using protocol types
+- Integrate TaaS data types into their own applications or smart contract clients
 
 ---
 
 ## Installation
 
 ```bash
-npm install @friehub/taas-interfaces
-# or
 pnpm add @friehub/taas-interfaces
 ```
 
-> This package contains **no implementation logic** — only TypeScript types, Zod schemas, and abstract classes. It is safe for frontend apps, DApps, and untrusted compute environments.
+Note: This package contains type definitions and abstract classes only. It is safe for use in frontend applications and untrusted compute environments.
 
 ---
 
-## What Is a Sovereign Adapter?
+## Sovereign Adapters
 
-A **Sovereign Adapter** is a stateless data plugin that connects any external API to the TaaS execution engine. Every data category in the TaaS network (crypto, sports, weather, etc.) is backed by one or more adapters.
+A Sovereign Adapter is a stateless data plugin that connects an external API to the TaaS network. Every data category in the network, such as crypto, sports, or weather, is supported by various adapters.
 
-When a truth request is submitted on-chain, the execution engine selects the appropriate adapter, calls `fetch()`, and submits the output as a signed attestation to the `TruthOracleV2` contract.
+When a truth request is submitted on-chain, the TaaS network selects the appropriate adapter, executes the fetch logic, and submits the output as a signed attestation to the truth oracle contracts.
 
 ### Adapter Lifecycle
 
-```
-On-Chain Request
-    ↓
-Execution Engine selects adapter via DataCategory
-    ↓
-adapter.fetch(params)
-    ↓ fetchData() → calls external API
-    ↓ validates response against responseSchema (Zod)
-    ↓
-Returns TruthPoint<T>
-    ↓
-Node signs and submits to chain
-```
+1. On-chain request is detected by the network.
+2. The internal runtime selects the adapter based on the required data category.
+3. The adapter's `fetch()` method is called with specified parameters.
+4. The adapter fetches data from the external API and validates the response against a Zod schema.
+5. A `TruthPoint` object is returned to the node.
+6. The node signs and submits the verified fact to the blockchain.
 
 ---
 
 ## Authoring a Custom Adapter
 
-Extend `SovereignAdapter<Data, Params>` and implement exactly two methods.
+To create a custom adapter, extend the `SovereignAdapter` class and implement the required methods.
 
 ```typescript
 import {
@@ -57,7 +48,7 @@ import {
 } from '@friehub/taas-interfaces';
 import { z } from 'zod';
 
-// 1. Define your response schema (Zod validates at runtime)
+// 1. Define the response schema for runtime validation
 const PriceSchema = z.object({
     symbol: z.string(),
     price: z.number(),
@@ -66,9 +57,9 @@ const PriceSchema = z.object({
 
 type PriceData = z.infer<typeof PriceSchema>;
 
-// 2. Define your input parameters
+// 2. Define the input parameters
 interface PriceParams {
-    symbol: string; // e.g. "BTCUSDT"
+    symbol: string;
 }
 
 // 3. Extend SovereignAdapter
@@ -79,11 +70,11 @@ export class MyExchangeAdapter extends SovereignAdapter<PriceData, PriceParams> 
             ...config,
             name: 'my-exchange',
             category: DataCategory.CRYPTO,
-            responseSchema: PriceSchema   // <- v1.0.3: required for dynamic validation
+            responseSchema: PriceSchema
         });
     }
 
-    // Called in live mode — fetch from the real API
+    // Implementation for live data retrieval
     protected async fetchData(params: PriceParams): Promise<PriceData> {
         const response = await this.client.get(
             `https://api.my-exchange.com/ticker/${params.symbol}`
@@ -95,7 +86,7 @@ export class MyExchangeAdapter extends SovereignAdapter<PriceData, PriceParams> 
         };
     }
 
-    // Called in mock/test mode — return deterministic data
+    // Implementation for testing and simulation
     protected async getMockData(params: PriceParams): Promise<PriceData> {
         return {
             symbol: params.symbol,
@@ -106,31 +97,29 @@ export class MyExchangeAdapter extends SovereignAdapter<PriceData, PriceParams> 
 }
 ```
 
-### What `SovereignAdapter` Provides
+### Adapter Framework Provisions
 
-| Property / Method | Description |
+| Provision | Description |
 |---|---|
-| `this.client` | Pre-configured `axios` instance (proxy, timeouts, retry) |
-| `this.id` | Unique adapter ID derived from the `name` config |
-| `this.category` | The `DataCategory` for this plugin |
-| `this.config.responseSchema` | Zod schema used to validate API output at runtime |
-| `fetch(params)` | Public method — already implemented. Calls `fetchData` or `getMockData`. |
-| `getCapabilities()` | Returns metadata about the adapter's supported parameters (v1.0.3+) |
+| `this.client` | A pre-configured HTTP client supporting internal network requirements. |
+| `this.id` | A unique identifier derived from the adapter name. |
+| `this.category` | The classification of data this adapter provides. |
+| `this.config.responseSchema` | The schema used to ensure data integrity at runtime. |
+| `fetch(params)` | The implementation-agnostic method called by the network. |
+| `getCapabilities()` | Metadata describing the parameters supported by the adapter. |
 
-> **v1.0.3 Change:** The `responseSchema` property in `AdapterConfig` is now **required** for all adapters. Adapters without a schema will not pass runtime validation inside the execution engine.
+The `responseSchema` property is mandatory to ensure all data passing through the network meets protocol-level validation standards.
 
 ---
 
-## Declaring Adapter Capabilities (v1.0.3+)
+## Defining Capabilities
 
-To enable execution engine discovery and dynamic parameter routing, adapters should override `getCapabilities()`. This allows the engine to route partial or fuzzy requests to the correct adapter without hardcoded mappings.
+To facilitate network discovery and dynamic routing, adapters should define their capabilities. This allows the internal runtime to route requests to the correct adapter without hardcoded mappings.
 
 ```typescript
 import { AdapterCapability } from '@friehub/taas-interfaces';
 
 export class MyExchangeAdapter extends SovereignAdapter<PriceData, PriceParams> {
-
-    // ... constructor and methods above ...
 
     getCapabilities(): AdapterCapability[] {
         return [
@@ -145,13 +134,13 @@ export class MyExchangeAdapter extends SovereignAdapter<PriceData, PriceParams> 
 }
 ```
 
-The engine calls `getCapabilities()` to understand what parameters an adapter accepts, allowing generic recipe definitions to be matched against specific adapters at execution time.
+The network uses these capabilities to resolve generic recipe definitions into specific data provider calls at execution time.
 
 ---
 
 ## Core Types Reference
 
-### `DataCategory`
+### DataCategory
 
 ```typescript
 import { DataCategory } from '@friehub/taas-interfaces';
@@ -163,12 +152,12 @@ DataCategory.ECONOMICS   // Macro-economic indicators
 DataCategory.FINANCE     // Forex, stocks, commodities
 DataCategory.SOCIAL      // Social media signals
 DataCategory.ONCHAIN     // On-chain protocol data
-DataCategory.CUSTOM      // Custom multi-step pipelines
+DataCategory.CUSTOM      // Multi-step specialized pipelines
 ```
 
-### `TruthPoint<T>`
+### TruthPoint
 
-Wraps any adapter response with rich provenance metadata:
+The `TruthPoint` interface wraps data with provenance metadata:
 
 ```typescript
 interface TruthPoint<T> {
@@ -177,48 +166,47 @@ interface TruthPoint<T> {
         source: string;
         timestamp: number;
         requestId: string;
-        lineage: DataLineage;
-        quality: QualityMetrics;
-        verifiableHash?: string;  // Keccak256 of normalized payload
+        lineage: any;
+        quality: any;
+        verifiableHash?: string;
     };
 }
 ```
 
-### `DataRequest`
+### DataRequest
 
-The normalized input to any adapter `fetch()` call:
+The normalized input format for adapter requests:
 
 ```typescript
 interface DataRequest {
     params: Record<string, any>;
-    timestamp?: number;        // For historical data
+    timestamp?: number;
     timeout?: number;
-    attestationContext?: {
-        requestId: string;     // On-chain truth request ID
-        attestationTimestamp: number;
+    context?: {
+        requestId: string;
+        timestamp: number;
         deadline: number;
-        attempt: number;
     };
 }
 ```
 
-### `Outcomes` (Builder Helpers)
+### Outcome Helpers
 
 ```typescript
 import { Outcomes } from '@friehub/taas-interfaces';
 
 Outcomes.binary(1, { confidence: 0.99 })
 Outcomes.scalar(47250.5, { unit: 'USD' })
-Outcomes.categorical('Real Madrid', { options: ['Real Madrid', 'Barcelona'] })
-Outcomes.probabilistic(0.72, { reasoning: 'Trailing market signals' })
-Outcomes.invalid('False premise', { category: 'FALSE_PREMISE' })
+Outcomes.categorical('Selection', { options: ['Option A', 'Option B'] })
+Outcomes.probabilistic(0.72, { reasoning: 'Market trend signals' })
+Outcomes.invalid('Description', { category: 'REASON' })
 ```
 
 ---
 
-## Building a Recipe with the Type System
+## Building Recipes
 
-A recipe defines the exact query the network should resolve. You can author recipes directly using the type system without any backend dependency.
+A recipe defines the exact logic the network should resolve. Developers can author recipes directly using the TaaS type system.
 
 ```typescript
 import { RecipeInstance, DataCategory } from '@friehub/taas-interfaces';
@@ -241,14 +229,14 @@ const recipe: RecipeInstance = {
 
 ---
 
-## Architecture Note
+## Architectural Principles
 
-The interfaces package deliberately contains zero runtime dependencies on the TaaS backend, gateway, or execution engine. A third-party developer can build, test, and ship a production-grade adapter using **only this package** — without ever running a local node or accessing internal infrastructure.
+The interfaces library contains no dependencies on internal network infrastructure. This design allows third-party developers to build, test, and ship production-ready adapters without maintaining local nodes or accessing private backends.
 
 ---
 
-## Related
+## Related Documentation
 
-- [TaaS SDK](/guides/taas-sdk) — Typed HTTP client for querying the Gateway.
-- [Truth Recipes](/protocol/recipes) — In-depth guide to authoring verifiable truth queries.
-- [Running a Truth Node](/nodes/truth-node) — Operate a network participant.
+- [TaaS SDK](/guides/taas-sdk): Client for interacting with the Gateway.
+- [Truth Recipes](/protocol/recipes): In-depth guide to authoring queries.
+- [Node Operations](/nodes/truth-node): Guide for network participants.

@@ -1,26 +1,23 @@
-# TaaS Smart Contracts
+# Protocol Smart Contracts
 
-**On-chain components that enforce truth, staking, and node registration on the Helios blockchain.**
-
-The TaaS Protocol is secured by a suite of Solidity smart contracts deployed on the Helios network. These contracts form the trust layer of the system   the entry point for requesting truth, the judge for disputes, and the registry for node participation.
+The TaaS Protocol is governed by a suite of Solidity smart contracts deployed on the Helios blockchain. These components enforce the rules of truth attestation, economic staking, and network participation.
 
 ---
 
-## Contract Overview
+## Contract Architecture
 
-### `TruthOracleV2.sol`   The Core
+### TruthOracle: The Central Gateway
 
-This is the central contract consumers interact with. It manages the full lifecycle of a truth request:
+The `TruthOracle` contract is the primary interface for network consumers. It manages the comprehensive lifecycle of every truth request:
 
-1. **Request**   A DApp or smart contract calls `requestTruth(recipeId, inputs)`.
-2. **Proposal**   Sentinel nodes submit their signed `Attestation` via `proposeAttestation(requestId, data, signature)`.
-3. **Dispute Window**   After a proposal, a configurable window opens (e.g., 2 hours). Anyone can raise a dispute.
-4. **Finalization**   If no valid dispute is raised, `finalizeAttestation(requestId)` is called (by Chronos automation or manually).
-5. **Callback**   The originally requesting contract receives the finalized truth result.
+1. **Initiation**: A decentralized application (DApp) or smart contract invokes `requestTruth`.
+2. **Proposal**: Authorized nodes submit verified attestations following recipe execution.
+3. **Verification**: A secondary window allows for independent verification and disputes.
+4. **Finalization**: Upon window closure, the result is finalized and immutable record is established.
+5. **Callback**: The protocol optionally notifies the original requesting contract with the resolved result.
 
 ```solidity
-// Simplified interface for TruthOracleV2
-interface ITruthOracleV2 {
+interface ITruthOracle {
     function requestTruth(
         bytes32 recipeId,
         bytes calldata inputs
@@ -41,13 +38,13 @@ interface ITruthOracleV2 {
 }
 ```
 
-### `NodeRegistry.sol`   Node Enrollment
+### NodeRegistry: Network Enrollment
 
-Sentinels and Challengers must register and stake $TAAS tokens before they can participate in the network.
+The `NodeRegistry` manages the lifecycle of network participants. Truth Nodes and Challengers must register and provide a security bond before contributing to the protocol.
 
-- **Registration**: A node calls `registerNode(nodeType, metadata)` and locks a bond.
-- **Slashing**: If a node submits fraudulent data and loses a dispute, their bond is slashed.
-- **Deregistration**: Honest nodes can withdraw their stake after a cooldown period.
+- **Registration**: Participants secure their role by locking a predefined token bond.
+- **Slashing**: Inaccurate or fraudulent submissions result in the forfeiture of the node bond.
+- **Deregistration**: Participants can withdraw their stake following a standard cooldown period.
 
 ```solidity
 interface INodeRegistry {
@@ -59,105 +56,76 @@ interface INodeRegistry {
 }
 ```
 
-### `SourceRegistry.sol`   Data Source Reputation
+### SourceRegistry: Provider Integrity
 
-Tracks the reputation and availability of data sources (SportMonks, Binance, etc.) that Recipes can use. Sources with consistently validated data accumulate higher reputation scores.
+This contract monitors the reliability and historical performance of external data sources. Sources that consistently provide accurate data points through the node network accumulate higher integrity scores within the protocol.
 
-### `TAASToken.sol`   Protocol Token
+### Protocol Token: Economic Foundation
 
-Standard ERC-20 token used throughout the protocol:
-- **Staking**   Required for Sentinel and Challenger nodes to participate.
-- **Payment**   Developers pay a fee (in $TAAS or $HLS) to request truth.
-- **Rewards**   Distributed to Sentinels for honest relaying and to Challengers for catching fraud.
+The T token is the native utility asset of the TaaS Protocol:
+- **Collateral**: Required for all nodes to ensure economic alignment and security.
+- **Settlement**: Used for protocol fees and truth request payments.
+- **Incentives**: Distributed to network participants for honest verification and successful disputes.
 
 ---
 
-## Using the TruthOracle in Your Contract
+## Technical Implementation
 
-Here is a complete example of a smart contract that inherits a callback from TaaS:
+### Callback Integration Example
+
+The following example demonstrates a consumer contract integrating with the `TruthOracle` through a callback mechanism:
 
 ```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@friehub/taas-contracts/interfaces/ITruthOracleV2.sol";
-import "@friehub/taas-contracts/interfaces/ITruthConsumer.sol";
+import "./interfaces/ITruthOracle.sol";
+import "./interfaces/ITruthConsumer.sol";
 
 contract NFLBettingMarket is ITruthConsumer {
-    ITruthOracleV2 public immutable oracle;
+    ITruthOracle public immutable oracle;
     uint256 public pendingRequestId;
 
     constructor(address _oracle) {
-        oracle = ITruthOracleV2(_oracle);
+        oracle = ITruthOracle(_oracle);
     }
 
-    /// @notice Request the final result of an NFL match
     function requestMatchResult(string memory matchId) external payable {
         bytes memory inputs = abi.encode(matchId);
         pendingRequestId = oracle.requestTruth(keccak256("nfl-game-result"), inputs);
     }
 
-    /// @notice Called automatically by the TruthOracle after finalization
     function onTruthFinalized(uint256 requestId, bytes calldata result) external override {
         require(msg.sender == address(oracle), "Unauthorized");
         require(requestId == pendingRequestId, "Unknown request");
 
         string memory winner = abi.decode(result, (string));
-        // Settle bets based on the winner
         _settleBets(winner);
     }
 
     function _settleBets(string memory winner) internal {
-        // ... payout logic
+        // Implementation of settlement logic
     }
 }
 ```
 
----
+### Protocol Administration
 
-## Development
-
-### Setup
-
-```bash
-cd taas-core/contracts
-npm install
-```
-
-### Compile
-
-```bash
-npx hardhat compile
-```
-
-### Run Tests
-
-```bash
-npx hardhat test
-```
-
-### Deploy to Helios Testnet
-
-```bash
-npx hardhat run deploy/05_deploy_proxies.ts --network helios
-```
-
-> [!NOTE]
-> All contracts use the **Beacon Proxy** upgradeable pattern. This means the logic can be upgraded by the FrieHub team without changing the contract addresses that consumers rely on.
+All core protocol contracts utilize a secure upgradeability pattern. This architecture allows for the continuous improvement of protocol logic while maintaining persistent contract addresses for network consumers.
 
 ---
 
-## Deployed Addresses (Helios Testnet)
+## Network Deployments (Helios)
 
-| Contract | Address |
+| Component | Contract Address |
 | :--- | :--- |
-| `TruthOracleV2` | `0x383E24c68A57eCf2D728CaE2B93637c2fb608bE1` |
+| `TruthOracle` | `0x383E24c68A57eCf2D728CaE2B93637c2fb608bE1` |
 | `NodeRegistry` | `0xbD3E6271db9f9F57A08B33bf5c57f042A1f777f4` |
 | `SourceRegistry` | `0x340adD1e0C50Edf03A8fC66659094Cd628F0452f` |
-| `TAAS Token` | `0x7e6ad72CFCC7395956a99C7441EF6A2EED1E376F` |
+| `Protocol Token` | `0x7e6ad72CFCC7395956a99C7441EF6A2EED1E376F` |
 
 ---
 
 ## License
 
-MIT   Copyright (c) 2026 FrieHub Protocol.
+Copyright (c) 2026 FrieHub Protocol. Standard MIT Licensing applies.

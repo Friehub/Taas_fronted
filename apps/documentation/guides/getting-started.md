@@ -1,17 +1,17 @@
 # Quick Start
 
-This guide walks through authoring a TaaS Recipe from scratch. Recipes are the unit of work in the TaaS Protocol — a structured JSON object that defines how a real-world fact should be derived and attested on-chain.
+This guide walks through authoring a TaaS Recipe from scratch. Recipes are the unit of work in the TaaS Protocol: a structured JSON object that defines how a real-world fact should be derived and attested on-chain.
 
 ## How the Authoring Flow Works
 
-As a developer, you work with two packages:
+As a developer, you work with two primary components:
 
-| Package | Role | Access |
+| Component | Role | Access |
 |---|---|---|
 | `@friehub/taas-interfaces` | Core type definitions for `Recipe`, `TruthType`, `SovereignAdapter`, etc. | **Public** |
-| `@friehub/taas-plugins` | Pre-built data source adapters (Coingecko, Sportmonks, etc.) | **Private (request access)** |
+| Data Plugins | Pre-built data source adapters (Coingecko, Sportmonks, etc.) | **Restricted (request access)** |
 
-You **cannot** directly import from `@friehub/execution-engine`, `@friehub/recipes`, or `@friehub/sovereign-logic`. Those are internal runtime packages used by Truth Nodes and the TaaS Backend.
+TaaS uses internal runtime packages for Truth Nodes and the Backend. These are abstracted away from the developer to ensure a streamlined workflow.
 
 ---
 
@@ -21,14 +21,7 @@ You **cannot** directly import from `@friehub/execution-engine`, `@friehub/recip
 pnpm add @friehub/taas-interfaces
 ```
 
-If you have been granted access to the plugins registry, also add:
-```bash
-# .npmrc required
-# @friehub:registry=https://npm.pkg.github.com
-# //npm.pkg.github.com/:_authToken=YOUR_GITHUB_PAT
-
-pnpm add @friehub/taas-plugins
-```
+If you have been granted access to the internal data plugins, you may also add any required adapter packages as specified in your developer dashboard.
 
 ---
 
@@ -130,8 +123,8 @@ The `logic.steps` array defines the execution pipeline. Available step types:
 | `transform` | Applies a data transformation to a previous step's output |
 | `math` | Evaluates a numeric expression |
 | `consensus` | Aggregates multiple source outputs (median, weighted average, etc.) |
-| `distiller` | Runs heavy-logic normalization (used by the execution engine internally) |
-| `reasoner` | AI-assisted reasoning step (for `PROBABILISTIC` recipes) |
+| `distiller` | Runs internal logic normalization |
+| `reasoner` | AI-assisted reasoning step for probabilistic recipes |
 
 ---
 
@@ -154,4 +147,4 @@ The truth network will automatically discover and execute it when requested on-c
 
 - Read the full [Recipe Protocol Reference](/protocol/recipes).
 - See all available [Data Feed Adapters](/protocol/data-feeds) and their source IDs.
-- Learn how to [write a custom plugin adapter](/guides/taas-interfaces) using `@friehub/taas-interfaces`.
+- Learn how to build a custom plugin adapter using the `@friehub/taas-interfaces` library.
