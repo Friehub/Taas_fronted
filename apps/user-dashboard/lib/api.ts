@@ -239,42 +239,75 @@ async function fetchRecipes(): Promise<Recipe[]> {
     }
 }
 
-export function useRecipes() {
-    const { data, error, isLoading } = useSWR<Recipe[]>('/api/recipes', fetchRecipes, {
-        refreshInterval: 30000 // Refresh every 30s
+export interface ApiKey {
+    id: string;
+    name: string;
+    token_hash?: string; // Only provided on creation
+    expires_at: string | null;
+    status: 'ACTIVE' | 'REVOKED' | 'EXPIRED';
+    created_at: string;
+}
+
+export function useApiKeys() {
+    const { data, error, isLoading, mutate } = useSWR<ApiKey[]>('/auth/api-keys', async (url) => {
+        const res = await authenticatedFetch(`${BACKEND_URL}${url}`);
+        if (!res.ok) throw new Error('Failed to fetch API keys');
+        const json = await res.json();
+        return json.data;
     });
 
     return {
-        recipes: data || [],
+        apiKeys: data || [],
         isLoading,
-        isError: error
+        isError: error,
+        mutate
     };
 }
 
-// Formatters
-export function formatNumber(num: number): string {
-    if (num >= 1_000_000) {
-        return `${(num / 1_000_000).toFixed(1)}M`;
-    } else if (num >= 1_000) {
-        return `${(num / 1_000).toFixed(1)}K`;
+export async function createApiKey(name: string, expiresInDays: number | null): Promise<ApiKey> {
+    const res = await authenticatedFetch(`${BACKEND_URL}/auth/api-keys`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, expiresInDays })
+    });
+    if (!res.ok) throw new Error('Failed to create API key');
+    const json = await res.json();
+    return json.data;
+}
+
+export async function revokeApiKey(keyId: string): Promise<void> {
+    const res = await authenticatedFetch(`${BACKEND_URL}/auth/api-keys/${keyId}/revoke`, {
+        method: 'POST'
+    });
+    if (!res.ok) throw new Error('Failed to revoke API key');
+}
+
+export function useRecipes() {
+
+    // Formatters
+    export function formatNumber(num: number): string {
+        if (num >= 1_000_000) {
+            return `${(num / 1_000_000).toFixed(1)}M`;
+        } else if (num >= 1_000) {
+            return `${(num / 1_000).toFixed(1)}K`;
+        }
+        return num.toString();
     }
-    return num.toString();
-}
 
-export function formatCurrency(amount: number): string {
-    if (amount >= 1_000_000) {
-        return `$${(amount / 1_000_000).toFixed(2)}M`;
-    } else if (amount >= 1_000) {
-        return `$${(amount / 1_000).toFixed(1)}K`;
+    export function formatCurrency(amount: number): string {
+        if (amount >= 1_000_000) {
+            return `$${(amount / 1_000_000).toFixed(2)}M`;
+        } else if (amount >= 1_000) {
+            return `$${(amount / 1_000).toFixed(1)}K`;
+        }
+        return `$${amount.toFixed(2)}`;
     }
-    return `$${amount.toFixed(2)}`;
-}
 
-export function formatTimeAgo(timestamp: number): string {
-    const seconds = Math.floor((Date.now() - timestamp) / 1000);
+    export function formatTimeAgo(timestamp: number): string {
+        const seconds = Math.floor((Date.now() - timestamp) / 1000);
 
-    if (seconds < 60) return `${seconds}s ago`;
-    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-    return `${Math.floor(seconds / 86400)}d ago`;
-}
+        if (seconds < 60) return `${seconds}s ago`;
+        if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+        if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+        return `${Math.floor(seconds / 86400)}d ago`;
+    }

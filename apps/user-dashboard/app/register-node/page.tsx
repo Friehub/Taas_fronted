@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 
 export default function RegisterNodePage() {
     return (
-        <div className="min-h-screen bg-background p-4 md:p-12 space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+        <div className="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
             <div className="max-w-6xl mx-auto">
                 <Link href="/" className="inline-flex items-center gap-2 text-[10px] font-black text-foreground/30 hover:text-primary uppercase tracking-[0.2em] transition-all mb-12 group">
                     <DoubleArrowLeftIcon className="group-hover:-translate-x-1 transition-transform" /> Dashboard Overview

@@ -13,7 +13,8 @@ import {
     BoxIcon,
     GlobeIcon,
     HamburgerMenuIcon,
-    Cross1Icon
+    Cross1Icon,
+    CodeIcon
 } from '@radix-ui/react-icons';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -22,6 +23,7 @@ import { ThemeToggle } from './shared/ThemeToggle';
 
 const NAV_ITEMS = [
     { label: 'Overview', href: '/', icon: DashboardIcon },
+    { label: 'Developer SDK', href: '/developer', icon: CodeIcon },
     { label: 'Network Monitor', href: '/network', icon: GlobeIcon },
     { label: 'Register Node', href: '/register-node', icon: ComponentInstanceIcon },
     { label: 'Faucet', href: '/faucet', icon: LightningBoltIcon },

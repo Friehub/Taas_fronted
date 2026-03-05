@@ -2,29 +2,22 @@
 
 import Link from 'next/link';
 import { useAccount } from 'wagmi';
-import { useStats, useActivity, formatNumber, formatCurrency } from '@/lib/api';
+import { useStats, useActivity, formatNumber } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { StatCard, StatusBadge } from '../components/shared/StatCard';
 import {
     ActivityLogIcon,
-    PersonIcon,
     BoxIcon,
-    GlobeIcon,
-    ArrowTopRightIcon,
-    ArrowBottomRightIcon,
-    LightningBoltIcon,
     ShadowIcon,
+    LightningBoltIcon,
     ClockIcon,
-    ExclamationTriangleIcon,
     MagnifyingGlassIcon,
-    ExternalLinkIcon,
     DownloadIcon,
-    MixerVerticalIcon,
-    BarChartIcon
+    PlusIcon,
+    TrashIcon
 } from '@radix-ui/react-icons';
 import { useState } from 'react';
-import { OutcomeDisplay } from '@/components/OutcomeDisplay';
 import { formatDistanceToNow } from 'date-fns';
 import useSWR from 'swr';
 const fetcher = (url: string) => fetch(url).then(res => res.json());
@@ -84,7 +77,7 @@ export default function DashboardPage() {
     ];
 
     return (
-        <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 ease-out max-w-[1600px] mx-auto">
+        <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 ease-out max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Stats Overview */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {statCards.map((stat, i) => (
@@ -96,116 +89,91 @@ export default function DashboardPage() {
                 ))}
             </div>
 
-            {/* Main Content Area */}
-            <div className="grid grid-cols-1 xl:grid-cols-12 gap-12">
-                {/* Live Truth Stream */}
-                <div className="xl:col-span-8 space-y-8">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div className="flex items-center gap-4">
-                            <div className="relative">
-                                <div className="absolute inset-0 bg-primary rounded-full animate-ping opacity-20" />
-                                <div className="relative w-2.5 h-2.5 bg-primary rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+            {/* Main Content Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                {/* Left Column: Activity & Stream */}
+                <div className="lg:col-span-2 space-y-8">
+                    <div className="bg-card/40 backdrop-blur-md border border-border rounded-2xl overflow-hidden shadow-sm">
+                        <div className="p-6 border-b border-border flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <ActivityLogIcon width={20} height={20} className="text-primary" />
+                                <h2 className="text-lg font-black tracking-tight uppercase">Live Truth Stream</h2>
                             </div>
-                            <h2 className="text-[11px] font-black text-foreground/40 uppercase tracking-[0.3em]">Truth Stream</h2>
-                        </div>
-                        <div className="flex items-center gap-6">
                             <button
                                 onClick={handleExport}
-                                className="group flex items-center gap-2 text-[10px] font-black text-foreground/30 hover:text-primary uppercase tracking-[0.2em] transition-all"
+                                className="flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground text-xs font-bold uppercase tracking-wider rounded-lg hover:bg-secondary/80 transition-colors"
                             >
                                 <DownloadIcon width={14} height={14} />
-                                <span className="hidden sm:inline">Export Logs</span>
-                                <span className="sm:hidden">Export</span>
+                                Export
                             </button>
-                            <Link href="/activity" className="group flex items-center gap-2 text-[10px] font-black text-foreground/30 hover:text-primary uppercase tracking-[0.2em] transition-all">
-                                <span className="hidden sm:inline">Detailed Protocol History</span>
-                                <span className="sm:hidden">Full Log</span>
-                                <ExternalLinkIcon width={14} height={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                            </Link>
                         </div>
-                    </div>
 
-                    <div className="space-y-4">
-                        {activityLoading ? (
-                            Array.from({ length: 4 }).map((_, i) => (
-                                <div key={i} className="h-20 bg-card border border-border rounded-2xl animate-pulse" />
-                            ))
-                        ) : activity?.length ? (
-                            activity.map((item: any) => (
-                                <div key={item.id} className="group flex flex-col sm:flex-row sm:items-center justify-between p-6 bg-card/40 backdrop-blur-md border border-white/5 hover:border-primary/20 rounded-[1.5rem] transition-all duration-500 relative overflow-hidden">
-                                    <div className="absolute inset-y-0 left-0 w-1 bg-primary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
-                                    <div className="flex gap-6 items-center">
-                                        <div className="w-12 h-12 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-center text-foreground/40 group-hover:text-primary group-hover:bg-primary/10 group-hover:border-primary/20 transition-all duration-500 shrink-0">
-                                            <ActivityLogIcon width={22} height={22} />
-                                        </div>
+                        <div className="divide-y divide-border/50">
+                            {activityLoading ? (
+                                Array.from({ length: 3 }).map((_, i) => (
+                                    <div key={i} className="p-6 h-24 bg-muted/20 animate-pulse" />
+                                ))
+                            ) : activity?.length ? (
+                                activity.map((item: any) => (
+                                    <div key={item.id} className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-muted/10 transition-colors">
                                         <div className="min-w-0">
-                                            <h3 className="font-display font-bold text-foreground text-base group-hover:text-primary transition-colors tracking-tight truncate">
+                                            <h3 className="font-bold text-base tracking-tight truncate">
                                                 {item.recipeName || 'Protocol Execution'}
                                             </h3>
-                                            <div className="text-[10px] text-foreground/30 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono font-bold uppercase tracking-widest mt-1">
-                                                <span className="flex items-center gap-1.5"><ClockIcon width={12} height={12} /> {formatDistanceToNow(new Date(item.timestamp), { addSuffix: true })}</span>
-                                                <span className="hidden sm:block w-1.5 h-1.5 bg-white/5 rounded-full" />
-                                                <Link href={`https://testnet.helios.org/tx/${item.txHash}`} target="_blank" className="hover:text-primary transition-colors flex items-center gap-1.5">
+                                            <div className="text-xs text-muted-foreground flex items-center gap-3 mt-1 font-mono uppercase">
+                                                <span className="flex items-center gap-1"><ClockIcon width={12} height={12} /> {formatDistanceToNow(new Date(item.timestamp), { addSuffix: true })}</span>
+                                                <Link href={`https://testnet.helios.org/tx/${item.txHash}`} target="_blank" className="hover:text-primary transition-colors flex items-center gap-1">
                                                     <MagnifyingGlassIcon width={12} height={12} /> {item.txHash?.slice(0, 10)}...{item.txHash?.slice(-6)}
                                                 </Link>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="mt-4 sm:mt-0 flex justify-end">
                                         <StatusBadge status="active" />
                                     </div>
+                                ))
+                            ) : (
+                                <div className="p-12 text-center text-muted-foreground">
+                                    <ActivityLogIcon width={32} height={32} className="mx-auto mb-4 opacity-20" />
+                                    <p className="text-sm font-bold uppercase tracking-widest">Awaiting Verification Stream</p>
                                 </div>
-                            ))
-                        ) : (
-                            <div className="p-20 text-center border-2 border-dashed border-white/5 rounded-[2rem] bg-card/20">
-                                <ActivityLogIcon width={32} height={32} className="mx-auto text-foreground/10 mb-4" />
-                                <h3 className="text-foreground/40 text-sm font-black uppercase tracking-[0.2em] mb-2">Protocol Inactive</h3>
-                                <p className="text-foreground/20 text-xs font-bold uppercase tracking-widest">Awaiting incoming verification stream</p>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
                 </div>
 
-                {/* Sidebar Widgets */}
-                <div className="xl:col-span-4 space-y-8">
+                {/* Right Column: Infrastructure */}
+                <div className="space-y-8">
 
-
+                    {/* Infrastructure Widget */}
                     {isConnected && (
-                        <div className="p-8 bg-card/40 backdrop-blur-md border border-white/5 rounded-[2rem] relative overflow-hidden group">
-                            <div className="flex items-center justify-between mb-8">
-                                <h3 className="text-[12px] font-black text-foreground/40 uppercase tracking-[0.3em] flex items-center gap-3">
-                                    <BoxIcon width={16} height={16} className="text-primary" />
-                                    Active Infrastructure
+                        <div className="bg-card/40 backdrop-blur-md border border-border rounded-2xl overflow-hidden shadow-sm">
+                            <div className="p-6 border-b border-border flex items-center justify-between">
+                                <h3 className="text-sm font-black uppercase tracking-wider flex items-center gap-2">
+                                    <BoxIcon width={16} height={16} className="text-primary" /> Nodes
                                 </h3>
-                                <Link href="/network" className="text-[10px] font-black text-primary hover:text-primary/80 uppercase tracking-[0.2em] transition-colors border-b border-primary/20 pb-0.5">
+                                <Link href="/network" className="text-xs font-bold text-primary hover:text-primary/80 uppercase tracking-wider">
                                     Monitor All
                                 </Link>
                             </div>
-                            <div className="space-y-4">
+                            <div className="p-6 space-y-3">
                                 {nodesLoading ? (
-                                    <div className="h-16 bg-white/5 animate-pulse rounded-2xl" />
+                                    <div className="h-12 bg-white/5 animate-pulse rounded-lg" />
                                 ) : userNodes.length > 0 ? (
-                                    userNodes.map((node: any) => (
-                                        <div key={node.node_id} className="flex justify-between items-center p-4 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-primary/30 transition-all group/node">
+                                    userNodes.slice(0, 3).map((node: any) => (
+                                        <div key={node.node_id} className="flex justify-between items-center p-4 rounded-xl bg-background border border-border">
                                             <div className="flex flex-col min-w-0">
-                                                <span className="text-[11px] font-black uppercase tracking-[0.2em] text-foreground/60 transition-colors group-hover/node:text-primary">
+                                                <span className="text-xs font-black uppercase tracking-widest text-foreground/80">
                                                     {node.node_type}
                                                 </span>
-                                                <span className="text-[10px] font-mono text-foreground/20 tabular-nums truncate">
+                                                <span className="text-[10px] font-mono text-muted-foreground tabular-nums truncate max-w-[150px]">
                                                     {node.node_id}
                                                 </span>
                                             </div>
-                                            <div className="flex items-center gap-3 shrink-0">
-                                                <div className={cn(
-                                                    "w-2 h-2 rounded-full",
-                                                    node.status === 'ACTIVE' ? "bg-primary animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]" : "bg-rose-500"
-                                                )} />
-                                            </div>
+                                            <div className={cn("w-2 h-2 rounded-full", node.status === 'ACTIVE' ? "bg-primary animate-[pulse_2s_infinite]" : "bg-destructive")} />
                                         </div>
                                     ))
                                 ) : (
-                                    <div className="text-center py-10 border-2 border-dashed border-white/5 rounded-2xl">
-                                        <p className="text-[10px] font-black text-foreground/10 uppercase tracking-[0.3em]">No Active Nodes</p>
+                                    <div className="text-center py-6 border-2 border-dashed border-border rounded-xl">
+                                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">No Active Nodes</p>
                                     </div>
                                 )}
                             </div>
