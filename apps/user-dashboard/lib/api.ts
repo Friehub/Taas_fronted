@@ -249,7 +249,7 @@ export interface ApiKey {
 }
 
 export function useApiKeys() {
-    const { data, error, isLoading, mutate } = useSWR<ApiKey[]>('/auth/api-keys', async (url) => {
+    const { data, error, isLoading, mutate } = useSWR<ApiKey[]>('/auth/api-keys', async (url: string) => {
         const res = await authenticatedFetch(`${BACKEND_URL}${url}`);
         if (!res.ok) throw new Error('Failed to fetch API keys');
         const json = await res.json();
@@ -282,32 +282,30 @@ export async function revokeApiKey(keyId: string): Promise<void> {
     if (!res.ok) throw new Error('Failed to revoke API key');
 }
 
-export function useRecipes() {
-
-    // Formatters
-    export function formatNumber(num: number): string {
-        if (num >= 1_000_000) {
-            return `${(num / 1_000_000).toFixed(1)}M`;
-        } else if (num >= 1_000) {
-            return `${(num / 1_000).toFixed(1)}K`;
-        }
-        return num.toString();
+// Formatters
+export function formatNumber(num: number): string {
+    if (num >= 1_000_000) {
+        return `${(num / 1_000_000).toFixed(1)}M`;
+    } else if (num >= 1_000) {
+        return `${(num / 1_000).toFixed(1)}K`;
     }
+    return num.toString();
+}
 
-    export function formatCurrency(amount: number): string {
-        if (amount >= 1_000_000) {
-            return `$${(amount / 1_000_000).toFixed(2)}M`;
-        } else if (amount >= 1_000) {
-            return `$${(amount / 1_000).toFixed(1)}K`;
-        }
-        return `$${amount.toFixed(2)}`;
+export function formatCurrency(amount: number): string {
+    if (amount >= 1_000_000) {
+        return `$${(amount / 1_000_000).toFixed(2)}M`;
+    } else if (amount >= 1_000) {
+        return `$${(amount / 1_000).toFixed(1)}K`;
     }
+    return `$${amount.toFixed(2)}`;
+}
 
-    export function formatTimeAgo(timestamp: number): string {
-        const seconds = Math.floor((Date.now() - timestamp) / 1000);
+export function formatTimeAgo(timestamp: number): string {
+    const seconds = Math.floor((Date.now() - timestamp) / 1000);
 
-        if (seconds < 60) return `${seconds}s ago`;
-        if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-        if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-        return `${Math.floor(seconds / 86400)}d ago`;
-    }
+    if (seconds < 60) return `${seconds}s ago`;
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+    return `${Math.floor(seconds / 86400)}d ago`;
+}
