@@ -20,6 +20,7 @@ export default defineConfig({
           { text: 'Overview', link: '/' },
           { text: 'The Mission', link: '/guides/mission' },
           { text: 'Why TaaS?', link: '/guides/why-taas' },
+          { text: 'Uniqueness of TaaS', link: '/guides/unique-features' },
           { text: 'Why Programmable?', link: '/guides/programmable' },
           { text: 'TaaS for AI Agents', link: '/guides/ai-agents' },
           { text: 'Core Use Cases', link: '/guides/use-cases' }
