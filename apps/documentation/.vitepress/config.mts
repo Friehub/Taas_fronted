@@ -20,6 +20,7 @@ export default defineConfig({
           { text: 'Overview', link: '/' },
           { text: 'The Mission', link: '/guides/mission' },
           { text: 'Why TaaS?', link: '/guides/why-taas' },
+          { text: 'Why Programmable?', link: '/guides/programmable' },
           { text: 'Core Use Cases', link: '/guides/use-cases' }
         ]
       },
