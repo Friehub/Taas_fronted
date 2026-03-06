@@ -19,6 +19,7 @@ export default defineConfig({
         items: [
           { text: 'Overview', link: '/' },
           { text: 'The Mission', link: '/guides/mission' },
+          { text: 'Core Benefits', link: '/guides/core-benefits' },
           { text: 'Why TaaS?', link: '/guides/why-taas' },
           { text: 'Uniqueness of TaaS', link: '/guides/unique-features' },
           { text: 'Gateway Architecture', link: '/guides/gateway-architecture' },
