@@ -21,6 +21,7 @@ export default defineConfig({
           { text: 'The Mission', link: '/guides/mission' },
           { text: 'Why TaaS?', link: '/guides/why-taas' },
           { text: 'Uniqueness of TaaS', link: '/guides/unique-features' },
+          { text: 'Gateway Architecture', link: '/guides/gateway-architecture' },
           { text: 'Why Programmable?', link: '/guides/programmable' },
           { text: 'TaaS for AI Agents', link: '/guides/ai-agents' },
           { text: 'Core Use Cases', link: '/guides/use-cases' }
