@@ -23,6 +23,7 @@ export default defineConfig({
           { text: 'Why TaaS?', link: '/guides/why-taas' },
           { text: 'Uniqueness of TaaS', link: '/guides/unique-features' },
           { text: 'Gateway Architecture', link: '/guides/gateway-architecture' },
+          { text: 'Natural Recipes', link: '/guides/recipes' },
           { text: 'Why Programmable?', link: '/guides/programmable' },
           { text: 'TaaS for AI Agents', link: '/guides/ai-agents' },
           { text: 'Core Use Cases', link: '/guides/use-cases' }
@@ -32,7 +33,9 @@ export default defineConfig({
         text: 'Protocol',
         collapsed: false,
         items: [
-          { text: 'How it Works', link: '/protocol/attestation' },
+          { text: 'Threshold Attestation (TSS)', link: '/protocol/tss' },
+          { text: 'Decentralized Storage (TDS)', link: '/protocol/tds' },
+          { text: 'Fact-Signing Economy', link: '/protocol/tokenomics' },
           { text: 'Data Provider Registry', link: '/protocol/data-feeds' }
         ]
       },

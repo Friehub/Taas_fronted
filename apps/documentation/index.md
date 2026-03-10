@@ -17,16 +17,16 @@ hero:
       link: /guides/mission
 
 features:
-  - title: Verifiable Query Framework
-    details: Define any truth query using a declarative, high-level framework. No custom smart contract deployments are needed for new data types. The internal runtime interprets query logic dynamically.
-  - title: Sovereign Computation
-    details: Truth Nodes execute logic locally using a professional developer framework before proposing outcomes on-chain. Multi-source consensus, outlier detection, and deterministic verification are supported natively.
-  - title: Protocol Gateway Proxy
-    details: Developers can test and execute logic without managing their own infrastructure. The TaaS Gateway securely handles provider routing and request proxying.
-  - title: Automated Challenge Layer
-    details: Independent verification bots monitor on-chain proposals and dispute incorrect outcomes. Economic incentives and slashing mechanisms enforce network integrity.
-  - title: Global Provider Registry
-    details: Any data source—including sports, finance, weather, and crypto—can be integrated as a standardized plugin in the TaaS ecosystem.
-  - title: Developer-First Experience
-    details: A strongly typed SDK, intuitive query format, and comprehensive documentation make it efficient to build integrations, run nodes, or query verified facts.
+  - title: Threshold Attestation (TSS)
+    details: Data acquisition is secured by a (t, n) Threshold Signature Scheme. No single gateway knows the full private key; truth points require M-of-N committee attestation to be valid on-chain.
+  - title: Autonomous P2P Discovery
+    details: The network is a self-healing hive using libp2p GossipSub and Kademlia. Nodes pulse their presence and are automatically discovered and load-balanced without manual configuration.
+  - title: Sharded Storage (TDS)
+    details: Truth outcomes and Recipe blueprints are sharded using Reed-Solomon and distributed across the P2P network, ensuring data survives even if multiple nodes go offline.
+  - title: Natural Recipe Templates
+    details: Define logic once (e.g., "Sports Score") and instantiate it thousands of times with parameters. One blueprint handles every sports match or asset price in existence.
+  - title: Dynamic UI Discovery
+    details: Recipes explain to the UI how to fetch their own inputs via the Gateway Hive, enabling platforms to generate dynamic forms (Match Pickers, Symbol Search) without code changes.
+  - title: Developer-First SDK
+    details: A strongly typed SDK, Zod-based validation, and local simulation mocks make it efficient to build integrations, run nodes, or query verified facts in a zero-trust environment.
 ---

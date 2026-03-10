@@ -107,7 +107,7 @@ export default function DashboardPage() {
                     />
                     <StatCard
                         label="Nodes Online"
-                        value={stats ? formatNumber(stats.activeNodes || 0) : '-'}
+                        value={stats ? formatNumber(stats.totalNodes || 0) : '-'}
                         icon={GlobeIcon}
                         trend={2}
                         loading={statsLoading}

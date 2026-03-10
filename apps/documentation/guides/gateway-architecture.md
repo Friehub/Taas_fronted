@@ -2,37 +2,36 @@
 
 A standard problem in legacy oracle networks is that every node operator must individually sign up for, pay for, and manage private API keys for every data source they support. This creates significant friction, security risks, and economic waste.
 
-TaaS solves this through a unique architectural separation between **Logic Execution (Nodes)** and **Data Acquisition (Gateways)**.
+TaaS solves this through a unique architectural separation between **Logic Execution (Truth Nodes)** and **Decentralized Data Acquisition (Gateway Hive)**.
 
-## The Concept of "Keyless Nodes"
+## The TaaS Gateway Hive
 
-In the TaaS network, most node runners do not hold API keys for data providers. Instead, they operate as pure computation engines. When a node needs to fetch external data, it routes the request through a decentralized layer of **Secure Gateways**.
+The Gateway is no longer a single proxy; it is a **Hive** of nodes that coordinate to provide cryptographically undeniable data.
 
-### How it Works
+### 1. Threshold Signature Scheme (TSS)
+When a node requires data (e.g., a match score), the Gateway Hive doesn't just "fetch" it. Instead, a committee of Gateway nodes performs a **Threshold Signature Ceremony (GG20)**. 
+- **Decentralized Signing**: No single node knows the full private key. 
+- **Quorum-Based Proof**: A valid attestation is only produced if a majority (`t`-of-`n`) of nodes agree on the data.
+- **On-Chain Verifiability**: The resulting signature is standard secp256k1, making it instantly verifiable by any smart contract.
 
-1.  **Request Logic:** The Oracle Node (the Brain) executes a Truth Recipe. It reaches a "Standard Feed" step requiring data from a provider (e.g., Binance or SportMonks).
-2.  **Gateway Routing:** Instead of calling the API directly, the node sends a fetch request to multiple independent **TaaS Gateways**.
-3.  **Encapsulated Fetching:** The Gateways (the Sensors) hold the actual API credentials. They fetch the data, normalize it, and sign it with a unique cryptographic key.
-4.  **Verification & Consensus:** The Node receives responses from multiple gateways. It verifies their cryptographic signatures and ensures a **2/3 majority consensus** before continuing the recipe execution.
+### 2. Autonomous P2P Discovery
+The Hive is self-healing. Using **libp2p GossipSub**, Gateway nodes pulse their presence and health status. The network automatically discovers new nodes and routes traffic to the healthiest "shards" of the hive without any central load balancer.
+
+### 3. High-Performance Rust Core (`hot-core`)
+The brain of the gateway node is implemented in **Rust** as `hot-core`. This ensures nanosecond-level request handling, safe memory management, and robust integration with the `multi-party-ecdsa` libraries required for TSS.
 
 ---
 
 ## Why This Architecture is Unique
 
-### 1. Node Privacy and API Security
-Oracle nodes never expose their IP addresses to the public internet or API providers. This makes the network virtually immune to IP-based censorship or targeted DDoS attacks. It also protects data providers from "bot swarms" originating directly from the oracle network.
+### 1. Zero-Trust Attestation
+TaaS achieved the transition from "Trust me" to "Verify the Proof." Because data entering the network is TSS-signed by a committee, you don't need to trust the node runner or the gateway operator—you only trust the cryptography.
 
-### 2. Radical Accessibility for Operators
-Lowering the barrier to entry is critical for true decentralization. Because node operators don't need to manage dozens of complex billing tiers or rotate secrets, anyone with standard compute resources can join the network and provide verifiable truth.
+### 2. Radical Accessibility & Mutualized Costs
+Lowering the barrier to entry is critical. TaaS allows a few resilient, high-availability Gateways to mutualize the cost of expensive Enterprise APIs (SportMonks, Binance, etc.), while allowing thousands of nodes to safely use that signed data for complex truth resolution.
 
-### 3. Mutualized Economic Efficiency
-Legacy oracles are economically inefficient: 1,000 nodes each paying for a $500/month Enterprise API key results in $500,000/month in wasted capital. TaaS allows a few resilient, high-availability Gateways to mutualize the cost of enterprise data, making the entire network significantly more sustainable.
-
-### 4. Integrity through Cross-Verification
-TaaS does not require nodes to "blindly trust" a single gateway. By requiring 2/3 consensus across at least 3 distinct gateway identities, the network ensures that even if one gateway is compromised or providing stale data, the "Brain" of the network remains accurate.
-
-### 5. Instant Scalability for New Data
-Since nodes are agnostic to the API keys hidden behind the gateways, a new data source can be added to the network by simply updating the Gateway configurations. Thousands of nodes can immediately start providing truth for that new source without needing to update their own configurations.
+### 3. Sovereignty & Global Protection
+The Hive features **Distributed Circuit Breakers**. If an external API starts failing, the entire Hive globally "trips" the circuit to protect the network's reputation and prevent provider bans.
 
 ---
 
