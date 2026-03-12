@@ -17,17 +17,17 @@ TaaS makes the oracle programmable by shifting the computation logic from the or
 To ensure security, determinism, and flexibility, the architecture is divided into distinct operational layers:
 
 ### 1. The Trigger (Event-Driven Layer)
-The entire system sits idle until an event activates it. This event can be an on-chain smart contract emitting a "Data Requested" log, or an off-chain API webhook.
+The entire system remains in standby until an event activates it. This event can be an on-chain smart contract emitting a request log or an off-chain API webhook.
 
-- **Listening Nodes:** A decentralized network of independent oracle nodes constantly monitors blockchains and ingress queues for these events.
-- **Payload Delivery:** When an event fires, it passes along the "Recipe" (the programmed instructions) and any required context variables (like target parameters or deadlines).
+- **Listening Nodes**: A decentralized network of independent oracle nodes constantly monitors blockchains and ingress queues for these events.
+- **Payload Delivery**: When an event fires, it passes along the "Recipe" (the programmed instructions) and any required context variables.
 
 ### 2. The Execution Engine (The Programmable Core)
-When a node picks up an event, it feeds the programmable instructions into a Sandboxed Execution Engine. Instead of running hardcoded proprietary scripts, this engine parses the developer's workflow. The workflow can consist of:
+When a node picks up an event, it feeds the instructions into a Sandboxed Execution Engine. Instead of running hardcoded proprietary scripts, this engine parses the developer's workflow (Directed Acyclic Graph):
 
-- **Data Fetching Nodes:** Commands to pull raw data from various external APIs (Crypto, Sports, Weather, custom endpoints).
-- **Transformation Nodes:** Commands to parse JSON, extract specific fields, map values, or perform logical conditions.
-- **Aggregation Nodes:** Commands to apply mathematical operations (like mean, median) across multiple data points to eliminate outliers or find a consensus.
+- **Data Fetching Nodes**: Commands to pull raw data from external APIs (Crypto, Sports, Weather).
+- **Transformation Nodes**: Commands to parse JSON, extract specific fields, or apply logical conditions.
+- **Aggregation Nodes**: Commands to apply mathematical operations (like mean or median) across multiple data points to eliminate outliers and reach consensus.
 
 Because the engine executes these workflows like a script runner, the oracle is infinitely adaptable to any data requirement without requiring infrastructure updates.
 
@@ -44,9 +44,9 @@ The most challenging aspect of a programmable decentralized network is ensuring 
 - **Cryptographic Hashing:** As the Execution Engine processes the developer's workflow, every single step, transformation, and API response is normalized (standardized format) and hashed mathematically.
 
 ### 5. Consensus and Attestation
-Once a node finishes executing the programmed workflow, it doesn't just return an answer; it returns an Attestation Proof.
+Once a node finishes executing the programmed workflow, it returns an Attestation Proof.
 
-- This proof is a cryptographic signature that binds the original request, the exact path of the executed workflow, the raw data received from the gateways, and the final output together.
-- Multiple independent oracle nodes submit these proofs to an aggregation layer (often an on-chain smart contract). Because the system forces strict determinism through time-locking and hashing, the proofs from honest nodes will mathematically match.
+- This proof is a cryptographic signature that binds the original request, the exact workflow path, the raw data, and the final output.
+- Independent oracle nodes submit these proofs to an aggregation layer. Because the system enforces strict determinism, the proofs from honest nodes will mathematically match, finalizing the verdict on-chain.
 
 Once a majority consensus is reached, the final result is permanently stamped onto the blockchain, finalizing the event loop.

@@ -1,6 +1,4 @@
-# TaaS Developer SDK
-
-The `@taas/taas-sdk` library is the primary HTTP client for interacting with the TaaS Truth Gateway. It provides typed methods for accessing attested real-world data across crypto, sports, weather, economics, and finance, all backed by the decentralized TaaS node network.
+The `@taas/sdk` library is the primary interface for interacting with the TaaS Programmable Oracle Gateway. It provides a chainable Fluent API for accessing attested real-world data across crypto, sports, weather, economics, and finance, all backed by the decentralized TaaS node network.
 
 This client eliminates the need for maintaining node infrastructure, managing private keys, or managing individual data provider subscriptions.
 
@@ -16,19 +14,19 @@ pnpm add @taas/taas-sdk
 
 ## Quick Start
 
+The SDK features a Fluent API for building verifiable data intents:
+
 ```typescript
-import { TruthGatewayClient } from '@taas/taas-sdk';
+import { TaaS } from '@taas/sdk';
 
-const gateway = new TruthGatewayClient({
-    baseUrl: 'https://api.taas.network',
-    jwtToken: 'YOUR_AUTHORIZATION_TOKEN'
-});
+// Build a verifiable intent for a sports match
+const intent = await TaaS.intent('liverpool-victory')
+    .sports('football').score({ homeTeam: 'Liverpool', awayTeam: 'Arsenal' })
+    .check('home_score > away_score')
+    .attest();
 
-// Query the current BTC price as attested by the network
-const result = await gateway.finance().price('BTC');
-
-console.log(result.value);        // Example: 47250.5
-console.log(result.attestation);  // On-chain cryptographic proof
+console.log(intent.result);      // True/False verdict
+console.log(intent.attestation); // Cryptographic proof
 ```
 
 ---
@@ -76,12 +74,11 @@ const rate = await client.forex('USD', 'EUR');
 
 | Domain | Method | Resolution |
 |---|---|---|
-| `finance()` | `price(symbol)` | Spot price in USD. |
-| `finance()` | `priceAt(symbol, ts)` | Historical valuation. |
-| `crypto()` | `price(symbol)` | Digital asset valuation. |
-| `sports()` | `livescore(league)` | Active match results. |
-| `weather()` | `current(lat, lon)` | Real-time conditions. |
-| `economics()` | `series(id)` | Economic trend indices. |
+| `finance()` | `price(symbol)` | Spot price in USD via multi-source consensus. |
+| `crypto()` | `price(symbol)` | Digital asset valuation with outlier rejection. |
+| `sports()` | `score(params)` | Active match results via Global Identity Mapping. |
+| `weather()` | `current(lat, lon)` | Real-time atmospheric conditions. |
+| `economics()` | `series(id)` | Macroeconomic trend indices. |
 
 ---
 

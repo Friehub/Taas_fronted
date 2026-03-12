@@ -29,17 +29,20 @@ const gateway = new TruthGatewayClient({
 });
 ```
 
-## 3. Fetching Verifiable Truth
+## 3. Fetching Verifiable Verdicts
 
-The SDK exposes intuitive methods grouped by data domain. Here is how you can retrieve the current attested price of Bitcoin:
+The SDK features a Fluent API for building data intents. Here is how to retrieve the current attested price of Bitcoin:
 
 ```typescript
-async function fetchBitcoinPrice() {
-    // Query the current BTC price as attested by the network
-    const result = await gateway.finance().price('BTC');
+import { TaaS } from '@taas/sdk';
 
-    console.log(`Current BTC Price: $${result.value}`);
-    console.log(`On-chain Proof: ${result.attestation}`);
+async function fetchBitcoinPrice() {
+    const intent = await TaaS.intent('btc-price-lookup')
+        .finance().price('BTC')
+        .attest();
+
+    console.log(`Current BTC Price: $${intent.result}`);
+    console.log(`On-chain Attestation: ${intent.attestation}`);
 }
 ```
 
