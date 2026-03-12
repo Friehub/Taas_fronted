@@ -59,7 +59,7 @@ Every provider plugin adheres to a standardized architecture, exposing a `fetch(
 To integrate a new data source, developers should implement the `SovereignAdapter` class as provided in the protocol interfaces library.
 
 ```typescript
-import { SovereignAdapter, DataCategory } from '@friehub/taas-interfaces';
+import { SovereignAdapter, DataCategory } from '@taas/taas-interfaces';
 
 export class MyCustomAdapter extends SovereignAdapter {
     constructor(apiKey: string) {

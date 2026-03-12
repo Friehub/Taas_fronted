@@ -1,6 +1,6 @@
 # TaaS Developer SDK
 
-The `@friehub/taas-sdk` library is the primary HTTP client for interacting with the TaaS Truth Gateway. It provides typed methods for accessing attested real-world data across crypto, sports, weather, economics, and finance, all backed by the decentralized TaaS node network.
+The `@taas/taas-sdk` library is the primary HTTP client for interacting with the TaaS Truth Gateway. It provides typed methods for accessing attested real-world data across crypto, sports, weather, economics, and finance, all backed by the decentralized TaaS node network.
 
 This client eliminates the need for maintaining node infrastructure, managing private keys, or managing individual data provider subscriptions.
 
@@ -9,7 +9,7 @@ This client eliminates the need for maintaining node infrastructure, managing pr
 ## Installation
 
 ```bash
-pnpm add @friehub/taas-sdk
+pnpm add @taas/taas-sdk
 ```
 
 ---
@@ -17,7 +17,7 @@ pnpm add @friehub/taas-sdk
 ## Quick Start
 
 ```typescript
-import { TruthGatewayClient } from '@friehub/taas-sdk';
+import { TruthGatewayClient } from '@taas/taas-sdk';
 
 const gateway = new TruthGatewayClient({
     baseUrl: 'https://api.taas.network',
@@ -90,7 +90,7 @@ const rate = await client.forex('USD', 'EUR');
 Developers can invoke specialized truth queries by their identifiers. Queries serve as verifiable truth definitions registered within the network.
 
 ```typescript
-import { TruthGatewayClient } from '@friehub/taas-sdk';
+import { TruthGatewayClient } from '@taas/taas-sdk';
 
 const gateway = new TruthGatewayClient({ jwtToken: process.env.TAAS_API_KEY });
 
@@ -110,7 +110,7 @@ console.log(result.attestation);  // The cryptographic proof
 Every response includes an attestation that should be verified against the on-chain oracle contracts for high-assurance applications.
 
 ```typescript
-import { verifyAttestation } from '@friehub/taas-sdk';
+import { verifyAttestation } from '@taas/taas-sdk';
 
 const result = await gateway.finance().price('BTC');
 
@@ -135,7 +135,7 @@ import {
     TruthAttestation,
     QueryExecutionResult,
     OutcomeType
-} from '@friehub/taas-sdk';
+} from '@taas/taas-sdk';
 ```
 
 | Type | Description |
@@ -160,7 +160,7 @@ import {
 ## Error Management
 
 ```typescript
-import { TaasApiError, TaasAttestationError } from '@friehub/taas-sdk';
+import { TaasApiError, TaasAttestationError } from '@taas/taas-sdk';
 
 try {
     const result = await gateway.sports().matchDetails('match-hash');

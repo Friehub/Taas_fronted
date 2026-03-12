@@ -26,7 +26,7 @@ pnpm install
 pnpm run build
 
 # Run specific application in development
-pnpm --filter @friehub/user-dashboard dev
+pnpm --filter @taas/user-dashboard dev
 ```
 
 ### Standards

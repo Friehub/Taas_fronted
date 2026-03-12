@@ -2,11 +2,11 @@
     "name": "friehub-frontend-ecosystem",
     "private": true,
     "scripts": {
-        "dev:user": "pnpm --filter @friehub/user-dashboard dev",
-        "dev:admin": "pnpm --filter @friehub/admin-dashboard dev",
-        "dev:landing": "pnpm --filter @friehub/landing-page dev",
-        "dev:docs": "pnpm --filter @friehub/documentation docs:dev",
+        "dev:user": "pnpm --filter @taas/user-dashboard dev",
+        "dev:admin": "pnpm --filter @taas/admin-dashboard dev",
+        "dev:landing": "pnpm --filter @taas/landing-page dev",
+        "dev:docs": "pnpm --filter @taas/documentation docs:dev",
         "build": "pnpm -r build",
-        "build:docs": "pnpm --filter @friehub/documentation docs:build"
+        "build:docs": "pnpm --filter @taas/documentation docs:build"
     }
 }

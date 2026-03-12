@@ -7,10 +7,10 @@ Launch your project with the TaaS SDK to begin authoring and integrating autonom
 - **Package Manager**: pnpm (recommended), npm, or yarn.
 
 ## 2. Install the SDK
-Add the `@friehub/taas-sdk` to your project:
+Add the `@taas/taas-sdk` to your project:
 
 ```bash
-pnpm add @friehub/taas-sdk
+pnpm add @taas/taas-sdk
 ```
 
 ## 3. Getting your API Key
@@ -25,7 +25,7 @@ All requests to the TaaS Gateway require an authenticated session.
 Create a new instance of the `TruthGatewayClient` to start interacting with the network.
 
 ```typescript
-import { TruthGatewayClient } from '@friehub/taas-sdk';
+import { TruthGatewayClient } from '@taas/taas-sdk';
 
 const client = new TruthGatewayClient({
     baseUrl: 'https://gateway.friehub.cloud',

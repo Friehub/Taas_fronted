@@ -1,6 +1,6 @@
 # TaaS Developer Interfaces
 
-The `@friehub/taas-interfaces` library is the foundational type contract for the TaaS Protocol. It contains the abstract base classes, TypeScript interfaces, Zod validation schemas, and adapter utilities required to integrate real-world data sources into the TaaS truth network.
+The `@taas/taas-interfaces` library is the foundational type contract for the TaaS Protocol. It contains the abstract base classes, TypeScript interfaces, Zod validation schemas, and adapter utilities required to integrate real-world data sources into the TaaS truth network.
 
 This guide is for developers who intend to:
 - Build and publish a custom TaaS data adapter
@@ -12,7 +12,7 @@ This guide is for developers who intend to:
 ## Installation
 
 ```bash
-pnpm add @friehub/taas-interfaces
+pnpm add @taas/taas-interfaces
 ```
 
 Note: This package contains type definitions and abstract classes only. It is safe for use in frontend applications and untrusted compute environments.
@@ -45,7 +45,7 @@ import {
     SovereignAdapter,
     AdapterConfig,
     DataCategory
-} from '@friehub/taas-interfaces';
+} from '@taas/taas-interfaces';
 import { z } from 'zod';
 
 // 1. Define the response schema for runtime validation
@@ -117,7 +117,7 @@ The `responseSchema` property is mandatory to ensure all data passing through th
 To facilitate network discovery and dynamic routing, adapters should define their capabilities. This allows the internal runtime to route requests to the correct adapter without hardcoded mappings.
 
 ```typescript
-import { AdapterCapability } from '@friehub/taas-interfaces';
+import { AdapterCapability } from '@taas/taas-interfaces';
 
 export class MyExchangeAdapter extends SovereignAdapter<PriceData, PriceParams> {
 
@@ -143,7 +143,7 @@ The network uses these capabilities to resolve generic recipe definitions into s
 ### DataCategory
 
 ```typescript
-import { DataCategory } from '@friehub/taas-interfaces';
+import { DataCategory } from '@taas/taas-interfaces';
 
 DataCategory.CRYPTO      // Cryptocurrency markets
 DataCategory.SPORTS      // Match results and scores  
@@ -193,7 +193,7 @@ interface DataRequest {
 ### Outcome Helpers
 
 ```typescript
-import { Outcomes } from '@friehub/taas-interfaces';
+import { Outcomes } from '@taas/taas-interfaces';
 
 Outcomes.binary(1, { confidence: 0.99 })
 Outcomes.scalar(47250.5, { unit: 'USD' })

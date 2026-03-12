@@ -20,7 +20,7 @@ Think of a Blueprint as a class and a specific match as an instance.
 Recipes in TaaS are "smart." They include a **Discovery Interface** that tells the UI how to fetch the inputs required for the template.
 - The UI calls the Gateway Hive to get a list of "Upcoming Matches."
 - The user picks a match from the dropdown.
-- The Platform passes the Match ID to the `@friehub/taas-sdk`, which automatically instantiates the recipe for the network to resolve.
+- The Platform passes the Match ID to the `@taas/taas-sdk`, which automatically instantiates the recipe for the network to resolve.
 
 ### 3. Modular Reusability
 Natural Recipes can be shared and improved by the community. A high-quality "Financial Volatility" blueprint can be used by an options protocol, an insurance dApp, and a trading bot simultaneously—all benefitting from the same battle-tested logic.

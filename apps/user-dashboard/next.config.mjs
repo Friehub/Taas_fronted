@@ -36,7 +36,7 @@ const nextConfig = {
             },
         ]
     },
-    transpilePackages: ['@friehub/recipes'],
+    transpilePackages: ['@taas/recipes'],
     images: {
         remotePatterns: [
             {

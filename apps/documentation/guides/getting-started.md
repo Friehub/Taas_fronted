@@ -7,7 +7,7 @@ This guide will get you up and running with the TaaS SDK. The SDK provides a sim
 Install the core SDK package into your project:
 
 ```bash
-pnpm add @friehub/taas-sdk
+pnpm add @taas/taas-sdk
 ```
 
 ## 2. Authentication
@@ -21,7 +21,7 @@ To communicate with the TaaS Gateway, you will need an API key.
 Initialize the client with your token:
 
 ```typescript
-import { TruthGatewayClient } from '@friehub/taas-sdk';
+import { TruthGatewayClient } from '@taas/taas-sdk';
 
 const gateway = new TruthGatewayClient({
     baseUrl: 'https://api.taas.network',

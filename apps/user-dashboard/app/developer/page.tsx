@@ -149,7 +149,7 @@ export default function DeveloperPage() {
                             Use these tokens to authenticate your DApps with the TaaS Gateway. Embed your active token in the Taas SDK initialization.
                         </p>
                         <div className="bg-muted/10 border border-white/5 rounded-lg p-3 font-mono text-[10px] text-foreground/80 break-all mb-4">
-                            import &#123; TaasClient &#125; from '@friehub/taas-sdk';<br /><br />
+                            import &#123; TaasClient &#125; from '@taas/taas-sdk';<br /><br />
                             const client = new TaasClient(&#123;<br />
                             &nbsp;&nbsp;apiKey: 'taas_...' <span className="text-foreground/30">// Your generated token</span><br />
                             &#125;);
