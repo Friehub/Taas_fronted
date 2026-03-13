@@ -12,10 +12,8 @@ hero:
     - theme: alt
       text: Why TaaS?
       link: /guides/why-taas
-    - theme: alt
-      text: The Mission
-      link: /guides/mission
 
+features:
   - title: Threshold Attestation (TSS)
     details: Data acquisition is secured by a (t, n) Threshold Signature Scheme. Oracle verdicts require M-of-N committee attestation, ensuring that no single provider can compromise data integrity.
   - title: Autonomous P2P Discovery
