@@ -175,4 +175,3 @@ try {
 ## Related Documentation
 
 - [TaaS Interfaces](/guides/taas-interfaces): Framework for custom adapters.
-- [Network Operation](/nodes/truth-node): Guide for truth node participants.
