@@ -85,15 +85,6 @@ export class MyExchangeAdapter extends SovereignAdapter<PriceData, PriceParams> 
             timestamp: Date.now()
         };
     }
-
-    // Implementation for testing and simulation
-    protected async getMockData(params: PriceParams): Promise<PriceData> {
-        return {
-            symbol: params.symbol,
-            price: 50000.00,
-            timestamp: Date.now()
-        };
-    }
 }
 ```
 
@@ -216,5 +207,4 @@ The interfaces library contains no dependencies on internal network infrastructu
 
 ## Related Documentation
 
-- [SDK Documentation](/guides/taas-sdk): Reference for interacting with the Gateway.
-- [Network Operation](/nodes/truth-node): Guide for truth node participants.
+- [SDK Documentation](/guides/taas-sdk): Reference for interacting with the Programmable Oracle Gateway.

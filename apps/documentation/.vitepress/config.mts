@@ -18,14 +18,8 @@ export default defineConfig({
         text: 'Introduction',
         items: [
           { text: 'Overview', link: '/' },
-          { text: 'The Mission', link: '/guides/mission' },
-          { text: 'Core Benefits', link: '/guides/core-benefits' },
           { text: 'Why TaaS?', link: '/guides/why-taas' },
-          { text: 'Uniqueness of TaaS', link: '/guides/unique-features' },
-          { text: 'Gateway Architecture', link: '/guides/gateway-architecture' },
-          { text: 'Natural Recipes', link: '/guides/recipes' },
           { text: 'Why Programmable?', link: '/guides/programmable' },
-          { text: 'TaaS for AI Agents', link: '/guides/ai-agents' },
           { text: 'Core Use Cases', link: '/guides/use-cases' }
         ]
       },
@@ -33,26 +27,16 @@ export default defineConfig({
         text: 'Protocol',
         collapsed: false,
         items: [
-          { text: 'Threshold Attestation (TSS)', link: '/protocol/tss' },
-          { text: 'Decentralized Storage (TDS)', link: '/protocol/tds' },
-          { text: 'Fact-Signing Economy', link: '/protocol/tokenomics' },
-          { text: 'Data Provider Registry', link: '/protocol/data-feeds' }
+          { text: 'Protocol Overview', link: '/protocol/overview' }
         ]
       },
       {
-        text: 'Developer Tools',
+        text: 'Developer Experience',
         collapsed: false,
         items: [
-          { text: 'Framework Setup', link: '/guides/sdk/installation' },
-          { text: 'On-Chain Integration', link: '/guides/sdk/integration' },
-          { text: 'SDK Documentation', link: '/guides/taas-sdk' }
-        ]
-      },
-      {
-        text: 'Network Operation',
-        collapsed: false,
-        items: [
-          { text: 'Truth Node Setup', link: '/nodes/truth-node' }
+          { text: 'Getting Started', link: '/guides/getting-started' },
+          { text: 'SDK Documentation', link: '/guides/taas-sdk' },
+          { text: 'Custom Adapters', link: '/guides/taas-interfaces' }
         ]
       }
     ]
