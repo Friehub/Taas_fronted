@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'fram
 import { ArrowBottomRightIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { useRef, useEffect } from 'react';
-import { ProtocolHUD } from './ProtocolHUD';
 import { TerminalStartup } from './TerminalStartup';
 
 export function Hero() {
@@ -47,9 +46,6 @@ export function Hero() {
 
     return (
         <section ref={containerRef} className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden bg-background">
-            {/* High-Density Protocol HUD */}
-            <ProtocolHUD />
-
             {/* Background Texture */}
             <div className="absolute inset-0 bg-dot-white opacity-40 dark:opacity-40 pointer-events-none" />
 
