@@ -20,30 +20,28 @@ export function ProtocolFocus() {
                             <CodeIcon width={24} height={24} />
                         </div>
                         <h2 className="text-4xl md:text-6xl font-display font-medium mb-8 text-foreground tracking-tighter">
-                            Autonomous <br />
-                            <span className="text-primary italic">Verification.</span>
+                            Sovereign or Mesh. <br />
+                            <span className="text-primary italic">You Choose.</span>
                         </h2>
                         <p className="text-lg text-foreground/50 leading-relaxed mb-12 max-w-xl">
-                            TaaS serves as the standardized protocol for off-chain to on-chain automation.
-                            We remove the need to manage infrastructure, providing builders with a clean,
-                            programmable API for unverifiable data.
+                            TaaS provides a seamless upgrade path from a fast, Sovereign Single-Node setup to a secure, Byzantine Fault Tolerant Mesh Network — without rewriting your integration.
                         </p>
 
                         <div className="space-y-8 mb-12">
                             <FeatureRow
                                 icon={<MagicWandIcon />}
-                                title="No Spin-up Required"
-                                description="Unlike Chainlink or UMA, TaaS doesn't require complex node management or manual resolution."
+                                title="Permissionless Plugins"
+                                description="Write a 40-line TypeScript adapter for any API. No lobbying existing oracle networks to add your feed."
                             />
                             <FeatureRow
                                 icon={<LockClosedIcon />}
-                                title="Cryptographic Finality"
-                                description="Every attestation is signed and verified across the Sentinel network."
+                                title="Cryptographic Accountability"
+                                description="Every attestation is signed with an EIP-712 structured payload bound to the node's Ethereum identity."
                             />
                             <FeatureRow
                                 icon={<ExitIcon />}
-                                title="Modular Integration"
-                                description="Plug TaaS into your prediction market, insurance protocol, or AI agent via simple Recipes."
+                                title="Two-Process Architecture"
+                                description="A hardened Rust Hot-Core for cryptography, paired with an isolated Node.js Sidecar for hot-reloading plugins."
                             />
                         </div>
 

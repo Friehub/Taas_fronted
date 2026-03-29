@@ -5,6 +5,7 @@ import { Hero } from "../components/landing/Hero";
 import { StoryTimeline } from "../components/landing/StoryTimeline";
 import { Blueprint } from "../components/landing/Blueprint";
 import { ProtocolFocus } from "../components/landing/ProtocolFocus";
+import { DataCategories } from "../components/landing/DataCategories";
 import { Waitlist } from "../components/landing/Waitlist";
 import { LandingFooter } from "../components/landing/LandingFooter";
 
@@ -19,6 +20,7 @@ export default function LandingPage() {
                 <StoryTimeline />
                 <Blueprint />
                 <ProtocolFocus />
+                <DataCategories />
                 <Waitlist />
             </div>
 

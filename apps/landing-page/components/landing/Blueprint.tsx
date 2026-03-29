@@ -27,22 +27,22 @@ export function Blueprint() {
                         The <span className="text-primary italic">Blueprint.</span>
                     </h2>
                     <p className="text-xl md:text-2xl text-foreground/30 max-w-2xl mx-auto font-light leading-snug">
-                        A standardized architecture for off-chain to on-chain truth.
-                        No middleware, no friction.
+                        A standardized architecture for any API to reach any smart contract.
+                        No permission required.
                     </p>
                 </div>
 
                 <div className="grid lg:grid-cols-3 gap-px bg-border rounded-2xl overflow-hidden border border-border">
                     <BlueprintCard
                         icon={<CubeIcon width={32} height={32} />}
-                        title="Raw Signals"
-                        desc="REST APIs, GraphQL, IoT Streams, and WebSocket data sources defined in declarative JSON Recipes."
+                        title="TypeScript Plugins"
+                        desc="Write simple TS adapters for REST, GraphQL, or WebSockets. The sidecar handles hot-reloading."
                         i={0}
                     />
                     <BlueprintCard
                         icon={<ComponentInstanceIcon width={32} height={32} />}
-                        title="Sentinel Network"
-                        desc="Stateless verification nodes that execute Recipe logic and attest to the results with cryptographic finality."
+                        title="Gateway Node"
+                        desc="The Rust Hot-Core handles P2P gossip, Vault secrets, and constructs the cryptographic threshold signatures."
                         i={1}
                         active
                     />

@@ -28,7 +28,7 @@ const STORY_STEPS = [
         icon: <LightningBoltIcon width={24} height={24} />,
         title: "The Solution",
         subtitle: "Birth of TaaS",
-        description: "We extracted the core logic into TaaS. A standalone protocol for off-chain to on-chain automation. No nodes to manage. No complex resolution. Just verifiable, autonomous truth."
+        description: "We split the transport layer (Rust) from the data layer (Node.js plugins) to end the oracle bottleneck forever. A standalone protocol for off-chain to on-chain automation. Just write a plugin and get verifiable truth."
     }
 ];
 

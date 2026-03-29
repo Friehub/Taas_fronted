@@ -118,13 +118,13 @@ export function Hero() {
                         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         className="text-7xl md:text-[140px] font-display font-medium leading-[0.85] tracking-tighter text-foreground mb-12"
                     >
-                        Standardizing <br />
+                        The Verifiable <br />
                         <motion.span
                             animate={{ letterSpacing: ["-0.05em", "-0.02em", "-0.05em"] }}
                             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                             className="text-primary italic inline-block"
                         >
-                            Autonomous Truth.
+                            Data Bridge.
                         </motion.span>
                     </motion.h1>
 
@@ -134,8 +134,7 @@ export function Hero() {
                         transition={{ delay: 0.2, duration: 0.6 }}
                         className="text-xl md:text-3xl text-foreground/40 max-w-2xl leading-tight mb-16 font-light"
                     >
-                        Friehub bridges the Gap between off-chain signals and on-chain action.
-                        Pure logic. Zero infrastructure. Programmable certainty.
+                        Fetch any API via simple TypeScript plugins and deliver it on-chain with verifiable EIP-712 and BLS threshold signatures. No waiting for oracle nodes. Permissionless data provisioning.
                     </motion.p>
 
                     <motion.div
