@@ -2,8 +2,10 @@
 
 import { Header } from "../components/shared/Header";
 import { Hero } from "../components/landing/Hero";
+import { SupportedChains } from "../components/landing/SupportedChains";
 import { StoryTimeline } from "../components/landing/StoryTimeline";
 import { Blueprint } from "../components/landing/Blueprint";
+import { PluginPlayground } from "../components/landing/PluginPlayground";
 import { ProtocolFocus } from "../components/landing/ProtocolFocus";
 import { DataCategories } from "../components/landing/DataCategories";
 import { Waitlist } from "../components/landing/Waitlist";
@@ -17,8 +19,10 @@ export default function LandingPage() {
             {/* The Active Narrative Flow */}
             <div className="relative">
                 <Hero />
+                <SupportedChains />
                 <StoryTimeline />
                 <Blueprint />
+                <PluginPlayground />
                 <ProtocolFocus />
                 <DataCategories />
                 <Waitlist />
