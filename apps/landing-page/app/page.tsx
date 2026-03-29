@@ -2,7 +2,6 @@
 
 import { Header } from "../components/shared/Header";
 import { Hero } from "../components/landing/Hero";
-import { NetworkTelemetry } from "../components/landing/NetworkTelemetry";
 import { SupportedChains } from "../components/landing/SupportedChains";
 import { StoryTimeline } from "../components/landing/StoryTimeline";
 import { Blueprint } from "../components/landing/Blueprint";
@@ -21,7 +20,6 @@ export default function LandingPage() {
             {/* The Active Narrative Flow */}
             <div className="relative">
                 <Hero />
-                <NetworkTelemetry />
                 <SupportedChains />
                 <StoryTimeline />
                 <Blueprint />

@@ -16,7 +16,9 @@ import {
     TokensIcon,
     LockClosedIcon,
     ActivityLogIcon,
-    LightningBoltIcon
+    LightningBoltIcon,
+    HamburgerMenuIcon,
+    Cross1Icon
 } from '@radix-ui/react-icons';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
@@ -27,7 +29,7 @@ const MENU_ITEMS = [
         items: [
             { title: "Gateway Node", desc: "Run a Rust hot-core protocol node.", icon: <ComponentInstanceIcon />, href: "https://github.com/friehub/Taas" },
             { title: "Plugin SDK", desc: "Write 40-line Sovereign Adapters.", icon: <CubeIcon />, href: "https://github.com/friehub/Taas/tree/main/taas-plugins" },
-            { title: "Sentinel P2P", desc: "Decentralized Truth Quorums.", icon: <LinkBreak2Icon />, href: "https://github.com/friehub/Taas" },
+            { title: "Mesh P2P", desc: "Decentralized Truth Quorums.", icon: <LinkBreak2Icon />, href: "https://github.com/friehub/Taas" },
             { title: "Explorer", desc: "Track eip-712 signatures live.", icon: <MagnifyingGlassIcon />, href: "#" },
         ]
     },
@@ -54,8 +56,19 @@ export function Header() {
     const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [mobileExpandedSection, setMobileExpandedSection] = useState<string | null>(null);
 
     useEffect(() => setMounted(true), []);
+
+    // Prevent scrolling when mobile menu is open
+    useEffect(() => {
+        if (mobileMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+    }, [mobileMenuOpen]);
 
     if (!mounted) return null;
 
@@ -68,14 +81,14 @@ export function Header() {
                 
                 <div className="flex items-center gap-12">
                     {/* Brand */}
-                    <Link href="/" className="flex items-center gap-3 group shrink-0">
+                    <Link href="/" className="flex items-center gap-3 group shrink-0" onClick={() => setMobileMenuOpen(false)}>
                         <span className="font-display text-xl font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
-                            Friehub // TaaS
+                            Friehub
                         </span>
                     </Link>
 
                     {/* Desktop Mega-Menu Navigation */}
-                    <nav className="hidden md:flex items-center gap-1 h-full">
+                    <nav className="hidden lg:flex items-center gap-1 h-full">
                         {MENU_ITEMS.map((menu) => (
                             <div 
                                 key={menu.title}
@@ -130,8 +143,8 @@ export function Header() {
                 </div>
 
                 {/* Right Global Actions */}
-                <div className="flex items-center gap-6">
-                    <div className="hidden md:flex items-center gap-4">
+                <div className="flex items-center gap-4 md:gap-6">
+                    <div className="hidden lg:flex items-center gap-4">
                         <a href="https://x.com/friehub" target="_blank" rel="noopener noreferrer" className="text-foreground/40 hover:text-foreground transition-all">
                             <TwitterLogoIcon />
                         </a>
@@ -149,13 +162,98 @@ export function Header() {
                     {/* Primary CTA */}
                     <Link
                         href="https://github.com/friehub/Taas/tree/main/taas-plugins"
-                        className="h-9 px-4 bg-primary text-primary-foreground font-black uppercase tracking-wider text-[10px] rounded hover:opacity-90 transition-all flex items-center justify-center -skew-x-6"
+                        className="hidden sm:flex h-9 px-4 bg-primary text-primary-foreground font-black uppercase tracking-wider text-[10px] rounded hover:opacity-90 transition-all items-center justify-center -skew-x-6"
                     >
                         <span className="skew-x-6">Build a Plugin</span>
                     </Link>
+
+                    {/* Mobile Menu Toggle */}
+                    <button 
+                        className="lg:hidden p-2 -mr-2 text-foreground/60 hover:text-foreground"
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    >
+                        {mobileMenuOpen ? <Cross1Icon width={20} height={20} /> : <HamburgerMenuIcon width={20} height={20} />}
+                    </button>
                 </div>
                 
             </div>
+
+            {/* Mobile Menu Drawer */}
+            <AnimatePresence>
+                {mobileMenuOpen && (
+                    <motion.div 
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: '100vh' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="lg:hidden absolute top-16 left-0 right-0 bg-background/95 backdrop-blur-2xl border-t border-white/5 overflow-y-auto z-40"
+                    >
+                        <div className="container mx-auto px-6 py-6 pb-24 flex flex-col gap-6">
+                            {MENU_ITEMS.map((menu) => (
+                                <div key={menu.title} className="flex flex-col border-b border-border/50 pb-4">
+                                    <button 
+                                        className="flex items-center justify-between py-2 text-lg font-bold text-foreground"
+                                        onClick={() => setMobileExpandedSection(mobileExpandedSection === menu.title ? null : menu.title)}
+                                    >
+                                        {menu.title}
+                                        <ChevronDownIcon className={`transition-transform ${mobileExpandedSection === menu.title ? 'rotate-180 text-primary' : ''}`} />
+                                    </button>
+                                    
+                                    <AnimatePresence>
+                                        {mobileExpandedSection === menu.title && (
+                                            <motion.div 
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: 'auto', opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                className="overflow-hidden flex flex-col gap-4 mt-4"
+                                            >
+                                                {menu.items.map((item) => (
+                                                    <a 
+                                                        key={item.title}
+                                                        href={item.href}
+                                                        className="flex items-start gap-4 p-2"
+                                                        onClick={() => setMobileMenuOpen(false)}
+                                                    >
+                                                        <div className="mt-1 text-primary/60">{item.icon}</div>
+                                                        <div className="flex flex-col gap-1">
+                                                            <span className="text-sm font-bold text-foreground">{item.title}</span>
+                                                            <span className="text-xs text-foreground/50">{item.desc}</span>
+                                                        </div>
+                                                    </a>
+                                                ))}
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            ))}
+
+                            <div className="flex flex-col gap-6 mt-4 pt-4">
+                                <Link
+                                    href="https://github.com/friehub/Taas/tree/main/taas-plugins"
+                                    className="h-12 w-full bg-primary text-primary-foreground font-black uppercase tracking-wider text-xs rounded hover:opacity-90 transition-all flex items-center justify-center"
+                                >
+                                    Build a Plugin
+                                </Link>
+
+                                <div className="flex items-center gap-6">
+                                    <a href="https://x.com/friehub" className="text-foreground/40 hover:text-primary transition-colors">
+                                        <TwitterLogoIcon width={24} height={24} />
+                                    </a>
+                                    <a href="https://github.com/friehub/Taas" className="text-foreground/40 hover:text-primary transition-colors">
+                                        <GitHubLogoIcon width={24} height={24} />
+                                    </a>
+                                    <button
+                                        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                                        className="text-foreground/40 hover:text-primary transition-colors"
+                                    >
+                                        {theme === 'dark' ? <SunIcon width={24} height={24} /> : <MoonIcon width={24} height={24} />}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
         </header>
     );
 }

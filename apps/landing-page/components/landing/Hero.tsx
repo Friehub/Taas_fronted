@@ -65,7 +65,7 @@ export function Hero() {
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-7xl md:text-[140px] font-display font-medium leading-[0.85] tracking-tighter text-foreground mb-12"
+                        className="text-5xl sm:text-7xl lg:text-[140px] font-display font-medium leading-[0.85] tracking-tighter text-foreground mb-12"
                     >
                         The Verifiable <br />
                         <motion.span

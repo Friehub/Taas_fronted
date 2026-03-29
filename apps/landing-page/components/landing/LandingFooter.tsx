@@ -9,7 +9,7 @@ export function LandingFooter() {
             <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="flex flex-col gap-1">
                     <div className="font-display font-black text-xs uppercase tracking-widest text-foreground">
-                        Friehub Protocol
+                        Friehub
                     </div>
                     <div className="text-[10px] text-foreground/20 uppercase tracking-widest">
                         © 2026. All rights reserved.
