@@ -5,6 +5,7 @@ import { ArrowBottomRightIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { useRef, useEffect } from 'react';
 import { ProtocolHUD } from './ProtocolHUD';
+import { TerminalStartup } from './TerminalStartup';
 
 export function Hero() {
     const containerRef = useRef<HTMLElement>(null);
@@ -52,61 +53,13 @@ export function Hero() {
             {/* Background Texture */}
             <div className="absolute inset-0 bg-dot-white opacity-40 dark:opacity-40 pointer-events-none" />
 
-            {/* The Data-Flow Centerpiece (3D Perspective) */}
-            <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 w-[800px] h-[800px] pointer-events-none select-none hidden lg:block [perspective:1000px]">
+            {/* The Terminal Startup Centerpiece */}
+            <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 w-[600px] pointer-events-none hidden lg:block [perspective:1000px] z-20">
                 <motion.div
                     style={{ x: parallaxX, y: parallaxY, rotateX, rotateY }}
                     className="w-full h-full"
                 >
-                    <svg width="100%" height="100%" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        {/* Concentric Architecture */}
-                        <motion.circle
-                            cx="400" cy="400" r="350"
-                            stroke="currentColor" className="text-primary/10" strokeWidth="1"
-                        />
-                        <motion.circle
-                            cx="400" cy="400" r="250"
-                            stroke="currentColor" className="text-primary/20" strokeWidth="1" strokeDasharray="10 20"
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                        />
-
-                        {/* Central Processor */}
-                        <motion.rect
-                            x="340" y="340" width="120" height="120" rx="4"
-                            stroke="currentColor" className="text-primary" strokeWidth="2"
-                            initial={{ opacity: 0.8 }}
-                        />
-
-                        {/* Dynamic Attestation Lines */}
-                        {[...Array(6)].map((_, i) => (
-                            <motion.path
-                                key={i}
-                                d={`M ${400 + Math.cos(i * 60) * 400} ${400 + Math.sin(i * 60) * 400} L 400 400`}
-                                stroke="currentColor"
-                                className="text-primary/30"
-                                strokeWidth="1"
-                                initial={{ pathLength: 0 }}
-                                animate={{ pathLength: [0, 1, 0] }}
-                                transition={{
-                                    duration: 3 + i,
-                                    repeat: Infinity,
-                                    ease: "easeInOut",
-                                    delay: i * 0.5
-                                }}
-                            />
-                        ))}
-
-                        {/* Proof Nodes */}
-                        <motion.g
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                            style={{ originX: "400px", originY: "400px" }}
-                        >
-                            <circle cx="650" cy="400" r="8" className="fill-primary" />
-                            <circle cx="150" cy="400" r="8" className="fill-primary" />
-                        </motion.g>
-                    </svg>
+                    <TerminalStartup />
                 </motion.div>
             </div>
 
