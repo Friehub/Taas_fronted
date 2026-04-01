@@ -2,28 +2,28 @@
 layout: home
 
 hero:
-  name: "TaaS Gateway"
-  text: "The Verifiable Data Attestation Network"
-  tagline: A decentralized oracle infrastructure built on cryptographic data provenance. Every data point is either proven or challenged, never simply trusted.
+  name: "TaaS"
+  text: "Verifiable On-Chain Fact Engine"
+  tagline: Decentralized oracle infrastructure built on cryptographic data provenance. Empowering the next generation of DeFi, prediction markets, and RWA.
   actions:
     - theme: brand
-      text: Gateway Architecture
-      link: /gateway/
+      text: Get Started
+      link: /guides/getting-started
     - theme: alt
-      text: Write a Plugin
-      link: /plugins/writing-a-plugin
+      text: SDK Documentation
+      link: /guides/taas-sdk
 
 features:
-  - title: Two-Process Trust Architecture
-    details: Hot-Core (Rust) owns all cryptographic operations — P2P gossip, BLS threshold signing, key management, and on-chain relay. The Sidecar (Node.js) owns all data execution. They share no memory and communicate only over a strict gRPC boundary defined by Protobuf.
-  - title: Hot-Reloadable Plugin System
-    details: Data adapters are TypeScript plugins installed and reloaded at runtime without a sidecar restart. A single CLI command validates the manifest, writes the capability entry, and triggers a live gRPC reload on the running sidecar.
-  - title: Unified Capability Model (UCM)
-    details: The Truth Engine dispatches every request to the correct plugin, enforces output schema compliance before data enters the signing pipeline, and aggregates results from multiple sources using configurable strategies — Median, Mean, or Consensus.
-  - title: BLS Threshold Signing (TSS)
-    details: In Mesh Network mode, nodes produce BLS12-381 partial signatures, gossip shares over libp2p, and the first node to reach threshold aggregates the final signature. If aggregation times out, the node falls back to its local EIP-712 key.
-  - title: EIP-712 TruthPoints
-    details: Every attested value is wrapped in a TruthPoint — a structured object carrying what the data is, when it was attested, and who signed it — bound together by an EIP-712 structured data signature verifiable on any EVM chain.
+  - title: Trustless Data Access
+    details: Access high-fidelity data from multiple professional sources (Bloomberg, CoinGecko, SportMonks, etc.) verified by a decentralized network of gateway nodes.
+  - title: Verifiable Proofs
+    details: Every data response includes a TruthPoint — a signed, structured unit of proof carrying the exact chain of custody, enabling verifiable on-chain settlement.
+  - title: Deterministic Aggregation
+    details: TaaS enforces multi-source quorum and deterministic aggregation strategies (Median, Consensus, Mean). No more single-source failures.
   - title: State Guard Engine
-    details: Plugins can declare pre-resolution conditions that must pass before data is signed and delivered. Guards are evaluated against live capability data using a simple expression syntax, blocking premature attestations on in-progress events.
+    details: Pre-resolution conditions ensure protocol safety. Only attest data once in-game events have truly finished or price thresholds are reached.
+  - title: One-Click Integration
+    details: Deploy with the TaaS SDK and verifiable adapter interfaces. Built for EVM-compatible chains with single-call verification.
+  - title: Open Ecosystem
+    details: Browse a registry of professional-grade data plugins or contribute your own to earn attestation commissions.
 ---
