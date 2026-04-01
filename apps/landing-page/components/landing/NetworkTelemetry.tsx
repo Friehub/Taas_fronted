@@ -14,22 +14,7 @@ export function NetworkTelemetry() {
         <section className="border-y border-border/50 bg-background overflow-hidden relative">
             <div className="absolute inset-0 bg-grid-white opacity-[0.02] dark:opacity-[0.01] pointer-events-none" />
             
-            <div className="container mx-auto px-6 py-6 md:py-8 flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
-                <div className="flex items-center gap-4 shrink-0">
-                    <div className="relative flex items-center justify-center w-8 h-8">
-                        {/* Pulse Ring */}
-                        <motion.div 
-                            animate={{ scale: [1, 2], opacity: [0.5, 0] }}
-                            transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
-                            className="absolute inset-0 rounded-full bg-[#AAFFB8]"
-                        />
-                        {/* Core Dot */}
-                        <div className="w-3 h-3 rounded-full bg-[#AAFFB8] relative z-10" />
-                    </div>
-                    <div className="text-[10px] font-mono text-primary uppercase tracking-[0.3em]">
-                        Live Testnet Telemetry
-                    </div>
-                </div>
+            <div className="container mx-auto px-6 py-6 md:py-8 flex flex-col items-center md:items-end justify-end gap-8 relative z-10">
                 
                 <div className="flex-1 grid grid-cols-2 md:flex md:flex-row md:justify-end gap-x-12 gap-y-6 w-full md:w-auto">
                     {STATS.map((stat, i) => (
