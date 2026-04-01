@@ -3,14 +3,14 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   base: '/',
-  title: "FrieHub TaaS",
-  description: "The Decentralized Fact Engine",
+  title: "TaaS Gateway",
+  description: "The Verifiable Data Attestation Network",
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Why TaaS?', link: '/guides/why-taas' },
-      { text: 'Use Cases', link: '/guides/use-cases' }
+      { text: 'Gateway', link: '/gateway/' },
+      { text: 'Plugin System', link: '/plugins/' },
+      { text: 'Protocol', link: '/protocol/overview' }
     ],
 
     sidebar: [
@@ -19,20 +19,53 @@ export default defineConfig({
         items: [
           { text: 'Overview', link: '/' },
           { text: 'Why TaaS?', link: '/guides/why-taas' },
-          { text: 'Why Programmable?', link: '/guides/programmable' },
           { text: 'Core Use Cases', link: '/guides/use-cases' }
+        ]
+      },
+      {
+        text: 'Gateway',
+        collapsed: false,
+        items: [
+          { text: 'Overview', link: '/gateway/' },
+          { text: 'Running a Node', link: '/gateway/running-a-node' },
+          { text: 'Configuration Reference', link: '/gateway/configuration' },
+          { text: 'CLI Reference', link: '/gateway/cli' },
+          { text: 'Architecture', link: '/gateway/architecture' },
+          { text: 'Fault Model & Error Codes', link: '/gateway/fault-isolation' },
+          { text: 'Security Model', link: '/gateway/security' }
+        ]
+      },
+      {
+        text: 'Plugin System',
+        collapsed: false,
+        items: [
+          { text: 'Overview', link: '/plugins/' },
+          { text: 'plugin.json Reference', link: '/plugins/plugin-manifest' },
+          { text: 'Writing a Plugin', link: '/plugins/writing-a-plugin' },
+          { text: 'Hot-Reload System', link: '/plugins/hot-reload' },
+          { text: 'Unified Capability Model', link: '/plugins/ucm' },
+          { text: 'State Guards', link: '/plugins/state-guards' },
+          { text: 'Contributing a Plugin', link: '/plugins/contributing' }
         ]
       },
       {
         text: 'Protocol',
         collapsed: false,
         items: [
-          { text: 'Protocol Overview', link: '/protocol/overview' }
+          { text: 'Protocol Overview', link: '/protocol/overview' },
+          { text: 'TruthPoint Specification', link: '/protocol/truthpoint' }
         ]
       },
       {
-        text: 'Developer Experience',
+        text: 'Reference',
         collapsed: false,
+        items: [
+          { text: 'Glossary', link: '/reference/glossary' }
+        ]
+      },
+      {
+        text: 'SDK and Consumer',
+        collapsed: true,
         items: [
           { text: 'Getting Started', link: '/guides/getting-started' },
           { text: 'SDK Documentation', link: '/guides/taas-sdk' },
@@ -43,7 +76,7 @@ export default defineConfig({
   },
 
   socialLinks: [
-    { icon: 'github', link: 'https://github.com/Friehub/taas-core' }
+    { icon: 'github', link: 'https://github.com/Friehub/Taas' }
   ],
 
   footer: {
