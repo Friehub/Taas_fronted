@@ -52,10 +52,3 @@ Every TruthPoint carries a `finality` field that communicates how much trust a c
 | `OFFICIAL` | Threshold of nodes agreed on this value and BLS aggregation succeeded, or LOCAL mode with full source quorum met. |
 | `DISPUTED` | The local node's value diverged from the swarm majority. Do not settle on a disputed TruthPoint. |
 
----
-
-## Protocol Documents
-
-| Document | Description |
-| :--- | :--- |
-| [TruthPoint Specification](/protocol/truthpoint) | Full canonical structure of a TruthPoint, all field definitions, consumer verification procedure, and identity rules. |
