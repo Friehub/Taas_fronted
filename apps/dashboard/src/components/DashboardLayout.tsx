@@ -17,11 +17,25 @@ export const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
+    // Institutional Discipline: Auto-collapse sidebar on mobile devices
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setIsSidebarOpen(false);
+      } else {
+        setIsSidebarOpen(true);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initial check
+
     if (isDark) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
+
+    return () => window.removeEventListener('resize', handleResize);
   }, [isDark]);
 
   const navItems = [
@@ -33,10 +47,18 @@ export const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className="flex h-screen w-full bg-background text-foreground transition-colors duration-200">
+      {/* Sidebar Overlay for Mobile */}
+      {!isSidebarOpen && (
+        <div 
+          className="fixed inset-0 z-20 bg-black/50 lg:hidden" 
+          onClick={() => setIsSidebarOpen(true)}
+        />
+      )}
+
       {/* Sidebar */}
       <aside className={cn(
-        "flex flex-col border-r border-border bg-white dark:bg-zinc-950 transition-all duration-300",
-        isSidebarOpen ? "w-64" : "w-20"
+        "fixed inset-y-0 left-0 z-30 flex flex-col border-r border-border bg-white dark:bg-zinc-950 transition-all duration-300 lg:static",
+        isSidebarOpen ? "w-64 translate-x-0" : "w-16 -translate-x-full lg:translate-x-0"
       )}>
         <div className="flex h-16 items-center border-b border-border px-6">
           <div className="h-8 w-8 bg-mint rounded-none flex-shrink-0" />

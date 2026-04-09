@@ -24,7 +24,14 @@ export const ValidatorRegistry: React.FC = () => {
   useEffect(() => {
     const fetchValidators = async () => {
       try {
-        const provider = new ethers.JsonRpcProvider(import.meta.env.VITE_RPC_URL);
+        const rpcUrl = import.meta.env.VITE_RPC_URL;
+        
+        // Institutional Guard: Fail fast if RPC is missing to prevent localhost fallback
+        if (!rpcUrl || rpcUrl.includes("localhost") || rpcUrl === "undefined") {
+          throw new Error("RPC_URL_NOT_CONFIGURED");
+        }
+
+        const provider = new ethers.JsonRpcProvider(rpcUrl);
         const serviceManager = new ethers.Contract(
           import.meta.env.VITE_SERVICE_MANAGER_PROXY,
           SERVICE_MANAGER_ABI,
@@ -55,27 +62,39 @@ export const ValidatorRegistry: React.FC = () => {
     fetchValidators();
   }, []);
 
-  // Discipline: Memoize filtered set to ensure smooth render lifecycle
+  // Discipline: Memoize filtered set and statistics
   const filteredOperators = useMemo(() => operators, [operators]);
+  
+  const stats = useMemo(() => {
+    const activeCount = operators.filter(op => op.status === 'Active').length;
+    const totalStake = operators.reduce((acc, curr) => acc + parseFloat(curr.stake.replace(/[^0-9.]/g, '')), 0);
+    const hardwareEfficiency = Math.round((operators.filter(op => op.hardware !== 'Software').length / (operators.length || 1)) * 100);
+    
+    return {
+      activeCount,
+      totalStake: `${totalStake.toLocaleString()} TAAS`,
+      hardwareEfficiency: `${hardwareEfficiency}%`
+    };
+  }, [operators]);
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
         <div>
-          <h1 className="text-3xl">{siteName}</h1>
+          <h1 className="text-2xl lg:text-3xl">{siteName}</h1>
           <p className="mt-1 text-muted-foreground text-sm">Monitor all institutional nodes currently opted into the TaaS AVS.</p>
         </div>
         
-        <div className="flex space-x-3">
+        <div className="flex flex-col space-y-2 lg:flex-row lg:space-x-3 lg:space-y-0">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input 
               type="text" 
               placeholder="Filter by address..." 
-              className="h-10 border border-border bg-white dark:bg-zinc-950 px-9 text-sm outline-none focus:border-mint transition-colors w-64"
+              className="h-10 border border-border bg-white dark:bg-zinc-950 px-9 text-sm outline-none focus:border-mint transition-colors w-full lg:w-64"
             />
           </div>
-          <button className="flex items-center space-x-2 border border-border bg-white dark:bg-zinc-950 px-4 py-2 text-sm font-medium hover:bg-muted transition-colors">
+          <button className="flex items-center justify-center space-x-2 border border-border bg-white dark:bg-zinc-950 px-4 py-2 text-sm font-medium hover:bg-muted transition-colors">
             <Filter size={16} />
             <span>Filters</span>
           </button>
@@ -84,13 +103,13 @@ export const ValidatorRegistry: React.FC = () => {
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {[
-          { label: 'Total Validators', value: '42' },
-          { label: 'Network Stake', value: '1.2M TAAS' },
-          { label: 'Verifiable Hardware', value: '89%' }
+          { label: 'Total Validators', value: loading ? '...' : stats.activeCount.toString() },
+          { label: 'Network Stake', value: loading ? '...' : stats.totalStake },
+          { label: 'Verifiable Hardware', value: loading ? '...' : stats.hardwareEfficiency }
         ].map((stat) => (
           <div key={stat.label} className="border border-border bg-white dark:bg-zinc-950 p-6">
             <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{stat.label}</span>
-            <div className="mt-2 flex items-baseline justify-between">
+            <div className="mt-2 flex items-baseline justify-between transition-all">
               <span className="text-3xl font-display tracking-tight">{stat.value}</span>
               <ArrowUpRight className="text-mint h-4 w-4" />
             </div>
@@ -98,8 +117,8 @@ export const ValidatorRegistry: React.FC = () => {
         ))}
       </div>
 
-      <div className="border border-border bg-white dark:bg-zinc-950 overflow-hidden">
-        <table className="w-full text-left bg-white dark:bg-zinc-950">
+      <div className="border border-border bg-white dark:bg-zinc-950 overflow-x-auto">
+        <table className="w-full text-left bg-white dark:bg-zinc-950 min-w-[800px]">
           <thead className="border-b border-border bg-muted/50 text-xs font-bold uppercase tracking-wider text-muted-foreground">
             <tr>
               <th className="px-6 py-4">Node Address</th>
