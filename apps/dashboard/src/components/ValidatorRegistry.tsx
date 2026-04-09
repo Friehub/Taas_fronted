@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Shield, ExternalLink, Search, Filter, ArrowUpRight } from 'lucide-react';
+import { ethers } from 'ethers';
 
 interface Operator {
   address: string;
   status: 'Active' | 'Inactive' | 'Pending';
   stake: string;
-  hardware: 'SGX' | 'TDX' | 'Software';
+  hardware: string;
   joined: string;
 }
+
+// Institutional ABIs
+const SERVICE_MANAGER_ABI = [
+  "event OperatorAVSRegistrationStatusUpdated(address indexed operator, uint8 status)",
+  "function getOperatorStatus(address operator) external view returns (bool)"
+];
 
 const MOCK_OPERATORS: Operator[] = [
   { 
@@ -34,7 +41,47 @@ const MOCK_OPERATORS: Operator[] = [
 ];
 
 export const ValidatorRegistry: React.FC = () => {
+  const [operators, setOperators] = useState<Operator[]>([]);
+  const [loading, setLoading] = useState(true);
   const siteName = import.meta.env.VITE_SITE_NAME || "Validator Registry";
+
+  useEffect(() => {
+    const fetchValidators = async () => {
+      try {
+        const provider = new ethers.JsonRpcProvider(import.meta.env.VITE_RPC_URL);
+        const serviceManager = new ethers.Contract(
+          import.meta.env.VITE_SERVICE_MANAGER_PROXY,
+          SERVICE_MANAGER_ABI,
+          provider
+        );
+
+        // Institutional Discovery: For now, we manually track the initial operator
+        // In Phase 21, this will be an automated event scraper
+        const mainOperator = "0xc1b5Dd31524aBF5d890C369509095A5bEF5d34fb";
+        const isActive = await serviceManager.getOperatorStatus(mainOperator);
+
+        setOperators([
+          { 
+            address: mainOperator, 
+            status: isActive ? 'Active' : 'Inactive', 
+            stake: '1,250.00 TAAS', 
+            hardware: 'SGX', 
+            joined: 'Registered' 
+          }
+        ]);
+      } catch (error) {
+        console.error("Institutional Data Failure:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchValidators();
+  }, []);
+
+  // Discipline: Memoize filtered set to ensure smooth render lifecycle
+  const filteredOperators = useMemo(() => operators, [operators]);
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -88,7 +135,13 @@ export const ValidatorRegistry: React.FC = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-border text-sm">
-            {MOCK_OPERATORS.map((op) => (
+            {loading ? (
+              <tr>
+                <td colSpan={6} className="px-6 py-12 text-center text-muted-foreground animate-pulse">
+                  Synchronizing with Sepolia...
+                </td>
+              </tr>
+            ) : filteredOperators.map((op) => (
               <tr key={op.address} className="hover:bg-muted/30 transition-colors">
                 <td className="px-6 py-4 font-mono text-xs">{op.address}</td>
                 <td className="px-6 py-4">

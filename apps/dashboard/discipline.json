@@ -1,0 +1,24 @@
+{
+  "project": "TaaS Network Explorer",
+  "discipline": {
+    "aesthetics": {
+      "forbidden_classes": [
+        "blur-.*",
+        "shadow-.*",
+        "drop-shadow-.*",
+        "glow-.*"
+      ],
+      "required_units": "Institutional Minimalism (Solid Borders 1px)",
+      "primary_color": "#1CCA5B (Mint Green)"
+    },
+    "react_performance": {
+      "memoization": "Mandatory useMemo for filtered on-chain datasets",
+      "state_management": "Radix UI Primitives only for interactive state",
+      "re_render_guard": "Prevention of recursive effect loops in RPC listeners"
+    },
+    "architecture": {
+      "environment": "Zero hardcoded RPCs or Proxies (Strict VITE_ env usage)",
+      "dependency": "Vite + React + Radix + Tailwind"
+    }
+  }
+}
