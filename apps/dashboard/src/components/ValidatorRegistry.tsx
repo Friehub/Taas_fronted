@@ -16,30 +16,6 @@ const SERVICE_MANAGER_ABI = [
   "function getOperatorStatus(address operator) external view returns (bool)"
 ];
 
-const MOCK_OPERATORS: Operator[] = [
-  { 
-    address: '0xc1b5Dd31524aBF5d890C369509095A5bEF5d34fb', 
-    status: 'Active', 
-    stake: '1,250.00 TAAS', 
-    hardware: 'SGX', 
-    joined: '2 hours ago' 
-  },
-  { 
-    address: import.meta.env.VITE_SERVICE_MANAGER_PROXY as string, 
-    status: 'Active', 
-    stake: '5,000.00 TAAS', 
-    hardware: 'TDX', 
-    joined: '1 day ago' 
-  },
-  { 
-    address: import.meta.env.VITE_TAAS_REGISTRY_PROXY as string, 
-    status: 'Inactive', 
-    stake: '0.00 TAAS', 
-    hardware: 'Software', 
-    joined: '3 days ago' 
-  },
-];
-
 export const ValidatorRegistry: React.FC = () => {
   const [operators, setOperators] = useState<Operator[]>([]);
   const [loading, setLoading] = useState(true);
