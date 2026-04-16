@@ -23,6 +23,7 @@ import { ThemeToggle } from './shared/ThemeToggle';
 
 const NAV_ITEMS = [
     { label: 'Overview', href: '/', icon: DashboardIcon },
+    { label: 'Veracity Explorer', href: '/explorer', icon: ActivityLogIcon },
     { label: 'Developer SDK', href: '/developer', icon: CodeIcon },
     { label: 'Network Monitor', href: '/network', icon: GlobeIcon },
     { label: 'Register Node', href: '/register-node', icon: ComponentInstanceIcon },

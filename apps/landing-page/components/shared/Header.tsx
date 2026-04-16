@@ -74,45 +74,47 @@ export function Header() {
 
     return (
         <header 
-            className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-white/5"
+            className="fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-3xl border-b border-foreground/5"
             onMouseLeave={() => setActiveMenu(null)}
         >
-            <div className="container mx-auto px-6 h-16 flex items-center justify-between">
+            <div className="container mx-auto px-6 h-20 flex items-center justify-between">
                 
-                <div className="flex items-center gap-12">
+                <div className="flex items-center gap-16">
                     {/* Brand */}
                     <Link href="/" className="flex items-center gap-3 group shrink-0" onClick={() => setMobileMenuOpen(false)}>
-                        <span className="font-display text-xl font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
-                            Friehub
+                        <span className="font-display text-2xl font-black tracking-tighter text-foreground transition-all group-hover:text-primary">
+                            TaaS
                         </span>
+                        <div className="hidden md:block w-[1px] h-6 bg-foreground/10 mx-2" />
+                        <span className="hidden md:block text-[10px] font-mono text-foreground/40 font-bold uppercase tracking-[0.3em]">Institutional Oracle</span>
                     </Link>
 
                     {/* Desktop Mega-Menu Navigation */}
-                    <nav className="hidden lg:flex items-center gap-1 h-full">
+                    <nav className="hidden lg:flex items-center gap-2 h-full">
                         {MENU_ITEMS.map((menu) => (
                             <div 
                                 key={menu.title}
-                                className="relative h-16 flex items-center px-4 cursor-pointer group"
+                                className="relative h-20 flex items-center px-4 cursor-pointer group"
                                 onMouseEnter={() => setActiveMenu(menu.title)}
                             >
-                                <span className={`text-sm font-medium transition-colors flex items-center gap-1 ${activeMenu === menu.title ? 'text-foreground' : 'text-foreground/60 group-hover:text-foreground'}`}>
+                                <span className={`text-[11px] font-bold uppercase tracking-widest transition-colors flex items-center gap-1.5 ${activeMenu === menu.title ? 'text-primary' : 'text-foreground/40 group-hover:text-foreground'}`}>
                                     {menu.title}
-                                    <ChevronDownIcon className={`transition-transform duration-300 ${activeMenu === menu.title ? 'rotate-180 text-primary' : ''}`} />
+                                    <ChevronDownIcon className={`transition-transform duration-300 w-3 h-3 ${activeMenu === menu.title ? 'rotate-180 text-primary' : ''}`} />
                                 </span>
 
                                 {/* Dropdown Panel */}
                                 <AnimatePresence>
                                     {activeMenu === menu.title && (
                                         <motion.div
-                                            initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                                            initial={{ opacity: 0, y: 10, scale: 0.99 }}
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
-                                            exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                                            transition={{ duration: 0.15, ease: "easeOut" }}
-                                            className="absolute top-16 left-0 w-[400px] p-2 bg-[#0A0A0A] border border-white/10 rounded-xl shadow-2xl z-50"
+                                            exit={{ opacity: 0, y: 10, scale: 0.99 }}
+                                            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                                            className="absolute top-[80px] left-[-20px] w-[520px] p-6 glass-premium rounded-sm shadow-[0_40px_80px_rgba(0,0,0,0.4)] z-50 overflow-hidden"
                                         >
-                                            <div className="grid grid-cols-2 gap-1 relative">
+                                            <div className="grid grid-cols-2 gap-4 relative">
                                                 {/* Ambient glow inside dropdown */}
-                                                <div className="absolute inset-0 bg-primary/5 blur-2xl pointer-events-none -z-10" />
+                                                <div className="absolute inset-0 bg-primary/5 blur-[80px] pointer-events-none -z-10" />
                                                 
                                                 {menu.items.map((item) => (
                                                     <a
@@ -120,15 +122,15 @@ export function Header() {
                                                         href={item.href}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="flex flex-col gap-1.5 p-3 rounded-lg hover:bg-white/5 transition-colors group/item"
+                                                        className="flex flex-col gap-2 p-4 rounded-sm hover:bg-foreground/5 transition-all group/item"
                                                     >
-                                                        <div className="flex items-center gap-2 text-sm font-medium text-foreground group-hover/item:text-primary transition-colors">
-                                                            <div className="text-primary/60 group-hover/item:text-primary">
+                                                        <div className="flex items-center gap-3 text-sm font-bold text-foreground group-hover/item:text-primary transition-colors">
+                                                            <div className="shrink-0 w-8 h-8 rounded-sm bg-foreground/5 flex items-center justify-center text-foreground/40 group-hover/item:text-primary group-hover/item:bg-primary/10 transition-all">
                                                                 {item.icon}
                                                             </div>
                                                             {item.title}
                                                         </div>
-                                                        <p className="text-[11px] text-foreground/40 leading-relaxed group-hover/item:text-foreground/60">
+                                                        <p className="text-[11px] text-foreground/40 leading-relaxed font-light group-hover/item:text-foreground/60 pl-11">
                                                             {item.desc}
                                                         </p>
                                                     </a>
@@ -162,9 +164,9 @@ export function Header() {
                     {/* Primary CTA */}
                     <Link
                         href="https://github.com/friehub/Taas/tree/main/taas-plugins"
-                        className="hidden sm:flex h-9 px-4 bg-primary text-primary-foreground font-black uppercase tracking-wider text-[10px] rounded hover:opacity-90 transition-all items-center justify-center -skew-x-6"
+                        className="hidden sm:flex h-10 px-6 bg-primary text-primary-foreground font-bold text-[11px] rounded-sm hover:translate-y-[-2px] transition-all items-center justify-center tracking-wider uppercase"
                     >
-                        <span className="skew-x-6">Build a Plugin</span>
+                        Launch DApp
                     </Link>
 
                     {/* Mobile Menu Toggle */}

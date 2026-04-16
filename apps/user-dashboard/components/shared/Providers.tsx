@@ -6,6 +6,8 @@ import { WagmiProvider, type Config } from 'wagmi';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from './ErrorBoundary';
 
+import { StoreProvider } from '../../lib/store/provider';
+
 const queryClient = new QueryClient();
 
 export interface ProvidersProps {
@@ -22,18 +24,20 @@ export function Providers({ children, wagmiConfig, themeProps }: ProvidersProps)
     }, []);
 
     return (
-        <WagmiProvider config={wagmiConfig}>
-            <QueryClientProvider client={queryClient}>
-                <ThemeProvider attribute="class" defaultTheme="system" enableSystem {...themeProps}>
-                    <ErrorBoundary>
-                        {mounted ? children : (
-                            <div suppressHydrationWarning style={{ visibility: 'hidden' }}>
-                                {children}
-                            </div>
-                        )}
-                    </ErrorBoundary>
-                </ThemeProvider>
-            </QueryClientProvider>
-        </WagmiProvider>
+        <StoreProvider>
+            <WagmiProvider config={wagmiConfig}>
+                <QueryClientProvider client={queryClient}>
+                    <ThemeProvider attribute="class" defaultTheme="system" enableSystem {...themeProps}>
+                        <ErrorBoundary>
+                            {mounted ? children : (
+                                <div suppressHydrationWarning style={{ visibility: 'hidden' }}>
+                                    {children}
+                                </div>
+                            )}
+                        </ErrorBoundary>
+                    </ThemeProvider>
+                </QueryClientProvider>
+            </WagmiProvider>
+        </StoreProvider>
     );
 }

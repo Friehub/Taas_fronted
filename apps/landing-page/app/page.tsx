@@ -3,12 +3,10 @@
 import { Header } from "../components/shared/Header";
 import { Hero } from "../components/landing/Hero";
 import { SupportedChains } from "../components/landing/SupportedChains";
-import { StoryTimeline } from "../components/landing/StoryTimeline";
-import { Blueprint } from "../components/landing/Blueprint";
+import { BentoFeatures } from "../components/landing/BentoFeatures";
 import { PluginPlayground } from "../components/landing/PluginPlayground";
-import { CryptoEngine } from "../components/landing/CryptoEngine";
-import { ProtocolFocus } from "../components/landing/ProtocolFocus";
-import { DataCategories } from "../components/landing/DataCategories";
+import { ArchitectureProof } from "../components/landing/ArchitectureProof";
+import { KnowledgeBase } from "../components/landing/KnowledgeBase";
 import { Waitlist } from "../components/landing/Waitlist";
 import { LandingFooter } from "../components/landing/LandingFooter";
 
@@ -17,16 +15,13 @@ export default function LandingPage() {
         <main className="min-h-screen bg-background text-foreground selection:bg-primary/30 font-sans antialiased">
             <Header />
 
-            {/* The Active Narrative Flow */}
             <div className="relative">
                 <Hero />
                 <SupportedChains />
-                <StoryTimeline />
-                <Blueprint />
+                <BentoFeatures />
                 <PluginPlayground />
-                <CryptoEngine />
-                <ProtocolFocus />
-                <DataCategories />
+                <ArchitectureProof />
+                <KnowledgeBase />
                 <Waitlist />
             </div>
 

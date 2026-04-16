@@ -10,19 +10,46 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                background: "hsl(var(--background))",
-                foreground: "hsl(var(--foreground))",
-                primary: "hsl(var(--primary))",
-                secondary: "hsl(var(--secondary))",
-                accent: "hsl(var(--accent))",
-                card: "hsl(var(--card))",
-                border: "hsl(var(--border))",
+                background: "#111316",
+                foreground: "#E2E2E6",
+                primary: {
+                    DEFAULT: "#49E774",
+                    container: "#1CCA5B",
+                    fixed: "#68FF8A",
+                },
+                secondary: {
+                    DEFAULT: "#C6C6C7",
+                    container: "#454747",
+                },
+                tertiary: {
+                    DEFAULT: "#FFBAB0",
+                    container: "#FF9181",
+                },
+                surface: {
+                    DEFAULT: "#111316",
+                    low: "#1A1C1F",
+                    high: "#282A2D",
+                    bright: "#37393D",
+                },
                 onyx: "#09090B",
             },
             fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-                display: ['Outfit', 'sans-serif'],
+                sans: ['Manrope', 'sans-serif'],
+                display: ['Space Grotesk', 'sans-serif'],
                 mono: ['JetBrains Mono', 'monospace'],
+            },
+            borderRadius: {
+                sm: '0.25rem',
+                DEFAULT: '0.375rem',
+                md: '0.375rem',
+                lg: '0.5rem',
+                xl: '0.75rem',
+                '2xl': '1rem',
+                '3xl': '1.5rem',
+            },
+            backgroundImage: {
+                'grid-mint': "linear-gradient(to right, #49E7740D 1px, transparent 1px), linear-gradient(to bottom, #49E7740D 1px, transparent 1px)",
+                'dot-mint': "radial-gradient(#49E77426 1px, transparent 1px)",
             },
             animation: {
                 'in': 'fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
