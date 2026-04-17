@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Manrope, Space_Mono } from "next/font/google";
+import { Urbanist, Manrope, Space_Mono } from "next/font/google";
 import "./globals.css";
 
 // Foundation Components
@@ -11,9 +11,9 @@ import { ThemeProvider } from "../components/foundation/ThemeProvider";
 import Navbar from "../components/foundation/Navbar";
 import Footer from "../components/foundation/Footer";
 
-const spaceGrotesk = Space_Grotesk({
+const urbanist = Urbanist({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-urbanist",
   display: "swap",
 });
 
@@ -43,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${spaceGrotesk.variable} ${manrope.variable} ${spaceMono.variable} font-sans selection:bg-primary/30 antialiased`}
+        className={`${urbanist.variable} ${manrope.variable} ${spaceMono.variable} font-sans selection:bg-primary/30 antialiased`}
       >
         <ThemeProvider
           attribute="class"

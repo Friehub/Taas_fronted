@@ -34,7 +34,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-manrope)', 'Menlo', 'monospace'],
-        display: ['var(--font-space-grotesk)', 'system-ui'],
+        display: ['var(--font-urbanist)', 'system-ui'],
         mono: ['var(--font-space-mono)', 'monospace'],
       },
       spacing: {
