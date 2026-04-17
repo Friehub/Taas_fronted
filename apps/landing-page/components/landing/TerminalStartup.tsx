@@ -1,3 +1,8 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+
 const BOOT_SEQUENCE = [
     { text: "$ taas-gateway start --mode sovereign", delay: 0 },
     { text: "[INFO] Initializing TaaS Unified Capability Model...", delay: 800 },
