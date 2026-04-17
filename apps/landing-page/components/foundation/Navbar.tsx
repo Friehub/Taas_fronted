@@ -8,7 +8,7 @@ import ThemeToggle from "./ThemeToggle";
 
 /**
  * Navbar - Institutional Global Navigation.
- * Adapts its branding based on the current context (e.g., /blog vs /).
+ * Completely neutralized to a pure White & Charcoal institutional palette.
  */
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
@@ -46,16 +46,16 @@ export const Navbar: React.FC = () => {
           </div>
         </Link>
 
-        {/* Desktop Navigation Links */}
+        {/* Desktop Navigation Links (Monochrome) */}
         <div className="hidden md:flex items-center space-x-12">
           {navLinks.map((item) => (
             <Link 
               key={item.name}
               href={item.href}
               target={item.external ? "_blank" : undefined}
-              className={`text-[10px] font-mono font-bold uppercase tracking-[0.2em] transition-all hover:text-primary ${
+              className={`text-[10px] font-mono font-bold uppercase tracking-[0.2em] transition-all hover:text-foreground/70 ${
                 (pathname === item.href || (item.name === "Blog" && isBlog)) 
-                ? "text-primary" 
+                ? "text-foreground underline decoration-foreground/20 underline-offset-8" 
                 : "text-foreground"
               }`}
             >
@@ -72,14 +72,14 @@ export const Navbar: React.FC = () => {
              onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
              className="md:hidden flex flex-col items-end space-y-1.5 p-2 group"
            >
-              <div className={`h-0.5 bg-primary transition-all duration-300 ${mobileMenuOpen ? "w-6 rotate-45 translate-y-2" : "w-6"}`} />
-              <div className={`h-0.5 bg-primary transition-all duration-300 ${mobileMenuOpen ? "opacity-0" : "w-4"}`} />
-              <div className={`h-0.5 bg-primary transition-all duration-300 ${mobileMenuOpen ? "w-6 -rotate-45 -translate-y-2" : "w-6"}`} />
+              <div className={`h-0.5 bg-foreground transition-all duration-300 ${mobileMenuOpen ? "w-6 rotate-45 translate-y-2" : "w-6"}`} />
+              <div className={`h-0.5 bg-foreground transition-all duration-300 ${mobileMenuOpen ? "opacity-0" : "w-4"}`} />
+              <div className={`h-0.5 bg-foreground transition-all duration-300 ${mobileMenuOpen ? "w-6 -rotate-45 -translate-y-2" : "w-6"}`} />
            </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer (Monochrome) */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -94,7 +94,7 @@ export const Navbar: React.FC = () => {
                   key={item.name}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-xs font-mono font-bold uppercase tracking-widest text-foreground/60 hover:text-primary"
+                  className="text-xs font-mono font-bold uppercase tracking-widest text-foreground hover:text-foreground/70 transition-colors"
                 >
                   {item.name}
                 </Link>

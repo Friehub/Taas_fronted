@@ -61,7 +61,7 @@ export const OracleInsights: React.FC = () => {
                    </div>
                  </div>
 
-                 <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors leading-tight">
+                 <h3 className="text-2xl font-display font-bold text-foreground transition-colors leading-tight">
                     {article.title}
                  </h3>
                  
@@ -70,19 +70,12 @@ export const OracleInsights: React.FC = () => {
                  </p>
               </div>
 
-              <div className="pt-8 border-t border-white/[0.03] flex justify-between items-center group-hover:border-primary/20 transition-colors">
-                 <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-primary">Read Document</span>
+              <div className="pt-8 border-t border-white/[0.03] flex justify-between items-center group-hover:border-foreground/10 transition-colors">
+                 <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-foreground/40">Read Document</span>
                  <span className="group-hover:translate-x-1 transition-transform opacity-30 group-hover:opacity-100">→</span>
               </div>
             </motion.div>
           ))}
-        </div>
-
-        {/* Action Bottom */}
-        <div className="flex justify-center pt-10">
-           <button className="text-redline hover:text-primary transition-colors border-b border-primary/10 hover:border-primary pb-2">
-             View Protocol Library [32 Documents]
-           </button>
         </div>
 
       </div>

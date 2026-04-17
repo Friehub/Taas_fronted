@@ -31,7 +31,7 @@ export const SovereignIntelligence: React.FC = () => {
                       delay: i * 0.4,
                       ease: "circIn"
                     }}
-                    className="absolute h-1 w-1 bg-primary rounded-full"
+                    className="absolute h-1 w-1 bg-white/40 rounded-full"
                   />
                 ))}
 
@@ -39,17 +39,17 @@ export const SovereignIntelligence: React.FC = () => {
                 <motion.div 
                   animate={{ scale: [0.98, 1.02, 0.98] }}
                   transition={{ duration: 2, repeat: Infinity }}
-                  className="h-32 w-32 surface-depth flex items-center justify-center p-4 text-center group"
+                  className="h-32 w-32 surface-depth flex items-center justify-center p-4 text-center group border border-white/5"
                 >
                   <div className="space-y-1">
-                    <div className="text-[10px] font-mono text-primary uppercase tracking-widest">Generalization</div>
+                    <div className="text-[10px] font-mono text-foreground/40 uppercase tracking-widest">Generalization</div>
                     <div className="text-xl font-display font-bold text-foreground">Verified</div>
                   </div>
                 </motion.div>
 
                 {/* Theoretical Bound circles */}
-                <div className="absolute inset-0 border border-primary/5 rounded-full scale-100" />
-                <div className="absolute inset-0 border border-primary/5 rounded-full scale-150" />
+                <div className="absolute inset-0 border border-white/5 rounded-full scale-100" />
+                <div className="absolute inset-0 border border-white/5 rounded-full scale-150" />
              </div>
           </div>
 
@@ -73,7 +73,7 @@ export const SovereignIntelligence: React.FC = () => {
                </div>
 
                <div className="space-y-4">
-                  <div className="text-[10px] font-mono text-primary/60 uppercase tracking-widest">Consensus Objective Function:</div>
+                  <div className="text-[10px] font-mono text-foreground/40 uppercase tracking-widest">Consensus Objective Function:</div>
                   <div className="text-2xl font-mono text-foreground font-bold tracking-tighter">
                     W<span className="text-xs align-sub">g</span> = Σ(R<span className="text-xs align-sub">i</span> * W<span className="text-xs align-sub">i</span>) / Σ(R<span className="text-xs align-sub">i</span>)
                   </div>
@@ -91,7 +91,7 @@ export const SovereignIntelligence: React.FC = () => {
                </div>
             </div>
 
-            <button className="text-xs font-bold uppercase tracking-[0.2em] text-primary hover:text-foreground transition-colors group">
+            <button className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/60 hover:text-primary transition-colors group">
               Explore the FTI Whitepaper <span className="ml-2 group-hover:translate-x-1 transition-transform inline-block">→</span>
             </button>
           </div>

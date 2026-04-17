@@ -25,15 +25,15 @@ export default function LandingPage() {
         
         <Hero />
         
-        <div id="technology" className="w-full">
-          <ScrollReveal>
-             <KernelPerformance />
-          </ScrollReveal>
-        </div>
-
         <div id="oracle" className="w-full">
           <ScrollReveal>
             <TruthRegistry />
+          </ScrollReveal>
+        </div>
+
+        <div id="technology" className="w-full">
+          <ScrollReveal>
+             <KernelPerformance />
           </ScrollReveal>
         </div>
 

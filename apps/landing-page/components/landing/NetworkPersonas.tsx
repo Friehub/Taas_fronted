@@ -49,12 +49,12 @@ export const NetworkPersonas: React.FC = () => {
             >
               {/* Technical Indicator */}
               <div className="flex justify-between items-center">
-                <span className="text-[10px] font-mono text-primary/40 uppercase tracking-[0.2em]">{p.icon}_PROTO</span>
-                <div className="h-1 w-8 bg-primary/20 group-hover:bg-primary/60 transition-colors" />
+                <span className="text-[10px] font-mono text-foreground/20 uppercase tracking-[0.2em]">{p.icon}_PROTO</span>
+                <div className="h-1 w-8 bg-white/5 group-hover:bg-white/10 transition-colors" />
               </div>
 
               <div className="space-y-4">
-                <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                <h3 className="text-2xl font-display font-bold text-foreground transition-colors">
                   {p.title}
                 </h3>
                 <p className="text-secondary/60 text-sm leading-relaxed">
@@ -69,7 +69,7 @@ export const NetworkPersonas: React.FC = () => {
               </div>
               
               {/* Background Glow Detail */}
-              <div className="absolute -bottom-10 -right-10 h-32 w-32 bg-primary/5 blur-[60px] rounded-full group-hover:bg-primary/10 transition-colors" />
+              <div className="absolute -bottom-10 -right-10 h-32 w-32 bg-white/[0.02] blur-[60px] rounded-full group-hover:bg-white/[0.04] transition-all" />
             </motion.div>
           ))}
         </div>

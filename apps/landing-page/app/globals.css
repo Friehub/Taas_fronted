@@ -63,7 +63,7 @@
 
   /* Clinical Interaction Layer */
   .neon-card {
-    @apply transition-all duration-500 hover:border-primary/40 hover:bg-white/[0.01] dark:hover:bg-white/[0.01] hover:bg-black/[0.005];
+    @apply transition-all duration-500 hover:border-primary/30 hover:bg-white/[0.01] dark:hover:bg-white/[0.01] hover:bg-black/[0.005];
   }
 
   /* Hero Section Contrast Optimization */
