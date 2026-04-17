@@ -1,143 +1,173 @@
 "use client";
 
-import { motion } from 'framer-motion';
-import { Header } from '../../components/shared/Header';
-import { LandingFooter } from '../../components/landing/LandingFooter';
-import { ArrowRightIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import Link from 'next/link';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
-const CATEGORIES = ["All", "Engineering", "Ecosystem", "Economics", "Security"];
+/**
+ * BlogHub - The Institutional Oracle Blog Index.
+ * Reflects the first mockup with categorical filtering and a featured insight.
+ */
+export default function BlogHub() {
+  const [filter, setFilter] = useState("All");
 
-const ARTICLES = [
+  const categories = ["All", "Engineering", "Ecosystem", "Economics", "Security"];
+
+  const posts = [
     {
-        title: "Scaling Ethereum Security with BLS Signature Aggregation",
-        desc: "A technical deep dive into the implementation of BLS signatures to reduce gas costs while maintaining sub-second finality.",
-        category: "Engineering",
-        date: "Oct 12, 2026",
-        slug: "bls-signature-aggregation",
-        id: "2340e467254c4699a7364d4019e29209"
+      slug: "scaling-ethereum-security",
+      category: "Engineering",
+      date: "OCT 24, 2024",
+      title: "Scaling Ethereum Security with BLS Signature Aggregation",
+      excerpt: "A technical deep dive into the implementation of BLS signatures to reduce gas costs while maintaining sub-second finality...",
+      readTime: "8 MIN READ",
     },
     {
-        title: "Byzantine Fault Tolerance in the Modern Oracle",
-        desc: "Understanding how Friehub maintains 33% fault tolerance under adversarial conditions using modified PBFT mechanisms.",
-        category: "Security",
-        date: "Oct 11, 2026",
-        slug: "bft-oracle",
-        id: "662a2e90de2b436ea506d7f6e440a909"
+      slug: "byzantine-fault-tolerance",
+      category: "Security",
+      date: "OCT 21, 2024",
+      title: "Byzantine Fault Tolerance in the Modern Oracle",
+      excerpt: "Understanding how Friehub maintains 33% fault tolerance under adversarial conditions using modified pBFT consensus mechanisms...",
+      readTime: "15 MIN READ",
     },
     {
-        title: "Friehub x EigenLayer: A New Frontier for Liquid Staking",
-        desc: "Exploring the integration of restaking primitives to bolster the cryptoeconomic veracity of off-chain data computation.",
-        category: "Ecosystem",
-        date: "Oct 10, 2026",
-        slug: "eigenlayer-integration",
-        id: "c77fcacd91b54643b4e37d7875b7a485"
-    }
-];
+      slug: "friehub-x-eigenlayer",
+      category: "Ecosystem",
+      date: "OCT 18, 2024",
+      title: "Friehub x EigenLayer: A New Frontier for Liquid Staking",
+      excerpt: "Exploring the integration of restaking primitives to bolster the cryptoeconomic security of off-chain data computation and verification.",
+      readTime: "6 MIN READ",
+    },
+    {
+      slug: "latency-of-truth",
+      category: "Economics",
+      date: "OCT 15, 2024",
+      title: "The Latency of Truth in Decentralized Finance",
+      excerpt: "Quantifying the economic impact of oracle latency on liquidations and how next-gen architectures are minimizing staleness risk.",
+      readTime: "10 MIN READ",
+    },
+    {
+      slug: "universal-data-adapters",
+      category: "Engineering",
+      date: "OCT 12, 2024",
+      title: "Universal Data Adapters: Breaking Silos",
+      excerpt: "Building a bridge between legacy Web2 APIs and permissionless Web3 environments through standardized JSON-parsing oracle nodes.",
+      readTime: "5 MIN READ",
+    },
+  ];
 
-export default function BlogPage() {
-    return (
-        <main className="min-h-screen bg-background text-foreground selection:bg-primary/30 font-sans antialiased">
-            <Header />
+  const filteredPosts = filter === "All" ? posts : posts.filter(p => p.category === filter);
 
-            {/* Featured Post */}
-            <section className="pt-32 pb-16 relative overflow-hidden">
-                <div className="container mx-auto px-6">
-                    <div className="bg-secondary/10 border border-primary/10 rounded-[32px] p-8 md:p-16 flex flex-col md:flex-row gap-12 items-center">
-                        <div className="flex-1">
-                            <div className="flex items-center gap-4 mb-6">
-                                <span className="px-3 py-1 bg-primary/10 text-primary text-[10px] uppercase font-bold tracking-widest rounded-full">Featured Insight</span>
-                                <span className="text-foreground/40 text-xs">12 MIN READ</span>
-                            </div>
-                            <h1 className="text-4xl md:text-6xl font-display font-bold leading-tight mb-6">
-                                The Game Theory of Truth: <span className="text-primary italic">Oracle Incentives</span> in Friehub
-                            </h1>
-                            <p className="text-lg text-foreground/60 mb-8 max-w-xl">
-                                Deep dive into the cryptoeconomic frameworks ensuring decentralized veracity. 
-                                We analyze the slashes, the stakes, and the consensus thresholds that define the Friehub network.
-                            </p>
-                            <Link href="/blog/game-theory-truth" className="group flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-sm">
-                                Read Full Analysis <ArrowRightIcon className="group-hover:translate-x-1 transition-transform" />
-                            </Link>
-                        </div>
-                        <div className="w-full md:w-[400px] aspect-square bg-onyx border border-white/5 rounded-2xl flex items-center justify-center p-12">
-                            <div className="w-full h-full border border-primary/20 rounded-lg relative overflow-hidden backdrop-blur-3xl">
-                                <div className="absolute inset-0 bg-grid-mint opacity-10" />
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="w-32 h-32 border border-primary/40 rounded-full animate-pulse" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+  return (
+    <div className="pt-32 pb-24 min-h-screen">
+      <div className="max-w-7xl mx-auto px-8 space-y-20">
+        
+        {/* Blog Logo/Identity */}
+        <div className="flex justify-between items-end border-b border-surface-border pb-8">
+           <div className="space-y-1">
+              <span className="text-[10px] font-mono text-primary font-bold tracking-[0.3em] uppercase">Archive_10.v.3</span>
+              <h1 className="text-4xl font-display font-bold text-foreground tracking-tighter">ORACLE.LOG</h1>
+           </div>
+           <div className="hidden md:block">
+              <span className="text-[10px] font-mono text-foreground/20 italic">"Determinism is the only consensus."</span>
+           </div>
+        </div>
+
+        {/* Featured Insight */}
+        <section className="relative group">
+           <Link href="/blog/oracle-incentives">
+              <div className="surface-depth rounded-3xl overflow-hidden p-8 md:p-12 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 group-hover:shadow-neon-mint transition-all duration-700">
+                <div className="max-w-2xl space-y-8">
+                   <div className="flex items-center space-x-4">
+                      <span className="px-3 py-1 bg-primary/10 text-primary text-[10px] font-mono font-bold tracking-widest uppercase rounded-full">Featured Insight</span>
+                      <span className="text-[10px] font-mono text-foreground/40 uppercase tracking-widest font-bold">12 MIN READ</span>
+                   </div>
+                   <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground leading-[1.1]">
+                     The Game Theory of Truth: <br />
+                     <span className="text-primary italic">Oracle Incentives in Friehub</span>
+                   </h2>
+                   <p className="text-foreground/60 text-lg leading-relaxed max-w-lg">
+                     Deep dive into the cryptoeconomic frameworks ensuring decentralized veracity. We analyze the slashes, the stakes, and the consensus thresholds that define the Friehub network.
+                   </p>
+                   <div className="flex items-center text-primary font-mono text-xs font-bold tracking-widest uppercase space-x-2">
+                      <span>Read Full Analysis</span>
+                      <span className="group-hover:translate-x-1 transition-transform">→</span>
+                   </div>
                 </div>
-            </section>
-
-            {/* Filters and Search */}
-            <section className="py-8 border-y border-white/5 bg-onyx/50 backdrop-blur-sm sticky top-[72px] z-30">
-                <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
-                        {CATEGORIES.map((cat) => (
-                            <button key={cat} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${cat === "All" ? "bg-primary text-primary-foreground" : "text-foreground/40 hover:text-foreground"}`}>
-                                {cat}
-                            </button>
-                        ))}
-                    </div>
-                    <div className="relative w-full md:w-64">
-                        <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/40" />
-                        <input type="text" placeholder="Search insights..." className="w-full bg-background border border-white/10 rounded-lg py-2 pl-10 pr-4 text-sm focus:border-primary outline-none transition-all" />
-                    </div>
+                
+                {/* Geometric Abstract Graphic */}
+                <div className="relative w-full lg:w-[400px] aspect-square flex items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity">
+                   <div className="absolute inset-0 border border-primary/10 rounded-full animate-[spin_20s_linear_infinite]" />
+                   <div className="h-40 w-40 border-2 border-primary/30 rotate-45" />
+                   <div className="absolute h-40 w-40 border-2 border-primary/20 -rotate-45" />
+                   <div className="absolute h-4 w-4 bg-primary shadow-[0_0_20px_rgba(73,231,116,0.8)] rounded-full animate-pulse" />
                 </div>
-            </section>
+              </div>
+           </Link>
+        </section>
 
-            {/* Blog Grid */}
-            <section className="py-20 backdrop-blur-3xl">
-                <div className="container mx-auto px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {ARTICLES.map((article, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.1 }}
-                                className="group cursor-pointer"
-                            >
-                                <div className="aspect-[4/3] bg-onyx border border-white/10 rounded-2xl mb-6 relative overflow-hidden">
-                                     <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent group-hover:opacity-100 transition-opacity opacity-0" />
-                                     <div className="absolute inset-0 bg-grid-mint opacity-5 group-hover:opacity-20 transition-opacity" />
-                                     <div className="absolute inset-0 flex items-center justify-center">
-                                         <div className="w-16 h-16 border border-primary/10 rounded-lg group-hover:scale-110 transition-transform duration-500" />
-                                     </div>
-                                </div>
-                                <div className="flex items-center justify-between mb-4">
-                                    <span className="text-[10px] uppercase font-bold tracking-widest text-primary/60">{article.category}</span>
-                                    <span className="text-[10px] text-foreground/40 uppercase">{article.date}</span>
-                                </div>
-                                <h3 className="text-xl font-display font-bold mb-4 group-hover:text-primary transition-colors">{article.title}</h3>
-                                <p className="text-foreground/40 text-sm leading-relaxed mb-6">{article.desc}</p>
-                                <Link href={`/blog/${article.slug}`} className="flex items-center gap-2 text-[10px] uppercase font-bold tracking-widest group-hover:gap-3 transition-all">
-                                    Read Article <ArrowRightIcon />
-                                </Link>
-                            </motion.div>
-                        ))}
+        {/* Categories & Filter */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-surface-border pb-8">
+           <div className="flex flex-wrap items-center gap-2">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setFilter(cat)}
+                  className={`px-6 py-2 rounded-full text-[10px] font-mono font-bold uppercase tracking-widest transition-all ${
+                    filter === cat 
+                    ? "bg-primary text-background" 
+                    : "bg-surface-low text-foreground/40 hover:text-primary hover:bg-primary/5"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+           </div>
+           <div className="text-[10px] font-mono text-foreground/30 uppercase tracking-widest font-bold">
+              Showing {filteredPosts.length} of {posts.length} articles
+           </div>
+        </div>
 
-                        {/* Newsletter card */}
-                        <div className="bg-primary border border-primary/20 rounded-2xl p-8 flex flex-col justify-between text-primary-foreground min-h-[340px]">
-                            <div>
-                                <span className="text-[10px] uppercase font-bold tracking-widest mb-4 block opacity-60">Newsletter</span>
-                                <h3 className="text-2xl font-display font-bold leading-tight">Get Truth Delivered to Your Inbox.</h3>
-                                <p className="text-primary-foreground/60 text-sm mt-4">Technical updates, governance proposals, and ecosystem insights delivered weekly.</p>
+        {/* Article Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-24">
+           {filteredPosts.map((post, i) => (
+             <motion.div
+               key={post.slug}
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ delay: i * 0.1 }}
+               className="group"
+             >
+                <Link href={`/blog/${post.slug}`}>
+                   <div className="surface-depth h-full p-8 space-y-8 flex flex-col justify-between neon-card">
+                      <div className="space-y-6">
+                         <div className="relative h-48 bg-background-darker rounded-xl overflow-hidden mb-8 border border-white/[0.02] flex items-center justify-center">
+                            <div className="text-primary/20 opacity-0 group-hover:opacity-100 transition-all">
+                               <svg className="h-24 w-24 fill-current" viewBox="0 0 24 24"><path d="M13 13h-2v-2h2v2zm0-2h2V9h-2v2zm2 2h2v-2h-2v2zm0-2h-2v-2h2v2zm-4 4h2v-2h-2v2zm0-2h-2v-2h2v2zm-2 2h-2v-2h2v2zm0-2h2V9h-2v2zM6 18h12V6H6v12zm14-14v16H4V4h16z"/></svg>
                             </div>
-                            <div className="space-y-3">
-                                <input type="email" placeholder="email@protocol.io" className="w-full bg-white/10 border border-white/10 rounded-lg py-3 px-4 text-sm placeholder:text-white/40 outline-none focus:bg-white/20 transition-all font-bold" />
-                                <button className="w-full bg-primary-foreground text-primary font-bold py-3 rounded-lg text-sm uppercase tracking-widest hover:opacity-90 transition-opacity">Sign Up</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                         </div>
+                         <div className="flex items-center justify-between text-[10px] font-mono font-bold text-primary/40 uppercase tracking-widest">
+                            <span>{post.category}</span>
+                            <span>{post.date}</span>
+                         </div>
+                         <h3 className="text-xl font-display font-bold text-foreground group-hover:text-primary transition-colors leading-tight">
+                           {post.title}
+                         </h3>
+                         <p className="text-foreground/50 text-sm leading-relaxed line-clamp-3">
+                           {post.excerpt}
+                         </p>
+                      </div>
+                      <div className="flex items-center justify-between pt-8 border-t border-surface-border">
+                         <span className="text-[10px] font-mono text-foreground/30 uppercase tracking-widest font-bold">{post.readTime}</span>
+                         <span className="text-primary text-xl opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">→</span>
+                      </div>
+                   </div>
+                </Link>
+             </motion.div>
+           ))}
+        </div>
 
-            <LandingFooter />
-        </main>
-    );
+      </div>
+    </div>
+  );
 }
