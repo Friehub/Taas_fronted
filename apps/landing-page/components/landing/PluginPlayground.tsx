@@ -38,18 +38,23 @@ export class BinancePrice extends SovereignAdapter {
 
 export function PluginPlayground() {
     return (
-        <section className="py-40 bg-background border-y border-border overflow-hidden">
+        <section className="py-32 bg-surface relative overflow-hidden">
             <div className="container mx-auto px-6">
-                <div className="text-center mb-24">
-                    <h2 className="text-4xl md:text-6xl font-display font-medium text-foreground tracking-tighter mb-6">
-                        From JSON to <span className="text-primary italic">Consensus.</span>
+                <div className="max-w-3xl mb-16">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-primary/5 text-primary text-[10px] font-bold uppercase tracking-[0.3em] mb-8">
+                        The Core Engine
+                    </div>
+                    <h2 className="text-4xl md:text-6xl font-display font-bold text-foreground tracking-[-0.04em] mb-8 leading-[0.9]">
+                        The Prediction <span className="text-primary italic">Engine.</span>
                     </h2>
-                    <p className="text-xl text-foreground/40 max-w-2xl mx-auto font-light leading-relaxed">
-                        No massive infrastructure overhead. Build a highly-secure Sovereign Adapter in TypeScript directly in your IDE, deploy to the gateway, and watch the TLS proofs roll in.
+                    <p className="text-lg text-foreground/40 font-medium leading-relaxed">
+                        No massive infrastructure overhead. Build a highly-secure Sovereign Adapter 
+                        in TypeScript directly in your IDE, deploy to the gateway, and watch 
+                        the threshold proofs roll in.
                     </p>
                 </div>
 
-                <div className="grid lg:grid-cols-2 gap-px bg-border rounded-2xl overflow-hidden border border-border shadow-2xl relative">
+                <div className="grid lg:grid-cols-2 gap-4 bg-surface-low rounded-sm overflow-hidden p-4 shadow-2xl relative">
                     
                     {/* Visual Connector in the middle for large screens */}
                     <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-background border border-border rounded-full items-center justify-center z-20">

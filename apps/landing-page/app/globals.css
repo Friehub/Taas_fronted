@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Institutional Light Mode */
+  --background: #fbfcfd;
+  --background-darker: #f3f5f7;
+  --foreground: #111316;
+  --surface-low: #f3f5f7;
+  --surface-base: #ffffff;
+  --surface-elevated: #ffffff;
+  --surface-border: rgba(0, 0, 0, 0.05);
+  --blueprint-grid: rgba(0, 0, 0, 0.03);
+  --blueprint-grid-accent: rgba(73, 231, 116, 0.05);
+  --blueprint-line: rgba(0, 0, 0, 0.01);
+}
+
+.dark {
+  /* Sovereign Dark Mode */
+  --background: #09090B;
+  --background-darker: #050507;
+  --foreground: #E2E2E6;
+  --surface-low: #111316;
+  --surface-base: #1A1C1F;
+  --surface-elevated: #282A2D;
+  --surface-border: rgba(255, 255, 255, 0.04);
+  --blueprint-grid: rgba(255, 255, 255, 0.05);
+  --blueprint-grid-accent: rgba(73, 231, 116, 0.04);
+  --blueprint-line: rgba(255, 255, 255, 0.02);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground selection:bg-primary/30 selection:text-white;
+    font-feature-settings: "cv02", "cv03", "cv04", "tnum", "ss01";
+    -webkit-font-smoothing: antialiased;
+    cursor: default;
+  }
+}
+
+@layer components {
+  /* The "No-Line" Rule Depth System */
+  .surface-depth {
+    @apply bg-surface-base shadow-blueprint-inner;
+    border: 0.5px solid var(--surface-border);
+  }
+
+  /* Technical Redlines for Typography */
+  .text-redline {
+    @apply font-mono text-[10px] uppercase tracking-[0.2em] opacity-40;
+  }
+}
+
+@layer utilities {
+  .mask-radial-fade {
+    mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+  }
+  
+  .glass-premium {
+    @apply bg-white/[0.02] backdrop-blur-xl border-x border-y border-white/[0.05];
+  }
+
+  /* Clinical Interaction Layer */
+  .neon-card {
+    @apply transition-all duration-500 hover:border-primary/30 hover:bg-white/[0.01] dark:hover:bg-white/[0.01] hover:bg-black/[0.005];
+  }
+
+  /* Hero Section Contrast Optimization */
+  .bg-radial-hero-dark {
+    background: radial-gradient(circle at center, transparent 0%, var(--background) 70%);
+  }
+}
+
+/* Scrollbar Customization - Obsessive Detail */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-elevated);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Custom Reticle Cursor base */
+.custom-reticle {
+  @apply pointer-events-none fixed z-[9999] h-4 w-4 -translate-x-1/2 -translate-y-1/2;
+}

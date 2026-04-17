@@ -1,50 +1,69 @@
-import { Metadata } from 'next';
+import type { Metadata } from "next";
+import { Urbanist, Manrope, Space_Mono } from "next/font/google";
+import "./globals.css";
+
+// Foundation Components
+import BlueprintGrid from "../components/foundation/BlueprintGrid";
+import GrainOverlay from "../components/foundation/GrainOverlay";
+import TechnicalMargins from "../components/foundation/TechnicalMargins";
+import ScanLine from "../components/foundation/ScanLine";
+import { ThemeProvider } from "../components/foundation/ThemeProvider";
+import Navbar from "../components/foundation/Navbar";
+import Footer from "../components/foundation/Footer";
+
+const urbanist = Urbanist({
+  subsets: ["latin"],
+  variable: "--font-urbanist",
+  display: "swap",
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+  display: "swap",
+});
+
+const spaceMono = Space_Mono({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-space-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-    title: 'Friehub | The High-Fidelity Decentralized Oracle Network',
-    description: 'Secure, scaled, and sovereign. TaaS provides sub-second resolution and absolute integrity for next-generation dApps and builders.',
-    openGraph: {
-        title: 'Friehub | The High-Fidelity Decentralized Oracle Network',
-        description: 'Secure, scaled, and sovereign. TaaS provides sub-second resolution and absolute integrity.',
-        url: 'https://friehub.cloud',
-        siteName: 'Friehub',
-        images: [
-            {
-                url: 'https://friehub.cloud/og-image.png',
-                width: 1200,
-                height: 630,
-            },
-        ],
-        locale: 'en_US',
-        type: 'website',
-    },
-    twitter: {
-        card: 'summary_large_image',
-        title: 'Friehub | Verifiable Truth Infrastructure',
-        description: 'The high-fidelity decentralized oracle network for builders requiring absolute integrity.',
-        images: ['https://friehub.cloud/og-image.png'],
-    },
+  title: "Friehub TaaS | Institutional Oracle Infrastructure",
+  description: "Verifiable Data and Sovereign Intelligence secured by EigenLayer.",
 };
 
-import './main.css';
-import { Providers } from '../components/shared/Providers';
-import { SmoothScroll } from '../components/shared/SmoothScroll';
-
 export default function RootLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
-    return (
-        <html lang="en" suppressHydrationWarning>
-            <body className="antialiased bg-background text-foreground transition-colors duration-300">
-                <SmoothScroll />
-                <Providers themeProps={{ attribute: "class", defaultTheme: "system", enableSystem: true }}>
-                    <main className="flex-1 overflow-y-auto">
-                        {children}
-                    </main>
-                </Providers>
-            </body>
-        </html>
-    );
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${urbanist.variable} ${manrope.variable} ${spaceMono.variable} font-sans selection:bg-primary/30 antialiased`}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {/* Global UI Components */}
+          <Navbar />
+          <GrainOverlay />
+          <TechnicalMargins />
+          
+          {/* Main Content Area */}
+          <main className="relative min-h-screen">
+            {children}
+          </main>
+
+          <Footer />
+        </ThemeProvider>
+      </body>
+    </html>
+  );
 }

@@ -18,3 +18,10 @@ pnpm-debug.log*
 .idea/
 .env
 .env.*
+
+# Next.js
+.next/
+out/
+
+# Lock files (optional, but keeping pnpm-lock for consistency)
+# pnpm-lock.yaml

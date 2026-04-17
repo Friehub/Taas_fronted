@@ -1,128 +1,172 @@
 "use client";
 
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
-import { ArrowBottomRightIcon } from '@radix-ui/react-icons';
-import Link from 'next/link';
-import { useRef, useEffect } from 'react';
-import { TerminalStartup } from './TerminalStartup';
+import React from "react";
+import { motion } from "framer-motion";
+import { MagneticButton } from "../foundation/MagneticButton";
 
-export function Hero() {
-    const containerRef = useRef<HTMLElement>(null);
-    const buttonRef = useRef<HTMLAnchorElement>(null);
+import BlueprintGrid from "../foundation/BlueprintGrid";
+import ScanLine from "../foundation/ScanLine";
 
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end start"]
-    });
+/**
+ * Hero - The "Monochrome Oracle Core" of Friehub.
+ * Features a multi-layered, technical SVG masterpiece that adapts to Light/Dark modes.
+ * Completely neutralized to a pure White & Charcoal institutional palette.
+ */
+export const Hero: React.FC = () => {
+  return (
+    <section className="relative w-full min-h-screen flex flex-col items-center justify-center pt-20 px-8 overflow-hidden">
+      {/* Localized Grid System */}
+      <BlueprintGrid />
+      <ScanLine />
 
-    // Parallax & 3D Tilt values
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
+      {/* 1. The Institutional Oracle Core - Visual Masterpiece */}
+      <div className="absolute inset-0 flex items-center justify-center -z-10 pointer-events-none overflow-hidden text-foreground">
+        <div className="relative h-[800px] w-[800px] flex items-center justify-center">
+          
+          {/* Subtle Dynamic Depth (Adaptive) */}
+          <motion.div 
+            animate={{ 
+              scale: [1, 1.1, 1],
+              opacity: [0.03, 0.08, 0.03] 
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute inset-0 rounded-full bg-foreground blur-[120px]"
+          />
 
-    const smoothX = useSpring(mouseX, { damping: 20, stiffness: 100 });
-    const smoothY = useSpring(mouseY, { damping: 20, stiffness: 100 });
+          {/* Outer Ring: Segmented Infrastructure */}
+          <motion.svg 
+            animate={{ rotate: 360 }}
+            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+            className="absolute h-[600px] w-[600px] text-foreground/10" 
+            viewBox="0 0 100 100"
+          >
+            <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 8" />
+            <rect x="48" y="0" width="4" height="1" fill="currentColor" />
+            <rect x="48" y="99" width="4" height="1" fill="currentColor" />
+            <rect x="0" y="48" width="1" height="4" fill="currentColor" />
+            <rect x="99" y="48" width="1" height="4" fill="currentColor" />
+          </motion.svg>
 
-    const parallaxX = useTransform(smoothX, [-300, 300], [-15, 15]);
-    const parallaxY = useTransform(smoothY, [-300, 300], [-10, 10]);
-    const rotateX = useTransform(smoothY, [-300, 300], [5, -5]);
-    const rotateY = useTransform(smoothX, [-300, 300], [-5, 5]);
+          {/* Middle Ring: Proof Streams & Node Clusters */}
+          <motion.svg 
+            animate={{ rotate: -360 }}
+            transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+            className="absolute h-[400px] w-[400px] text-foreground/20" 
+            viewBox="0 0 100 100"
+          >
+            <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" strokeWidth="0.2" strokeDasharray="1 2" />
+            
+            {/* Pure Institutional Ring Accents */}
+            <circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" strokeWidth="0.1" strokeOpacity="0.1" />
 
-    // Handle mouse move for parallax & magnetic physics
-    useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            const { clientX, clientY } = e;
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-            mouseX.set(clientX - centerX);
-            mouseY.set(clientY - centerY);
-        };
-
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, [mouseX, mouseY]);
-
-    const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-    const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
-    return (
-        <section ref={containerRef} className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden bg-background">
-            {/* Background Texture */}
-            <div className="absolute inset-0 bg-dot-white opacity-40 dark:opacity-40 pointer-events-none" />
-
-            {/* The Terminal Startup Centerpiece */}
-            <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 w-[600px] pointer-events-none hidden lg:block [perspective:1000px] z-20">
-                <motion.div
-                    style={{ x: parallaxX, y: parallaxY, rotateX, rotateY }}
-                    className="w-full h-full"
+            {[0, 60, 120, 180, 240, 300].map((angle, i) => {
+              const x = (50 + 35 * Math.cos(angle * Math.PI / 180)).toFixed(2);
+              const y = (50 + 35 * Math.sin(angle * Math.PI / 180)).toFixed(2);
+              return (
+                <motion.g 
+                  key={angle}
+                  animate={{ opacity: [0.2, 1, 0.2] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: angle / 100 }}
                 >
-                    <TerminalStartup />
-                </motion.div>
-            </div>
+                  <circle 
+                     cx={x} 
+                     cy={y} 
+                     r="1" 
+                     fill="currentColor" 
+                     fillOpacity={0.6}
+                  />
+                  <line 
+                     x1="50" y1="50" 
+                     x2={x} 
+                     y2={y} 
+                     stroke="currentColor" strokeWidth="0.1" 
+                  />
+                </motion.g>
+              );
+            })}
+          </motion.svg>
 
-            <div className="container mx-auto px-6 relative z-10">
-                <motion.div style={{ y, opacity }} className="max-w-5xl">
-                    <motion.h1
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-5xl sm:text-7xl lg:text-[140px] font-display font-medium leading-[0.85] tracking-tighter text-foreground mb-12"
-                    >
-                        The Verifiable <br />
-                        <motion.span
-                            animate={{ letterSpacing: ["-0.05em", "-0.02em", "-0.05em"] }}
-                            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                            className="text-primary italic inline-block"
-                        >
-                            Data Bridge.
-                        </motion.span>
-                    </motion.h1>
+          {/* Inner Core: The Pulsing Veracity Node */}
+          <div className="relative h-32 w-32 flex items-center justify-center">
+             <motion.div 
+               animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.3, 0.1] }}
+               transition={{ duration: 4, repeat: Infinity }}
+               className="absolute inset-0 border border-foreground/20 rounded-full"
+             />
+             <div className="h-3 w-3 bg-foreground/60 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.2)] z-10" />
+             <svg className="absolute h-full w-full text-foreground/40 animate-spin-slow" viewBox="0 0 100 100">
+                <path d="M50 20 L50 30 M50 70 L50 80 M20 50 L30 50 M70 50 L80 50" stroke="currentColor" strokeWidth="1" />
+                <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 2" />
+             </svg>
+          </div>
 
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2, duration: 0.6 }}
-                        className="text-xl md:text-3xl text-foreground/40 max-w-2xl leading-tight mb-16 font-light"
-                    >
-                        Fetch any API via simple TypeScript plugins and deliver it on-chain with verifiable EIP-712 and BLS threshold signatures. No waiting for oracle nodes. Permissionless data provisioning.
-                    </motion.p>
+        </div>
+      </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.4 }}
-                        className="flex flex-wrap gap-8"
-                    >
-                        <Link
-                            href="#story"
-                            ref={buttonRef}
-                            className="h-16 px-10 bg-primary text-primary-foreground font-black uppercase tracking-widest text-[12px] rounded-sm flex items-center gap-4 hover:opacity-90 transition-all relative group overflow-hidden"
-                            onMouseMove={(e) => {
-                                const { clientX, clientY } = e;
-                                const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-                                const x = clientX - (left + width / 2);
-                                const y = clientY - (top + height / 2);
-                                e.currentTarget.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = `translate(0px, 0px)`;
-                            }}
-                        >
-                            <span className="relative z-10 flex items-center gap-4">
-                                The Origin <ArrowBottomRightIcon width={20} height={20} />
-                            </span>
-                        </Link>
-                    </motion.div>
-                </motion.div>
-            </div>
+      {/* 2. Headline & Content Architecture */}
+      <div className="max-w-5xl w-full text-center space-y-10 animate-in relative z-10">
 
-            {/* Aesthetic Scroll Indicator */}
-            <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="absolute bottom-10 left-6 text-foreground/20 text-[10px] uppercase tracking-[0.4em] [writing-mode:vertical-lr] font-black"
+        <motion.h1 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-6xl md:text-9xl font-display font-bold tracking-tight text-foreground leading-[0.85]"
+        >
+          The Institutional <br /> 
+          <span className="text-foreground relative italic text-glow-institutional">
+            Oracle Network.
+            <motion.span 
+              initial={{ width: 0 }}
+              animate={{ width: "100%" }}
+              transition={{ delay: 1, duration: 0.8 }}
+              className="absolute -bottom-2 left-0 h-1 bg-foreground/10"
+            />
+          </span>
+        </motion.h1>
+
+        <motion.p 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="max-w-2xl mx-auto text-foreground/60 text-lg md:text-2xl font-sans leading-relaxed"
+        >
+          Decentralized infrastructure for <span className="text-foreground font-semibold">Verifiable Data</span> and <span className="text-foreground font-semibold font-mono">[Sovereign Intelligence]</span>. Optimized for the programmable future.
+        </motion.p>
+
+        {/* Action Center - Primary CTAs */}
+        <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8 pt-10">
+          <MagneticButton>
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative px-10 py-5 bg-foreground overflow-hidden transition-all border border-surface-border"
             >
-                Scroll to Explore
-            </motion.div>
-        </section>
-    );
-}
+              <div className="absolute inset-0 bg-background/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+              <span className="relative z-10 text-background font-bold uppercase tracking-[0.2em] text-xs">
+                Join Waitlist
+              </span>
+            </motion.button>
+          </MagneticButton>
+          
+          <button className="surface-depth px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] text-foreground hover:bg-foreground/5 transition-all group border border-surface-border">
+            Read the Vision 
+            <span className="ml-2 opacity-30 group-hover:opacity-100 transition-opacity">→</span>
+          </button>
+        </div>
+      </div>
+
+      {/* 3. Hero Bottom Metadata - The "Obsession" items */}
+      <div className="absolute bottom-10 left-10 hidden xl:flex flex-col space-y-1">
+        <span className="text-[9px] font-mono text-foreground/20 uppercase tracking-widest font-bold">Protocol_v1.0 // Archive_10</span>
+        <div className="h-1 w-32 bg-foreground/5 rounded-full overflow-hidden border border-surface-border">
+          <motion.div 
+            animate={{ x: [-128, 128] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            className="h-full w-20 bg-foreground/10" 
+          />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;

@@ -2,49 +2,77 @@ const path = require('path');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: [
-        path.join(__dirname, './app/**/*.{js,ts,jsx,tsx,mdx}'),
-        path.join(__dirname, './components/**/*.{js,ts,jsx,tsx,mdx}'),
-    ],
-    darkMode: 'class',
-    theme: {
-        extend: {
-            colors: {
-                background: "hsl(var(--background))",
-                foreground: "hsl(var(--foreground))",
-                primary: "hsl(var(--primary))",
-                secondary: "hsl(var(--secondary))",
-                accent: "hsl(var(--accent))",
-                card: "hsl(var(--card))",
-                border: "hsl(var(--border))",
-                onyx: "#09090B",
-            },
-            fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-                display: ['Outfit', 'sans-serif'],
-                mono: ['JetBrains Mono', 'monospace'],
-            },
-            animation: {
-                'in': 'fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                'float': 'float 6s ease-in-out infinite',
-                'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                'blur-in': 'blurIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-            },
-            keyframes: {
-                fadeIn: {
-                    '0%': { opacity: '0', transform: 'translateY(20px)' },
-                    '100%': { opacity: '1', transform: 'translateY(0)' },
-                },
-                blurIn: {
-                    '0%': { opacity: '0', filter: 'blur(10px)', transform: 'scale(0.95)' },
-                    '100%': { opacity: '1', filter: 'blur(0)', transform: 'scale(1)' },
-                },
-                float: {
-                    '0%, 100%': { transform: 'translateY(0)' },
-                    '50%': { transform: 'translateY(-15px)' },
-                }
-            }
+  content: [
+    path.join(__dirname, './app/**/*.{js,ts,jsx,tsx,mdx}'),
+    path.join(__dirname, './components/**/*.{js,ts,jsx,tsx,mdx}'),
+  ],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        background: {
+          DEFAULT: 'var(--background)',
+          darker: 'var(--background-darker)',
         },
+        foreground: 'var(--foreground)',
+        primary: {
+          DEFAULT: '#49E774', // Mint Green
+          muted: '#49E77426',
+          container: '#1CCA5B',
+        },
+        surface: {
+          low: 'var(--surface-low)',
+          base: 'var(--surface-base)',
+          elevated: 'var(--surface-elevated)',
+          border: 'var(--surface-border)',
+        },
+        blueprint: {
+          grid: 'var(--blueprint-grid)',
+          'grid-accent': 'var(--blueprint-grid-accent)',
+          line: 'var(--blueprint-line)',
+        }
+      },
+      fontFamily: {
+        sans: ['var(--font-manrope)', 'Menlo', 'monospace'],
+        display: ['var(--font-urbanist)', 'system-ui'],
+        mono: ['var(--font-space-mono)', 'monospace'],
+      },
+      spacing: {
+        'blueprint-unit': '20px',
+        'blueprint-large': '100px',
+      },
+      borderWidth: {
+        'blueprint': '0.5px',
+      },
+      boxShadow: {
+        'blueprint-glow': '0 0 10px rgba(73, 231, 116, 0.05)',
+        'blueprint-inner': 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.05)',
+        'neon-mint': '0 0 20px rgba(73, 231, 116, 0.1)',
+        'neon-white': '0 0 20px rgba(255, 255, 255, 0.05)',
+      },
+      animation: {
+        'scanline': 'scanline 8s linear infinite',
+        'flicker': 'flicker 0.15s infinite',
+        'pulse-grid': 'pulseGrid 4s ease-in-out infinite',
+      },
+      keyframes: {
+        scanline: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(100%)' },
+        },
+        flicker: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.97' },
+        },
+        pulseGrid: {
+          '0%, 100%': { opacity: '0.05' },
+          '50%': { opacity: '0.1' },
+        }
+      },
+      transitionTimingFunction: {
+        'mechanical': 'cubic-bezier(0.16, 1, 0.3, 1)',
+      }
     },
-    plugins: [],
+  },
+  plugins: [],
 };
