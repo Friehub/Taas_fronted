@@ -12,8 +12,10 @@
   --surface-elevated: #ffffff;
   --surface-border: rgba(0, 0, 0, 0.05);
   --blueprint-grid: rgba(0, 0, 0, 0.03);
-  --blueprint-grid-accent: rgba(73, 231, 116, 0.05);
+  --blueprint-grid-accent: rgba(23, 177, 77, 0.05);
   --blueprint-line: rgba(0, 0, 0, 0.01);
+  --primary: #17B14D; /* Darker, high-contrast green for Light Mode readability */
+  --primary-muted: rgba(23, 177, 77, 0.15);
 }
 
 .dark {
@@ -28,11 +30,13 @@
   --blueprint-grid: rgba(255, 255, 255, 0.05);
   --blueprint-grid-accent: rgba(73, 231, 116, 0.04);
   --blueprint-line: rgba(255, 255, 255, 0.02);
+  --primary: #49E774; /* Bright Mint Green for Dark Mode */
+  --primary-muted: rgba(73, 231, 116, 0.15);
 }
 
 @layer base {
   body {
-    @apply bg-background text-foreground selection:bg-primary/30 selection:text-white;
+    @apply bg-background text-foreground selection:bg-primary-muted selection:text-white;
     font-feature-settings: "cv02", "cv03", "cv04", "tnum", "ss01";
     -webkit-font-smoothing: antialiased;
     cursor: default;
@@ -63,7 +67,7 @@
 
   /* Clinical Interaction Layer */
   .neon-card {
-    @apply transition-all duration-500 hover:border-primary/30 hover:bg-white/[0.01] dark:hover:bg-white/[0.01] hover:bg-black/[0.005];
+    @apply transition-all duration-500 hover:border-primary-muted hover:bg-white/[0.01] dark:hover:bg-white/[0.01] hover:bg-black/[0.005];
   }
 
   /* Hero Section Contrast Optimization */

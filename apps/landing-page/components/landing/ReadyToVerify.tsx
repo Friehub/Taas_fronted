@@ -3,25 +3,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-interface TelemetryStats {
-  totalVolume: string;
-  nodes: number;
-  uptime: string;
-}
-
-const defaultStats: TelemetryStats = {
-  totalVolume: "$1.24B+",
-  nodes: 4182,
-  uptime: "100%",
-};
-
 /**
  * ReadyToVerify - The flagship CTA section.
  * Refined for high-fidelity light mode contrast.
  */
-export const ReadyToVerify: React.FC<{ stats?: TelemetryStats }> = ({ 
-  stats = defaultStats 
-}) => {
+export const ReadyToVerify: React.FC = () => {
   return (
     <section className="relative w-full py-16 px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -53,39 +39,6 @@ export const ReadyToVerify: React.FC<{ stats?: TelemetryStats }> = ({
                   Documentation
                 </button>
               </div>
-            </div>
-
-            {/* Right Telemetry Panel (High-Contrast Glass) */}
-            <div className="w-full lg:w-[450px]">
-               <div className="bg-background-darker/80 backdrop-blur-2xl rounded-3xl p-8 border border-surface-border shadow-2xl space-y-8">
-                  <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-mono text-foreground/40 uppercase tracking-[0.2em] font-bold">Live Network Relay</span>
-                    <div className="flex space-x-1">
-                       <div className="h-1 w-1 rounded-full bg-foreground animate-pulse" />
-                       <div className="h-1 w-1 rounded-full bg-foreground/20" />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-8">
-                    <div>
-                        <span className="text-[10px] font-mono text-foreground/30 uppercase tracking-widest font-bold">Volume Aggregated</span>
-                        <div className="text-5xl font-display font-bold text-foreground mt-1 tracking-tighter">
-                          {stats.totalVolume}
-                        </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-4 pt-4 border-t border-surface-border">
-                      <div>
-                          <span className="text-[10px] font-mono text-foreground/30 uppercase tracking-widest font-bold">Active Nodes</span>
-                          <div className="text-2xl font-display font-bold text-foreground mt-1">{stats.nodes.toLocaleString()}</div>
-                      </div>
-                      <div>
-                          <span className="text-[10px] font-mono text-foreground/30 uppercase tracking-widest font-bold">Uptime</span>
-                          <div className="text-2xl font-display font-bold text-foreground mt-1">{stats.uptime}</div>
-                      </div>
-                    </div>
-                  </div>
-               </div>
             </div>
 
           </div>
