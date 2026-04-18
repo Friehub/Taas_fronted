@@ -16,8 +16,8 @@ module.exports = {
         },
         foreground: 'var(--foreground)',
         primary: {
-          DEFAULT: '#49E774', // Mint Green
-          muted: '#49E77426',
+          DEFAULT: 'var(--primary)',
+          muted: 'var(--primary-muted)',
           container: '#1CCA5B',
         },
         surface: {
