@@ -27,7 +27,7 @@ export const MarketingHero: React.FC = () => {
           transition={{ duration: 0.7, delay: 0.1 }}
           className="flex flex-col items-start w-full text-left"
         >
-          <h1 className="text-5xl lg:text-7xl xl:text-8xl font-display font-bold tracking-tight text-foreground leading-[1] mb-8">
+          <h1 className="text-5xl lg:text-7xl xl:text-8xl font-display font-thin tracking-tight text-foreground leading-[1] mb-8">
             Oracles Built on{" "}
             <span className="italic text-foreground/90">Proof,</span>
             <br />
@@ -55,11 +55,11 @@ export const MarketingHero: React.FC = () => {
 
           {/* Left-Aligned CTAs */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start justify-start gap-4">
-            <button className="px-10 py-4 bg-foreground text-background font-bold uppercase tracking-[0.2em] text-xs border border-surface-border hover:bg-foreground/90 transition-colors">
+            <button className="rounded-full px-10 py-4 bg-foreground text-background font-bold uppercase tracking-[0.2em] text-xs border border-surface-border hover:bg-foreground/90 transition-colors">
               Get Started
             </button>
 
-            <button className="surface-depth px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] text-foreground hover:bg-foreground/5 transition-all group border border-surface-border">
+            <button className="rounded-full surface-depth px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] text-foreground hover:bg-foreground/5 transition-all group border border-surface-border">
               Litepaper
               <span className="ml-2 opacity-30 group-hover:opacity-100 transition-opacity">→</span>
             </button>
