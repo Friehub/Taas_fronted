@@ -51,11 +51,12 @@ export const ProblemStatement: React.FC = () => {
           {PROBLEMS.map((item, i) => (
             <motion.div
               key={item.problem}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.5 }}
+              initial={{ opacity: 0, y: 32, rotateX: -10 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: i * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="bg-background p-8 flex flex-col gap-5 neon-card border border-transparent"
+              style={{ transformOrigin: "top center", perspective: "1000px" }}
             >
               {/* Problem */}
               <div className="flex flex-col gap-2">

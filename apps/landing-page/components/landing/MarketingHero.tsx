@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import BlueprintGrid from "../foundation/BlueprintGrid";
 import { MagneticButton } from "../foundation/MagneticButton";
+import { ThresholdNode } from "../animation/ThresholdNode";
 
 const STAT_ITEMS = [
   { value: "3+", label: "Aggregation Strategies", sub: "MEDIAN · MAJORITY · STAKE_WEIGHTED" },
@@ -13,13 +14,19 @@ const STAT_ITEMS = [
 ];
 
 export const MarketingHero: React.FC = () => {
+  const { scrollY } = useScroll();
+  const backgroundY = useTransform(scrollY, [0, 1000], ["0%", "20%"]);
+  const flareY = useTransform(scrollY, [0, 1000], ["-200px", "0px"]);
+
   return (
     <section className="relative w-full min-h-screen pt-32 pb-16 px-6 lg:px-12 flex flex-col justify-center overflow-hidden">
-      <BlueprintGrid />
+      <motion.div style={{ y: backgroundY }} className="absolute inset-0 max-w-full z-0 overflow-hidden">
+        <BlueprintGrid />
+      </motion.div>
 
       {/* Premium Institutional Light Flare */}
-      <div className="absolute top-0 right-0 lg:right-16 w-full max-w-[800px] h-[600px] bg-gradient-to-bl from-primary/10 via-primary/5 to-transparent blur-[120px] rounded-full pointer-events-none -z-10 mix-blend-screen opacity-70 transform -translate-y-1/3 translate-x-1/4" />
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-white/5 blur-[100px] rounded-full pointer-events-none -z-10 opacity-50 transform -translate-y-1/2 -translate-x-1/4" />
+      <motion.div style={{ y: flareY }} className="absolute right-0 lg:right-[-10%] w-[1000px] h-[800px] bg-primary/10 blur-[130px] rounded-full pointer-events-none -z-10 opacity-70 transform rotate-12" />
+      <div className="absolute top-[10%] right-[15%] w-[500px] h-[500px] bg-foreground/5 blur-[100px] rounded-full pointer-events-none -z-10" />
 
       {/* Grid Container for Side-by-Side Layout */}
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10">
@@ -70,9 +77,9 @@ export const MarketingHero: React.FC = () => {
           </div>
         </motion.div>
         
-        {/* Right Column: Reserved for Image */}
+        {/* Right Column: Interactive Cryptography Visual */}
         <div className="w-full flex items-center justify-center lg:justify-end">
-             {/* Space reserved for future image */}
+             <ThresholdNode />
         </div>
       </div>
 

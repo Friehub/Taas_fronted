@@ -115,10 +115,10 @@ export const CompetitivePosition: React.FC = () => {
               {COMPARISON_ROWS.map((row, i) => (
                 <motion.tr
                   key={row.feature}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.04 }}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ delay: i * 0.08, duration: 0.5, ease: "easeOut" }}
                   className="border-b border-surface-border group hover:bg-surface-low/30 transition-colors duration-200"
                 >
                   <td className="py-4 pr-6 font-mono text-[10px] uppercase tracking-widest text-foreground/40 align-top">
