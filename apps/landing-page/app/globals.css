@@ -41,6 +41,12 @@
     -webkit-font-smoothing: antialiased;
     cursor: default;
   }
+  
+  /* Disable default browser outlines for institutional clean look */
+  *, *::before, *::after {
+    @apply focus:outline-none focus:ring-0;
+    outline: none !important;
+  }
 }
 
 @layer components {

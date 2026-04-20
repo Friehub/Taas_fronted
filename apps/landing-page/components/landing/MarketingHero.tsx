@@ -17,14 +17,7 @@ export const MarketingHero: React.FC = () => {
     <section className="relative w-full min-h-screen flex flex-col items-center justify-center pt-24 pb-16 px-6 overflow-hidden">
       <BlueprintGrid />
 
-      {/* Background radial pulse */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
-        <motion.div
-          animate={{ scale: [1, 1.15, 1], opacity: [0.04, 0.1, 0.04] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          className="h-[700px] w-[700px] rounded-full bg-primary blur-[160px]"
-        />
-      </div>
+
 
       {/* Main Headline */}
       <motion.div
