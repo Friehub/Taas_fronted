@@ -17,6 +17,10 @@ export const MarketingHero: React.FC = () => {
     <section className="relative w-full min-h-screen pt-32 pb-16 px-6 lg:px-12 flex flex-col justify-center overflow-hidden">
       <BlueprintGrid />
 
+      {/* Premium Institutional Light Flare */}
+      <div className="absolute top-0 right-0 lg:right-16 w-full max-w-[800px] h-[600px] bg-gradient-to-bl from-primary/10 via-primary/5 to-transparent blur-[120px] rounded-full pointer-events-none -z-10 mix-blend-screen opacity-70 transform -translate-y-1/3 translate-x-1/4" />
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-white/5 blur-[100px] rounded-full pointer-events-none -z-10 opacity-50 transform -translate-y-1/2 -translate-x-1/4" />
+
       {/* Grid Container for Side-by-Side Layout */}
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10">
         
