@@ -55,13 +55,10 @@ export const MarketingHero: React.FC = () => {
           </h1>
 
           <p className="max-w-xl text-lg md:text-xl text-foreground/55 font-sans leading-relaxed mb-12">
-            TaaS is the first oracle network where every data response is{" "}
-            <span className="text-foreground font-semibold">validated by invariant guards</span>,{" "}
-            aggregated by a{" "}
-            <span className="text-foreground font-semibold">manifest-driven strategy engine</span>, and
-            finalized by{" "}
-            <span className="text-foreground font-semibold">BLS threshold consensus</span> and then
-            secured by EigenLayer restaking.
+            The first oracle network securing arbitrary data through{" "}
+            <span className="text-foreground font-semibold">invariant-governed validation</span>,{" "}
+            <span className="text-foreground font-semibold">BLS threshold consensus</span>, and{" "}
+            <span className="text-foreground font-semibold">EigenLayer restaking</span>.
           </p>
 
           {/* Left-Aligned CTAs */}
