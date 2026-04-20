@@ -106,9 +106,6 @@ export const CompetitivePosition: React.FC = () => {
                         : "text-foreground/40"
                     }`}
                   >
-                    {col.highlight && (
-                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary mr-2 mb-0.5" />
-                    )}
                     {col.label}
                   </th>
                 ))}
@@ -150,9 +147,9 @@ export const CompetitivePosition: React.FC = () => {
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-12 p-8 border border-primary/20 bg-primary/5"
+          className="mt-12 p-8 border border-surface-border bg-surface-low/30 backdrop-blur-sm"
         >
-          <p className="font-mono text-[9px] uppercase tracking-widest text-primary/60 mb-3">
+          <p className="font-mono text-[9px] uppercase tracking-widest text-foreground/40 mb-3">
             Strategic Position
           </p>
           <p className="font-display font-semibold text-xl text-foreground leading-snug max-w-3xl">

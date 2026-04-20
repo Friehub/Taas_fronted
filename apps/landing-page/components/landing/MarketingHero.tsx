@@ -86,7 +86,7 @@ export const MarketingHero: React.FC = () => {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.6 }}
-        className="mt-20 w-full max-w-5xl grid grid-cols-2 md:grid-cols-4 border border-surface-border divide-x divide-y md:divide-y-0 divide-surface-border"
+        className="mt-20 mx-auto w-full max-w-5xl grid grid-cols-2 md:grid-cols-4 border border-surface-border divide-x divide-y md:divide-y-0 divide-surface-border"
       >
         {STAT_ITEMS.map((item) => (
           <div key={item.label} className="px-6 py-6 flex flex-col gap-1 bg-surface-low/30 backdrop-blur-sm">
