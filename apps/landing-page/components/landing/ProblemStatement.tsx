@@ -36,7 +36,7 @@ export const ProblemStatement: React.FC = () => {
           <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/30">
             001 // The Unsolved Problem
           </span>
-          <h2 className="mt-4 text-4xl md:text-6xl font-display font-light text-foreground leading-tight max-w-2xl">
+          <h2 className="mt-4 text-4xl md:text-6xl font-display font-thin text-foreground leading-tight max-w-2xl">
             The Oracle Industry Has Not Solved General Data.
           </h2>
           <p className="mt-6 max-w-xl text-foreground/55 text-base md:text-lg font-sans leading-relaxed">
@@ -63,7 +63,7 @@ export const ProblemStatement: React.FC = () => {
                 <span className="font-mono text-[9px] uppercase tracking-widest text-foreground/25">
                   Industry Default
                 </span>
-                <h3 className="font-display font-semibold text-lg text-foreground/80 line-through decoration-foreground/20">
+                <h3 className="font-display font-thin text-lg text-foreground/80 line-through decoration-foreground/20">
                   {item.problem}
                 </h3>
                 <p className="font-sans text-sm text-foreground/40 leading-relaxed">

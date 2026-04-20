@@ -63,7 +63,7 @@ export function BentoFeatures() {
                                     {feature.icon}
                                 </div>
                                 <div className="text-[10px] font-mono text-primary/40 uppercase tracking-[0.2em] mb-2">Technical Engine 0{i+1}</div>
-                                <h3 className="text-xl font-display font-bold text-foreground mb-4">{feature.title}</h3>
+                                <h3 className="text-xl font-display font-thin text-foreground mb-4">{feature.title}</h3>
                                 <p className="text-sm text-foreground/40 leading-relaxed max-w-[280px]">
                                     {feature.desc}
                                 </p>

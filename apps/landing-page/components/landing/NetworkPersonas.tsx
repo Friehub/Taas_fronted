@@ -30,7 +30,7 @@ export const NetworkPersonas: React.FC = () => {
     <section className="relative w-full py-24 px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto space-y-16">
         <div className="text-center space-y-4">
-          <h2 className="text-4xl md:text-5xl font-display font-light text-foreground">
+          <h2 className="text-4xl md:text-5xl font-display font-thin text-foreground">
             Permissionless Mastery. <br />
             <span className="text-white italic opacity-40">Dedicated Runtimes.</span>
           </h2>
@@ -54,7 +54,7 @@ export const NetworkPersonas: React.FC = () => {
               </div>
 
               <div className="space-y-4">
-                <h3 className="text-2xl font-display font-bold text-foreground transition-colors">
+                <h3 className="text-2xl font-display font-thin text-foreground transition-colors">
                   {p.title}
                 </h3>
                 <p className="text-secondary/60 text-sm leading-relaxed">

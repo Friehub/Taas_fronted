@@ -68,7 +68,7 @@ export default function BlogPost() {
         <main className="flex-1 max-w-5xl space-y-16 order-1 lg:order-2 pb-24">
            {/* Header */}
            <header className="space-y-8">
-              <h1 className="text-4xl md:text-7xl font-display font-bold text-foreground leading-[1.0] tracking-tighter">
+              <h1 className="text-4xl md:text-7xl font-display font-thin text-foreground leading-[1.0] tracking-tighter">
                 {post.title}
               </h1>
               <div className="flex items-center space-x-6 text-[10px] font-mono text-foreground/40 font-bold tracking-widest uppercase">
@@ -101,7 +101,7 @@ export default function BlogPost() {
            {/* Body Copy */}
            <article className="prose prose-neutral dark:prose-invert max-w-none space-y-12 text-lg text-foreground/80 leading-relaxed font-sans">
               <section className="space-y-6">
-                <h2 className="text-3xl font-display font-bold text-foreground tracking-tight">The Bottleneck of Verification</h2>
+                <h2 className="text-3xl font-display font-thin text-foreground tracking-tight">The Bottleneck of Verification</h2>
                 <p>
                   As decentralized networks grow, the cost of verifying individual signatures becomes a linear burden on every validator. In Ethereum's Proof of Stake consensus, having tens of thousands of validators sign every block would traditionally require an unfeasible amount of data and computation.
                 </p>
@@ -122,7 +122,7 @@ export default function BlogPost() {
               </section>
 
               <section className="space-y-6">
-                 <h2 className="text-3xl font-display font-bold text-foreground tracking-tight">Security Considerations</h2>
+                 <h2 className="text-3xl font-display font-thin text-foreground tracking-tight">Security Considerations</h2>
                  <p>
                     Signature aggregation introduces the "Rogue Public Key" attack. A malicious actor could provide a public key such that it cancels out other keys in the aggregate. To prevent this, the TaaS design implements <strong>Proof of Possession (PoP)</strong> during validator onboarding.
                  </p>
@@ -156,7 +156,7 @@ export default function BlogPost() {
               <div key={i} className="surface-depth p-6 space-y-4 neon-card group cursor-pointer">
                  <div className="h-32 bg-background-darker rounded-lg" />
                  <span className="text-[10px] font-mono text-foreground/20 uppercase font-bold tracking-widest">Category_v{i}</span>
-                 <h5 className="text-foreground font-bold leading-tight group-hover:text-primary transition-colors">Theoretical Bounds of Verifiability in AVS</h5>
+                 <h5 className="text-foreground font-thin leading-tight group-hover:text-primary transition-colors">Theoretical Bounds of Verifiability in AVS</h5>
               </div>
             ))}
          </div>

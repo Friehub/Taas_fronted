@@ -79,7 +79,7 @@ export const CompetitivePosition: React.FC = () => {
           <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/30">
             004 // Competitive Position
           </span>
-          <h2 className="mt-4 text-4xl md:text-6xl font-display font-light text-foreground leading-tight max-w-2xl">
+          <h2 className="mt-4 text-4xl md:text-6xl font-display font-thin text-foreground leading-tight max-w-2xl">
             Where TaaS Fits in the Oracle Landscape.
           </h2>
           <p className="mt-6 max-w-xl text-foreground/55 text-base md:text-lg font-sans leading-relaxed">

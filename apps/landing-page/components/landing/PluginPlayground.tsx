@@ -44,7 +44,7 @@ export function PluginPlayground() {
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-primary/5 text-primary text-[10px] font-bold uppercase tracking-[0.3em] mb-8">
                         The Core Engine
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-display font-light text-foreground tracking-[-0.04em] mb-8 leading-[0.9]">
+                    <h2 className="text-4xl md:text-6xl font-display font-thin text-foreground tracking-[-0.04em] mb-8 leading-[0.9]">
                         The Prediction <span className="text-primary italic">Engine.</span>
                     </h2>
                     <p className="text-lg text-foreground/40 font-medium leading-relaxed">

@@ -23,7 +23,7 @@ export const ReadyToVerify: React.FC = () => {
             
             {/* Left Content */}
             <div className="max-w-xl space-y-8">
-              <h2 className="text-4xl md:text-6xl font-display font-light text-foreground leading-[0.9] tracking-tight">
+              <h2 className="text-4xl md:text-6xl font-display font-thin text-foreground leading-[0.9] tracking-tight">
                 Ready to verify <br /> 
                 <span className="text-foreground italic">the future?</span>
               </h2>

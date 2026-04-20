@@ -22,7 +22,7 @@ export const Ecosystem: React.FC = () => {
       <div className="max-w-7xl mx-auto space-y-12">
         
         <div className="text-center space-y-2">
-           <h3 className="text-xl font-display font-medium text-foreground tracking-wide opacity-80 uppercase">
+           <h3 className="text-xl font-display font-thin text-foreground tracking-wide opacity-80 uppercase">
              Powering the Next-Gen Ecosystem
            </h3>
         </div>

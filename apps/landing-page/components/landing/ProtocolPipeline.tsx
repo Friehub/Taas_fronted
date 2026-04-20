@@ -64,7 +64,7 @@ export const ProtocolPipeline: React.FC = () => {
           <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/30">
             002 // The Protocol
           </span>
-          <h2 className="mt-4 text-4xl md:text-6xl font-display font-light text-foreground leading-tight max-w-2xl">
+          <h2 className="mt-4 text-4xl md:text-6xl font-display font-thin text-foreground leading-tight max-w-2xl">
             Six Layers.
             <br />
             One Verified Truth.
@@ -100,7 +100,7 @@ export const ProtocolPipeline: React.FC = () => {
                 {/* Content */}
                 <div className="flex flex-col gap-3 flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-3">
-                    <h3 className="font-display font-bold text-xl text-foreground">{step.title}</h3>
+                    <h3 className="font-display font-thin text-xl text-foreground">{step.title}</h3>
                     <span className="font-mono text-[9px] uppercase tracking-widest text-primary/50 border border-primary/20 px-2 py-0.5 whitespace-nowrap">
                       {step.tag}
                     </span>

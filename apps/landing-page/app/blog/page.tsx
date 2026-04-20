@@ -66,7 +66,7 @@ export default function BlogHub() {
         <div className="flex justify-between items-end border-b border-surface-border pb-8">
            <div className="space-y-1">
               <span className="text-[10px] font-mono text-foreground/40 font-bold tracking-[0.3em] uppercase">Archive_10.v.3</span>
-              <h1 className="text-4xl font-display font-bold text-foreground tracking-tighter">ORACLE.LOG</h1>
+              <h1 className="text-4xl font-display font-thin text-foreground tracking-tighter">ORACLE.LOG</h1>
            </div>
            <div className="hidden md:block">
               <span className="text-[10px] font-mono text-foreground/20 italic">"Determinism is the only consensus."</span>
@@ -82,7 +82,7 @@ export default function BlogHub() {
                       <span className="px-3 py-1 bg-surface-elevated text-foreground/60 text-[10px] font-mono font-bold tracking-widest uppercase rounded-full border border-surface-border">Featured Insight</span>
                       <span className="text-[10px] font-mono text-foreground/40 uppercase tracking-widest font-bold">12 MIN READ</span>
                    </div>
-                   <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground leading-[1.1]">
+                   <h2 className="text-4xl md:text-5xl font-display font-thin text-foreground leading-[1.1]">
                      The Game Theory of Truth: <br />
                      <span className="text-foreground italic">Oracle Incentives in Friehub</span>
                    </h2>
@@ -150,7 +150,7 @@ export default function BlogHub() {
                              <span>{post.category}</span>
                              <span>{post.date}</span>
                           </div>
-                          <h3 className="text-xl font-display font-bold text-foreground group-hover:text-primary transition-colors leading-tight">
+                          <h3 className="text-xl font-display font-thin text-foreground group-hover:text-primary transition-colors leading-tight">
                             {post.title}
                           </h3>
                           <p className="text-foreground/50 text-sm leading-relaxed line-clamp-3">

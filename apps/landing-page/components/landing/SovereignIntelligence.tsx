@@ -56,7 +56,7 @@ export const SovereignIntelligence: React.FC = () => {
           {/* Right: Narrative & Obsessive Math */}
           <div className="order-1 lg:order-2 space-y-8">
 
-            <h2 className="text-4xl md:text-5xl font-display font-light text-foreground leading-[1.1]">
+            <h2 className="text-4xl md:text-5xl font-display font-thin text-foreground leading-[1.1]">
               AI Sovereign Oracle. <br />
               <span className="text-foreground italic">Federated Intelligence.</span>
             </h2>
