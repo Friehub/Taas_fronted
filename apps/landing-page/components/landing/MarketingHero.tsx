@@ -55,21 +55,12 @@ export const MarketingHero: React.FC = () => {
 
           {/* Left-Aligned CTAs */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start justify-start gap-4">
-            <MagneticButton>
-              <motion.button
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-                className="group relative px-10 py-4 bg-foreground overflow-hidden border border-surface-border"
-              >
-                <div className="absolute inset-0 bg-primary/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-                <span className="relative z-10 text-background font-bold uppercase tracking-[0.2em] text-xs">
-                  Join the Operator Registry
-                </span>
-              </motion.button>
-            </MagneticButton>
+            <button className="px-10 py-4 bg-foreground text-background font-bold uppercase tracking-[0.2em] text-xs border border-surface-border hover:bg-foreground/90 transition-colors">
+              Get Started
+            </button>
 
             <button className="surface-depth px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] text-foreground hover:bg-foreground/5 transition-all group border border-surface-border">
-              Read the Architecture
+              Litepaper
               <span className="ml-2 opacity-30 group-hover:opacity-100 transition-opacity">→</span>
             </button>
           </div>
