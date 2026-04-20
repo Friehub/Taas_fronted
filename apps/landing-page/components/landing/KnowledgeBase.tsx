@@ -43,7 +43,7 @@ export function KnowledgeBase() {
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-primary/5 text-primary text-[10px] font-bold uppercase tracking-[0.3em] mb-8">
                             Library & Insights
                         </div>
-                        <h2 className="text-4xl md:text-6xl font-display font-bold text-foreground tracking-[-0.04em]">
+                        <h2 className="text-4xl md:text-6xl font-display font-light text-foreground tracking-[-0.04em]">
                             Knowledge <span className="text-primary italic">Base.</span>
                         </h2>
                     </div>

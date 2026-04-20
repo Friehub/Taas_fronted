@@ -64,7 +64,7 @@ export const ProtocolPipeline: React.FC = () => {
           <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/30">
             002 // The Protocol
           </span>
-          <h2 className="mt-4 text-4xl md:text-6xl font-display font-bold text-foreground leading-tight max-w-2xl">
+          <h2 className="mt-4 text-4xl md:text-6xl font-display font-light text-foreground leading-tight max-w-2xl">
             Six Layers.
             <br />
             One Verified Truth.

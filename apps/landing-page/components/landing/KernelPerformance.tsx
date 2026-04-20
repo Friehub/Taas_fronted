@@ -21,7 +21,7 @@ export const KernelPerformance: React.FC = () => {
         
         {/* Centered Technical Narrative */}
         <div className="text-center space-y-8">
-          <h2 className="text-4xl md:text-6xl font-display font-bold text-foreground">
+          <h2 className="text-4xl md:text-6xl font-display font-light text-foreground">
             The Rust Kernel. <br />
             <span className="text-foreground opacity-40">Systemic Integrity.</span>
           </h2>

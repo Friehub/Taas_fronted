@@ -22,7 +22,7 @@ export function Waitlist() {
 
                     <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-16">
                         <div className="max-w-xl text-center lg:text-left">
-                            <h2 className="text-4xl md:text-6xl font-display font-bold text-primary-foreground mb-8 leading-[0.9] tracking-[-0.04em]">
+                            <h2 className="text-4xl md:text-6xl font-display font-light text-primary-foreground mb-8 leading-[0.9] tracking-[-0.04em]">
                                 Ready to verify <br />
                                 the future?
                             </h2>

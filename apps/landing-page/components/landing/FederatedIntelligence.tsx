@@ -15,7 +15,7 @@ export const FederatedIntelligence: React.FC = () => {
               <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/30">
                 006 // Federated Truth Intelligence
               </span>
-              <h2 className="mt-4 text-4xl md:text-6xl font-display font-bold text-foreground leading-tight max-w-2xl">
+              <h2 className="mt-4 text-4xl md:text-6xl font-display font-light text-foreground leading-tight max-w-2xl">
                 Beyond Stateful.<br />Institutional Memory.
               </h2>
               <p className="mt-6 max-w-xl text-foreground/55 text-base md:text-lg font-sans leading-relaxed">

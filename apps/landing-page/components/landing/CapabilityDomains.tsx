@@ -64,7 +64,7 @@ export const CapabilityDomains: React.FC = () => {
           <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/30">
             003 // Capability Domains
           </span>
-          <h2 className="mt-4 text-4xl md:text-6xl font-display font-bold text-foreground leading-tight max-w-3xl">
+          <h2 className="mt-4 text-4xl md:text-6xl font-display font-light text-foreground leading-tight max-w-3xl">
             Any Data Category.
             <br />
             One Protocol.

@@ -104,7 +104,7 @@ export function ArchitectureProof() {
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-primary/5 text-primary text-[10px] font-bold uppercase tracking-[0.3em] mb-12">
                             <LockClosedIcon className="w-3 h-3" /> Technical Veracity Logic
                         </div>
-                        <h2 className="text-4xl md:text-6xl font-display font-bold text-foreground mb-12 leading-[0.9] tracking-[-0.04em]">
+                        <h2 className="text-4xl md:text-6xl font-display font-light text-foreground mb-12 leading-[0.9] tracking-[-0.04em]">
                             The Two-Process <br />
                             <span className="text-primary italic">Sovereign Proof Model.</span>
                         </h2>

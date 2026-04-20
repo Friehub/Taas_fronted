@@ -46,7 +46,7 @@ export const TruthRegistry: React.FC = () => {
         {/* Section Header: The Vision */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           <div className="space-y-6">
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground leading-tight">
+            <h2 className="text-4xl md:text-5xl font-display font-light text-foreground leading-tight">
               TaaS: Vision & <br /> <span className="text-foreground italic">Strategic Direction.</span>
             </h2>
             <p className="text-foreground/80 text-lg leading-relaxed max-w-xl">
