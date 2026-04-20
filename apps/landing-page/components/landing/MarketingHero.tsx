@@ -3,7 +3,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import BlueprintGrid from "../foundation/BlueprintGrid";
-import ScanLine from "../foundation/ScanLine";
 import { MagneticButton } from "../foundation/MagneticButton";
 
 const STAT_ITEMS = [
@@ -17,7 +16,6 @@ export const MarketingHero: React.FC = () => {
   return (
     <section className="relative w-full min-h-screen flex flex-col items-center justify-center pt-24 pb-16 px-6 overflow-hidden">
       <BlueprintGrid />
-      <ScanLine />
 
       {/* Background radial pulse */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
