@@ -32,8 +32,9 @@ export const Navbar: React.FC = () => {
   return (
     <nav 
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        scrolled ? "bg-background/80 backdrop-blur-md border-b border-surface-border py-4" : "py-8"
+        scrolled ? "bg-background/80 backdrop-blur-md border-b border-surface-border py-4" : "bg-gradient-to-b from-black/80 to-transparent py-8"
       }`}
+      style={(!scrolled && pathname === '/') ? { "--foreground": "#ffffff" } as React.CSSProperties : {}}
     >
       <div className="max-w-7xl mx-auto px-8 flex justify-between items-center">
         

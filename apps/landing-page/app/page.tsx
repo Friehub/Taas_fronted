@@ -21,13 +21,14 @@ import ReadyToVerify from "../components/landing/ReadyToVerify";
  *
  * Narrative arc:
  * 1. MarketingHero       - The bold claim, grounded in specifics
- * 2. ProblemStatement    - What existing oracles get wrong
- * 3. ProtocolPipeline    - The 6-step TaaS lifecycle
- * 4. CapabilityDomains   - General oracle proof: any data domain
- * 5. CompetitivePosition - Honest comparison vs Chainlink / Pyth / UMA
- * 6. SecurityArchitecture - 6-layer trust model
- * 7. NetworkPersonas     - Who runs the network
- * 8. ReadyToVerify       - Waitlist CTA
+ * 2. OracleUniverse      - The visual story of the living network
+ * 3. ProblemStatement    - What existing oracles get wrong
+ * 4. ProtocolPipeline    - The 6-step TaaS lifecycle
+ * 5. CapabilityDomains   - General oracle proof: any data domain
+ * 6. CompetitivePosition - Honest comparison vs Chainlink / Pyth / UMA
+ * 7. SecurityArchitecture - 6-layer trust model
+ * 8. NetworkPersonas     - Who runs the network
+ * 9. ReadyToVerify       - Waitlist CTA
  */
 export default function LandingPage() {
   return (

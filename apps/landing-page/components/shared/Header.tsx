@@ -58,8 +58,16 @@ export function Header() {
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [mobileExpandedSection, setMobileExpandedSection] = useState<string | null>(null);
+    const [isScrolled, setIsScrolled] = useState(false);
 
-    useEffect(() => setMounted(true), []);
+    useEffect(() => {
+        setMounted(true);
+        const handleScroll = () => setIsScrolled(window.scrollY > 50);
+        window.addEventListener('scroll', handleScroll);
+        // Initial check
+        handleScroll();
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     // Prevent scrolling when mobile menu is open
     useEffect(() => {
@@ -72,9 +80,12 @@ export function Header() {
 
     if (!mounted) return null;
 
+    // We force a dark context (white text) and black gradient when over the space hero (!isScrolled).
+    // Once scored, we revert to the default glassy header that respects the active light/dark theme.
     return (
         <header 
-            className="fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-3xl border-b border-foreground/5"
+            className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${!isScrolled ? 'bg-gradient-to-b from-black/80 to-transparent border-transparent' : 'bg-background/80 backdrop-blur-3xl border-b border-foreground/5'}`}
+            style={!isScrolled ? { "--foreground": "#ffffff" } as React.CSSProperties : {}}
             onMouseLeave={() => setActiveMenu(null)}
         >
             <div className="container mx-auto px-6 h-20 flex items-center justify-between">
