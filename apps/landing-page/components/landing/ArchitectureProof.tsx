@@ -96,7 +96,7 @@ export function ArchitectureProof() {
                         </div>
 
                         {/* Visual Glow Behind */}
-                        <div className="absolute inset-0 bg-primary/5 blur-[120px] pointer-events-none -z-10" />
+                        <div className="absolute inset-0 bg-foreground/5 blur-[120px] pointer-events-none -z-10" />
                     </div>
 
                     {/* Content Column */}

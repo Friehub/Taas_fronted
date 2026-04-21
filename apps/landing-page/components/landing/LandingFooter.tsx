@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export function LandingFooter() {
     return (
-        <footer className="py-24 bg-surface-low border-t border-foreground/5">
+        <footer className="py-24 bg-surface-low border-none">
             <div className="container mx-auto px-6">
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-20">
                     <div className="col-span-2 lg:col-span-2 flex flex-col gap-6">
@@ -57,7 +57,7 @@ export function LandingFooter() {
                     </div>
                 </div>
 
-                <div className="pt-12 border-t border-foreground/5 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div className="pt-12 border-none flex flex-col md:flex-row items-center justify-between gap-8">
                     <div className="text-[10px] text-foreground/20 font-mono uppercase tracking-widest leading-loose">
                         © 2026 TaaS Protocol Architecture. <br className="md:hidden" />
                         Designed for Verifiable Autonomy.

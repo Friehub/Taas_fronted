@@ -102,7 +102,7 @@ export const CompetitivePosition: React.FC = () => {
                     key={col.key}
                     className={`text-left py-4 px-4 font-display font-bold text-sm ${
                       col.highlight
-                        ? "text-foreground border-b-2 border-primary"
+                        ? "text-foreground border-b-2 border-foreground"
                         : "text-foreground/40"
                     }`}
                   >

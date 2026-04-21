@@ -74,7 +74,7 @@ export const FederatedIntelligence: React.FC = () => {
                       delay: i * 0.4,
                       ease: "circIn"
                     }}
-                    className="absolute h-1 w-1 bg-primary/40 rounded-full"
+                    className="absolute h-1 w-1 bg-foreground/40 rounded-full"
                   />
                 ))}
 
@@ -82,7 +82,7 @@ export const FederatedIntelligence: React.FC = () => {
                 <motion.div 
                   animate={{ scale: [0.98, 1.02, 0.98] }}
                   transition={{ duration: 2, repeat: Infinity }}
-                  className="relative z-10 h-32 w-32 bg-background flex items-center justify-center p-4 text-center group border border-surface-border shadow-[0_0_30px_rgba(73,231,116,0.1)]"
+                  className="relative z-10 h-32 w-32 bg-background flex items-center justify-center p-4 text-center group border border-surface-border shadow-[0_0_30px_rgba(255,255,255,0.05)]"
                 >
                   <div className="space-y-1">
                     <div className="text-[10px] font-mono text-foreground/40 uppercase tracking-widest">Generalization</div>

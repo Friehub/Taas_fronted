@@ -101,7 +101,7 @@ export const ProtocolPipeline: React.FC = () => {
                 <div className="flex flex-col gap-3 flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-3">
                     <h3 className="font-display font-thin text-xl text-foreground">{step.title}</h3>
-                    <span className="font-mono text-[9px] uppercase tracking-widest text-primary/50 border border-primary/20 px-2 py-0.5 whitespace-nowrap">
+                    <span className="font-mono text-[9px] uppercase tracking-widest text-foreground/50 border border-foreground/20 px-2 py-0.5 whitespace-nowrap">
                       {step.tag}
                     </span>
                   </div>

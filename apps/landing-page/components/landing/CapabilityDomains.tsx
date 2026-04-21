@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const DOMAINS = [
   {
@@ -141,9 +142,13 @@ export const CapabilityDomains: React.FC = () => {
               Write a plugin in TypeScript and a manifest in JSON. That is the entire integration surface.
             </p>
           </div>
-          <button className="whitespace-nowrap surface-depth px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-foreground hover:bg-foreground/5 transition-all border border-surface-border">
+          <Link 
+            href="https://github.com/Friehub/taas-plugins" 
+            target="_blank" 
+            className="whitespace-nowrap surface-depth px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-foreground hover:bg-foreground/5 transition-all border border-surface-border rounded-full"
+          >
             Read Plugin SDK →
-          </button>
+          </Link>
         </motion.div>
       </div>
     </section>

@@ -78,7 +78,7 @@ export const SecurityArchitecture: React.FC = () => {
               transition={{ delay: i * 0.07 }}
               className={`p-8 flex flex-col gap-4 border border-transparent neon-card ${
                 pillar.highlight
-                  ? "bg-primary/5 border-primary/15"
+                  ? "bg-foreground/5 border-foreground/15"
                   : "bg-background"
               }`}
             >
@@ -87,7 +87,7 @@ export const SecurityArchitecture: React.FC = () => {
                   Layer {pillar.id}
                 </span>
                 {pillar.highlight && (
-                  <span className="font-mono text-[8px] uppercase tracking-widest text-primary/60 border border-primary/25 px-1.5 py-0.5">
+                  <span className="font-mono text-[8px] uppercase tracking-widest text-foreground/60 border border-foreground/25 px-1.5 py-0.5">
                     Differentiator
                   </span>
                 )}

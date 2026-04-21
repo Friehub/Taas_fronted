@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import BlueprintGrid from "../foundation/BlueprintGrid";
 import { ThresholdNode } from "../animation/ThresholdNode";
@@ -77,10 +78,13 @@ export const Hero: React.FC = () => {
               Get Started
             </button>
 
-            <button className="rounded-full surface-depth px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] text-foreground hover:bg-foreground/5 transition-all group border border-surface-border">
+            <Link 
+              href="/litepaper"
+              className="rounded-full surface-depth px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] text-foreground hover:bg-foreground/5 transition-all group border border-surface-border flex items-center"
+            >
               Litepaper
               <span className="ml-2 opacity-30 group-hover:opacity-100 transition-opacity">→</span>
-            </button>
+            </Link>
           </div>
         </motion.div>
         
