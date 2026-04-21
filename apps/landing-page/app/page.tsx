@@ -4,7 +4,7 @@ import React from "react";
 import ScrollReveal from "../components/foundation/ScrollReveal";
 
 // Marketing narrative sections - grounded in the actual codebase
-import MarketingHero from "../components/landing/MarketingHero";
+import Hero from "../components/landing/Hero";
 import ProblemStatement from "../components/landing/ProblemStatement";
 import ProtocolPipeline from "../components/landing/ProtocolPipeline";
 import CapabilityDomains from "../components/landing/CapabilityDomains";
@@ -34,7 +34,7 @@ export default function LandingPage() {
     <div className="relative min-h-screen flex flex-col items-center overflow-hidden">
       <div className="w-full relative z-10 flex flex-col items-center">
 
-        <MarketingHero />
+        <Hero />
 
         <div id="problem" className="w-full">
           <ScrollReveal>

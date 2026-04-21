@@ -11,7 +11,7 @@ const FEATURES = [
     {
         title: "API Staking",
         desc: "Secure high-throughput API endpoints via threshold consensus. Guarantee data veracity with economic security.",
-        icon: <LockClosedIcon className="w-5 h-5 text-[#49E774]" />,
+        icon: <LockClosedIcon className="w-5 h-5 text-foreground/60" />,
         className: "bg-surface-low hover:bg-surface-high transition-all duration-500",
         visual: (
             <div className="absolute inset-0 overflow-hidden opacity-10">
@@ -22,7 +22,7 @@ const FEATURES = [
     {
         title: "BLS Management",
         desc: "Automated threshold signature aggregation for multi-chain proof generation and gas-efficient verification.",
-        icon: <LightningBoltIcon className="w-5 h-5 text-[#49E774]" />,
+        icon: <LightningBoltIcon className="w-5 h-5 text-foreground/60" />,
         className: "bg-surface-low hover:bg-surface-high transition-all duration-500",
         visual: (
             <div className="absolute inset-0 overflow-hidden opacity-5">
@@ -33,7 +33,7 @@ const FEATURES = [
     {
         title: "Data Agnostic",
         desc: "Seamlessly integrate any legacy data source or custom API into the decentralized oracle mesh.",
-        icon: <Share1Icon className="w-5 h-5 text-[#49E774]" />,
+        icon: <Share1Icon className="w-5 h-5 text-foreground/60" />,
         className: "bg-surface-low hover:bg-surface-high transition-all duration-500",
         visual: (
             <div className="absolute inset-0 overflow-hidden opacity-5">
@@ -63,7 +63,7 @@ export function BentoFeatures() {
                                     {feature.icon}
                                 </div>
                                 <div className="text-[10px] font-mono text-primary/40 uppercase tracking-[0.2em] mb-2">Technical Engine 0{i+1}</div>
-                                <h3 className="text-xl font-display font-bold text-foreground mb-4">{feature.title}</h3>
+                                <h3 className="text-xl font-display font-thin text-foreground mb-4">{feature.title}</h3>
                                 <p className="text-sm text-foreground/40 leading-relaxed max-w-[280px]">
                                     {feature.desc}
                                 </p>

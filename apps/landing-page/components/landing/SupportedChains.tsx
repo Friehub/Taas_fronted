@@ -15,8 +15,8 @@ const CHAINS = [
 export function SupportedChains() {
     return (
         <section className="py-12 border-y border-primary/10 bg-secondary/10 overflow-hidden relative">
-            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
             <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="shrink-0 text-[10px] font-mono text-foreground/40 uppercase tracking-[0.3em]">
                     Verifiable Execution On:
@@ -42,7 +42,7 @@ export function SupportedChains() {
                                 </div>
                                 <div className="flex items-center gap-2 mt-0.5">
                                     <span className="text-[9px] font-medium text-foreground/40">{chain.type}</span>
-                                    <span className={`text-[9px] font-bold ${chain.highlight ? 'text-primary' : 'text-foreground/20'}`}>{chain.status}</span>
+                                    <span className={`text-[9px] font-bold ${chain.highlight ? 'text-foreground' : 'text-foreground/20'}`}>{chain.status}</span>
                                 </div>
                             </div>
                         </motion.div>

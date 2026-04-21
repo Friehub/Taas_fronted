@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 /**
  * ReadyToVerify - The flagship CTA section.
@@ -23,7 +24,7 @@ export const ReadyToVerify: React.FC = () => {
             
             {/* Left Content */}
             <div className="max-w-xl space-y-8">
-              <h2 className="text-4xl md:text-6xl font-display font-bold text-foreground leading-[0.9] tracking-tight">
+              <h2 className="text-4xl md:text-6xl font-display font-thin text-foreground leading-[0.9] tracking-tight">
                 Ready to verify <br /> 
                 <span className="text-foreground italic">the future?</span>
               </h2>
@@ -32,12 +33,16 @@ export const ReadyToVerify: React.FC = () => {
               </p>
               
               <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
-                <button className="w-full sm:w-auto px-10 py-5 bg-foreground text-background font-bold uppercase tracking-[0.2em] text-xs hover:scale-105 transition-all">
+                <button className="w-full sm:w-auto px-10 py-5 bg-foreground text-background font-bold uppercase tracking-[0.2em] text-xs hover:scale-105 transition-all rounded-full">
                   Join the Network
                 </button>
-                <button className="w-full sm:w-auto px-10 py-5 border border-surface-border text-foreground font-bold uppercase tracking-[0.2em] text-xs hover:bg-foreground/5 transition-all">
+                <Link 
+                  href="https://docs.friehub.cloud" 
+                  target="_blank"
+                  className="w-full sm:w-auto px-10 py-5 border border-surface-border text-foreground font-bold uppercase tracking-[0.2em] text-xs hover:bg-foreground/5 transition-all rounded-full text-center"
+                >
                   Documentation
-                </button>
+                </Link>
               </div>
             </div>
 

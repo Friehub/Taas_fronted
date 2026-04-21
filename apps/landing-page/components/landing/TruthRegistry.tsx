@@ -46,7 +46,7 @@ export const TruthRegistry: React.FC = () => {
         {/* Section Header: The Vision */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           <div className="space-y-6">
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground leading-tight">
+            <h2 className="text-4xl md:text-5xl font-display font-thin text-foreground leading-tight">
               TaaS: Vision & <br /> <span className="text-foreground italic">Strategic Direction.</span>
             </h2>
             <p className="text-foreground/80 text-lg leading-relaxed max-w-xl">
@@ -65,7 +65,7 @@ export const TruthRegistry: React.FC = () => {
         {/* The Problem Space */}
         <div className="space-y-12">
           <div className="space-y-4">
-            <h3 className="text-2xl font-display font-bold text-foreground">The Problem</h3>
+            <h3 className="text-2xl font-display font-thin text-foreground">The Problem</h3>
             <p className="max-w-3xl text-foreground/60 leading-relaxed">
               Blockchains are deterministic environments that cannot reach the outside world. To solve this, TaaS separates the <span className="text-foreground font-semibold">Transport Layer</span> (validation) from the <span className="text-foreground font-semibold">Data Layer</span> (fetching).
             </p>
@@ -78,7 +78,7 @@ export const TruthRegistry: React.FC = () => {
                    {item.icon}
                  </div>
                  <div className="space-y-3">
-                   <h4 className="text-lg font-display font-bold text-foreground">{item.title}</h4>
+                   <h4 className="text-lg font-display font-thin text-foreground">{item.title}</h4>
                    <p className="text-xs text-foreground/40 leading-relaxed font-sans">{item.desc}</p>
                  </div>
               </div>

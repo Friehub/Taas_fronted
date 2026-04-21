@@ -38,7 +38,7 @@ export const OracleInsights: React.FC = () => {
         
         {/* Section Header */}
         <div className="text-center space-y-4">
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">
+          <h2 className="text-4xl md:text-5xl font-display font-thin text-foreground">
             Research & <span className="text-foreground italic">Engineering.</span>
           </h2>
         </div>
@@ -61,7 +61,7 @@ export const OracleInsights: React.FC = () => {
                    </div>
                  </div>
 
-                 <h3 className="text-2xl font-display font-bold text-foreground transition-colors leading-tight">
+                 <h3 className="text-2xl font-display font-thin text-foreground transition-colors leading-tight">
                     {article.title}
                  </h3>
                  

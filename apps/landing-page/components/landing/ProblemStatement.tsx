@@ -36,7 +36,7 @@ export const ProblemStatement: React.FC = () => {
           <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/30">
             001 // The Unsolved Problem
           </span>
-          <h2 className="mt-4 text-4xl md:text-6xl font-display font-bold text-foreground leading-tight max-w-2xl">
+          <h2 className="mt-4 text-4xl md:text-6xl font-display font-thin text-foreground leading-tight max-w-2xl">
             The Oracle Industry Has Not Solved General Data.
           </h2>
           <p className="mt-6 max-w-xl text-foreground/55 text-base md:text-lg font-sans leading-relaxed">
@@ -51,18 +51,19 @@ export const ProblemStatement: React.FC = () => {
           {PROBLEMS.map((item, i) => (
             <motion.div
               key={item.problem}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.5 }}
+              initial={{ opacity: 0, y: 32, rotateX: -10 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: i * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="bg-background p-8 flex flex-col gap-5 neon-card border border-transparent"
+              style={{ transformOrigin: "top center", perspective: "1000px" }}
             >
               {/* Problem */}
               <div className="flex flex-col gap-2">
                 <span className="font-mono text-[9px] uppercase tracking-widest text-foreground/25">
                   Industry Default
                 </span>
-                <h3 className="font-display font-semibold text-lg text-foreground/80 line-through decoration-foreground/20">
+                <h3 className="font-display font-thin text-lg text-foreground/80 line-through decoration-foreground/20">
                   {item.problem}
                 </h3>
                 <p className="font-sans text-sm text-foreground/40 leading-relaxed">

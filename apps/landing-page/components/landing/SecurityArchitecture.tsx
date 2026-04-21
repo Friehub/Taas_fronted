@@ -58,7 +58,7 @@ export const SecurityArchitecture: React.FC = () => {
           <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/30">
             005 // Security Architecture
           </span>
-          <h2 className="mt-4 text-4xl md:text-6xl font-display font-bold text-foreground leading-tight max-w-2xl">
+          <h2 className="mt-4 text-4xl md:text-6xl font-display font-thin text-foreground leading-tight max-w-2xl">
             Trust is Layered,<br />Not Assumed.
           </h2>
           <p className="mt-6 max-w-xl text-foreground/55 text-base md:text-lg font-sans leading-relaxed">
@@ -78,7 +78,7 @@ export const SecurityArchitecture: React.FC = () => {
               transition={{ delay: i * 0.07 }}
               className={`p-8 flex flex-col gap-4 border border-transparent neon-card ${
                 pillar.highlight
-                  ? "bg-primary/5 border-primary/15"
+                  ? "bg-foreground/5 border-foreground/15"
                   : "bg-background"
               }`}
             >
@@ -87,12 +87,12 @@ export const SecurityArchitecture: React.FC = () => {
                   Layer {pillar.id}
                 </span>
                 {pillar.highlight && (
-                  <span className="font-mono text-[8px] uppercase tracking-widest text-primary/60 border border-primary/25 px-1.5 py-0.5">
+                  <span className="font-mono text-[8px] uppercase tracking-widest text-foreground/60 border border-foreground/25 px-1.5 py-0.5">
                     Differentiator
                   </span>
                 )}
               </div>
-              <h3 className="font-display font-bold text-lg text-foreground leading-tight">
+              <h3 className="font-display font-thin text-lg text-foreground leading-tight">
                 {pillar.title}
               </h3>
               <code className="font-mono text-[10px] text-foreground/30 leading-relaxed break-words">

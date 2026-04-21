@@ -1,12 +1,34 @@
 "use client";
 
-import { motion } from 'framer-motion';
-import { ArrowRightIcon, GitHubLogoIcon, FileIcon } from '@radix-ui/react-icons';
-import Link from 'next/link';
+import { useState, useTransition } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { subscribeToNewsletter } from '@/app/actions';
 
 export function Waitlist() {
+    const [email, setEmail] = useState('');
+    const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+    const [isPending, startTransition] = useTransition();
+
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        setStatus('idle');
+        
+        startTransition(async () => {
+            const formData = new FormData();
+            formData.append("email", email);
+            const result = await subscribeToNewsletter(formData);
+            
+            if (result.success) {
+                setStatus('success');
+                setEmail('');
+            } else {
+                setStatus('error');
+            }
+        });
+    }
+
     return (
-        <section id="waitlist" className="py-32 bg-background relative overflow-hidden border-t border-foreground/5">
+        <section id="waitlist" className="py-32 bg-background relative overflow-hidden border-none text-foreground">
             <div className="absolute inset-0 bg-blueprint opacity-[0.2] pointer-events-none" />
             
             <div className="container mx-auto px-6 relative z-10">
@@ -14,37 +36,62 @@ export function Waitlist() {
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="relative bg-primary rounded-sm p-12 md:p-20 overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.2)]"
+                    className="relative bg-surface-low rounded-[2rem] p-12 md:p-20 overflow-hidden border border-surface-border"
                 >
                     {/* Background Decorative Elements */}
-                    <div className="absolute top-0 right-0 w-1/2 h-full bg-black/5 skew-x-12 translate-x-1/2 pointer-events-none" />
-                    <div className="absolute inset-0 bg-blueprint opacity-20 pointer-events-none" />
+                    <div className="absolute top-0 right-0 w-1/2 h-full bg-foreground/[0.02] skew-x-12 translate-x-1/2 pointer-events-none" />
+                    <div className="absolute inset-0 bg-blueprint opacity-5 pointer-events-none transition-opacity duration-1000 group-hover:opacity-10" />
 
                     <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-16">
-                        <div className="max-w-xl text-center lg:text-left">
-                            <h2 className="text-4xl md:text-6xl font-display font-bold text-primary-foreground mb-8 leading-[0.9] tracking-[-0.04em]">
+                        <div className="max-w-xl text-center lg:text-left space-y-8">
+                            <h2 className="text-4xl md:text-6xl font-display font-thin text-foreground leading-[0.9] tracking-tight">
                                 Ready to verify <br />
-                                the future?
+                                <span className="italic">the future?</span>
                             </h2>
-                            <p className="text-primary-foreground/80 text-lg font-medium leading-relaxed mb-12">
-                                Join the Friehub network today and start delivering absolute 
-                                integrity to your smart contract applications.
+                            <p className="text-foreground/60 text-lg font-medium leading-relaxed">
+                                Join the TaaS network today and start delivering absolute 
+                                integrity to your decentralized data pipelines.
                             </p>
 
-                            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                                <Link
-                                    href="/dashboard"
-                                    className="h-14 px-10 bg-white text-primary font-bold text-sm rounded-sm flex items-center justify-center min-w-[180px] hover:translate-y-[-2px] transition-all shadow-xl shadow-black/10"
+                            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto lg:mx-0">
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="Enter your email"
+                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="flex-1 h-14 px-6 bg-background/50 border border-surface-border text-foreground font-mono text-sm placeholder:text-foreground/20 focus:outline-none focus:border-foreground/30 transition-all rounded-full"
+                                />
+                                <button
+                                    type="submit"
+                                    disabled={isPending || status === 'success'}
+                                    className="h-14 px-10 bg-foreground text-background font-bold text-xs uppercase tracking-[0.2em] rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
                                 >
-                                    Launch DApp
-                                </Link>
-                                <Link
-                                    href="/docs"
-                                    className="h-14 px-10 bg-primary-container border border-white/10 text-white font-bold text-sm rounded-sm flex items-center justify-center min-w-[180px] hover:bg-primary-container/80 transition-all"
-                                >
-                                    Read Documentation
-                                </Link>
-                            </div>
+                                    {isPending ? 'Connecting...' : status === 'success' ? 'Joined' : 'Join Waitlist'}
+                                </button>
+                            </form>
+                            
+                            <AnimatePresence>
+                                {status === 'success' && (
+                                    <motion.p 
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="text-[10px] font-mono text-foreground/40 uppercase tracking-widest"
+                                    >
+                                        Inbound relay established. Welcome to the swarm.
+                                    </motion.p>
+                                )}
+                                {status === 'error' && (
+                                    <motion.p 
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="text-[10px] font-mono text-destructive uppercase tracking-widest"
+                                    >
+                                        Relay failed. Please verify credentials.
+                                    </motion.p>
+                                )}
+                            </AnimatePresence>
                         </div>
 
                         {/* Data Stat Block */}

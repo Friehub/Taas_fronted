@@ -15,7 +15,7 @@ export const FederatedIntelligence: React.FC = () => {
               <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/30">
                 006 // Federated Truth Intelligence
               </span>
-              <h2 className="mt-4 text-4xl md:text-6xl font-display font-bold text-foreground leading-tight max-w-2xl">
+              <h2 className="mt-4 text-4xl md:text-6xl font-display font-thin text-foreground leading-tight max-w-2xl">
                 Beyond Stateful.<br />Institutional Memory.
               </h2>
               <p className="mt-6 max-w-xl text-foreground/55 text-base md:text-lg font-sans leading-relaxed">
@@ -74,7 +74,7 @@ export const FederatedIntelligence: React.FC = () => {
                       delay: i * 0.4,
                       ease: "circIn"
                     }}
-                    className="absolute h-1 w-1 bg-primary/40 rounded-full"
+                    className="absolute h-1 w-1 bg-foreground/40 rounded-full"
                   />
                 ))}
 
@@ -82,7 +82,7 @@ export const FederatedIntelligence: React.FC = () => {
                 <motion.div 
                   animate={{ scale: [0.98, 1.02, 0.98] }}
                   transition={{ duration: 2, repeat: Infinity }}
-                  className="relative z-10 h-32 w-32 bg-background flex items-center justify-center p-4 text-center group border border-surface-border shadow-[0_0_30px_rgba(73,231,116,0.1)]"
+                  className="relative z-10 h-32 w-32 bg-background flex items-center justify-center p-4 text-center group border border-surface-border shadow-[0_0_30px_rgba(255,255,255,0.05)]"
                 >
                   <div className="space-y-1">
                     <div className="text-[10px] font-mono text-foreground/40 uppercase tracking-widest">Generalization</div>

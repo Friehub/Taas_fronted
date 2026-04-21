@@ -96,7 +96,7 @@ export function ArchitectureProof() {
                         </div>
 
                         {/* Visual Glow Behind */}
-                        <div className="absolute inset-0 bg-primary/5 blur-[120px] pointer-events-none -z-10" />
+                        <div className="absolute inset-0 bg-foreground/5 blur-[120px] pointer-events-none -z-10" />
                     </div>
 
                     {/* Content Column */}
@@ -104,7 +104,7 @@ export function ArchitectureProof() {
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-primary/5 text-primary text-[10px] font-bold uppercase tracking-[0.3em] mb-12">
                             <LockClosedIcon className="w-3 h-3" /> Technical Veracity Logic
                         </div>
-                        <h2 className="text-4xl md:text-6xl font-display font-bold text-foreground mb-12 leading-[0.9] tracking-[-0.04em]">
+                        <h2 className="text-4xl md:text-6xl font-display font-thin text-foreground mb-12 leading-[0.9] tracking-[-0.04em]">
                             The Two-Process <br />
                             <span className="text-primary italic">Sovereign Proof Model.</span>
                         </h2>
@@ -114,7 +114,7 @@ export function ArchitectureProof() {
                                     <CubeIcon className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-xl mb-3 font-display">Isolated Runtime</h3>
+                                    <h3 className="font-thin text-xl mb-3 font-display">Isolated Runtime</h3>
                                     <p className="text-foreground/40 text-sm leading-relaxed max-w-sm">
                                         Sovereign Adapters run in a sandboxed process, preventing side-channel attacks and ensuring deterministic execution of API plugins.
                                     </p>
@@ -126,7 +126,7 @@ export function ArchitectureProof() {
                                     <LinkBreak2Icon className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-xl mb-3 font-display">Threshold Aggregation</h3>
+                                    <h3 className="font-thin text-xl mb-3 font-display">Threshold Aggregation</h3>
                                     <p className="text-foreground/40 text-sm leading-relaxed max-w-sm">
                                         Multi-node signatures are collapsed into a single constant-size proof, drastically reducing gas costs for on-chain verification.
                                     </p>

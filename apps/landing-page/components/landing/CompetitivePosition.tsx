@@ -79,7 +79,7 @@ export const CompetitivePosition: React.FC = () => {
           <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/30">
             004 // Competitive Position
           </span>
-          <h2 className="mt-4 text-4xl md:text-6xl font-display font-bold text-foreground leading-tight max-w-2xl">
+          <h2 className="mt-4 text-4xl md:text-6xl font-display font-thin text-foreground leading-tight max-w-2xl">
             Where TaaS Fits in the Oracle Landscape.
           </h2>
           <p className="mt-6 max-w-xl text-foreground/55 text-base md:text-lg font-sans leading-relaxed">
@@ -102,13 +102,10 @@ export const CompetitivePosition: React.FC = () => {
                     key={col.key}
                     className={`text-left py-4 px-4 font-display font-bold text-sm ${
                       col.highlight
-                        ? "text-foreground border-b-2 border-primary"
+                        ? "text-foreground border-b-2 border-foreground"
                         : "text-foreground/40"
                     }`}
                   >
-                    {col.highlight && (
-                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary mr-2 mb-0.5" />
-                    )}
                     {col.label}
                   </th>
                 ))}
@@ -118,10 +115,10 @@ export const CompetitivePosition: React.FC = () => {
               {COMPARISON_ROWS.map((row, i) => (
                 <motion.tr
                   key={row.feature}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.04 }}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ delay: i * 0.08, duration: 0.5, ease: "easeOut" }}
                   className="border-b border-surface-border group hover:bg-surface-low/30 transition-colors duration-200"
                 >
                   <td className="py-4 pr-6 font-mono text-[10px] uppercase tracking-widest text-foreground/40 align-top">
@@ -150,9 +147,9 @@ export const CompetitivePosition: React.FC = () => {
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-12 p-8 border border-primary/20 bg-primary/5"
+          className="mt-12 p-8 border border-surface-border bg-surface-low/30 backdrop-blur-sm"
         >
-          <p className="font-mono text-[9px] uppercase tracking-widest text-primary/60 mb-3">
+          <p className="font-mono text-[9px] uppercase tracking-widest text-foreground/40 mb-3">
             Strategic Position
           </p>
           <p className="font-display font-semibold text-xl text-foreground leading-snug max-w-3xl">

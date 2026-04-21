@@ -43,7 +43,7 @@ export function KnowledgeBase() {
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-primary/5 text-primary text-[10px] font-bold uppercase tracking-[0.3em] mb-8">
                             Library & Insights
                         </div>
-                        <h2 className="text-4xl md:text-6xl font-display font-bold text-foreground tracking-[-0.04em]">
+                        <h2 className="text-4xl md:text-6xl font-display font-thin text-foreground tracking-[-0.04em]">
                             Knowledge <span className="text-primary italic">Base.</span>
                         </h2>
                     </div>
@@ -82,7 +82,7 @@ export function KnowledgeBase() {
                                     <span className="text-[10px] font-bold text-primary/60 uppercase tracking-widest">{article.category}</span>
                                     <span className="text-[10px] font-medium text-foreground/20">{article.date}</span>
                                 </div>
-                                <h3 className="text-xl font-display font-bold text-foreground mb-4 group-hover:text-primary transition-colors">
+                                <h3 className="text-xl font-display font-thin text-foreground mb-4 group-hover:text-primary transition-colors">
                                     {article.title}
                                 </h3>
                                 <p className="text-sm text-foreground/40 leading-relaxed max-w-sm mb-12 flex-1">

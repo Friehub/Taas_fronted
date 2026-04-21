@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { subscribeToNewsletter } from "../../app/actions";
 
 /**
@@ -10,6 +11,8 @@ import { subscribeToNewsletter } from "../../app/actions";
  * Rebuilt to match the provided mockup.
  */
 export const Footer: React.FC = () => {
+  const pathname = usePathname();
+  const isLitepaper = pathname === "/litepaper";
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
@@ -29,7 +32,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="w-full bg-background border-t border-surface-border/50 pt-24 pb-12 px-8">
+    <footer className="w-full bg-background border-none pt-24 pb-12 px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-8">
         
         {/* Column 1: Brand & Identity */}
@@ -68,7 +71,16 @@ export const Footer: React.FC = () => {
           <ul className="space-y-4">
             {["Documentation", "Whitepaper", "GitHub", "Bug Bounty"].map((item) => (
               <li key={item}>
-                <Link href="#" className="text-sm text-foreground/40 hover:text-foreground transition-colors">{item}</Link>
+                <Link 
+                  href={
+                    item === "Documentation" ? "https://docs.friehub.cloud" : 
+                    item === "GitHub" ? "https://github.com/Friehub" : "#"
+                  } 
+                  target={(item === "Documentation" || item === "GitHub") ? "_blank" : undefined}
+                  className="text-sm text-foreground/40 hover:text-foreground transition-colors"
+                >
+                  {item}
+                </Link>
               </li>
             ))}
           </ul>
@@ -103,7 +115,7 @@ export const Footer: React.FC = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="max-w-7xl mx-auto mt-24 pt-8 border-t border-surface-border/50 flex flex-col md:flex-row justify-between items-center gap-6">
+      <div className="max-w-7xl mx-auto mt-24 pt-8 border-none flex flex-col md:flex-row justify-between items-center gap-6">
         <span className="text-[10px] font-mono text-foreground/20 uppercase tracking-widest">
           © 2026 FRIEHUB NETWORK. ALL RIGHTS RESERVED.
         </span>
