@@ -1,45 +1,34 @@
 # Why TaaS?
 
-Existing oracle solutions solve narrow problems. TaaS was built to be the general-purpose layer for any smart contract that requires verifiable real-world data.
+Legacy oracle solutions were designed for a primitive DeFi era of simple price feeds. TaaS was engineered as the **Sovereign Fact Engine** for the institutional-grade on-chain economy.
 
 ---
 
-## Comparison with Alternatives
+## Market Positioning
 
-| Feature | Legacy Oracles | Optimistic Oracles | TaaS |
-|---|---|---|---|
-| Arbitrary data types | Requires custom feed | Limited | Any via Verifiable Logic |
-| Dispute mechanism | None (push model) | Optimistic window | Real-time verification |
-| Custom logic | Not supported | Not supported | Integrated engine: multi-source resolution |
-| Developer testing | Complex node setup | Complex | Gateway Proxy: GIM-enabled |
-| Data source plugins | Centralized operators | Centralized operators | Open interface standard |
-| Decentralized computation | Aggregation only | Assertion model | Full local logic execution |
+| Feature | Legacy Oracles | Optimistic Oracles | TaaS (Fact Engine) |
+| :--- | :--- | :--- | :--- |
+| **Execution** | Centralized Feeds | Assertion Model | **Sovereign V8 Sandboxes** |
+| **Security** | Native Token Staking | Optimistic Bonds | **EigenLayer Restaking** |
+| **Data Domain** | Narrow (Price/VRF) | Arbitrary (Slow) | **Universal (Manifest-Driven)** |
+| **Consensus** | Simple Aggregation | Human Dispute | **BLS Threshold / BFT** |
+| **Integrity** | "Trust the Feed" | "Trust the Dispute" | **Verifiable Provenance** |
 
 ---
 
 ## The Core Advantages
 
-### 1. Universal Data Support
-Traditional oracles require coordinated infrastructure updates for new data types. With TaaS, intent-driven logic is defined via the SDK and supported immediately by the network without protocol upgrades.
+### 1. Sovereign Execution Plane
+Unlike legacy systems that rely on opaque sidecars, TaaS resolves facts inside native Rust-embedded V8 isolates. Every plugin is bound by a `PluginManifest`, ensuring deterministic, sandboxed execution that is invisible to the underlying node operator.
 
-### 2. Verifiable Local Execution
-Independent network participants execute the same intent locally before proposing an outcome. This ensures the result is independently reproducible by nodes, smart contracts, and end users.
+### 2. Economic Integrity via EigenLayer
+We leverage the massive cryptoeconomic security of Ethereum through **EigenLayer AVS**. By using restaked ETH for collateral, we provide a level of security and slashing enforcement that native token ecosystems cannot match.
 
-### 3. Developer-First Framework
-The TaaS framework allows for rapid data integration. The Gateway Proxy eliminates the requirement for individual API subscriptions during the development phase.
+### 3. TruthPoints: Proof of Provenance
+We don't just deliver data; we deliver **Evidence**. Every resolution produces a TruthPoint — a cryptographically signed unit that anchors the entire chain of custody (Source -> Sandbox -> Swarm -> Settlement).
 
-### 4. Open Modular Architecture
-Data providers are integrated via a standardized interface. The TaaS registry organizes providers by domain, making them available to the execution engine at runtime.
+### 4. Zero-Trust Aggregation
+TaaS supports modular consensus strategies. Whether you require a **Weighted Median** for prices or a **BLS Threshold Quorum** for state updates, the protocol enforces the strategy at the kernel level before any fact reaches your contract.
 
-### 5. Economic Security via Slashing
-Participants must provide collateral when proposing outcomes. If a discrepancy is detected, an on-chain dispute is triggered, and incorrect proposers are slashed, making economic dishonesty prohibitively expensive.
-
----
-
-## Built to Evolve
-
-The TaaS architecture is modular by design:
-
-- New data types can be added by anyone contributing a standardized plugin adapter.
-- New consensus strategies, such as multi-node weighted voting, can be added to the execution core without breaking existing recipes.
-- Zero-knowledge proof integration is a planned upgrade. Execution traces from the engine can be processed into ZK proofs, making verification entirely trustless.
+### 5. Institutional-Grade Infrastructure
+Built in Rust for performance and safety, TaaS supports **TEE Attestation** (Intel SGX / AWS Nitro) out of the box, offering a high-integrity execution path for high-value institutional settlement.

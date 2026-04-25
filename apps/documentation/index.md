@@ -3,27 +3,41 @@ layout: home
 
 hero:
   name: "TaaS"
-  text: "Verifiable On-Chain Fact Engine"
-  tagline: Decentralized oracle infrastructure built on cryptographic data provenance. Empowering the next generation of DeFi, prediction markets, and RWA.
+  text: "The Sovereign Fact Engine"
+  tagline: Verifiable provenance for the on-chain economy. Secured by EigenLayer.
   actions:
     - theme: brand
-      text: Get Started
-      link: /guides/getting-started
+      text: Explore Architecture
+      link: /protocol/overview
     - theme: alt
-      text: SDK Documentation
-      link: /guides/taas-sdk
+      text: View Live Networks
+      link: /networks/hoodi
 
 features:
-  - title: Trustless Data Access
-    details: Access high-fidelity data from multiple professional sources (Bloomberg, CoinGecko, SportMonks, etc.) verified by a decentralized network of gateway nodes.
-  - title: Verifiable Proofs
-    details: Every data response includes a TruthPoint — a signed, structured unit of proof carrying the exact chain of custody, enabling verifiable on-chain settlement.
-  - title: Deterministic Aggregation
-    details: TaaS enforces multi-source quorum and deterministic aggregation strategies (Median, Consensus, Mean). No more single-source failures.
-  - title: State Guard Engine
-    details: Pre-resolution conditions ensure protocol safety. Only attest data once in-game events have truly finished or price thresholds are reached.
-  - title: One-Click Integration
-    details: Deploy with the TaaS SDK and verifiable adapter interfaces. Built for EVM-compatible chains with single-call verification.
-  - title: Open Ecosystem
-    details: Browse a registry of professional-grade data plugins or contribute your own to earn attestation commissions.
+  - title: Sovereign Integrity
+    details: TaaS replaces the "oracle" trust model with a sovereign gateway architecture. Facts are resolved in sandboxed Rust-native V8 isolates, eliminating backdoor risk and execution bias.
+  - title: Proof of Provenance
+    details: Every fact resolution produces a TruthPoint — a cryptographically signed unit of evidence carrying the exact chain of custody, from raw source to on-chain settlement.
+  - title: 3-Plane Architecture
+    details: Decoupled Execution (V8 Isolate), Consensus (Kernel P2P), and Settlement (EVM AVS). A modular design that ensures high-throughput facts without sacrificing security.
 ---
+
+# Beyond the Oracle
+
+The TaaS Protocol is not a data bridge. It is a **Fact Engine**.
+
+Traditional oracles act as "black boxes" that deliver data and ask for trust. TaaS is built on **Transparency by Evidence**. By leveraging EigenLayer restaking and native V8 sandboxing, we provide a verifiable, clinical path from raw information to global economic finality.
+
+## The 3-Plane Architecture
+
+Our protocol is engineered with a strict separation of concerns to ensure maximum security and high-performance throughput:
+
+1.  **The Execution Plane**: Sandboxed plugins run inside Rust-embedded V8 isolates (deno_core). Every fetch is audited and verified against a per-capability `PluginManifest` with eBPF-enforced memory and CPU limits.
+2.  **The Consensus Plane**: High-performance kernel nodes communicate via a private `libp2p` gossip mesh. Outcomes are resolved through **BLS Threshold signatures** or **Weighted Median** strategies, ensuring no single operator or subset can corrupt the network state.
+3.  **The Settlement Plane**: The **TaaSServiceManager** (EigenLayer AVS) anchors the Truth to the blockchain. We enforce economic integrity through institutional restaking, providing cryptographic and financial finality for multi-chain consumers.
+
+## Institutional Readiness
+
+TaaS is actively serving verifiable facts on **Sepolia** and **Hoodi (Holesky Institutional)**. Our infrastructure is designed for low-latency, high-integrity Fact Resolution for the next generation of DeFi, Prediction Markets, and RWA.
+
+[View Network Status](/networks/hoodi) | [Explore the Protocol Spec](/protocol/overview)

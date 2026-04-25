@@ -1,20 +1,18 @@
 # Protocol Overview
 
-The TaaS protocol defines how real-world data is fetched, attested, and delivered to on-chain consumers with a verifiable chain of custody. The protocol is built on two foundations: a cryptographic identity model that answers "who signed this", and a structured data format — the TruthPoint — that answers "what was signed and when".
+The TaaS protocol defines how real-world facts are resolved, attested, and delivered to on-chain consumers with a verifiable chain of custody. Positioning itself as a **Sovereign Fact Engine**, the protocol is built on two foundations: a cryptographic identity model that answers "who resolved this", and a structured evidence format — the **TruthPoint** — that answers "what was resolved and with what proof".
 
 ---
 
-## The Core Problem
+## Fact Resolution Lifecycle
 
-Blockchains are deterministic environments that cannot reach the outside world. Every piece of real-world data — a token price, a sports result, an economic indicator — must be explicitly bridged into the on-chain environment by a trusted party.
+TaaS replaces simple "oracle fetching" with verifiable proof. Every fact resolved by the network is:
 
-TaaS replaces trust in a party with verifiable proof. Every value attested by the network is:
-
-1. Fetched from one or more authoritative external APIs by a registered plugin.
-2. Validated against a declared output schema by the UCM Truth Engine.
-3. Aggregated across multiple independent sources using a configurable strategy.
-4. Cryptographically signed — bound to the exact value, source list, and timestamp — producing a TruthPoint.
-5. Verifiable on-chain against the `TruthOracleV3` registry without access to the original data.
+1. **Sandboxed Isolation**: Data is retrieved from authoritative APIs by registered plugins running in secure V8 Isolates.
+2. **Schema Verification**: Results are validated against strict output schemas enforced by the kernel.
+3. **Multi-Step Consensus**: Observations are aggregated across independent nodes using a configurable strategy (Median, BLS, TEE).
+4. **Evidence Production**: A **TruthPoint** is produced — cryptographically binding the value, the source provenance, and the timestamp.
+5. **On-Chain Settlement**: TruthPoints are anchored to the **TaaSServiceManager** for consumer verification and economic settlement.
 
 ---
 

@@ -4,7 +4,7 @@
  */
 
 :root {
-    /* Institutional White Palette */
+    /* Institutional Light Palette */
     --vp-c-bg: #fbfcfd;
     --vp-c-bg-soft: #f3f5f7;
     --vp-c-bg-mute: #eef1f3;
@@ -15,19 +15,19 @@
     
     --vp-c-border: rgba(0, 0, 0, 0.05);
 
-    /* Neutralized Branding */
-    --vp-c-brand-1: #111316; /* Charcoal Primary */
-    --vp-c-brand-2: #282a2d;
-    --vp-c-brand-3: #404245;
-    --vp-c-brand-soft: rgba(17, 19, 22, 0.06);
+    /* Flagship Branding (Green Accent) */
+    --vp-c-brand-1: #17B14D; 
+    --vp-c-brand-2: #149a43;
+    --vp-c-brand-3: #118439;
+    --vp-c-brand-soft: rgba(23, 177, 77, 0.08);
 
-    /* Hero Section Hardening */
-    --vp-home-hero-name-color: #111316;
+    /* Hero Section synchronization */
+    --vp-home-hero-name-color: var(--vp-c-brand-1);
     --vp-home-hero-name-background: none;
     --vp-home-hero-image-filter: none;
 
     /* Selection Color */
-    --vp-c-selection-bg: rgba(115, 115, 120, 0.2);
+    --vp-c-selection-bg: rgba(23, 177, 77, 0.1);
 }
 
 .dark {
@@ -43,12 +43,12 @@
     --vp-c-border: rgba(255, 255, 255, 0.04);
 
     /* Adaptive Branding for Dark Mode */
-    --vp-c-brand-1: #E2E2E6; 
-    --vp-c-brand-2: #c1c1c4;
-    --vp-c-brand-3: #a0a0a3;
-    --vp-c-brand-soft: rgba(226, 226, 230, 0.06);
+    --vp-c-brand-1: #49E774; 
+    --vp-c-brand-2: #3fc965;
+    --vp-c-brand-3: #35ab56;
+    --vp-c-brand-soft: rgba(73, 231, 116, 0.08);
 
-    --vp-home-hero-name-color: #E2E2E6;
+    --vp-home-hero-name-color: var(--vp-c-brand-1);
 }
 
 /* Premium font-stack overrides - Institutional Clinical */
@@ -67,7 +67,7 @@ h4,
     letter-spacing: -0.02em;
 }
 
-/* Custom Grain Texture - Minimalist Depth */
+/* Hero Section Grain Texture - Minimalist Depth */
 body::before {
     content: "";
     position: fixed;
@@ -76,22 +76,51 @@ body::before {
     width: 100vw;
     height: 100vh;
     background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-    opacity: 0.02;
+    opacity: 0.015;
     pointer-events: none;
     z-index: 100;
-    mix-blend-mode: soft-light;
+    mix-blend-mode: overlay;
+}
+
+/* Premium Surface System */
+.glass-premium {
+    backdrop-blur: 16px;
+    border: 1px solid var(--vp-c-border);
+    background: var(--vp-c-bg-soft);
+    opacity: 0.95;
+}
+
+.surface-depth {
+    background: var(--vp-c-bg);
+    border: 1px solid var(--vp-c-border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+/* Technical Monospace Redlines */
+.text-redline {
+    font-family: var(--vp-font-family-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.5;
 }
 
 /* Hardened Code Block Aesthetic */
 .vp-doc [class*='language-'] {
     border: 1px solid var(--vp-c-border);
-    border-radius: 4px;
+    border-radius: 6px;
     background-color: var(--vp-c-bg-soft) !important;
+}
+
+/* Responsive Navigation Bar refinement */
+.VPNavBar {
+    backdrop-filter: blur(10px);
+    background-color: rgba(var(--vp-c-bg-rgb), 0.8) !important;
 }
 
 /* Sidebar Active State Optimization */
 .VPSidebarItem.level-0.is-active > .item > .link {
-    font-weight: 700 !important;
+    font-weight: 600 !important;
     border-left: 2px solid var(--vp-c-brand-1);
     padding-left: 14px;
     margin-left: -16px;
@@ -100,15 +129,15 @@ body::before {
 
 /* Scrollbar Customization - Neutral Monochrome */
 ::-webkit-scrollbar {
-    width: 4px;
+    width: 3px;
 }
 ::-webkit-scrollbar-track {
     background: var(--vp-c-bg);
 }
 ::-webkit-scrollbar-thumb {
     background: var(--vp-c-bg-mute);
-    border-radius: 2px;
+    border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--vp-c-text-3);
+    background: var(--vp-c-brand-1);
 }

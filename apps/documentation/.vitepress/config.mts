@@ -8,19 +8,27 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
+      { text: 'Networks', link: '/networks/hoodi' },
       { text: 'User Guides', link: '/guides/getting-started' },
-      { text: 'Protocol Spec', link: '/protocol/overview' },
-      { text: 'Explore Registry', link: '/guides/use-cases' }
+      { text: 'Protocol Spec', link: '/protocol/overview' }
     ],
 
     sidebar: [
     {
-        text: 'Introduction',
+        text: 'Foundation',
         collapsed: false,
         items: [
-          { text: 'Overview', link: '/' },
+          { text: 'The Fact Engine', link: '/' },
           { text: 'Why TaaS?', link: '/guides/why-taas' },
-          { text: 'Core Use Cases', link: '/guides/use-cases' }
+          { text: 'Core Domains', link: '/guides/use-cases' }
+        ]
+      },
+      {
+        text: 'Network Status',
+        collapsed: false,
+        items: [
+          { text: 'Sepolia (Public Testnet)', link: '/networks/sepolia' },
+          { text: 'Hoodi (Holesky Institutional)', link: '/networks/hoodi' }
         ]
       },
       {
