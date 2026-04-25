@@ -19,7 +19,8 @@ export default defineConfig({
         items: [
           { text: 'Introduction', link: '/' },
           { text: 'Protocol Rationale', link: '/guides/why-taas' },
-          { text: 'Quick Start', link: '/guides/getting-started' }
+          { text: 'Quick Start', link: '/guides/getting-started' },
+          { text: 'Consumer Integration', link: '/guides/consumer' }
         ]
       },
       {

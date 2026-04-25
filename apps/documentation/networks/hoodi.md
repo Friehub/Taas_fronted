@@ -16,22 +16,4 @@ The TaaS Protocol is deployed on the Hoodi fork for high-performance, decentrali
 - **TaaS AVS Identity**: `0x6942...eBBd6`
 - **Metadata URI**: `https://raw.githubusercontent.com/Friehub/taas-gateway/main/metadata.json`
 
-## Operator Onboarding
-Network operators can join the TaaS AVS on Hoodi by registering through the EigenLayer delegation layer.
 
-### Registration Requirements
-1. **EigenLayer Status**: Must be a registered Operator in `DelegationManager`.
-2. **Min Stake**: 1 test-ETH (strategy dependent).
-
-### Registration Script
-Operators can utilize the onboarding script in the core repository:
-
-```bash
-# Register to TaaS AVS (Hoodi)
-forge script script/RegisterOperator.s.sol \
-  --rpc-url https://eth-hoodi.g.alchemy.com/v2/4DjZMUs66vhw5sntF8LS3XOHxMq0T5HT \
-  --broadcast
-```
-
-## Compliance & Auditing
-The Hoodi deployment incorporates the **eBPF-Compliance** layer. All verified results are subject to audit trails registered on the TaaS Auditor.
