@@ -4,30 +4,30 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   base: '/',
   title: "TaaS Protocol",
-  description: "The Verifiable Fact Engine for On-Chain Data",
+  description: "A General-Purpose Oracle AVS secured by EigenLayer",
   themeConfig: {
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Networks', link: '/networks/hoodi' },
-      { text: 'User Guides', link: '/guides/getting-started' }
+      { text: 'Introduction', link: '/' },
+      { text: 'Status', link: '/networks/hoodi' },
+      { text: 'Guides', link: '/guides/getting-started' }
     ],
 
     sidebar: [
       {
-        text: 'Foundation',
+        text: 'Specifications',
         collapsed: false,
         items: [
-          { text: 'The Fact Engine', link: '/' },
-          { text: 'Why TaaS?', link: '/guides/why-taas' },
-          { text: 'Getting Started', link: '/guides/getting-started' }
+          { text: 'Introduction', link: '/' },
+          { text: 'Protocol Rationale', link: '/guides/why-taas' },
+          { text: 'Quick Start', link: '/guides/getting-started' }
         ]
       },
       {
         text: 'Network Status',
         collapsed: false,
         items: [
-          { text: 'Sepolia (Public Testnet)', link: '/networks/sepolia' },
-          { text: 'Hoodi (Holesky Institutional)', link: '/networks/hoodi' }
+          { text: 'Sepolia Testnet', link: '/networks/sepolia' },
+          { text: 'Hoodi Testnet (Holesky)', link: '/networks/hoodi' }
         ]
       }
     ],

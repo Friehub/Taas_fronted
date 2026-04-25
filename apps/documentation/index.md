@@ -3,41 +3,39 @@ layout: home
 
 hero:
   name: "TaaS"
-  text: "The Sovereign Fact Engine"
-  tagline: Verifiable provenance for the on-chain economy. Secured by EigenLayer.
+  text: "General-Purpose Oracle AVS"
+  tagline: Verifiable off-chain compute for on-chain data. Secured by EigenLayer.
   actions:
     - theme: brand
-      text: Explore Architecture
-      link: /protocol/overview
+      text: Get Started
+      link: /guides/getting-started
     - theme: alt
-      text: View Live Networks
+      text: View Status
       link: /networks/hoodi
 
 features:
-  - title: Sovereign Integrity
-    details: TaaS replaces the "oracle" trust model with a sovereign gateway architecture. Facts are resolved in sandboxed Rust-native V8 isolates, eliminating backdoor risk and execution bias.
-  - title: Proof of Provenance
-    details: Every fact resolution produces a TruthPoint — a cryptographically signed unit of evidence carrying the exact chain of custody, from raw source to on-chain settlement.
-  - title: 3-Plane Architecture
-    details: Decoupled Execution (V8 Isolate), Consensus (Kernel P2P), and Settlement (EVM AVS). A modular design that ensures high-throughput facts without sacrificing security.
+  - title: Pooled Security
+    details: Leverages the cryptoeconomic security of Ethereum through EigenLayer restaking. All task executions are enforced by slashable commitments.
+  - title: Verifiable Compute
+    details: Off-chain resolution occurs in sandboxed V8 isolates. Every task producing a signed proof (TruthPoint) carrying its own chain of custody.
+  - title: Multi-Chain Deployment
+    details: Actively resolving tasks on the Ethereum Sepolia and Hoodi (Holesky) testnets with unified SDK and contract support.
 ---
 
-# Beyond the Oracle
+# Technical Introduction
 
-The TaaS Protocol is not a data bridge. It is a **Fact Engine**.
+TaaS (Truth as a Service) is an **Actively Validated Service (AVS)** designed to resolve off-chain data and provide verifiable proofs to on-chain consumers. By utilizing EigenLayer restaking, the protocol ensures a high degree of economic security and decentralization for diverse data domains.
 
-Traditional oracles act as "black boxes" that deliver data and ask for trust. TaaS is built on **Transparency by Evidence**. By leveraging EigenLayer restaking and native V8 sandboxing, we provide a verifiable, clinical path from raw information to global economic finality.
+## Architecture
 
-## The 3-Plane Architecture
+The protocol separates execution from consensus and settlement:
 
-Our protocol is engineered with a strict separation of concerns to ensure maximum security and high-performance throughput:
+1.  **Execution Layer**: Tasks are resolved in sandboxed Rust-embedded V8 isolates (deno_core). Every execution is governed by a `PluginManifest` with enforced resource limits.
+2.  **Consensus Layer**: Outcomes are aggregated across a distributed network of operators using Threshold BLS signatures or Weighted Median strategies.
+3.  **Settlement Layer**: The `TaaSServiceManager` anchors verifiable proofs to the blockchain, enabling consumers to verify and settle data with cryptographic certainty.
 
-1.  **The Execution Plane**: Sandboxed plugins run inside Rust-embedded V8 isolates (deno_core). Every fetch is audited and verified against a per-capability `PluginManifest` with eBPF-enforced memory and CPU limits.
-2.  **The Consensus Plane**: High-performance kernel nodes communicate via a private `libp2p` gossip mesh. Outcomes are resolved through **BLS Threshold signatures** or **Weighted Median** strategies, ensuring no single operator or subset can corrupt the network state.
-3.  **The Settlement Plane**: The **TaaSServiceManager** (EigenLayer AVS) anchors the Truth to the blockchain. We enforce economic integrity through institutional restaking, providing cryptographic and financial finality for multi-chain consumers.
+## Testnet Status
 
-## Institutional Readiness
+The TaaS protocol is currently in the testnet phase and is serving tasks on **Sepolia** and **Hoodi (Holesky)**. Developers can integrate today using the verified proxies and the `@taas/taas-sdk`.
 
-TaaS is actively serving verifiable facts on **Sepolia** and **Hoodi (Holesky Institutional)**. Our infrastructure is designed for low-latency, high-integrity Fact Resolution for the next generation of DeFi, Prediction Markets, and RWA.
-
-[View Network Status](/networks/hoodi) | [Explore the Protocol Spec](/protocol/overview)
+[View Network Status](/networks/hoodi) | [Protocol Rationale](/guides/why-taas)

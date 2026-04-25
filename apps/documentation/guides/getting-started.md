@@ -1,6 +1,6 @@
 # Quick Start
 
-This guide will get you up and running with the TaaS SDK. The SDK provides a simple, strongly-typed interface for retrieving verifiable truth from the TaaS protocol without needing to manage infrastructure or handle individual data provider API keys.
+This guide will get you up and running with the TaaS SDK. The SDK provides a simple, strongly-typed interface for retrieving verified attestations from the TaaS protocol without needing to manage infrastructure or individual data provider API keys.
 
 ## 1. Installation
 
@@ -21,15 +21,15 @@ To communicate with the TaaS Gateway, you will need an API key.
 Initialize the client with your token:
 
 ```typescript
-import { TruthGatewayClient } from '@taas/taas-sdk';
+import { AttestationClient } from '@taas/taas-sdk';
 
-const gateway = new TruthGatewayClient({
+const gateway = new AttestationClient({
     baseUrl: 'https://api.taas.network',
     jwtToken: process.env.TAAS_API_KEY
 });
 ```
 
-## 3. Fetching Verifiable Verdicts
+## 3. Fetching Verifiable Proofs
 
 The SDK features a Fluent API for building data intents. Here is how to retrieve the current attested price of Bitcoin:
 
@@ -37,18 +37,18 @@ The SDK features a Fluent API for building data intents. Here is how to retrieve
 import { TaaS } from '@taas/sdk';
 
 async function fetchBitcoinPrice() {
-    const intent = await TaaS.intent('btc-price-lookup')
+    const task = await TaaS.task('btc-price-lookup')
         .finance().price('BTC')
-        .attest();
+        .execute();
 
-    console.log(`Current BTC Price: $${intent.result}`);
-    console.log(`On-chain Attestation: ${intent.attestation}`);
+    console.log(`Current BTC Price: $${task.result}`);
+    console.log(`On-chain Proof: ${task.attestation}`);
 }
 ```
 
-Every response from the SDK includes an `attestation`—a cryptographic proof that the data was verified by multiple independent nodes in the network according to protocol rules.
+Every response from the SDK includes an `attestation`—a cryptographic proof that the data was verified by a distributed quorum of operators according to protocol consensus rules.
 
 ## Next Steps
 
-- Explore the complete [SDK Documentation](/guides/taas-sdk) for more domains like Sports, Weather, and Economics.
-- Learn about [On-Chain Integration](/guides/sdk/integration) to use attested truth directly inside your smart contracts.
+- Explore the [Protocol Rationale](/guides/why-taas) for details on the security model.
+- View the [Network Status](/networks/hoodi) for verified testnet coordinates.

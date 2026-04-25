@@ -1,6 +1,6 @@
-# Sepolia (Public Testnet)
+# Sepolia (Testnet)
 
-The TaaS Protocol is live on Ethereum Sepolia for public testing and integration verification.
+The TaaS Protocol is live on Ethereum Sepolia for testnet integration and verification.
 
 ## Deployment Coordinates
 
