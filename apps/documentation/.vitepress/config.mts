@@ -8,9 +8,9 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
+      { text: 'Networks', link: '/networks/hoodi' },
       { text: 'User Guides', link: '/guides/getting-started' },
-      { text: 'Protocol Spec', link: '/protocol/overview' },
-      { text: 'Explore Registry', link: '/guides/use-cases' }
+      { text: 'Protocol Spec', link: '/protocol/overview' }
     ],
 
     sidebar: [
@@ -21,6 +21,14 @@ export default defineConfig({
           { text: 'Overview', link: '/' },
           { text: 'Why TaaS?', link: '/guides/why-taas' },
           { text: 'Core Use Cases', link: '/guides/use-cases' }
+        ]
+      },
+      {
+        text: 'Network Status',
+        collapsed: false,
+        items: [
+          { text: 'Sepolia (Public Testnet)', link: '/networks/sepolia' },
+          { text: 'Hoodi (Holesky Institutional)', link: '/networks/hoodi' }
         ]
       },
       {

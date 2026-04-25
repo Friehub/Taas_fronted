@@ -4,26 +4,20 @@ layout: home
 hero:
   name: "TaaS"
   text: "Verifiable On-Chain Fact Engine"
-  tagline: Decentralized oracle infrastructure built on cryptographic data provenance. Empowering the next generation of DeFi, prediction markets, and RWA.
+  tagline: Decentralized oracle infrastructure engineered for cryptographic data provenance and institutional scale.
   actions:
     - theme: brand
       text: Get Started
       link: /guides/getting-started
     - theme: alt
-      text: SDK Documentation
-      link: /guides/taas-sdk
+      text: View Network Status
+      link: /networks/hoodi
 
 features:
-  - title: Trustless Data Access
-    details: Access high-fidelity data from multiple professional sources (Bloomberg, CoinGecko, SportMonks, etc.) verified by a decentralized network of gateway nodes.
-  - title: Verifiable Proofs
-    details: Every data response includes a TruthPoint — a signed, structured unit of proof carrying the exact chain of custody, enabling verifiable on-chain settlement.
-  - title: Deterministic Aggregation
-    details: TaaS enforces multi-source quorum and deterministic aggregation strategies (Median, Consensus, Mean). No more single-source failures.
-  - title: State Guard Engine
-    details: Pre-resolution conditions ensure protocol safety. Only attest data once in-game events have truly finished or price thresholds are reached.
-  - title: One-Click Integration
-    details: Deploy with the TaaS SDK and verifiable adapter interfaces. Built for EVM-compatible chains with single-call verification.
-  - title: Open Ecosystem
-    details: Browse a registry of professional-grade data plugins or contribute your own to earn attestation commissions.
+  - title: Sovereign Verification
+    details: Access high-fidelity data anchored by restaked ETH and verified via the TaaS Audit chain.
+  - title: Multi-Chain Live
+    details: Actively serving verifiable facts on Ethereum Sepolia and the Hoodi institutional fork with unified SDK support.
+  - title: Deterministic Consensus
+    details: Universal aggregation strategies (Median, BLS Quorum, TEE) enforced at the protocol level for ultimate data integrity.
 ---
