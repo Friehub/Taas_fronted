@@ -15,12 +15,12 @@ export default defineConfig({
 
     sidebar: [
     {
-        text: 'Introduction',
+        text: 'Foundation',
         collapsed: false,
         items: [
-          { text: 'Overview', link: '/' },
+          { text: 'The Fact Engine', link: '/' },
           { text: 'Why TaaS?', link: '/guides/why-taas' },
-          { text: 'Core Use Cases', link: '/guides/use-cases' }
+          { text: 'Core Domains', link: '/guides/use-cases' }
         ]
       },
       {
