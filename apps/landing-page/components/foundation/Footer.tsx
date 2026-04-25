@@ -3,16 +3,12 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
 import { subscribeToNewsletter } from "../../app/actions";
 
 /**
- * Footer - High-Fidelity Multi-Column Design.
- * Rebuilt to match the provided mockup.
+ * Footer - Clinical Infrastructure Identity.
  */
 export const Footer: React.FC = () => {
-  const pathname = usePathname();
-  const isLitepaper = pathname === "/litepaper";
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
@@ -32,16 +28,16 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="w-full bg-background border-none pt-24 pb-12 px-8">
+    <footer className="w-full bg-background border-t border-foreground/5 pt-24 pb-12 px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-8">
         
         {/* Column 1: Brand & Identity */}
         <div className="space-y-8">
           <div className="flex items-center space-x-2">
-            <span className="text-xl font-display font-bold text-foreground">Friehub</span>
+            <span className="text-xl font-display font-bold text-foreground tracking-tighter uppercase">TAAS</span>
           </div>
           <p className="text-foreground/40 text-sm leading-relaxed max-w-xs">
-            The high-integrity truth network built for the future of decentralized resource markets and prediction veracity.
+            A General-Purpose Oracle AVS secured by restaked Ethereum. Powering verifiable compute and data integrity for the Agentic Era.
           </p>
           <div className="flex items-center space-x-6">
              <Link href="https://x.com/friehub" className="text-foreground/30 hover:text-foreground transition-colors">
@@ -53,13 +49,13 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Column 2: Protocol */}
+        {/* Column 2: Infrastructure */}
         <div className="space-y-6">
-          <h4 className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-foreground/50">Protocol</h4>
+          <h4 className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-foreground/40">Infrastructure</h4>
           <ul className="space-y-4">
-            {["Ecosystem", "Governance", "Tokenomics", "Security"].map((item) => (
+            {["AVS Protocol", "Verifiable Compute", "Network Status", "Slashing Metrics"].map((item) => (
               <li key={item}>
-                <Link href="#" className="text-sm text-foreground/40 hover:text-foreground transition-colors">{item}</Link>
+                <Link href="#" className="text-xs text-foreground/40 hover:text-foreground transition-colors font-medium">{item}</Link>
               </li>
             ))}
           </ul>
@@ -67,9 +63,9 @@ export const Footer: React.FC = () => {
 
         {/* Column 3: Developers */}
         <div className="space-y-6">
-          <h4 className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-foreground/50">Developers</h4>
+          <h4 className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-foreground/40">Developers</h4>
           <ul className="space-y-4">
-            {["Documentation", "Whitepaper", "GitHub", "Bug Bounty"].map((item) => (
+            {["Documentation", "AVS Registry", "GitHub", "Operator SDK"].map((item) => (
               <li key={item}>
                 <Link 
                   href={
@@ -77,7 +73,7 @@ export const Footer: React.FC = () => {
                     item === "GitHub" ? "https://github.com/Friehub" : "#"
                   } 
                   target={(item === "Documentation" || item === "GitHub") ? "_blank" : undefined}
-                  className="text-sm text-foreground/40 hover:text-foreground transition-colors"
+                  className="text-xs text-foreground/40 hover:text-foreground transition-colors font-medium"
                 >
                   {item}
                 </Link>
@@ -88,7 +84,7 @@ export const Footer: React.FC = () => {
 
         {/* Column 4: Newsletter */}
         <div className="space-y-6">
-          <h4 className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-foreground/50">Stay Updated</h4>
+          <h4 className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-foreground/40">Technical Updates</h4>
           <form onSubmit={handleSubscribe} className="space-y-4">
              <div className="relative group">
                 <input 
@@ -97,31 +93,30 @@ export const Footer: React.FC = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email address"
                   required
-                  className="w-full bg-background border border-surface-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-foreground/30 transition-all placeholder:text-foreground/20"
+                  className="w-full bg-background border border-foreground/10 px-4 py-3 text-xs text-foreground focus:outline-none focus:border-foreground/30 transition-all placeholder:text-foreground/20 rounded-none"
                 />
                 <button 
                   type="submit"
                   disabled={status === "loading"}
-                  className="absolute right-1 top-1 bottom-1 px-4 bg-foreground text-background font-bold uppercase tracking-widest text-[10px] hover:scale-[1.02] transition-all disabled:opacity-50"
+                  className="absolute right-1 top-1 bottom-1 px-4 bg-foreground text-background font-bold uppercase tracking-widest text-[9px] transition-all disabled:opacity-50"
                 >
                   {status === "loading" ? "..." : "→"}
                 </button>
              </div>
-             {status === "success" && <p className="text-[10px] text-foreground font-mono lowercase tracking-tighter">verified_email_added_to_registry</p>}
-             {status === "error" && <p className="text-[10px] text-red-500 font-mono lowercase">registry_connection_error</p>}
+             {status === "success" && <p className="text-[9px] text-foreground font-mono lowercase tracking-tighter opacity-40">node_operator_registry_synced</p>}
           </form>
         </div>
 
       </div>
 
       {/* Bottom Bar */}
-      <div className="max-w-7xl mx-auto mt-24 pt-8 border-none flex flex-col md:flex-row justify-between items-center gap-6">
-        <span className="text-[10px] font-mono text-foreground/20 uppercase tracking-widest">
-          © 2026 FRIEHUB NETWORK. ALL RIGHTS RESERVED.
+      <div className="max-w-7xl mx-auto mt-24 pt-8 border-t border-foreground/5 flex flex-col md:flex-row justify-between items-center gap-6">
+        <span className="text-[9px] font-mono text-foreground/20 uppercase tracking-widest">
+          © 2026 TAAS PROTOCOL. AVS_INFRASTRUCTURE_VERSION_1.0.4.
         </span>
         <div className="flex items-center space-x-8">
-           <Link href="#" className="text-[10px] font-mono text-foreground/20 hover:text-foreground transition-colors uppercase tracking-widest">Privacy Policy</Link>
-           <Link href="#" className="text-[10px] font-mono text-foreground/20 hover:text-foreground transition-colors uppercase tracking-widest">Terms of Service</Link>
+           <Link href="#" className="text-[9px] font-mono text-foreground/20 hover:text-foreground transition-colors uppercase tracking-widest">Privacy</Link>
+           <Link href="#" className="text-[9px] font-mono text-foreground/20 hover:text-foreground transition-colors uppercase tracking-widest">Terms</Link>
         </div>
       </div>
     </footer>
