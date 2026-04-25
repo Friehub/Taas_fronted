@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ThemeToggle } from "./ThemeToggle";
 
 
 /**
@@ -66,6 +67,7 @@ export const Navbar: React.FC = () => {
 
         {/* Action Center & Mobile Toggle */}
         <div className="flex items-center space-x-5">
+            <ThemeToggle />
             <div className="hidden md:flex items-center space-x-5 mr-2">
              <Link 
                href="https://x.com/friehub" 
@@ -110,6 +112,10 @@ export const Navbar: React.FC = () => {
             className="md:hidden bg-background border-b border-surface-border overflow-hidden"
           >
             <div className="p-8 flex flex-col space-y-6">
+              <div className="flex items-center justify-between">
+                <span className="text-[9px] font-mono uppercase tracking-widest text-foreground/40">Theme</span>
+                <ThemeToggle />
+              </div>
               <div className="flex flex-col space-y-6">
                 {navLinks.map((item) => (
                   <Link
