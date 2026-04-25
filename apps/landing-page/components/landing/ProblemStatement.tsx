@@ -5,75 +5,81 @@ import { motion } from "framer-motion";
 
 const PROBLEMS = [
   {
-    problem: "Monolithic Data Schemas",
-    reality: "Legacy oracle networks are typically constrained to fixed-point financial formats, limiting their utility for complex state resolution.",
-    solved: "The TaaS Universal Consensus Module (UCM) supports arbitrary JSON schemas, allowing developers to define custom ontologies without protocol upgrades.",
+    problem: "Monolithic data schemas",
+    reality: "Chainlink and Pyth lock you into their format. Price feeds only. No custom data types.",
+    solved: "The UCM accepts any JSON schema. Define your ontology in a manifest file. No code changes.",
   },
   {
-    problem: "Execution Integrity",
-    reality: "Raw data resolution often lacks sandboxed isolation, exposing nodes to non-deterministic logic and security vulnerabilities.",
-    solved: "All resolution occurs in isolated V8 sandboxes. Every task execution produces a cryptographic proof carrying a verifiable chain of custody.",
+    problem: "No data quality layer",
+    reality: "Raw plugin output goes straight to consensus. Stale, spiked, and spoofed values are treated equally.",
+    solved: "Every response passes through StalenessGuard and DeviationGuard before reaching aggregation. Violating nodes are flagged for slashing.",
   },
   {
-    problem: "Security Model Fragmentation",
-    reality: "Reputation-based networks rely on social consensus with minimal on-chain cryptoeconomic enforcement for misbehavior.",
-    solved: "TaaS leverages EigenLayer restaking. All operator commitments are slashable at the Ethereum settlement layer, ensuring maximum economic integrity.",
+    problem: "Trust the data provider",
+    reality: "Most networks rely on operator reputation with no on-chain enforcement mechanism.",
+    solved: "ViolationData from every consensus round feeds directly into on-chain reputation. Operators are slashed proportionally via EigenLayer.",
   },
   {
-    problem: "Rigid Consensus Logic",
-    reality: "Single-strategy aggregation models fail to accurately resolve diverse data types like hashes, state results, or boolean facts.",
-    solved: "Manifest-driven consensus allows per-task selection of MEDIAN, MAJORITY, or THRESHOLD_BLS strategies based on data topology.",
+    problem: "Single aggregation strategy",
+    reality: "Median works for prices. It is wrong for sports scores, state hashes, and compute results.",
+    solved: "MEDIAN, MAJORITY, STAKE_WEIGHTED, SUM, and LATEST are all first-class strategies. Each capability manifest selects its own.",
   },
 ];
 
 export const ProblemStatement: React.FC = () => {
   return (
-    <section id="avs" className="relative w-full py-32 px-6 bg-background">
+    <section className="relative w-full py-28 px-6">
       <div className="max-w-6xl mx-auto">
 
         {/* Section Header */}
-        <div className="mb-20">
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-foreground/30">
-            001 // Technical Constraints
+        <div className="mb-16">
+          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/30">
+            001 // The Unsolved Problem
           </span>
-          <h2 className="mt-6 text-4xl md:text-7xl font-display font-thin text-foreground leading-[1.1] max-w-3xl">
-            Modern Infrastructure <br />Requires <span className="italic font-bold text-primary-accent">Verifiable Compute.</span>
+          <h2 className="mt-4 text-4xl md:text-6xl font-display font-thin text-foreground leading-tight max-w-2xl">
+            The Oracle Industry Has Not Solved General Data.
           </h2>
-          <p className="mt-8 max-w-xl text-foreground font-sans leading-relaxed opacity-50">
-            Legacy oracle designs were optimized for price feeds. Building the Agentic Era requires a new primitive designed for arbitrary computation and cryptoeconomic security.
+          <p className="mt-6 max-w-xl text-foreground/55 text-base md:text-lg font-sans leading-relaxed">
+            Every major oracle network today is a price feed with extra steps.
+            The infrastructure underneath was never designed for arbitrary data at
+            institutional quality.
           </p>
         </div>
 
         {/* Problem / Solution Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/5 border border-foreground/5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-surface-border">
           {PROBLEMS.map((item, i) => (
             <motion.div
               key={item.problem}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-background p-10 flex flex-col gap-8 group"
+              initial={{ opacity: 0, y: 32, rotateX: -10 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: i * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-background p-8 flex flex-col gap-5 neon-card border border-transparent"
+              style={{ transformOrigin: "top center", perspective: "1000px" }}
             >
-              {/* Problem Identification */}
-              <div className="flex flex-col gap-3">
-                <span className="font-mono text-[9px] uppercase tracking-widest text-foreground/20">
-                  Infrastructure Limitation
+              {/* Problem */}
+              <div className="flex flex-col gap-2">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-foreground/25">
+                  Industry Default
                 </span>
-                <h3 className="font-display font-bold text-xl text-foreground tracking-tight">
+                <h3 className="font-display font-thin text-lg text-foreground/80 line-through decoration-foreground/20">
                   {item.problem}
                 </h3>
-                <p className="font-sans text-sm text-foreground/40 leading-relaxed max-w-sm">
+                <p className="font-sans text-sm text-foreground/40 leading-relaxed">
                   {item.reality}
                 </p>
               </div>
 
-              {/* Functional Outcome */}
-              <div className="flex flex-col gap-3 pt-6 border-t border-foreground/5">
-                <span className="font-mono text-[9px] uppercase tracking-widest text-primary-accent opacity-60">
-                  AVS Resolution
+              {/* Divider */}
+              <div className="h-px bg-surface-border w-full" />
+
+              {/* Solution */}
+              <div className="flex flex-col gap-2">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-primary/60">
+                  TaaS Resolution
                 </span>
-                <p className="font-sans text-sm text-foreground leading-relaxed font-medium">
+                <p className="font-sans text-sm text-foreground/80 leading-relaxed font-medium">
                   {item.solved}
                 </p>
               </div>

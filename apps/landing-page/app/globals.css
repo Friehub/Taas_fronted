@@ -3,37 +3,35 @@
 @tailwind utilities;
 
 :root {
-  /* High-Contrast Light Mode (Eigen Archetype) */
-  --background: #FFFFFF;
-  --background-darker: #F9F9F9;
-  --foreground: #000000;
-  --surface-low: #F6F6F6;
-  --surface-base: #FFFFFF;
-  --surface-elevated: #FFFFFF;
-  --surface-border: rgba(0, 0, 0, 0.08);
-  --blueprint-grid: rgba(0, 0, 0, 0.04);
-  --blueprint-grid-accent: rgba(23, 177, 77, 0.06);
-  --blueprint-line: rgba(0, 0, 0, 0.02);
-  --primary: #111111; /* Pure black as primary for intense neutrality in Light Mode */
-  --primary-accent: #17B14D; /* Mint green strictly for subtle data accents */
-  --primary-muted: rgba(0, 0, 0, 0.05);
+  /* Institutional Light Mode */
+  --background: #fbfcfd;
+  --background-darker: #f3f5f7;
+  --foreground: #111316;
+  --surface-low: #f3f5f7;
+  --surface-base: #ffffff;
+  --surface-elevated: #ffffff;
+  --surface-border: rgba(0, 0, 0, 0.05);
+  --blueprint-grid: rgba(0, 0, 0, 0.03);
+  --blueprint-grid-accent: rgba(23, 177, 77, 0.05);
+  --blueprint-line: rgba(0, 0, 0, 0.01);
+  --primary: #17B14D; /* Darker, high-contrast green for Light Mode readability */
+  --primary-muted: rgba(23, 177, 77, 0.15);
 }
 
 .dark {
-  /* High-Contrast Dark Mode */
-  --background: #000000;
-  --background-darker: #050505;
-  --foreground: #FFFFFF;
-  --surface-low: #0D0D0D;
-  --surface-base: #111111;
-  --surface-elevated: #1A1A1A;
-  --surface-border: rgba(255, 255, 255, 0.1);
-  --blueprint-grid: rgba(255, 255, 255, 0.06);
-  --blueprint-grid-accent: rgba(73, 231, 116, 0.05);
+  /* Sovereign Dark Mode */
+  --background: #09090B;
+  --background-darker: #050507;
+  --foreground: #E2E2E6;
+  --surface-low: #111316;
+  --surface-base: #1A1C1F;
+  --surface-elevated: #282A2D;
+  --surface-border: rgba(255, 255, 255, 0.04);
+  --blueprint-grid: rgba(255, 255, 255, 0.05);
+  --blueprint-grid-accent: rgba(73, 231, 116, 0.04);
   --blueprint-line: rgba(255, 255, 255, 0.02);
-  --primary: #FFFFFF;
-  --primary-accent: #49E774;
-  --primary-muted: rgba(255, 255, 255, 0.1);
+  --primary: #49E774; /* Bright Mint Green for Dark Mode */
+  --primary-muted: rgba(73, 231, 116, 0.15);
 }
 
 @layer base {

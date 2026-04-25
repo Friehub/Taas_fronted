@@ -7,10 +7,10 @@ import BlueprintGrid from "../foundation/BlueprintGrid";
 import { ThresholdNode } from "../animation/ThresholdNode";
 
 const STAT_ITEMS = [
-  { value: "3+", label: "AVS Consensus Modes", sub: "MEDIAN · BLS · TEST_ATTESTATION" },
-  { value: "N-of-M", label: "Pooled Security", sub: "BFT Integrity at 67% Stake" },
-  { value: "Any", label: "Task Domain", sub: "Finance · Compute · Sports · Identity" },
-  { value: "EigenLayer", label: "Protocol Integrity", sub: "Slashable Commitments on Ethereum" },
+  { value: "3+", label: "Aggregation Strategies", sub: "MEDIAN · MAJORITY · STAKE_WEIGHTED" },
+  { value: "N-of-M", label: "BLS Threshold Signing", sub: "BFT Quorum at 67% Stake" },
+  { value: "Any", label: "Data Domain", sub: "Finance · Sports · Weather · Compute" },
+  { value: "EigenLayer", label: "Economic Security", sub: "AVS-Backed Slashing Conditions" },
 ];
 
 export const Hero: React.FC = () => {
@@ -18,19 +18,24 @@ export const Hero: React.FC = () => {
   const backgroundY = useTransform(scrollY, [0, 1000], ["0%", "20%"]);
 
   return (
-    <section className="relative w-full min-h-screen pt-32 pb-16 px-6 lg:px-12 flex flex-col justify-center overflow-hidden bg-background">
+    <section className="relative w-full min-h-screen pt-32 pb-16 px-6 lg:px-12 flex flex-col justify-center overflow-hidden">
       <motion.div style={{ y: backgroundY }} className="absolute inset-0 max-w-full z-0 overflow-hidden">
         <BlueprintGrid />
       </motion.div>
 
-      {/* Clinical Gradient Wash */}
+      {/* Linear Glassmorphic Wash */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
         <div 
-          className="absolute top-[-20%] left-[-10%] w-[120%] h-[140%] rotate-[12deg] flex flex-col items-center justify-center opacity-40 dark:opacity-20"
+          className="absolute top-[-20%] left-[-10%] w-[120%] h-[140%] rotate-[12deg] flex flex-col items-center justify-center"
         >
-          {/* Subtle Mint Accents */}
-          <div className="w-full h-[400px] bg-gradient-to-b from-transparent via-primary-accent/10 to-transparent blur-[120px]" />
-          <div className="absolute inset-0 backdrop-blur-[100px]" />
+          {/* Main Mint/White Linear Beam - Increased opacity for light mode visibility */}
+          <div className="w-full h-[400px] bg-gradient-to-b from-transparent via-primary/25 to-transparent blur-[80px]" />
+          
+          {/* Glassmorphic Layer */}
+          <div className="absolute inset-0 backdrop-blur-[80px]" />
+          
+          {/* Subtle White Highlight */}
+          <div className="w-full h-[200px] bg-white/10 blur-[60px] -mt-[300px]" />
         </div>
       </div>
 
@@ -45,33 +50,40 @@ export const Hero: React.FC = () => {
           className="flex flex-col items-start w-full text-left"
         >
           <h1 className="text-5xl lg:text-7xl xl:text-8xl font-display font-thin tracking-tight text-foreground leading-[1] mb-8">
-            Verifiable Cloud <br />
-            for the <span className="italic font-bold">Agentic Era.</span>
+            Oracles Built on{" "}
+            <span className="italic text-foreground/90">Proof,</span>
+            <br />
+            Not{" "}
+            <span className="relative inline-block">
+              <span className="italic">Promises.</span>
+              <motion.span
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ delay: 0.9, duration: 0.8, ease: "easeOut" }}
+                className="absolute -bottom-2 left-0 right-0 h-[2px] bg-primary/40 origin-left"
+              />
+            </span>
           </h1>
 
-          <p className="max-w-xl text-lg md:text-xl text-foreground font-sans leading-relaxed mb-12 opacity-50">
-            A general-purpose Oracle AVS enabling 
-            <span className="text-foreground font-semibold mx-1">verifiable off-chain compute</span> 
-            and 
-            <span className="text-foreground font-semibold mx-1">slashable data resolution</span> 
-            secured by Pooled Restaked Security.
+          <p className="max-w-xl text-lg md:text-xl text-foreground/55 font-sans leading-relaxed mb-12">
+            The first oracle network securing arbitrary data through{" "}
+            <span className="text-foreground font-semibold">invariant-governed validation</span>,{" "}
+            <span className="text-foreground font-semibold">BLS threshold consensus</span>, and{" "}
+            <span className="text-foreground font-semibold">EigenLayer restaking</span>.
           </p>
 
           {/* Left-Aligned CTAs */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start justify-start gap-4">
-            <Link 
-              href="https://docs.friehub.cloud" 
-              className="rounded-none px-12 py-5 bg-foreground text-background font-bold uppercase tracking-[0.3em] text-[10px] hover:bg-foreground/90 transition-all"
-            >
-              Build on TaaS
-            </Link>
+            <button className="rounded-full px-10 py-4 bg-foreground text-background font-bold uppercase tracking-[0.2em] text-xs border border-surface-border hover:bg-foreground/90 transition-colors">
+              Get Started
+            </button>
 
             <Link 
-              href="/networks/hoodi"
-              className="rounded-none border border-foreground/10 px-12 py-5 text-[10px] font-bold uppercase tracking-[0.3em] text-foreground hover:bg-foreground/5 transition-all group flex items-center"
+              href="/litepaper"
+              className="rounded-full surface-depth px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] text-foreground hover:bg-foreground/5 transition-all group border border-surface-border flex items-center"
             >
-              Network Status
-              <span className="ml-3 opacity-30 group-hover:opacity-100 transition-opacity">→</span>
+              Litepaper
+              <span className="ml-2 opacity-30 group-hover:opacity-100 transition-opacity">→</span>
             </Link>
           </div>
         </motion.div>
@@ -82,18 +94,18 @@ export const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Stats Row - Clinical Horizontal List */}
+      {/* Stats Row */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.6 }}
-        className="mt-20 mx-auto w-full max-w-6xl grid grid-cols-2 md:grid-cols-4 border border-foreground/5 divide-x divide-y md:divide-y-0 divide-foreground/5"
+        className="mt-20 mx-auto w-full max-w-5xl grid grid-cols-2 md:grid-cols-4 border border-surface-border divide-x divide-y md:divide-y-0 divide-surface-border"
       >
         {STAT_ITEMS.map((item) => (
-          <div key={item.label} className="px-8 py-8 flex flex-col gap-1 hover:bg-foreground/[0.02] transition-colors">
-            <span className="font-display font-bold text-2xl text-foreground tracking-tighter">{item.value}</span>
-            <span className="font-sans text-[10px] text-foreground font-bold uppercase tracking-widest opacity-40">{item.label}</span>
-            <span className="font-mono text-[9px] uppercase tracking-widest text-foreground/20 mt-2">{item.sub}</span>
+          <div key={item.label} className="px-6 py-6 flex flex-col gap-1 bg-surface-low/30 backdrop-blur-sm">
+            <span className="font-display font-bold text-2xl text-foreground">{item.value}</span>
+            <span className="font-sans text-xs text-foreground/70 font-semibold">{item.label}</span>
+            <span className="font-mono text-[9px] uppercase tracking-widest text-foreground/30 mt-1">{item.sub}</span>
           </div>
         ))}
       </motion.div>

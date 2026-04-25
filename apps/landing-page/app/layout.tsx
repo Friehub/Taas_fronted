@@ -31,8 +31,8 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TaaS Protocol | General-Purpose Oracle AVS",
-  description: "Verifiable Off-Chain Compute and Arbitrary Data Proofs secured by EigenLayer.",
+  title: "Friehub TaaS | Institutional Oracle Infrastructure",
+  description: "Verifiable Data and Sovereign Intelligence secured by EigenLayer.",
 };
 
 export default function RootLayout({
@@ -47,8 +47,7 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          forcedTheme="dark"
         >
           {/* Global UI Components */}
           <Navbar />
