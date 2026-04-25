@@ -1,34 +1,33 @@
-# Why TaaS?
+# Protocol Rationale
 
-Legacy oracle solutions were designed for a primitive DeFi era of simple price feeds. TaaS was engineered as the **Sovereign Fact Engine** for the institutional-grade on-chain economy.
+TaaS is designed to address the challenges of off-chain data resolution and verifiable compute by leveraging the EigenLayer restaking primitive.
 
 ---
 
-## Market Positioning
+## Technical Comparison
 
-| Feature | Legacy Oracles | Optimistic Oracles | TaaS (Fact Engine) |
+| Component | Standard Oracles | Optimistic Oracles | TaaS AVS |
 | :--- | :--- | :--- | :--- |
-| **Execution** | Centralized Feeds | Assertion Model | **Sovereign V8 Sandboxes** |
-| **Security** | Native Token Staking | Optimistic Bonds | **EigenLayer Restaking** |
-| **Data Domain** | Narrow (Price/VRF) | Arbitrary (Slow) | **Universal (Manifest-Driven)** |
-| **Consensus** | Simple Aggregation | Human Dispute | **BLS Threshold / BFT** |
-| **Integrity** | "Trust the Feed" | "Trust the Dispute" | **Verifiable Provenance** |
+| **Execution** | External Adapters | Human Proposers | **Sandboxed V8 Isolates** |
+| **Security** | Native Staking | Dispute Bonds | **Pooled Security (ETH)** |
+| **Integrity** | Aggregation Only | Dispute Delay | **Cryptographic Proofs** |
+| **Finality** | Immediate (Probabilistic) | Delayed (Dispute) | **Threshold BLS (BFT)** |
 
 ---
 
-## The Core Advantages
+## Core Technical Advantages
 
-### 1. Sovereign Execution Plane
-Unlike legacy systems that rely on opaque sidecars, TaaS resolves facts inside native Rust-embedded V8 isolates. Every plugin is bound by a `PluginManifest`, ensuring deterministic, sandboxed execution that is invisible to the underlying node operator.
+### 1. Cryptoeconomic Security
+By building on **EigenLayer**, TaaS inherits the massive security of the Ethereum restaking layer. Operator misbehavior is subject to slashing, ensuring that economic integrity is enforced at the base layer.
 
-### 2. Economic Integrity via EigenLayer
-We leverage the massive cryptoeconomic security of Ethereum through **EigenLayer AVS**. By using restaked ETH for collateral, we provide a level of security and slashing enforcement that native token ecosystems cannot match.
+### 2. Sandboxed Task Execution
+TaaS utilizes native Rust-embedded V8 isolates for task resolution. Every plugin execution is sandboxed and governed by a manifest that enforces URL whitelists, memory limits, and CPU quotas. This ensures that the underlying node remains secure and the logic is deterministic.
 
-### 3. TruthPoints: Proof of Provenance
-We don't just deliver data; we deliver **Evidence**. Every resolution produces a TruthPoint — a cryptographically signed unit that anchors the entire chain of custody (Source -> Sandbox -> Swarm -> Settlement).
+### 3. Verifiable Off-chain Compute
+The protocol produces **TruthPoints** — cryptographically signed commitments that carry the chain of custody from the data source to the on-chain consumer. This enables verifiable off-chain compute that can be settled with high confidence.
 
-### 4. Zero-Trust Aggregation
-TaaS supports modular consensus strategies. Whether you require a **Weighted Median** for prices or a **BLS Threshold Quorum** for state updates, the protocol enforces the strategy at the kernel level before any fact reaches your contract.
+### 4. Threshold Consensus
+TaaS supports Threshold BLS (Boneh-Lynn-Shacham) signing. This allows a distributed set of operators to produce a single compact signature proving that a BFT quorum of stake has agreed on a value before it is submitted to the consuming contract.
 
-### 5. Institutional-Grade Infrastructure
-Built in Rust for performance and safety, TaaS supports **TEE Attestation** (Intel SGX / AWS Nitro) out of the box, offering a high-integrity execution path for high-value institutional settlement.
+### 5. Multi-Domain Support
+The manifest-driven nature of TaaS allows it to support any data domain — from high-frequency financial prices to complex sports outcomes or weather data — without requiring core protocol upgrades.

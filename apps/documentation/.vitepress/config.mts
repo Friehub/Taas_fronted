@@ -4,70 +4,41 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   base: '/',
   title: "TaaS Protocol",
-  description: "The Verifiable Fact Engine for On-Chain Data",
+  description: "A General-Purpose Oracle AVS secured by EigenLayer",
   themeConfig: {
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Networks', link: '/networks/hoodi' },
-      { text: 'User Guides', link: '/guides/getting-started' },
-      { text: 'Protocol Spec', link: '/protocol/overview' }
+      { text: 'Introduction', link: '/' },
+      { text: 'Status', link: '/networks/hoodi' },
+      { text: 'Guides', link: '/guides/getting-started' }
     ],
 
     sidebar: [
-    {
-        text: 'Foundation',
+      {
+        text: 'Specifications',
         collapsed: false,
         items: [
-          { text: 'The Fact Engine', link: '/' },
-          { text: 'Why TaaS?', link: '/guides/why-taas' },
-          { text: 'Core Domains', link: '/guides/use-cases' }
+          { text: 'Introduction', link: '/' },
+          { text: 'Protocol Rationale', link: '/guides/why-taas' },
+          { text: 'Quick Start', link: '/guides/getting-started' }
         ]
       },
       {
         text: 'Network Status',
         collapsed: false,
         items: [
-          { text: 'Sepolia (Public Testnet)', link: '/networks/sepolia' },
-          { text: 'Hoodi (Holesky Institutional)', link: '/networks/hoodi' }
+          { text: 'Sepolia Testnet', link: '/networks/sepolia' },
+          { text: 'Hoodi Testnet (Holesky)', link: '/networks/hoodi' }
         ]
-      },
-      {
-        text: 'Developer Experience',
-        collapsed: false,
-        items: [
-          { text: 'Getting Started', link: '/guides/getting-started' },
-          { text: 'SDK Documentation', link: '/guides/taas-sdk' },
-          { text: 'Verifiable Interfaces', link: '/guides/taas-interfaces' },
-          { text: 'SDK Installation', link: '/guides/sdk/installation' },
-          { text: 'Protocol Integration', link: '/guides/sdk/integration' }
-        ]
-      },
-      {
-        text: 'Understanding TruthPoints',
-        collapsed: false,
-        items: [
-          { text: 'Protocol Overview', link: '/protocol/overview' },
-          { text: 'Attestation Lifecycle', link: '/protocol/overview#attestation-lifecycle' },
-          { text: 'Consumer Verification', link: '/protocol/overview#consumer-verification' }
-        ]
-      },
-      {
-          text: 'Ecosystem',
-          collapsed: true,
-          items: [
-            { text: 'Fact Types & Categories', link: '/guides/programmable' },
-            { text: 'Data Provenance Standards', link: '/guides/why-taas' }
-          ]
       }
-    ]
-  },
+    ],
 
-  socialLinks: [
-    { icon: 'github', link: 'https://github.com/Friehub/Taas' }
-  ],
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/Friehub/Taas' }
+    ],
 
-  footer: {
-    message: 'Released under the MIT License.',
-    copyright: 'Copyright © 2026 FrieHub'
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2026 FrieHub'
+    }
   }
 })
