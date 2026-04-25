@@ -44,12 +44,6 @@ export const Hero: React.FC = () => {
           transition={{ duration: 0.7, delay: 0.1 }}
           className="flex flex-col items-start w-full text-left"
         >
-          <div className="mb-6 flex items-center space-x-3">
-             <span className="px-3 py-1 border border-foreground/10 bg-foreground/5 rounded-full text-[10px] font-mono font-bold uppercase tracking-widest text-foreground/40">
-                Current Manifest: v1.0.4-dev
-             </span>
-          </div>
-
           <h1 className="text-5xl lg:text-7xl xl:text-8xl font-display font-thin tracking-tight text-foreground leading-[1] mb-8">
             Verifiable Cloud <br />
             for the <span className="italic font-bold">Agentic Era.</span>
