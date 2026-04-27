@@ -73,13 +73,13 @@ export const Hero: React.FC = () => {
 
           {/* Left-Aligned CTAs */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start justify-start gap-4">
-            <button className="rounded-full px-10 py-4 bg-foreground text-background font-bold uppercase tracking-[0.2em] text-xs border border-surface-border hover:bg-foreground/90 transition-colors">
+            <button className="rounded-full px-10 py-4 bg-primary text-background font-bold uppercase tracking-[0.2em] text-xs border border-primary/20 shadow-neon-mint hover:opacity-90 transition-all">
               Get Started
             </button>
 
             <Link 
               href="/litepaper"
-              className="rounded-full surface-depth px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] text-foreground hover:bg-foreground/5 transition-all group border border-surface-border flex items-center"
+              className="rounded-full surface-depth px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] text-foreground hover:bg-primary/5 hover:border-primary/20 transition-all group border border-surface-border flex items-center"
             >
               Litepaper
               <span className="ml-2 opacity-30 group-hover:opacity-100 transition-opacity">→</span>

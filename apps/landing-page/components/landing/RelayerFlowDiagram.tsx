@@ -47,14 +47,14 @@ const RelayerFlowDiagram: React.FC = () => {
         />
 
         {/* Animated Particles flowing through paths */}
-        <motion.circle r="2" fill="currentColor" fillOpacity="0.5">
+        <motion.circle r="2" fill="var(--primary)" fillOpacity="0.8">
           <animateMotion 
             path="M 150 80 L 150 130" 
             dur="3s" 
             repeatCount="indefinite" 
           />
         </motion.circle>
-        <motion.circle r="2" fill="currentColor" fillOpacity="0.5">
+        <motion.circle r="2" fill="var(--primary)" fillOpacity="0.8">
           <animateMotion 
             path="M 450 80 L 450 130" 
             dur="3s" 
@@ -76,10 +76,10 @@ const RelayerFlowDiagram: React.FC = () => {
         {/* Row 2: Relayer Core */}
         <div className="flex flex-col items-center justify-center space-y-6">
           {/* Main Core */}
-          <div className="w-[80%] surface-depth border border-surface-border p-6 relative group overflow-hidden bg-background/50 backdrop-blur-sm">
-            <div className="absolute top-0 left-0 w-1 h-full bg-foreground/10 group-hover:bg-foreground/20 transition-colors" />
+          <div className="w-[80%] surface-depth border border-surface-border p-6 relative group overflow-hidden bg-background/50 backdrop-blur-sm hover:border-primary/30 transition-colors shadow-neon-mint/5">
+            <div className="absolute top-0 left-0 w-1 h-full bg-primary/20 group-hover:bg-primary transition-colors" />
             <div className="flex items-center gap-6">
-               <div className="w-12 h-12 flex items-center justify-center border border-surface-border rounded-lg bg-surface-low">
+               <div className="w-12 h-12 flex items-center justify-center border border-primary/20 rounded-lg bg-primary/5 text-primary">
                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
                  </svg>
