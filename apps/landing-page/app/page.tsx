@@ -10,7 +10,7 @@ import ProtocolPipeline from "../components/landing/ProtocolPipeline";
 import CapabilityDomains from "../components/landing/CapabilityDomains";
 import CompetitivePosition from "../components/landing/CompetitivePosition";
 import SecurityArchitecture from "../components/landing/SecurityArchitecture";
-import FederatedIntelligence from "../components/landing/FederatedIntelligence";
+import RelayerInfrastructure from "../components/landing/RelayerInfrastructure";
 
 // Existing components (kept as-is)
 import NetworkPersonas from "../components/landing/NetworkPersonas";
@@ -26,8 +26,9 @@ import ReadyToVerify from "../components/landing/ReadyToVerify";
  * 4. CapabilityDomains   - General oracle proof: any data domain
  * 5. CompetitivePosition - Honest comparison vs Chainlink / Pyth / UMA
  * 6. SecurityArchitecture - 6-layer trust model
- * 7. NetworkPersonas     - Who runs the network
- * 8. ReadyToVerify       - Waitlist CTA
+ * 7. RelayerInfrastructure - The high-fidelity settlement plane
+ * 8. NetworkPersonas     - Who runs the network
+ * 9. ReadyToVerify       - Waitlist CTA
  */
 export default function LandingPage() {
   return (
@@ -66,9 +67,9 @@ export default function LandingPage() {
           </ScrollReveal>
         </div>
 
-        <div id="ai-oracle" className="w-full">
+        <div id="infrastructure" className="w-full">
           <ScrollReveal>
-            <FederatedIntelligence />
+            <RelayerInfrastructure />
           </ScrollReveal>
         </div>
 

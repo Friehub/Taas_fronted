@@ -25,7 +25,7 @@ export const Navbar: React.FC = () => {
 
   const navLinks = [
     { name: "Oracle", href: "/#oracle" },
-    { name: "AI Oracle", href: "/#ai-oracle" },
+    { name: "Infrastructure", href: "/#infrastructure" },
     { name: "Blog", href: "/blog" },
     { name: "Docs", href: "https://docs.friehub.cloud", external: true },
   ];

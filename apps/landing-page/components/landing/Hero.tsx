@@ -66,10 +66,9 @@ export const Hero: React.FC = () => {
           </h1>
 
           <p className="max-w-xl text-lg md:text-xl text-foreground/55 font-sans leading-relaxed mb-12">
-            The first oracle network securing arbitrary data through{" "}
-            <span className="text-foreground font-semibold">invariant-governed validation</span>,{" "}
-            <span className="text-foreground font-semibold">BLS threshold consensus</span>, and{" "}
-            <span className="text-foreground font-semibold">EigenLayer restaking</span>.
+            The institutional stack for verifiable compute. Powering autonomous agents with 
+            <span className="text-foreground font-semibold"> high-fidelity truth generation</span> (TaaS) and 
+            <span className="text-foreground font-semibold"> resilient multi-chain settlement</span> (Relayer Hub).
           </p>
 
           {/* Left-Aligned CTAs */}

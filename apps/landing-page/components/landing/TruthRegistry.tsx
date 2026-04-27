@@ -50,7 +50,7 @@ export const TruthRegistry: React.FC = () => {
               TaaS: Vision & <br /> <span className="text-foreground italic">Strategic Direction.</span>
             </h2>
             <p className="text-foreground/80 text-lg leading-relaxed max-w-xl">
-              TaaS (Trusted-as-a-Service) is on a mission to make any real-world data accessible to any smart contract, simply, and without trust assumptions.
+              TaaS (Truth-as-a-Service) is on a mission to make any real-world data accessible to any smart contract, simply, and without trust assumptions.
             </p>
           </div>
           
